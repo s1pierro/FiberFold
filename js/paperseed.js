@@ -305,16 +305,18 @@ function initScene()
 
 	var w = $(window).width();
 	var h = $(window).height();
+//	$('#setting').attr('width', w-h*210/297);
+//	$('#setting').attr('height', h);
 
 	var zoom = 10;
 	var ratio = w/h;
 
 	initView(182, yAMAX, 0, 30);
-	$('#svg7').attr('width', h*210/297);
-	$('#svg7').attr('height', h);
+//	$('#svg7').attr('width', h*210/297);
+//	$('#svg7').attr('height', h);
 
-	$('#svg8').attr('width', w-h*210/297);
-	$('#svg8').attr('height', h);
+//	$('#svg8').attr('width', w-h*210/297);
+//	$('#svg8').attr('height', h);
 
 	$("#svg8").attr('viewBox', '-'+((zoom*ratio)/2)+' -'+(zoom/2)+' '+(zoom*ratio)+' '+zoom);
 }

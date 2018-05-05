@@ -43,15 +43,17 @@ body
 	background-color: #111;
 	color: #eee;
 	z-index:3;
-}
+	width: calc(100vw - 70.7vh);}
 
 #svg7
 {
-	position : fixed;
+	position : absolute;
 	z-index:2;
 
 	top: 0px;
 	left: 0px;
+	width: 70.7vh;
+	height: 100vh;
 
 	background-color: #fff;
 	color: #eee;
@@ -59,20 +61,35 @@ body
 
 #svg8
 {
-	position : fixed;
+	position : absolute;
 	z-index:1;
+	width: calc(100vw - 70.7vh);
+	height: 100vh;
 	top: 0px;
 	right: 0px;
 
-background: -webkit-radial-gradient(center, ellipse cover,  #eeeeec 0%,#babdb6 100%); /* Chrome10-25,Safari5.1-6 */
-background: radial-gradient(ellipse at center,  #eeeeec 0%,#babdb6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#babdb6 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+#settings
+{
+	    background-color: #4448;
+	color: #000;
+
+	position : absolute;
+	z-index:0;
+width: calc(100vw - 70.7vh);
+height: 100vh;
+	top: 0px;
+	right: 0px;
+
 }
 .solid {
 
 	fill: #cfcfcf;
 	opacity: 1.0;
 	stroke: #000;
-	stroke-width: .17px;
+	stroke-width: .08px;
 	stroke-linejoin: bevel;
 }
 .solid.active {
@@ -80,7 +97,7 @@ background: radial-gradient(ellipse at center,  #eeeeec 0%,#babdb6 100%); /* W3C
 	fill: #cfcfcf;
 	opacity: 1.0;
 	stroke: #000;
-	stroke-width: .27px;
+	stroke-width: .17px;
 	stroke-linejoin: bevel;
 }
 .solid-step-1 {	 fill: #d3d3d3; }
