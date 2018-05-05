@@ -7,6 +7,7 @@
 	Licenced under the termes oftrhe GNU GPL v3
 */
 'use strict';
+		$('#settings').hide();
 
 ////////////////////////////////////////////////////////////////////////////////
 //	paperseed core functions

@@ -45,7 +45,7 @@ body
 	right: 0px;
 	background-color: #111;
 	color: #eee;
-	z-index:10;
+	z-index:4;
 	width: calc(100vw - 70.7vh);
 
 
@@ -81,13 +81,13 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 }
 #settings
 {
-	    background-color: #4448;
+	    background-color: #aaac;
 	color: #000;
 	overflow-x: hide;
 	overflow-y: scroll;
 
 	position : absolute;
-	z-index:5;
+	z-index:15;
 width: calc(100vw - 70.7vh);
 height: 100vh;
 	top: 0px;
