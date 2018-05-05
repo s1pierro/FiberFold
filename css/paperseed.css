@@ -89,7 +89,7 @@ height: 100vh;
 	fill: #cfcfcf;
 	opacity: 1.0;
 	stroke: #000;
-	stroke-width: .08px;
+	stroke-width: .02px;
 	stroke-linejoin: bevel;
 }
 .solid.active {
@@ -97,7 +97,7 @@ height: 100vh;
 	fill: #cfcfcf;
 	opacity: 1.0;
 	stroke: #000;
-	stroke-width: .17px;
+	stroke-width: .05px;
 	stroke-linejoin: bevel;
 }
 .solid-step-1 {	 fill: #d3d3d3; }
