@@ -426,6 +426,18 @@ function paperseed () {
 		translateView (0, 0,event.deltaY*event.deltaFactor );
 		drawScene(container);
 	});
+	$('body').on('click', '#close-settings', function() {
+		
+		l("toggle settings");
+		
+		$('#settings').hide();
+	});
+	$('body').on('click', '#toggle-settings', function() {
+		
+		l("toggle settings");
+		
+		$('#settings').show();
+	});
 
 	$('body').on('click', '.shape', function() {
 	

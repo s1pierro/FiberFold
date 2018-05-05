@@ -6,7 +6,13 @@
 	feel fre to contact me at spierro@free.fr
 	Licenced under the termes of the GNU GPL v3
 */
+#credits p
+{
+font-size: 1.15em;
+padding: 0.2em;
+margin: 0px
 
+}
 body
 {
     background-color: #444;
@@ -37,17 +43,19 @@ body
 	position : fixed;
 	bottom: 0px;
 	right: 0px;
-	padding: 0.5em;
-	padding-left: 1.5em;
-	padding-right: 1.5em;
 	background-color: #111;
 	color: #eee;
-	z-index:3;
-	width: calc(100vw - 70.7vh);}
+	z-index:10;
+	width: calc(100vw - 70.7vh);
+
+
+}
+
+
 
 #svg7
 {
-	position : absolute;
+	position : fixed;
 	z-index:2;
 
 	top: 0px;
@@ -61,7 +69,7 @@ body
 
 #svg8
 {
-	position : absolute;
+	position : fixed;
 	z-index:1;
 	width: calc(100vw - 70.7vh);
 	height: 100vh;
@@ -75,9 +83,11 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 {
 	    background-color: #4448;
 	color: #000;
+	overflow-x: hide;
+	overflow-y: scroll;
 
 	position : absolute;
-	z-index:0;
+	z-index:5;
 width: calc(100vw - 70.7vh);
 height: 100vh;
 	top: 0px;
