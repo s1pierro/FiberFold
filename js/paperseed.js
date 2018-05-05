@@ -430,13 +430,13 @@ function paperseed () {
 		
 		l("toggle settings");
 		
-		$('#settings').hide();
+		$('#settings').fadeOut();
 	});
 	$('body').on('click', '#toggle-settings', function() {
 		
 		l("toggle settings");
 		
-		$('#settings').show();
+		$('#settings').fadeIn();
 	});
 
 	$('body').on('click', '.shape', function() {
