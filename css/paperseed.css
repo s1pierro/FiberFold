@@ -64,8 +64,8 @@ body
 	top: 0px;
 	right: 0px;
 
-background: -webkit-radial-gradient(center, ellipse cover,  #777 0%,#111 100%); /* Chrome10-25,Safari5.1-6 */
-background: radial-gradient(ellipse at center,  #777 0%,#111 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+background: -webkit-radial-gradient(center, ellipse cover,  #eeeeec 0%,#babdb6 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  #eeeeec 0%,#babdb6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 .solid {
 
@@ -73,6 +73,7 @@ background: radial-gradient(ellipse at center,  #777 0%,#111 100%); /* W3C, IE10
 	opacity: 1.0;
 	stroke: #000;
 	stroke-width: .17px;
+	stroke-linejoin: bevel;
 }
 .solid.active {
 
