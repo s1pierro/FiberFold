@@ -43,8 +43,8 @@ body
 	position : fixed;
 	bottom: 0px;
 	right: 0px;
-	background-color: #111;
-	color: #eee;
+	background-color: #1113;
+	color: #222;
 	z-index:4;
 	width: calc(100vw - 70.7vh);
 
@@ -85,7 +85,7 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 	color: #000;
 	overflow-x: hide;
 	overflow-y: scroll;
-
+padding-top: 1em;;
 	position : absolute;
 	z-index:15;
 width: calc(100vw - 70.7vh);
