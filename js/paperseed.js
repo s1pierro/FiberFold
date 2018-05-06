@@ -306,7 +306,7 @@ function initScene()
 
 	var zoom = 10;
 	var ratio = $("#svg8").width()/$("#svg8").height();
-	initView(180, 0, 0, 40);
+	initView(270, 0, 0, 160);
 	$("#svg8").attr('viewBox', '-'+((zoom*ratio)/2)+' -'+(zoom/2)+' '+(zoom*ratio)+' '+zoom);
 }
 window['initScene'] = initScene;
