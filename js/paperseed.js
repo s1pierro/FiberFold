@@ -225,7 +225,7 @@ function genzmap(obj) {
 			somme += obj.vertices[obj.triangles[i][l] - 1][2];
 		somme = somme/obj.triangles[i].length;
 		var n = obj.triangles[ i ].n[2];
-		if ( somme > 20 && n > -0.3 )
+		if ( somme > 5 && n > -0.3 )
 		{
 			var tmp2 = new Array(i, somme);
 			tmp.push(tmp2);
@@ -405,59 +405,55 @@ function paperseed () {
 		else {
 			window.scrollBy(0,-ev.velocityY*20);
 		}
-	});
 //	$('html, .shape').on('mouseup', function() {
-	mc.on("panend", function(ev) {
-
-				var ut = '.ID'+activeshape+'ID';
-
+	mc.on("panend", function(ev) 
+	{
+		var ut = '.ID'+activeshape+'ID';
 		$(ut).addClass ('active');
-		
-		l(ut, 'xlb');
-
-
 	});
 
-	$('body').on('click', '#menu-toggle', function() {
 
-	});	
-
-	$('#svg8').on('mousewheel', function(event) {
-
+	$('#svg8').on('mousewheel', function(event)
+	{
 		translateView (0, 0,event.deltaY*event.deltaFactor );
 		drawScene(container);
 	});
-	$('body').on('click', '#close-settings', function() {
-		
-		l("toggle settings");
-		
-		$('#settings').fadeOut();
-	});
-	$('body').on('click', '#toggle-settings', function() {
-		
-		l("toggle settings");
-		
-		$('#settings').fadeIn();
-	});
+	$('body').on('click', '#close-settings', function() { $('#settings').fadeOut(); });
+	$('body').on('click', '#toggle-settings', function() { $('#settings').fadeIn(); });
 
 	$('body').on('click', '.shape', function() {
 	
-		// Dirty implementation trying, will be replace by separate explicit functions
-		
+		///////////////////////////////////////////////////////////////////////
+		// Dirty implementation trying, will be replace by separate explicit //
+		// functions
+		///////////////////////////////////////////////////////////////////////
+
+
+		// on recupere l'id tu triangle selectionné. Cela correspond a sa place
+		// dans le tableau Item[activeitem].w.triangles[]
 		var id = getFaceId (this);
 		activeshape = id;
+		// Coloration du triaangl selectionné dans la vue 3D
 		$('.active').removeClass('active');
 		$(this).addClass ('active');
-
-		
-		
+		// on recupere la normale du triangle
 		var n = paperseed.Items[0].w.triangles[id].n;
-
+		// on construit deux vecteurs pour l'interpolation
+		// - target corespond au plan du document final. Celui qui contient les patrons
+		// - bullet, dont le sens est confondu avec l'axe normal a la face selectionnée.
 		var target = new Vector ([0.0, 0.0, 0.0], [0.0, 0.0, 1.0], 1.0);
 		var bullet = new Vector ([0.0, 0.0, 0.0], n, 1.0);
-		
+		// La,matrice de transformation peut etre construite
 		var itpmat = geninterpmat (bullet, target);
 
+		//un peu de bavardage avec la console
+		l('bullet', 'l');
+		logVector(bullet);
+		l('target', 'l');
+		logVector(target);
+		l('interpolation matrix', 'l');
+		logMatrix(itpmat);
+	
 		var w = $.extend(true, {}, paperseed.Items[0].w);
 		
 		for ( var i = 0 ; i < w.nv ; i++ )
