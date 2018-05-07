@@ -405,6 +405,7 @@ function paperseed () {
 		else {
 			window.scrollBy(0,-ev.velocityY*20);
 		}
+	});
 //	$('html, .shape').on('mouseup', function() {
 	mc.on("panend", function(ev) 
 	{
@@ -483,8 +484,7 @@ function paperseed () {
 
 		for ( var i = 0 ; i < 3 ; i++ )
 			trsltri[i] = applymatNscale(flatmat, tmptri[i]);
-		console.log(trsltri);
-				l(tmptri);
+
 		
 	});	
 }
