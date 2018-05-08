@@ -20,12 +20,8 @@ body
 }
 
 
-@media (min-width: 992px) {
-  header {
 
 
-  }
-}
 
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
@@ -38,6 +34,81 @@ body
 }
 
 /*///////////////////////////////////////////////////*/
+
+
+@media (max-aspect-ratio: 1/1) {
+#settings
+{
+	    background-color: #aaac;
+	color: #000;
+	overflow-x: hide;
+	overflow-y: scroll;
+padding-top: 1em;;
+	position : absolute;
+	z-index:15;
+width: 100vw;
+height: 100vh;
+	top: 0px;
+	left: 0px;
+
+}
+#credits
+{
+	position : fixed;
+	top: calc(100vh - 70.7vw - 1.9em);
+	left: 0px;
+	background-color: #1113;
+	color: #222;
+	z-index:10;
+	width: 100vw;
+	height: 1.9em;
+
+
+}
+
+#svg7
+{
+	position : fixed;
+	z-index:2;
+
+	bottom: 0px;
+	left: 0px;
+	width: 100vw;
+	height: 70.7vw;
+
+	background-color: #fff;
+	color: #eee;
+}
+
+#svg8
+{
+	position : fixed;
+	z-index:1;
+	width: 100vw;
+	height: calc(100vh - 70.7vw);
+	top: 0px;
+	right: 0px;
+
+background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#babdb6 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+}
+@media (min-aspect-ratio: 1/1) {
+#settings
+{
+	    background-color: #aaac;
+	color: #000;
+	overflow-x: hide;
+	overflow-y: scroll;
+padding-top: 1em;;
+	position : absolute;
+	z-index:15;
+width: calc(100vw - 70.7vh);
+height: 100vh;
+	top: 0px;
+	right: 0px;
+
+}
 #credits
 {
 	position : fixed;
@@ -50,7 +121,6 @@ body
 
 
 }
-
 
 
 #svg7
@@ -79,21 +149,8 @@ body
 background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#babdb6 100%); /* Chrome10-25,Safari5.1-6 */
 background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
-#settings
-{
-	    background-color: #aaac;
-	color: #000;
-	overflow-x: hide;
-	overflow-y: scroll;
-padding-top: 1em;;
-	position : absolute;
-	z-index:15;
-width: calc(100vw - 70.7vh);
-height: 100vh;
-	top: 0px;
-	right: 0px;
-
 }
+
 .solid {
 
 	fill: #cfcfcf;

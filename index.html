@@ -92,7 +92,13 @@
 	<div class="col-sm-11">
 
 	<h4 class="text-light">Global settings</h4>
-
+    </div>	
+	<div class="col-sm-1">
+	
+	<h3 id="close-settings"><i class="icon-cancel text-danger"></i></h3x>
+     </div>
+     
+	<div class="col-sm-12">
  <div class="form-check">
       <label class="form-check-label">
         <input class="form-check-input" type="checkbox"> only check base pattern colisions
@@ -100,11 +106,23 @@
     </div>	
     </div>	
 <br>
-	<div class="col-sm-1">
-	<h3 id="close-settings"><i class="icon-cancel text-danger"></i></h3x>
-     </div>
+     
+	<div class="col-sm-12">
+	    <h5>paper size</h5>
+<div class="form-check">
+  <label class="form-check-label">
+    <input class="form-check-input" type="radio" name="paper-format-radio" id="paper-letter-format-radio" value="letter-format" checked>
+    us letter
+  </label>
+</div>
+<div class="form-check">
+  <label class="form-check-label">
+    <input class="form-check-input" type="radio" name="paper-format-radio" id="paper-A4-format-radio" value="A4-format">
+    A4
+  </label>
+</div>
 
-
+</div>
   
 	<div class="col-sm-12">
 <h4 class="text-light">print mode</h4>
@@ -167,15 +185,16 @@
 <div id="credits">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-3 text-left">
+			<div class="col-sm-12 text-left">
 				<p id="toggle-settings">
 					<i class="demo-icon icon-sliders"></i>
 					<i class="demo-icon icon-help"></i>
+					upload
 				</p>
 			</div>
-			<div class="col-sm-9 text-right">
+			<!--div class="col-sm-6 text-right">
 				<p>paperseed 0.0.1 <a href="https://github.com/s1pierro/paperseed-js/"><i class="demo-icon icon-github-circled"></i></a></p>
-			</div>  
+			</div-->  
 		</div> 
 	</div>
 </div>
