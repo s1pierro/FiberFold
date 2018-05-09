@@ -97,18 +97,29 @@ function drawScene(container) {  //optimised speed ( cut in lightening acuracy )
 		{
 			var j = buffer.zmap[i][0];
 
+			if ( buffer.triangles[j].length == 2)
+			{
+				p('<##> junc <##>');
+				var svg = document.createElementNS("http://www.w3.org/2000/svg",'line');
+				svg.setAttribute('x1',buffer.vertices[origin.triangles[j][0]][0]);
+				svg.setAttribute('y1',buffer.vertices[origin.triangles[j][0]][1]);
+				svg.setAttribute('x2',buffer.vertices[origin.triangles[j][1]][0]);
+				svg.setAttribute('y2',buffer.vertices[origin.triangles[j][1]][1]);
+				svg.setAttribute('style', 'stroke:rgb(255,0,0);stroke-width:0.1');				
+			}
+			else
+			{
+				var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
+				var n = buffer.trianglesnorm[ j ][2];
 
-			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
-			var n = buffer.trianglesnorm[ j ][2];
+				buffer.triangles[ j ].trigon = buffer.vertices[origin.triangles[j][0]][0]+','+buffer.vertices[origin.triangles[j][0] ][1];
+				
+				for ( var k = 1 ; k < origin.triangles[j].length ; k++)
+					buffer.triangles[ j ].trigon += ' '+buffer.vertices[origin.triangles[j][k]][0]+','+buffer.vertices[origin.triangles[j][k] ][1];
 
-			buffer.triangles[ j ].trigon = buffer.vertices[origin.triangles[j][0]][0]+','+buffer.vertices[origin.triangles[j][0] ][1];
-			
-			for ( var k = 1 ; k < origin.triangles[j].length ; k++)
-				buffer.triangles[ j ].trigon += ' '+buffer.vertices[origin.triangles[j][k]][0]+','+buffer.vertices[origin.triangles[j][k] ][1];
-
-			svg.setAttribute('points',buffer.triangles[j].trigon);
-			svg.setAttribute('class', 'ID'+j+'ID shape solid solid-step-'+Math.floor(n*16) );
-			
+				svg.setAttribute('points',buffer.triangles[j].trigon);
+				svg.setAttribute('class', 'ID'+j+'ID shape solid solid-step-'+Math.floor(n*16) );
+			}
 			container.appendChild(svg);
 		}
 	}
@@ -207,11 +218,12 @@ function genzmap(obj) {
 		for (var l = 0; l < obj.triangles[i].length ; l++ )
 			somme += obj.vertices[obj.triangles[i][l]][2];
 		somme = somme/obj.triangles[i].length;
+		if (obj.triangles[i].length == 2) somme-=0.5;
 		//p('Triangle['+i+'].somme = '+somme);
 		//p('Triangle['+i+'].n.z = '+obj.triangles[ i ].n[2]);
 		var n = obj.trianglesnorm[ i ][2];
 
-		if ( n>0)
+		if ( n>-0.30 )
 		{
 			var tmp2 = new Array(i, somme);
 			tmp.push(tmp2);
@@ -352,56 +364,91 @@ function buildjunctionsItem (item)
 {
 			for( var i = 0; i < paperseed.Items[item].w.triangles.length ; i++ )
 			{
+			//	p('add '+paperseed.Items[item].w.triangles[i][0]+', '+paperseed.Items[item].w.triangles[i][1]);
 				addjunction (paperseed.Items[item].w.triangles[i][0], paperseed.Items[item].w.triangles[i][1], i);
+			//	p('add '+paperseed.Items[item].w.triangles[i][1]+', '+paperseed.Items[item].w.triangles[i][2]);
 				addjunction (paperseed.Items[item].w.triangles[i][1], paperseed.Items[item].w.triangles[i][2], i);
+		//		p('add '+paperseed.Items[item].w.triangles[i][2]+', '+paperseed.Items[item].w.triangles[i][0]);
 				addjunction (paperseed.Items[item].w.triangles[i][2], paperseed.Items[item].w.triangles[i][0], i);
 			}
+			for( var i = 0; i < paperseed.Items[item].junctions.length ; i++ )
+			{
+																  
+				p('addtriangle ('+paperseed.Items[item].junctions[i].som[0]+
+								 ', '+paperseed.Items[item].junctions[i].som[1]+')');
+				p('t1: '+paperseed.Items[item].junctions[i].tri[0]);
+				p('t2: '+paperseed.Items[item].junctions[i].tri[1]);
+				var n1 = paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[0]];
+				var n2 = paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[1]];
+				
+				vectfromvertices (n1, n2).o;
+				var mid0 =  vectfromvertices (n1, n2).o;
+				var mid1 =  vectfromvertices (n1, n2).o;
+				mid1[0] = (mid0[0] + (vectfromvertices (n1, n2).s[0]*vectfromvertices (n1, n2).n/2));
+				mid1[1] = (mid0[1] + (vectfromvertices (n1, n2).s[1]*vectfromvertices (n1, n2).n/2));
+				mid1[2] = (mid0[2] + (vectfromvertices (n1, n2).s[2]*vectfromvertices (n1, n2).n/2));
+				var sens = normalisevertex(mid1);
+
+				
+				addtriangle (paperseed.Items[item].w, paperseed.Items[item].junctions[i].som[0],
+																  paperseed.Items[item].junctions[i].som[1], sens);
+				
+				
+
+				
+			}
+			
 }
 
+function addtriangle (obj, s1, s2, n) {
+	obj.triangles.push([s1, s2]);
+	
+	obj.trianglesnorm.push(n);
+
+
+}
 
 
 function addjunction (s1, s2, tri) {
 
 	var mrg = false;
+	var same = false;
 
-	if ( checkjunction (s1, s2, tri) == false )
-	{
+			
 		for( var i = 0; i < paperseed.Items[0].junctions.length ; i++ )
-		{
 			if ( ( paperseed.Items[0].junctions[i].som[0] == s1 && paperseed.Items[0].junctions[i].som[1] == s2) |
 				  ( paperseed.Items[0].junctions[i].som[1] == s1 && paperseed.Items[0].junctions[i].som[0] == s2) )
-				  {	
-			  			paperseed.Items[0].junctions[i].tri.push(tri);
-					  	mrg = true;
-				  }
-		}
-	}
-	else mrg = true;
+					{
+			//			p(' junctions['+i+'].som 1: '+paperseed.Items[0].junctions[i].som[0]);
+			//			p(' junctions['+i+'].som 2: '+paperseed.Items[0].junctions[i].som[1]);
+
+						same = false;
+						for( var j = 0; j < paperseed.Items[0].junctions[i].tri.length ; j++ )
+				  			if ( paperseed.Items[0].junctions[i].tri[j] == tri )
+				  			{
+				  				same = true;
+				  		//		p('###× ERROR x###');
+				  			}
+				  		
+					  	if ( same == false )
+					  	{
+					  //		p('    merge '+i);
+					  		paperseed.Items[0].junctions[i].tri.push(tri);
+					  		mrg = true;
+					  	}
+			  		}
+			  		
+	
 		
 	if ( mrg == false )
 	{
+	
+
 		 paperseed.Items[0].junctions.push({ som : [s1, s2], tri : [tri]});
 		 }
 
 }
-function checkjunction (s1, s2, tri)
-{
-	for( var i = 0; i < paperseed.Items[0].junctions.length ; i++ )
-	{			 
 
-		if ( ( paperseed.Items[0].junctions[i].som[0] == s1 && paperseed.Items[0].junctions[i].som[1] == s2) |
-			  ( paperseed.Items[0].junctions[i].som[1] == s1 && paperseed.Items[0].junctions[i].som[0] == s2) )
-			  {
-
-			  		for( var j = 0; j < paperseed.Items[0].junctions[i].tri.length ; j++ )
-			  			if ( paperseed.Items[0].junctions[i].som[j] == tri )
-			  			{
-			  				return true;
-			  			}
-			  }
-	}
-	return false;
-}
 
 function paperseed () {
 	var mode = (eval("var __temp = null"), (typeof __temp === "undefined")) ? 
