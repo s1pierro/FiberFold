@@ -75,7 +75,7 @@ window['genfmat'] = genfmat;
 /* render quick selection */
 function drawScene (container) { drawSceneSolid(container) } window['drawScene'] = drawScene;
 
-function drawSceneFlat(container) {  //optimised speed ( cut in lightening acuracy )
+/*function drawSceneFlat(container) {  //optimised speed ( cut in lightening acuracy )
 
   	container.innerHTML = "";
 	//$("#arp").attr('transform', 'translate('+(273.44049+ZlockANGy*2)+',-'+(ZlockANGx-50)+')');
@@ -85,8 +85,10 @@ function drawSceneFlat(container) {  //optimised speed ( cut in lightening acura
 	genItemszmap(paperseed.Items);
 	for ( var v = 0 ; v < paperseed.Items.zmap.length ; v++ )
 	{
-		var tmpWvft = paperseed.Items[paperseed.Items.zmap[v][0]].w;
-		buffer = $.extend(true, {}, tmpWvft);
+
+		buffer = $.extend(true, {}, paperseed.Items[0].w);
+		p('buffer');
+		p(buffer);
 		for (var i = 0; i < tmpWvft.vertices.length; i++)
 			buffer.vertices[i] = applymatNpersp(fmat, tmpWvft.vertices[i]);
 		for (var i = 0; i < tmpWvft.triangles.length; i++)
@@ -96,16 +98,16 @@ function drawSceneFlat(container) {  //optimised speed ( cut in lightening acura
 		{
 			var j = buffer.zmap[i][0];
 			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
-			buffer.triangles[ j ].trigon = buffer.vertices[tmpWvft.triangles[j][0]-1][0]+','+buffer.vertices[tmpWvft.triangles[j][0]-1 ][1];
+			buffer.triangles[ j ].trigon = buffer.vertices[tmpWvft.triangles[j][0]][0]+','+buffer.vertices[tmpWvft.triangles[j][0] ][1];
 			for ( var k = 1 ; k < tmpWvft.triangles[j].length ; k++)
-				buffer.triangles[ j ].trigon += ' '+buffer.vertices[tmpWvft.triangles[j][k]-1][0]+','+buffer.vertices[tmpWvft.triangles[j][k]-1 ][1];
+				buffer.triangles[ j ].trigon += ' '+buffer.vertices[tmpWvft.triangles[j][k]][0]+','+buffer.vertices[tmpWvft.triangles[j][k] ][1];
 			svg.setAttribute('points',buffer.triangles[j].trigon);
 			svg.setAttribute('class', tmpWvft.triangles[j].mat);
 			container.appendChild(svg);
 		}
 	}
 }
-window['drawSceneFlat'] = drawSceneFlat;
+window['drawSceneFlat'] = drawSceneFlat;*/
 function drawSceneSolid(container) {  //optimised speed ( cut in lightening acuracy )
 
   	container.innerHTML = "";
@@ -116,40 +118,30 @@ function drawSceneSolid(container) {  //optimised speed ( cut in lightening acur
 	genItemszmap(paperseed.Items);
 	for ( var v = 0 ; v < paperseed.Items.zmap.length ; v++ )
 	{
-		var tmpWvft = paperseed.Items[paperseed.Items.zmap[v][0]].w;
-		buffer = $.extend(true, {}, tmpWvft);
-		for (var i = 0; i < tmpWvft.vertices.length; i++)
-			buffer.vertices[i] = applymatNpersp(fmat, tmpWvft.vertices[i]);
-		for (var i = 0; i < tmpWvft.triangles.length; i++)
-			buffer.triangles[i].n = applymat(rmat, tmpWvft.triangles[i].n);
+
+		var buffer = $.extend(true, {}, paperseed.Items[paperseed.Items.zmap[v][0]].w);
+		var origin = $.extend(true, {}, buffer);
+		for (var i = 0; i < origin.vertices.length; i++)
+			buffer.vertices[i] = applymatNpersp(fmat, origin.vertices[i]);
+		for (var i = 0; i < origin.triangles.length; i++)
+			buffer.trianglesnorm[i] = applymat(rmat, origin.trianglesnorm[i]);
 		genzmap(buffer);
 		for (var i = 0; i < buffer.zmap.length ; i++)
 		{
 			var j = buffer.zmap[i][0];
-			if ( tmpWvft.triangles[j].length == 2 )
-			{		
-				l('2');
-				var svg = document.createElementNS("http://www.w3.org/2000/svg",'line');
-				svg.setAttribute('x1', buffer.vertices[tmpWvft.triangles[j][0]-1][0]);
-				svg.setAttribute('y1', buffer.vertices[tmpWvft.triangles[j][0]-1][1]);
-				svg.setAttribute('x2', buffer.vertices[tmpWvft.triangles[j][1]-1][0]);
-				svg.setAttribute('y2', buffer.vertices[tmpWvft.triangles[j][1]-1][1]);
-				svg.setAttribute('style', 'stroke:rgb(255,0,0);stroke-width:2');
-			}
-			else
-			{
+
 
 			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
-			var n = buffer.triangles[ j ].n[2];
+			var n = buffer.trianglesnorm[ j ][2];
 
-			buffer.triangles[ j ].trigon = buffer.vertices[tmpWvft.triangles[j][0]-1][0]+','+buffer.vertices[tmpWvft.triangles[j][0]-1 ][1];
+			buffer.triangles[ j ].trigon = buffer.vertices[origin.triangles[j][0]][0]+','+buffer.vertices[origin.triangles[j][0] ][1];
 			
-			for ( var k = 1 ; k < tmpWvft.triangles[j].length ; k++)
-				buffer.triangles[ j ].trigon += ' '+buffer.vertices[tmpWvft.triangles[j][k]-1][0]+','+buffer.vertices[tmpWvft.triangles[j][k]-1 ][1];
+			for ( var k = 1 ; k < origin.triangles[j].length ; k++)
+				buffer.triangles[ j ].trigon += ' '+buffer.vertices[origin.triangles[j][k]][0]+','+buffer.vertices[origin.triangles[j][k] ][1];
 
 			svg.setAttribute('points',buffer.triangles[j].trigon);
 			svg.setAttribute('class', 'ID'+j+'ID shape solid solid-step-'+Math.floor(n*16) );
-			}
+			
 			container.appendChild(svg);
 		}
 	}
@@ -185,12 +177,17 @@ function parsewavefront(objText, id) {
 	if (triMatches) {
 		obj.triangles = triMatches.map(function(tri) {
 			nt++;
-			var triangles = tri.split(" ");
-			triangles.shift();
+			var triangle = tri.split(" ");
+			triangle.shift();
 //			l(triangles);
-			var t = Uint16Array.from(triangles);
-//			l(t);
-			return triangles;
+			var t = Uint16Array.from(triangle);
+			t[0] = t[0]-1;
+			t[1] = t[1]-1;
+			t[2] = t[2]-1;
+			
+
+		//	l(t);
+			return t;
 		});
 	}
 
@@ -223,32 +220,42 @@ function loadWavefrontFromHTLM(object, id) {
 	
 	var contents = $(object).text();
 	var obj = parsewavefront(contents, id);
-	genNormales(obj);			
+	genNormales(obj);	
+	p(obj);	
 	genzmap(obj);
 	return obj;
 }
 window['loadWavefrontFromHTLM'] = loadWavefrontFromHTLM;
+function p(s)
+{
+console.log(s);
+}
 function genzmap(obj) {
 	var tmp = new Array();
 
-	for (var i = 0; i < obj.triangles.length; i++) {
+	for (var i = 0; i < obj.triangles.length; i++)
+	{
 		
 		var somme = 0;
 		for (var l = 0; l < obj.triangles[i].length ; l++ )
-			somme += obj.vertices[obj.triangles[i][l] - 1][2];
+			somme += obj.vertices[obj.triangles[i][l]][2];
 		somme = somme/obj.triangles[i].length;
-		var n = obj.triangles[ i ].n[2];
-		if ( somme > 5 && n > -0.3 )
-		{
+		//p('Triangle['+i+'].somme = '+somme);
+		//p('Triangle['+i+'].n.z = '+obj.triangles[ i ].n[2]);
+		var n = obj.trianglesnorm[ i ][2];
+
 			var tmp2 = new Array(i, somme);
 			tmp.push(tmp2);
-		}
+
 	}
+
+	var tmp2 = $.extend(true, [], tmp);
 //	console.log('#? '+obj.triangles.length+' - '+tmp.length);
 	obj.zmap = tmp;
 	obj.zmap.sort(function(a, b) {
 		return b[1] - a[1];
-	});
+	});	
+
 }
 window['genzmap'] = genzmap;
 function genItemszmap(pcs) {
@@ -282,8 +289,20 @@ window['setWavefrontId'] = setWavefrontId;
 
 
 function genNormales(obj) {
-	for (var i = 0; i < obj.nt; i += 1) {
-		obj.triangles[i].n = normalisevertex(vectorproduct(vectfromvertices(obj.vertices[obj.triangles[i][0] - 1], obj.vertices[obj.triangles[i][2] - 1]).s, vectfromvertices(obj.vertices[obj.triangles[i][0] - 1], obj.vertices[obj.triangles[i][1] - 1]).s));
+		obj.trianglesnorm = [];
+	for (var i = 0; i < obj.triangles.length ; i += 1) {
+		var norm = normalisevertex(
+										vectorproduct(
+											vectfromvertices(
+												obj.vertices[obj.triangles[i][0]],
+												obj.vertices[obj.triangles[i][2]] ).s,
+											vectfromvertices(
+												obj.vertices[obj.triangles[i][0]],
+												obj.vertices[obj.triangles[i][1]] ).s	
+										)
+									);
+		obj.trianglesnorm.push (norm);
+		
 	}
 }
 window['genNormales'] = genNormales;
@@ -319,7 +338,7 @@ function initScene()
 
 	var zoom = 10;
 	var ratio = $("#svg8").width()/$("#svg8").height();
-	initView(270, 0, 0, 30);
+	initView(270, 0, 0, 40);
 	$("#svg8").attr('viewBox', '-'+((zoom*ratio)/2)+' -'+(zoom/2)+' '+(zoom*ratio)+' '+zoom);
 }
 window['initScene'] = initScene;
@@ -360,29 +379,56 @@ function add_to_renderplane (renderplane, t)
 
 }
 
-function addjunction (s1, s2, tri) {
-
-
-paperseed.Items[0].junctions.push();
-
+function buildjunctionsItem (item)
+{
+			for( var i = 0; i < paperseed.Items[item].w.triangles.length ; i++ )
+			{
+				addjunction (paperseed.Items[item].w.triangles[i][0], paperseed.Items[item].w.triangles[i][1], i);
+				addjunction (paperseed.Items[item].w.triangles[i][1], paperseed.Items[item].w.triangles[i][2], i);
+				addjunction (paperseed.Items[item].w.triangles[i][2], paperseed.Items[item].w.triangles[i][0], i);
+			}
 }
+
+
+
 function addjunction (s1, s2, tri) {
 
-if ( checkjunction (s1, s2) == false )
-var tmpjunc = { som : [s1, s2], tri : [tri]}
-paperseed.Items[0].junctions.push(tmpjunc);
+	var mrg = false;
+
+	if ( checkjunction (s1, s2, tri) == false )
+	{
+		for( var i = 0; i < paperseed.Items[0].junctions.length ; i++ )
+		{
+			if ( ( paperseed.Items[0].junctions[i].som[0] == s1 && paperseed.Items[0].junctions[i].som[1] == s2) |
+				  ( paperseed.Items[0].junctions[i].som[1] == s1 && paperseed.Items[0].junctions[i].som[0] == s2) )
+				  {	
+			  			paperseed.Items[0].junctions[i].tri.push(tri);
+					  	mrg = true;
+				  }
+		}
+	}
+	else mrg = true;
+		
+	if ( mrg == false )
+	{
+		 paperseed.Items[0].junctions.push({ som : [s1, s2], tri : [tri]});
+		 }
 
 }
 function checkjunction (s1, s2, tri)
 {
 	for( var i = 0; i < paperseed.Items[0].junctions.length ; i++ )
-	{
+	{			 
+
 		if ( ( paperseed.Items[0].junctions[i].som[0] == s1 && paperseed.Items[0].junctions[i].som[1] == s2) |
 			  ( paperseed.Items[0].junctions[i].som[1] == s1 && paperseed.Items[0].junctions[i].som[0] == s2) )
-			  {	
+			  {
+
 			  		for( var j = 0; j < paperseed.Items[0].junctions[i].tri.length ; j++ )
 			  			if ( paperseed.Items[0].junctions[i].som[j] == tri )
+			  			{
 			  				return true;
+			  			}
 			  }
 	}
 	return false;
@@ -418,10 +464,12 @@ function paperseed () {
 		
 		buildScene ();
 		paperseed.Items[0].junctions = [];
-addjunction (1, 2, 1);
+		buildjunctionsItem (0);
+		
+
 		buffer = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'buffer'));
 
-		l(paperseed.impression);		
+
 		for ( var i = 0 ; i < paperseed.Items[0].w.triangles.length ; i++ )
 		{
 		
@@ -496,7 +544,7 @@ addjunction (1, 2, 1);
 		$('.active').removeClass('active');
 		$(this).addClass ('active');
 		// on recupere la normale du triangle
-		var n = paperseed.Items[0].w.triangles[id].n;
+		var n = paperseed.Items[0].w.trianglesnorm[id];
 		// on construit deux vecteurs pour l'interpolation
 		// - target corespond au plan du document final. Celui qui contient les patrons
 		// - bullet, dont le sens est confondu avec l'axe normal a la face selectionnée.
@@ -518,17 +566,17 @@ addjunction (1, 2, 1);
 		for ( var i = 0 ; i < w.nv ; i++ )
 			w.vertices[i] = applymatNscale(itpmat, w.vertices[i]);
 		
-		var tmptri = [ [ (w.vertices[w.triangles[id][0]-1][0]), 
-				 (w.vertices[w.triangles[id][0]-1][1]), 
-				 (w.vertices[w.triangles[id][0]-1][2])  ],
+		var tmptri = [ [ (w.vertices[w.triangles[id][0]][0]), 
+				 (w.vertices[w.triangles[id][0]][1]), 
+				 (w.vertices[w.triangles[id][0]][2])  ],
 				     
-			       [ (w.vertices[w.triangles[id][1]-1][0]), 
-				 (w.vertices[w.triangles[id][1]-1][1]), 
-				 (w.vertices[w.triangles[id][1]-1][2])  ],
+			       [ (w.vertices[w.triangles[id][1]][0]), 
+				 (w.vertices[w.triangles[id][1]][1]), 
+				 (w.vertices[w.triangles[id][1]][2])  ],
 				
-			       [ (w.vertices[w.triangles[id][2]-1][0]), 
-				 (w.vertices[w.triangles[id][2]-1][1]), 
-				 (w.vertices[w.triangles[id][2]-1][2])  ] ];
+			       [ (w.vertices[w.triangles[id][2]][0]), 
+				 (w.vertices[w.triangles[id][2]][1]), 
+				 (w.vertices[w.triangles[id][2]][2])  ] ];
 
 		
 

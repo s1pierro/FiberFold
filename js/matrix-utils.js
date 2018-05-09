@@ -60,8 +60,10 @@ function applypersp(a) {
 window.applypersp = applypersp;
 
 function applymat(a, b) {
-    var c = $.extend(!0, [], b);
-    c[0] = a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3];
+
+     var c = [];
+    c.lenth = 3;
+   c[0] = a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3];
     c[1] = a[4] * b[0] + a[5] * b[1] + a[6] * b[2] + a[7];
     c[2] = a[8] * b[0] + a[9] * b[1] + a[10] * b[2] + a[11];
     return c
