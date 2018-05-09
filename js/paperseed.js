@@ -72,43 +72,10 @@ function genfmat() {
 }
 window['genfmat'] = genfmat;
 
-/* render quick selection */
-function drawScene (container) { drawSceneSolid(container) } window['drawScene'] = drawScene;
 
-/*function drawSceneFlat(container) {  //optimised speed ( cut in lightening acuracy )
 
-  	container.innerHTML = "";
-	//$("#arp").attr('transform', 'translate('+(273.44049+ZlockANGy*2)+',-'+(ZlockANGx-50)+')');
-	//drawenv(container);
-	var mat = multiplymatrix(rmat, pmat);
-	fmat = multiplymatrix(tmat, mat);
-	genItemszmap(paperseed.Items);
-	for ( var v = 0 ; v < paperseed.Items.zmap.length ; v++ )
-	{
 
-		buffer = $.extend(true, {}, paperseed.Items[0].w);
-		p('buffer');
-		p(buffer);
-		for (var i = 0; i < tmpWvft.vertices.length; i++)
-			buffer.vertices[i] = applymatNpersp(fmat, tmpWvft.vertices[i]);
-		for (var i = 0; i < tmpWvft.triangles.length; i++)
-			buffer.triangles[i].n = applymat(rmat, tmpWvft.triangles[i].n);
-		genzmap(buffer);
-		for (var i = 0; i < buffer.zmap.length ; i++)
-		{
-			var j = buffer.zmap[i][0];
-			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
-			buffer.triangles[ j ].trigon = buffer.vertices[tmpWvft.triangles[j][0]][0]+','+buffer.vertices[tmpWvft.triangles[j][0] ][1];
-			for ( var k = 1 ; k < tmpWvft.triangles[j].length ; k++)
-				buffer.triangles[ j ].trigon += ' '+buffer.vertices[tmpWvft.triangles[j][k]][0]+','+buffer.vertices[tmpWvft.triangles[j][k] ][1];
-			svg.setAttribute('points',buffer.triangles[j].trigon);
-			svg.setAttribute('class', tmpWvft.triangles[j].mat);
-			container.appendChild(svg);
-		}
-	}
-}
-window['drawSceneFlat'] = drawSceneFlat;*/
-function drawSceneSolid(container) {  //optimised speed ( cut in lightening acuracy )
+function drawScene(container) {  //optimised speed ( cut in lightening acuracy )
 
   	container.innerHTML = "";
 	//$("#arp").attr('transform', 'translate('+(273.44049+ZlockANGy*2)+',-'+(ZlockANGx-50)+')');
@@ -146,7 +113,7 @@ function drawSceneSolid(container) {  //optimised speed ( cut in lightening acur
 		}
 	}
 }
-window['drawSceneSolid'] = drawSceneSolid;
+window['drawScene'] = drawScene;
 
 function parsewavefront(objText, id) {
 
@@ -244,9 +211,11 @@ function genzmap(obj) {
 		//p('Triangle['+i+'].n.z = '+obj.triangles[ i ].n[2]);
 		var n = obj.trianglesnorm[ i ][2];
 
+		if ( n>0)
+		{
 			var tmp2 = new Array(i, somme);
 			tmp.push(tmp2);
-
+		}
 	}
 
 	var tmp2 = $.extend(true, [], tmp);
