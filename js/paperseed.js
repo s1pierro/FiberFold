@@ -126,9 +126,21 @@ function drawSceneSolid(container) {  //optimised speed ( cut in lightening acur
 		for (var i = 0; i < buffer.zmap.length ; i++)
 		{
 			var j = buffer.zmap[i][0];
+			if ( tmpWvft.triangles[j].length == 2 )
+			{		
+				l('2');
+				var svg = document.createElementNS("http://www.w3.org/2000/svg",'line');
+				svg.setAttribute('x1', buffer.vertices[tmpWvft.triangles[j][0]-1][0]);
+				svg.setAttribute('y1', buffer.vertices[tmpWvft.triangles[j][0]-1][1]);
+				svg.setAttribute('x2', buffer.vertices[tmpWvft.triangles[j][1]-1][0]);
+				svg.setAttribute('y2', buffer.vertices[tmpWvft.triangles[j][1]-1][1]);
+				svg.setAttribute('style', 'stroke:rgb(255,0,0);stroke-width:2');
+			}
+			else
+			{
+
 			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
 			var n = buffer.triangles[ j ].n[2];
-
 
 			buffer.triangles[ j ].trigon = buffer.vertices[tmpWvft.triangles[j][0]-1][0]+','+buffer.vertices[tmpWvft.triangles[j][0]-1 ][1];
 			
@@ -137,6 +149,7 @@ function drawSceneSolid(container) {  //optimised speed ( cut in lightening acur
 
 			svg.setAttribute('points',buffer.triangles[j].trigon);
 			svg.setAttribute('class', 'ID'+j+'ID shape solid solid-step-'+Math.floor(n*16) );
+			}
 			container.appendChild(svg);
 		}
 	}
@@ -346,6 +359,35 @@ function add_to_renderplane (renderplane, t)
 			renderplane.appendChild(svg);
 
 }
+
+function addjunction (s1, s2, tri) {
+
+
+paperseed.Items[0].junctions.push();
+
+}
+function addjunction (s1, s2, tri) {
+
+if ( checkjunction (s1, s2) == false )
+var tmpjunc = { som : [s1, s2], tri : [tri]}
+paperseed.Items[0].junctions.push(tmpjunc);
+
+}
+function checkjunction (s1, s2, tri)
+{
+	for( var i = 0; i < paperseed.Items[0].junctions.length ; i++ )
+	{
+		if ( ( paperseed.Items[0].junctions[i].som[0] == s1 && paperseed.Items[0].junctions[i].som[1] == s2) |
+			  ( paperseed.Items[0].junctions[i].som[1] == s1 && paperseed.Items[0].junctions[i].som[0] == s2) )
+			  {	
+			  		for( var j = 0; j < paperseed.Items[0].junctions[i].tri.length ; j++ )
+			  			if ( paperseed.Items[0].junctions[i].som[j] == tri )
+			  				return true;
+			  }
+	}
+	return false;
+}
+
 function paperseed () {
 	var mode = (eval("var __temp = null"), (typeof __temp === "undefined")) ? 
 	    "strict": 
@@ -364,17 +406,33 @@ function paperseed () {
 
 	var container = document.getElementById("renderbox");
 	var renderplane = document.getElementById("renderplane");
+	
+	
 	if ( typeof paperseed.init == 'undefined' ) {
 		
 		paperseed.init = true;
 		
 		paperseed.Items = [];
+		paperseed.impression = {printsize: 'A4', npages : 0, printmode : 'desktop', patterns : [] };
+		
+		
 		buildScene ();
+		paperseed.Items[0].junctions = [];
+addjunction (1, 2, 1);
 		buffer = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'buffer'));
-		paperseed.impression = {};
+
+		l(paperseed.impression);		
+		for ( var i = 0 ; i < paperseed.Items[0].w.triangles.length ; i++ )
+		{
+		
+		
+			var pattern = { triangles : [i], junctions : [] };
+			paperseed.impression.patterns.push(pattern);
+
+		}
 		
 		l(paperseed.impression);
-		
+		l(paperseed.Items[0]);
 		initScene();	
 		drawScene(container);
 	}

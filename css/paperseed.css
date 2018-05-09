@@ -55,13 +55,13 @@ height: 100vh;
 #credits
 {
 	position : fixed;
-	top: calc(100vh - 70.7vw - 1.9em);
+	top: 0px;
 	left: 0px;
-	background-color: #1113;
+
 	color: #222;
 	z-index:10;
 	width: 100vw;
-	height: 1.9em;
+
 
 
 }
@@ -112,9 +112,9 @@ height: 100vh;
 #credits
 {
 	position : fixed;
-	bottom: 0px;
+	top: 0px;
 	right: 0px;
-	background-color: #1113;
+
 	color: #222;
 	z-index:4;
 	width: calc(100vw - 70.7vh);
