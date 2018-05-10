@@ -105,7 +105,7 @@ function drawScene(container) {  //optimised speed ( cut in lightening acuracy )
 				svg.setAttribute('y1',buffer.vertices[origin.triangles[j][0]][1]);
 				svg.setAttribute('x2',buffer.vertices[origin.triangles[j][1]][0]);
 				svg.setAttribute('y2',buffer.vertices[origin.triangles[j][1]][1]);
-				svg.setAttribute('style', 'stroke:rgb(255,0,0);stroke-width:0.1');				
+				svg.setAttribute('style', 'stroke:rgb(0,0,0);stroke-width:0.1');				
 			}
 			else
 			{
@@ -380,10 +380,6 @@ function buildjunctionsItem (item)
 				p('t2: '+paperseed.Items[item].junctions[i].tri[1]);
 				var n1 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[0]]);
 				var n2 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[1]]);
-				p(n1);
-				p(n2);
-				
-
 				
 				vectfromvertices (n1, n2).o;
 				var mid0 =  vectfromvertices (n1, n2).o;
@@ -559,9 +555,11 @@ function paperseed () {
 		// on recupere l'id tu triangle selectionné. Cela correspond a sa place
 		// dans le tableau Item[activeitem].w.triangles[]
 		var id = getFaceId (this);
+
 		activeshape = id;
 		// Coloration du triaangl selectionné dans la vue 3D
-		$('.active').removeClass('active');
+		$('.active0').removeClass('active0');
+		$('.active').removeClass('active').addClass('active0');
 		$(this).addClass ('active');
 		// on recupere la normale du triangle
 		var n = paperseed.Items[0].w.trianglesnorm[id];
