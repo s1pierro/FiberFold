@@ -106,6 +106,8 @@ function drawScene(container) {  //optimised speed ( cut in lightening acuracy )
 				svg.setAttribute('x2',buffer.vertices[origin.triangles[j][1]][0]);
 				svg.setAttribute('y2',buffer.vertices[origin.triangles[j][1]][1]);
 				svg.setAttribute('style', 'stroke:rgb(0,0,0);stroke-width:0.1');				
+				svg.setAttribute('class', 'junction');
+				svg.setAttribute('id', (j-buffer.nt));
 			}
 			else
 			{
@@ -118,7 +120,8 @@ function drawScene(container) {  //optimised speed ( cut in lightening acuracy )
 					buffer.triangles[ j ].trigon += ' '+buffer.vertices[origin.triangles[j][k]][0]+','+buffer.vertices[origin.triangles[j][k] ][1];
 
 				svg.setAttribute('points',buffer.triangles[j].trigon);
-				svg.setAttribute('class', 'ID'+j+'ID shape solid solid-step-'+Math.floor(n*16) );
+				svg.setAttribute('class', 'shape solid solid-step-'+Math.floor(n*16) );
+				svg.setAttribute('id', j);
 			}
 			container.appendChild(svg);
 		}
@@ -343,10 +346,13 @@ function buildScene()
 }
 window['buildScene'] = buildScene;
 function getFaceId(f) {
+var tmp = $(f).attr('id');
+return parseInt(tmp);
+/*
 	var tmp = $(f).attr('class');
 	var tmp2 = tmp.match(/ID.+ID/) + '';
 	if (tmp2.includes('ID')) tmp2=tmp2.slice(2, tmp2.length-2);
-	return tmp2;
+	return tmp2;*/
 }
 window['getFaceId'] = getFaceId;
 
@@ -374,10 +380,10 @@ function buildjunctionsItem (item)
 			for( var i = 0; i < paperseed.Items[item].junctions.length ; i++ )
 			{
 																  
-				p('addtriangle ('+paperseed.Items[item].junctions[i].som[0]+
+		/*		p('addtriangle ('+paperseed.Items[item].junctions[i].som[0]+
 								 ', '+paperseed.Items[item].junctions[i].som[1]+')');
 				p('t1: '+paperseed.Items[item].junctions[i].tri[0]);
-				p('t2: '+paperseed.Items[item].junctions[i].tri[1]);
+				p('t2: '+paperseed.Items[item].junctions[i].tri[1]);*/
 				var n1 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[0]]);
 				var n2 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[1]]);
 				
@@ -529,10 +535,10 @@ function paperseed () {
 		}
 	});
 //	$('html, .shape').on('mouseup', function() {
-	mc.on("panend", function(ev) 
-	{
-		var ut = '.ID'+activeshape+'ID';
-		$(ut).addClass ('active');
+	mc.on("panend", function(ev) {
+	
+		var selector = '#'+activeshape+'.shape';
+		$(selector).addClass ('active');
 	});
 
 
