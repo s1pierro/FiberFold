@@ -16,7 +16,7 @@
 var buffer = {};
 
 var zoom = 100;
-var viewangle = 140;
+var viewangle = 30;
 var scaleconst = 50;
 var ZlockANGx = 190;
 var ZlockANGy = 230;
@@ -226,11 +226,10 @@ function genzmap(obj) {
 		//p('Triangle['+i+'].n.z = '+obj.triangles[ i ].n[2]);
 		var n = obj.trianglesnorm[ i ][2];
 
-		if ( n>-0.30 )
-		{
+
 			var tmp2 = new Array(i, somme);
 			tmp.push(tmp2);
-		}
+		
 	}
 
 	var tmp2 = $.extend(true, [], tmp);
@@ -322,7 +321,7 @@ function initScene()
 
 	var zoom = 10;
 	var ratio = $("#svg8").width()/$("#svg8").height();
-	initView(270, 0, 0, 40);
+	initView(270, 0, 0, 1040);
 	$("#svg8").attr('viewBox', '-'+((zoom*ratio)/2)+' -'+(zoom/2)+' '+(zoom*ratio)+' '+zoom);
 }
 window['initScene'] = initScene;
@@ -377,13 +376,9 @@ function buildjunctionsItem (item)
 		//		p('add '+paperseed.Items[item].w.triangles[i][2]+', '+paperseed.Items[item].w.triangles[i][0]);
 				addjunction (paperseed.Items[item].w.triangles[i][2], paperseed.Items[item].w.triangles[i][0], i);
 			}
-			for( var i = 0; i < paperseed.Items[item].junctions.length ; i++ )
+	/*		for( var i = 0; i < paperseed.Items[item].junctions.length ; i++ )
 			{
-																  
-		/*		p('addtriangle ('+paperseed.Items[item].junctions[i].som[0]+
-								 ', '+paperseed.Items[item].junctions[i].som[1]+')');
-				p('t1: '+paperseed.Items[item].junctions[i].tri[0]);
-				p('t2: '+paperseed.Items[item].junctions[i].tri[1]);*/
+		
 				var n1 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[0]]);
 				var n2 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[1]]);
 				
@@ -403,7 +398,7 @@ function buildjunctionsItem (item)
 
 				
 			}
-			
+			*/
 }
 
 function addtriangle (obj, s1, s2, n) {
