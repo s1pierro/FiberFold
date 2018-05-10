@@ -218,7 +218,7 @@ function genzmap(obj) {
 		for (var l = 0; l < obj.triangles[i].length ; l++ )
 			somme += obj.vertices[obj.triangles[i][l]][2];
 		somme = somme/obj.triangles[i].length;
-		if (obj.triangles[i].length == 2) somme-=0.5;
+		if (obj.triangles[i].length == 2) somme-=0.21;
 		//p('Triangle['+i+'].somme = '+somme);
 		//p('Triangle['+i+'].n.z = '+obj.triangles[ i ].n[2]);
 		var n = obj.trianglesnorm[ i ][2];
@@ -378,8 +378,12 @@ function buildjunctionsItem (item)
 								 ', '+paperseed.Items[item].junctions[i].som[1]+')');
 				p('t1: '+paperseed.Items[item].junctions[i].tri[0]);
 				p('t2: '+paperseed.Items[item].junctions[i].tri[1]);
-				var n1 = paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[0]];
-				var n2 = paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[1]];
+				var n1 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[0]]);
+				var n2 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[1]]);
+				p(n1);
+				p(n2);
+				
+
 				
 				vectfromvertices (n1, n2).o;
 				var mid0 =  vectfromvertices (n1, n2).o;
