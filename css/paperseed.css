@@ -158,6 +158,22 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 	stroke-width: .02px;
 	stroke-linejoin: bevel;
 }
+.junction {
+
+	fill: #000;
+	opacity: 1.0;
+	stroke: #000;
+	stroke-width: 0.1px;
+	stroke-linejoin: bevel;
+}
+.junction.freeze {
+
+	fill: #aaa;
+	opacity: 1.0;
+	stroke: #ccc;
+	stroke-width: 0.05px;
+	stroke-linejoin: bevel;
+}
 .solid.active {
 
 	fill: #0bb;

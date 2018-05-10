@@ -105,7 +105,7 @@ function drawScene(container) {  //optimised speed ( cut in lightening acuracy )
 				svg.setAttribute('y1',buffer.vertices[origin.triangles[j][0]][1]);
 				svg.setAttribute('x2',buffer.vertices[origin.triangles[j][1]][0]);
 				svg.setAttribute('y2',buffer.vertices[origin.triangles[j][1]][1]);
-				svg.setAttribute('style', 'stroke:rgb(0,0,0);stroke-width:0.1');				
+
 				svg.setAttribute('class', 'junction');
 				svg.setAttribute('id', (j-buffer.nt));
 			}
@@ -550,6 +550,10 @@ function paperseed () {
 	$('body').on('click', '#close-settings', function() { $('#settings').fadeOut(); });
 	$('body').on('click', '#toggle-settings', function() { $('#settings').fadeIn(); });
 
+	$('body').on('click', '.junction', function() {
+	l('junc hit', 'lb');
+			$(this).addClass ('freeze');
+	});	
 	$('body').on('click', '.shape', function() {
 	
 		///////////////////////////////////////////////////////////////////////
