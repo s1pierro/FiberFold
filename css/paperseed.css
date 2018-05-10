@@ -178,17 +178,14 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 
 	fill: #0bb;
 	opacity: 1.0;
-	stroke: #000;
-	stroke-width: .05px;
-	stroke-linejoin: bevel;
+stroke: none;
 }
 .solid.active0 {
 
 	fill: #0ff;
 	opacity: 1.0;
-	stroke: #000;
-	stroke-width: .05px;
-	stroke-linejoin: bevel;
+	stroke: none;
+	
 }
 .solid-step-1 {	 fill: #d3d3d3; }
 .solid-step-2 {	 fill: #d6d6d6; }
