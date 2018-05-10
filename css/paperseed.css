@@ -171,7 +171,7 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 	fill: #aaa;
 	opacity: 1.0;
 	stroke: #ccc;
-	stroke-width: 0.05px;
+	stroke-width: 0.0px;
 	stroke-linejoin: bevel;
 }
 .solid.active {

@@ -414,6 +414,21 @@ function addtriangle (obj, s1, s2, n) {
 
 }
 
+function rmtriangle (obj, t) {
+
+	if (t > -1) {
+		obj.triangles.splice(t, 1);
+		obj.trianglesnorm.splice(t, 1);
+		l('# rm triangle '+t, 'r');
+			}
+	else
+	{
+		l('- error rm triangle '+t, 'r');
+	}
+}
+function hidejunction (obj, j) {
+	rmtriangle (obj, obj.nt+j);
+}
 
 function addjunction (s1, s2, tri) {
 
@@ -552,7 +567,10 @@ function paperseed () {
 
 	$('body').on('click', '.junction', function() {
 	l('junc hit', 'lb');
-			$(this).addClass ('freeze');
+		var id = getFaceId (this);
+				//	$(this).addClass ('freeze');
+			hidejunction (paperseed.Items[0].w, id);
+			 		drawScene(container);
 	});	
 	$('body').on('click', '.shape', function() {
 	
