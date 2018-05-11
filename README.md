@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img style="float: left;" src="https://github.com/s1pierro/paperseed-js/blob/master/paperseed-icon.png">
+  <img style="float: left;" src="https://github.com/s1pierro/Papier/blob/master/paperseed-icon.png">
 </p>
 
-[ paperseed-js](https://s1pierro.github.io/paperseed-js/)
+[ paperseed-js](https://s1pierro.github.io/papier/)

@@ -44,16 +44,12 @@ function buildScene()
 	paperseed.Items.push(altItem);
 }
 window['buildScene'] = buildScene;
-function getFaceId(f) {
+function getid(f) {
 var tmp = $(f).attr('id');
 return parseInt(tmp);
-/*
-	var tmp = $(f).attr('class');
-	var tmp2 = tmp.match(/ID.+ID/) + '';
-	if (tmp2.includes('ID')) tmp2=tmp2.slice(2, tmp2.length-2);
-	return tmp2;*/
+
 }
-window['getFaceId'] = getFaceId;
+window['getid'] = getid;
 
 
 function add_to_renderplane (renderplane, t)
@@ -88,8 +84,8 @@ function addline (item, s1, s2, n, id) {
 
 }
 
-function rmline (item, s1, s2) {
-
+function rmline (item, s1, s2)
+{
 	for( var i = 0; i < paperseed.Items[item].w.triangles.length ; i++ )
 	{
 
@@ -121,15 +117,11 @@ function rmtriangle (item, t) {
 }
 function hidejunction (item, j)
 {
+	var rms1 = paperseed.Items[item].junctions[j].som[0];
+	var rms2 = paperseed.Items[item].junctions[j].som[1];
 
-/*	var tmp = isjunctionshown (item, j);
-	if ( ( tmp != -1 && tmp != -2 ) &&
-		  ( tmp >= paperseed.Items[item].w.nt && tmp < paperseed.Items[item].w.triangles.length ) )*/
-		  var rms1 = paperseed.Items[item].junctions[j].som[0];
-		  var rms2 = paperseed.Items[item].junctions[j].som[1];
-		  
-		  l('hide junc '+j+' rms1: '+rms1+', rms2: '+rms2, 'lr');
-		rmline (item, rms1, rms2 );
+	l('hide junc '+j+' rms1: '+rms1+', rms2: '+rms2, 'lr');
+	rmline (item, rms1, rms2 );
 }
 function isjunctionshown (item, k)
 {
@@ -311,7 +303,7 @@ function paperseed () {
 
 	$('body').on('click', '.junction', function() {
 	l('junc hit', 'lb');
-		var id = getFaceId (this);
+		var id = getid (this);
 				//	$(this).addClass ('freeze');
 			hidejunction (0, id);
 			 		drawScene(container);
@@ -326,7 +318,7 @@ function paperseed () {
 
 		// on recupere l'id tu triangle selectionné. Cela correspond a sa place
 		// dans le tableau Item[activeitem].w.triangles[]
-		var id = getFaceId (this);
+		var id = getid (this);
 
 		activeshape = id;
 		// Coloration du triaangl selectionné dans la vue 3D
