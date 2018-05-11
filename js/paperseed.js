@@ -69,18 +69,17 @@ function buildjunctionsItem (item)
 {
 			for( var i = 0; i < paperseed.Items[item].w.triangles.length ; i++ )
 			{
-			//	p('add '+paperseed.Items[item].w.triangles[i][0]+', '+paperseed.Items[item].w.triangles[i][1]);
-				addjunction (paperseed.Items[item].w.triangles[i][0], paperseed.Items[item].w.triangles[i][1], i);
-			//	p('add '+paperseed.Items[item].w.triangles[i][1]+', '+paperseed.Items[item].w.triangles[i][2]);
-				addjunction (paperseed.Items[item].w.triangles[i][1], paperseed.Items[item].w.triangles[i][2], i);
-		//		p('add '+paperseed.Items[item].w.triangles[i][2]+', '+paperseed.Items[item].w.triangles[i][0]);
-				addjunction (paperseed.Items[item].w.triangles[i][2], paperseed.Items[item].w.triangles[i][0], i);
+				for ( var j = 0 ; j < paperseed.Items[item].w.triangles[i].length ; j ++ )
+					if ( j == ( paperseed.Items[item].w.triangles[i].length - 1 ) )
+						addjunction (paperseed.Items[item].w.triangles[i][j],
+										 paperseed.Items[item].w.triangles[i][0], i);
+					else
+						addjunction (paperseed.Items[item].w.triangles[i][j],
+										 paperseed.Items[item].w.triangles[i][(j+1)], i);
 			}
 			for( var i = 0; i < paperseed.Items[item].junctions.length ; i++ )
 				showjunction (0, i);
-			
 }
-
 function addline (obj, s1, s2, n) {
 	obj.triangles.push([s1, s2]);
 	obj.trianglesnorm.push(n);
@@ -98,12 +97,13 @@ function rmtriangle (obj, t) {
 		l('## rmtriangle - error rm triangle '+t, 'r');
 	}
 }
-function hidejunction (obj, j) {
-	rmtriangle (obj, obj.nt+j);
+function hidejunction (item, j)
+{
+	if ( isjunctionshown (item, j) )
+		rmtriangle (paperseed.Items[item].w, paperseed.Items[item].w.nt+j);
 }
 function isjunctionshown (item, j)
 {
-
 		l('** isjunctionshown');
 		l(paperseed.Items[0].w.nt);
 		l(paperseed.Items[0].w.triangles.length);
@@ -288,7 +288,7 @@ function paperseed () {
 	l('junc hit', 'lb');
 		var id = getFaceId (this);
 				//	$(this).addClass ('freeze');
-			hidejunction (paperseed.Items[0].w, id);
+			hidejunction (0, id);
 			 		drawScene(container);
 	});	
 	$('body').on('click', '.shape', function() {

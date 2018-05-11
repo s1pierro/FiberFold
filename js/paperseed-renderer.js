@@ -77,7 +77,6 @@ function drawScene(container) {  //optimised speed ( cut in lightening acuracy )
 
 			if ( buffer.triangles[j].length == 2)
 			{
-				p('<##> junc <##>');
 				var svg = document.createElementNS("http://www.w3.org/2000/svg",'line');
 				svg.setAttribute('x1',buffer.vertices[origin.triangles[j][0]][0]);
 				svg.setAttribute('y1',buffer.vertices[origin.triangles[j][0]][1]);
