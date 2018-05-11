@@ -152,7 +152,7 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 
 .solid {
 
-	fill: #cfcfcf;
+	fill: #cfcfcf66;
 	opacity: 1.0;
 	stroke: #000;
 	stroke-width: .02px;
@@ -176,9 +176,12 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 }
 .solid.active {
 
-	fill: #0bb;
+	fill: #fff;
 	opacity: 1.0;
-stroke: none;
+	stroke: #000;
+	stroke-width: 0.1px;
+	stroke-linejoin: bevel;
+
 }
 .solid.active0 {
 
@@ -187,21 +190,21 @@ stroke: none;
 	stroke: none;
 	
 }
-.solid-step-1 {	 fill: #d3d3d3; }
-.solid-step-2 {	 fill: #d6d6d6; }
-.solid-step-3 {	 fill: #d9d9d9; }
-.solid-step-4 {	 fill: #dcdcdc; }
-.solid-step-5 {	 fill: #dfdfdf; }
-.solid-step-6 {	 fill: #e3e3e3; }
-.solid-step-7 {  fill: #e6e6e6; }
-.solid-step-8 {  fill: #e9e9e9; }
-.solid-step-9 {	 fill: #ececec; }
-.solid-step-10 { fill: #efefef; }
-.solid-step-11 { fill: #f3f3f3; }
-.solid-step-12 { fill: #f6f6f6; }
-.solid-step-13 { fill: #f9f9f9; }
-.solid-step-14 { fill: #fcfcfc; }
-.solid-step-15 { fill: #ffffff; }
+.solid-step-1 {	 fill: #d3d3d3fa; }
+.solid-step-2 {	 fill: #d6d6d6fa; }
+.solid-step-3 {	 fill: #d9d9d9fa; }
+.solid-step-4 {	 fill: #dcdcdcfa; }
+.solid-step-5 {	 fill: #dfdfdffa; }
+.solid-step-6 {	 fill: #e3e3e3ea; }
+.solid-step-7 {  fill: #e6e6e6ea; }
+.solid-step-8 {  fill: #e9e9e9ea; }
+.solid-step-9 {	 fill: #ecececea; }
+.solid-step-10 { fill: #efefefda; }
+.solid-step-11 { fill: #f3f3f3da; }
+.solid-step-12 { fill: #f6f6f6da; }
+.solid-step-13 { fill: #f9f9f9da; }
+.solid-step-14 { fill: #fcfcfcda; }
+.solid-step-15 { fill: #ffffffda; }
 /*
 .active.solid-step-1 {	 fill: #03b3b3; }
 .active.solid-step-2 {	 fill: #06b6b6; }
