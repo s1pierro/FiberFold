@@ -1,0 +1,12 @@
+
+function rebuildpatterns ()
+{
+
+}
+
+
+function checkpatterns ()
+{
+
+}
+

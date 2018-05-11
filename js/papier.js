@@ -251,6 +251,13 @@ function paperseed () {
 			paperseed.impression.patterns.push(pattern);
 
 		}
+		// building patterns needs :
+		//
+		// - frontier[frontier_junction_1, frontier_junction_2, ... ]
+		// - triangles []		 				( can be empty if freezedjunctions isn't.)
+		// - freezedjunctions []			( can only be empty if pattern is made of
+		//											  a single triangle  )
+
 		
 		l(paperseed.impression);
 		l(paperseed.Items[0]);

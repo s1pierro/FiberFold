@@ -109,36 +109,29 @@ window['drawScene'] = drawScene;
 
 function p(s)
 {
-console.log(s);
+	if ( silent == true ) return;
+	console.log(s);
 }
-function genzmap(obj) {
+function genzmap(obj)
+{
 	var tmp = new Array();
 
 	for (var i = 0; i < obj.triangles.length; i++)
 	{
-		
 		var somme = 0;
 		for (var l = 0; l < obj.triangles[i].length ; l++ )
 			somme += obj.vertices[obj.triangles[i][l]][2];
 		somme = somme/obj.triangles[i].length;
 		if (obj.triangles[i].length == 2) somme-=0.21;
-		//p('Triangle['+i+'].somme = '+somme);
-		//p('Triangle['+i+'].n.z = '+obj.triangles[ i ].n[2]);
 		var n = obj.trianglesnorm[ i ][2];
-
-
-			var tmp2 = new Array(i, somme);
-			tmp.push(tmp2);
-		
+		var tmp2 = new Array(i, somme);
+		tmp.push(tmp2);
 	}
-
 	var tmp2 = $.extend(true, [], tmp);
-//	console.log('#? '+obj.triangles.length+' - '+tmp.length);
 	obj.zmap = tmp;
 	obj.zmap.sort(function(a, b) {
 		return b[1] - a[1];
 	});	
-
 }
 window['genzmap'] = genzmap;
 function genItemszmap(pcs) {

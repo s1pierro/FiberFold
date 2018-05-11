@@ -29,8 +29,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="9.7227182"
-     inkscape:cx="10.144101"
-     inkscape:cy="22.811481"
+     inkscape:cx="1.9159497"
+     inkscape:cy="-1.8729736"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -61,7 +61,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -75,17 +75,15 @@
        d="M 24 0.072265625 A 23.854546 23.854546 0 0 0 13.353516 2.5898438 L 30.3125 10.427734 L 47.130859 18.201172 A 23.854546 23.854546 0 0 0 24 0.072265625 z M 7.5703125 6.6484375 A 23.854546 23.854546 0 0 0 0.14453125 23.927734 A 23.854546 23.854546 0 0 0 10.955078 43.875 L 9.2636719 25.273438 L 7.5703125 6.6484375 z M 47.78125 25.404297 L 32.644531 36.080078 L 17.400391 46.832031 A 23.854546 23.854546 0 0 0 24 47.78125 A 23.854546 23.854546 0 0 0 47.78125 25.404297 z "
        transform="matrix(0.26458333,0,0,0.26458333,0,284.3)"
        id="path10" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.5042305px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:0px;word-spacing:0px;fill:#00aa88;fill-opacity:1;stroke:none;stroke-width:0.31260574;"
-       x="-24.017557"
-       y="294.70468"
-       id="text41"
-       transform="rotate(-5.1862385)"><tspan
-         sodipodi:role="line"
-         id="tspan39"
-         x="-24.017557"
-         y="294.70468"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#00aa88;stroke-width:0.31260574;">P</tspan></text>
+    <g
+       aria-label="P"
+       transform="rotate(-5.1862385)"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.5042305px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:0px;word-spacing:0px;fill:#00aa88;fill-opacity:1;stroke:none;stroke-width:0.31260574"
+       id="text41">
+      <path
+         d="m -22.869708,285.58905 h 3.901467 q 1.74009,0 2.668139,0.77541 0.934154,0.7693 0.934154,2.19801 0,1.43481 -0.934154,2.21022 -0.928049,0.7693 -2.668139,0.7693 h -1.550818 v 3.16269 h -2.350649 z m 2.350649,1.70346 v 2.54602 h 1.300489 q 0.683825,0 1.056265,-0.3297 0.372441,-0.33581 0.372441,-0.94636 0,-0.61056 -0.372441,-0.94026 -0.37244,-0.3297 -1.056265,-0.3297 z"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#00aa88;stroke-width:0.31260574"
+         id="path39" />
+    </g>
   </g>
 </svg>
