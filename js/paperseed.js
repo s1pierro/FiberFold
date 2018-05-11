@@ -77,8 +77,60 @@ function buildjunctionsItem (item)
 				addjunction (paperseed.Items[item].w.triangles[i][2], paperseed.Items[item].w.triangles[i][0], i);
 			}
 			for( var i = 0; i < paperseed.Items[item].junctions.length ; i++ )
-			{
-		
+				showjunction (0, i);
+			
+}
+
+function addline (obj, s1, s2, n) {
+	obj.triangles.push([s1, s2]);
+	obj.trianglesnorm.push(n);
+}
+
+function rmtriangle (obj, t) {
+
+	if (t > -1) {
+		obj.triangles.splice(t, 1);
+		obj.trianglesnorm.splice(t, 1);
+		l('# rm triangle '+t, 'r');
+			}
+	else
+	{
+		l('## rmtriangle - error rm triangle '+t, 'r');
+	}
+}
+function hidejunction (obj, j) {
+	rmtriangle (obj, obj.nt+j);
+}
+function isjunctionshown (item, j)
+{
+
+		l('** isjunctionshown');
+		l(paperseed.Items[0].w.nt);
+		l(paperseed.Items[0].w.triangles.length);
+	if ( paperseed.Items[0].w.nt == paperseed.Items[0].w.triangles.length ) return false;
+	if ( j < 0 | j > (paperseed.Items[0].w.triangles.length-paperseed.Items[0].w.nt) )
+	{
+		l('nj: '+(paperseed.Items[0].w.triangles.length-paperseed.Items[0].w.nt), 'r')
+		l('## isjunctionshow : index error: j='+j, 'r');
+		return true;
+	}
+	for( var i = paperseed.Items[0].w.nt; i < paperseed.Items[0].w.triangles.length ; i++ )
+	{
+		if ((( paperseed.Items[0].junctions[j].som[0] == paperseed.Items[0].w.triangles[i][0] &&
+				 paperseed.Items[0].junctions[j].som[1] == paperseed.Items[0].w.triangles[i][1]) |
+			  ( paperseed.Items[0].junctions[j].som[1] == paperseed.Items[0].w.triangles[i][0] &&
+			  	 paperseed.Items[0].junctions[j].som[0] == paperseed.Items[0].w.triangles[i][1]) ) &&
+			  	 														paperseed.Items[0].w.triangles[i].length == 2 )
+			  return true;
+	}
+	return false;
+}
+
+function showjunction (item, i) {
+
+	if ( isjunctionshown(item, i) == false )
+	//if(true)
+	{
 				var n1 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[0]]);
 				var n2 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[1]]);
 				
@@ -91,38 +143,10 @@ function buildjunctionsItem (item)
 				var sens = normalisevertex(mid1);
 
 				
-				addtriangle (paperseed.Items[item].w, paperseed.Items[item].junctions[i].som[0],
+				addline (paperseed.Items[item].w, paperseed.Items[item].junctions[i].som[0],
 																  paperseed.Items[item].junctions[i].som[1], sens);
-				
-				
-
-				
-			}
-			
-}
-
-function addtriangle (obj, s1, s2, n) {
-	obj.triangles.push([s1, s2]);
-	
-	obj.trianglesnorm.push(n);
-
-
-}
-
-function rmtriangle (obj, t) {
-
-	if (t > -1) {
-		obj.triangles.splice(t, 1);
-		obj.trianglesnorm.splice(t, 1);
-		l('# rm triangle '+t, 'r');
-			}
-	else
-	{
-		l('- error rm triangle '+t, 'r');
 	}
-}
-function hidejunction (obj, j) {
-	rmtriangle (obj, obj.nt+j);
+	else l('showjunction '+i+' - error: junction already showned', 'r');
 }
 
 function addjunction (s1, s2, tri) {

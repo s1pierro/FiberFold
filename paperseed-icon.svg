@@ -1,58 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48"
-   height="48"
-   viewBox="0 0 12.7 12.7"
-   version="1.1"
    id="svg8"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="paperseed-icon.svg"
-   inkscape:export-filename="/home/s1pierro/paperseed-js/paperseed-icon.png"
-   inkscape:export-xdpi="96"
-   inkscape:export-ydpi="96">
+   version="1.1"
+   viewBox="0 0 12.7 12.7"
+   height="48"
+   width="48">
   <defs
      id="defs2" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="4.8613591"
-     inkscape:cx="16.290033"
-     inkscape:cy="27.231746"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     units="px"
-     showguides="true"
-     inkscape:guide-bbox="true"
-     inkscape:window-width="1600"
-     inkscape:window-height="860"
-     inkscape:window-x="0"
-     inkscape:window-y="40"
-     inkscape:window-maximized="1">
-    <sodipodi:guide
-       position="6.3692424,7.8701515"
-       orientation="1,0"
-       id="guide12"
-       inkscape:locked="false" />
-    <sodipodi:guide
-       position="1.2892424,6.3692424"
-       orientation="0,1"
-       id="guide14"
-       inkscape:locked="false" />
-  </sodipodi:namedview>
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -66,26 +25,23 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Calque 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-284.3)">
+     transform="translate(0,-284.3)"
+     id="layer1">
     <path
-       style="fill:#333333;stroke-width:0.99999994"
-       d="M 24 0.072265625 A 23.854546 23.854546 0 0 0 13.353516 2.5898438 L 30.3125 10.427734 L 47.130859 18.201172 A 23.854546 23.854546 0 0 0 24 0.072265625 z M 7.5703125 6.6484375 A 23.854546 23.854546 0 0 0 0.14453125 23.927734 A 23.854546 23.854546 0 0 0 10.955078 43.875 L 9.2636719 25.273438 L 7.5703125 6.6484375 z M 47.78125 25.404297 L 32.644531 36.080078 L 17.400391 46.832031 A 23.854546 23.854546 0 0 0 24 47.78125 A 23.854546 23.854546 0 0 0 47.78125 25.404297 z "
+       id="path10"
        transform="matrix(0.26458333,0,0,0.26458333,0,284.3)"
-       id="path10" />
+       d="M 24 0.072265625 A 23.854546 23.854546 0 0 0 13.353516 2.5898438 L 30.3125 10.427734 L 47.130859 18.201172 A 23.854546 23.854546 0 0 0 24 0.072265625 z M 7.5703125 6.6484375 A 23.854546 23.854546 0 0 0 0.14453125 23.927734 A 23.854546 23.854546 0 0 0 10.955078 43.875 L 9.2636719 25.273438 L 7.5703125 6.6484375 z M 47.78125 25.404297 L 32.644531 36.080078 L 17.400391 46.832031 A 23.854546 23.854546 0 0 0 24 47.78125 A 23.854546 23.854546 0 0 0 47.78125 25.404297 z "
+       style="fill:#333333;stroke-width:0.99999994" />
     <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:0px;word-spacing:0px;fill:#d45500;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="-19.165533"
-       y="294.22397"
+       transform="rotate(-5.1862385)"
        id="text41"
-       transform="rotate(-4.3425334)"><tspan
-         sodipodi:role="line"
-         id="tspan39"
-         x="-19.165533"
-         y="294.22397"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#d45500;stroke-width:0.26458332">P</tspan></text>
+       y="293.94431"
+       x="-23.376251"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9.36534405px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';letter-spacing:0px;word-spacing:0px;fill:#d45500;fill-opacity:1;stroke:none;stroke-width:0.2341336"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#d45500;stroke-width:0.2341336"
+         y="293.94431"
+         x="-23.376251"
+         id="tspan39">P</tspan></text>
   </g>
 </svg>
