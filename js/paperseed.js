@@ -76,7 +76,7 @@ function buildjunctionsItem (item)
 		//		p('add '+paperseed.Items[item].w.triangles[i][2]+', '+paperseed.Items[item].w.triangles[i][0]);
 				addjunction (paperseed.Items[item].w.triangles[i][2], paperseed.Items[item].w.triangles[i][0], i);
 			}
-	/*		for( var i = 0; i < paperseed.Items[item].junctions.length ; i++ )
+			for( var i = 0; i < paperseed.Items[item].junctions.length ; i++ )
 			{
 		
 				var n1 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[0]]);
@@ -98,7 +98,7 @@ function buildjunctionsItem (item)
 
 				
 			}
-			*/
+			
 }
 
 function addtriangle (obj, s1, s2, n) {
