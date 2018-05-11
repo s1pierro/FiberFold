@@ -10,7 +10,7 @@
 
 $('#settings').hide();
 
-
+var silent = true;
 ////////////////////////////////////////////////////////////////////////////////
 //	paperseed core functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,16 +80,38 @@ function buildjunctionsItem (item)
 			for( var i = 0; i < paperseed.Items[item].junctions.length ; i++ )
 				showjunction (0, i);
 }
-function addline (obj, s1, s2, n) {
-	obj.triangles.push([s1, s2]);
-	obj.trianglesnorm.push(n);
+function addline (item, s1, s2, n, id) {
+	var tmp = paperseed.Items[item].w.triangles.length;
+	paperseed.Items[item].w.triangles.push([s1, s2]);
+	paperseed.Items[item].w.trianglesnorm.push(n);
+	paperseed.Items[item].w.triangles[tmp].id = id;
+
 }
 
-function rmtriangle (obj, t) {
+function rmline (item, s1, s2) {
+
+	for( var i = 0; i < paperseed.Items[item].w.triangles.length ; i++ )
+	{
+
+		if ( paperseed.Items[item].w.triangles[i].length == 2 )
+		{
+			l('testing '+i+' ( '+paperseed.Items[item].w.triangles[i][0]+', '+paperseed.Items[item].w.triangles[i][1]+' )');	
+			if ( ( s1 == paperseed.Items[item].w.triangles[i][0] && s2 == paperseed.Items[item].w.triangles[i][1] ) |
+				  ( s2 == paperseed.Items[item].w.triangles[i][0] && s1 == paperseed.Items[item].w.triangles[i][1] ) ) 
+			{
+				paperseed.Items[item].w.triangles.splice(i, 1);
+				paperseed.Items[item].w.trianglesnorm.splice(i, 1);
+				l('# rm line '+s1+', '+s2+' : '+i, 'r');
+				return;
+			}
+		}
+	}
+}
+function rmtriangle (item, t) {
 
 	if (t > -1) {
-		obj.triangles.splice(t, 1);
-		obj.trianglesnorm.splice(t, 1);
+		paperseed.Items[item].w.triangles.splice(t, 1);
+		paperseed.Items[item].w.trianglesnorm.splice(t, 1);
 		l('# rm triangle '+t, 'r');
 			}
 	else
@@ -99,36 +121,56 @@ function rmtriangle (obj, t) {
 }
 function hidejunction (item, j)
 {
-	if ( isjunctionshown (item, j) )
-		rmtriangle (paperseed.Items[item].w, paperseed.Items[item].w.nt+j);
+
+/*	var tmp = isjunctionshown (item, j);
+	if ( ( tmp != -1 && tmp != -2 ) &&
+		  ( tmp >= paperseed.Items[item].w.nt && tmp < paperseed.Items[item].w.triangles.length ) )*/
+		  var rms1 = paperseed.Items[item].junctions[j].som[0];
+		  var rms2 = paperseed.Items[item].junctions[j].som[1];
+		  
+		  l('hide junc '+j+' rms1: '+rms1+', rms2: '+rms2, 'lr');
+		rmline (item, rms1, rms2 );
 }
-function isjunctionshown (item, j)
+function isjunctionshown (item, k)
 {
-		l('** isjunctionshown');
-		l(paperseed.Items[0].w.nt);
-		l(paperseed.Items[0].w.triangles.length);
-	if ( paperseed.Items[0].w.nt == paperseed.Items[0].w.triangles.length ) return false;
-	if ( j < 0 | j > (paperseed.Items[0].w.triangles.length-paperseed.Items[0].w.nt) )
+	//TODO Important correction needed
+	var s1 = paperseed.Items[0].junctions[k].som[0];
+	var s2 = paperseed.Items[0].junctions[k].som[1];
+	
+		l('** isjunctionshown '+k+'( '+s1+', '+s2+' )');
+		
+		l('paperseed.Items[0].w.nt '+paperseed.Items[0].w.nt);
+		l('final buffer nt '+paperseed.Items[0].w.triangles.length);
+		l('n junctions '+ (paperseed.Items[0].w.triangles.length - paperseed.Items[0].w.nt));
+		
+		
+	if ( paperseed.Items[0].w.nt == paperseed.Items[0].w.triangles.length )
+	{
+		l('there is no junction yet'+k);
+		return -1;
+	}
+	if ( k < 0 | k > (paperseed.Items[0].w.triangles.length-paperseed.Items[0].w.nt) )
 	{
 		l('nj: '+(paperseed.Items[0].w.triangles.length-paperseed.Items[0].w.nt), 'r')
-		l('## isjunctionshow : index error: j='+j, 'r');
-		return true;
+		l('## isjunctionshow : index error: j='+k, 'r');
+		return -2;
 	}
 	for( var i = paperseed.Items[0].w.nt; i < paperseed.Items[0].w.triangles.length ; i++ )
 	{
-		if ((( paperseed.Items[0].junctions[j].som[0] == paperseed.Items[0].w.triangles[i][0] &&
-				 paperseed.Items[0].junctions[j].som[1] == paperseed.Items[0].w.triangles[i][1]) |
-			  ( paperseed.Items[0].junctions[j].som[1] == paperseed.Items[0].w.triangles[i][0] &&
-			  	 paperseed.Items[0].junctions[j].som[0] == paperseed.Items[0].w.triangles[i][1]) ) &&
-			  	 														paperseed.Items[0].w.triangles[i].length == 2 )
-			  return true;
+		l('testing '+i+' ( '+paperseed.Items[0].w.triangles[i][0]+', '+paperseed.Items[0].w.triangles[i][1]+' )');
+		if ((( s1 == paperseed.Items[0].w.triangles[i][0] &&
+				 s2 == paperseed.Items[0].w.triangles[i][1]) |
+			  ( s2 == paperseed.Items[0].w.triangles[i][0] &&
+			  	 s1 == paperseed.Items[0].w.triangles[i][1]) ) /*&& paperseed.Items[0].w.triangles[i].length == 2 */)
+			  return i;
 	}
-	return false;
+	l('  -> this junction is not showned');
+	return -1;
 }
 
 function showjunction (item, i) {
-
-	if ( isjunctionshown(item, i) == false )
+	var tmp = isjunctionshown(item, i);
+	if ( tmp == -1 )
 	//if(true)
 	{
 				var n1 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[0]]);
@@ -143,8 +185,8 @@ function showjunction (item, i) {
 				var sens = normalisevertex(mid1);
 
 				
-				addline (paperseed.Items[item].w, paperseed.Items[item].junctions[i].som[0],
-																  paperseed.Items[item].junctions[i].som[1], sens);
+				addline (item, paperseed.Items[item].junctions[i].som[0],
+																  paperseed.Items[item].junctions[i].som[1], sens, i);
 	}
 	else l('showjunction '+i+' - error: junction already showned', 'r');
 }
@@ -154,41 +196,25 @@ function addjunction (s1, s2, tri) {
 	var mrg = false;
 	var same = false;
 
-			
-		for( var i = 0; i < paperseed.Items[0].junctions.length ; i++ )
-			if ( ( paperseed.Items[0].junctions[i].som[0] == s1 && paperseed.Items[0].junctions[i].som[1] == s2) |
-				  ( paperseed.Items[0].junctions[i].som[1] == s1 && paperseed.Items[0].junctions[i].som[0] == s2) )
-					{
-			//			p(' junctions['+i+'].som 1: '+paperseed.Items[0].junctions[i].som[0]);
-			//			p(' junctions['+i+'].som 2: '+paperseed.Items[0].junctions[i].som[1]);
-
-						same = false;
-						for( var j = 0; j < paperseed.Items[0].junctions[i].tri.length ; j++ )
-				  			if ( paperseed.Items[0].junctions[i].tri[j] == tri )
-				  			{
-				  				same = true;
-				  		//		p('###× ERROR x###');
-				  			}
-				  		
-					  	if ( same == false )
-					  	{
-					  //		p('    merge '+i);
-					  		paperseed.Items[0].junctions[i].tri.push(tri);
-					  		mrg = true;
-					  	}
-			  		}
-			  		
-	
-		
+	for( var i = 0; i < paperseed.Items[0].junctions.length ; i++ )
+		if ( ( paperseed.Items[0].junctions[i].som[0] == s1 && paperseed.Items[0].junctions[i].som[1] == s2) |
+			  ( paperseed.Items[0].junctions[i].som[1] == s1 && paperseed.Items[0].junctions[i].som[0] == s2) )
+	{
+		same = false;
+		for( var j = 0; j < paperseed.Items[0].junctions[i].tri.length ; j++ )
+			if ( paperseed.Items[0].junctions[i].tri[j] == tri )
+				same = true;
+		if ( same == false )
+		{
+			paperseed.Items[0].junctions[i].tri.push(tri);
+			mrg = true;
+		}
+	}
 	if ( mrg == false )
 	{
-	
-
 		 paperseed.Items[0].junctions.push({ som : [s1, s2], tri : [tri]});
-		 }
-
+	 }
 }
-
 
 function paperseed () {
 	var mode = (eval("var __temp = null"), (typeof __temp === "undefined")) ? 
@@ -198,7 +224,6 @@ function paperseed () {
 	    	l('interprete js : '+mode, 'lg');
 		else
 	    	l('interprete js : '+mode, 'blr');
-
 
 	/*======================================================================
 	

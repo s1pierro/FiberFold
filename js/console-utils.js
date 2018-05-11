@@ -1,5 +1,6 @@
 function l (s, format)
 {
+	if (silent == true ) return;
 	if ( format == 'xlb')
 	{
 		s = '%c'+s;

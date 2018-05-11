@@ -84,7 +84,7 @@ function drawScene(container) {  //optimised speed ( cut in lightening acuracy )
 				svg.setAttribute('y2',buffer.vertices[origin.triangles[j][1]][1]);
 
 				svg.setAttribute('class', 'junction');
-				svg.setAttribute('id', (j-buffer.nt));
+				svg.setAttribute('id', origin.triangles[j].id);
 			}
 			else
 			{
