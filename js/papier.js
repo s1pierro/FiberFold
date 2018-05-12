@@ -305,8 +305,17 @@ function paperseed () {
 		translateView (0, 0,event.deltaY*event.deltaFactor );
 		drawScene(container);
 	});
-	$('body').on('click', '#close-settings', function() { $('#settings').fadeOut(); });
-	$('body').on('click', '#toggle-settings', function() { $('#settings').fadeIn(); });
+	$('body').on('click', '#close-settings', function() {
+	 $('#settings').fadeOut(); 
+	$('#credits').fadeIn();
+	 
+	 });
+	$('body').on('click', '#toggle-settings', function() {
+	
+	$('#settings').fadeIn();
+	 $('#credits').fadeOut(); 
+	
+	 });
 
 	$('body').on('click', '.junction', function() {
 	l('junc hit', 'lb');
