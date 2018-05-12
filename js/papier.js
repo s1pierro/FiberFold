@@ -208,7 +208,9 @@ function addjunction (s1, s2, tri) {
 	 }
 }
 
-function paperseed () {
+function paperseed ()
+{
+	$('#start-layer').hide();
 	var mode = (eval("var __temp = null"), (typeof __temp === "undefined")) ? 
 	    "strict": 
 	    "non-strict";
@@ -306,23 +308,23 @@ function paperseed () {
 		drawScene(container);
 	});
 	$('body').on('click', '#close-settings', function() {
-	 $('#settings').fadeOut(); 
-	$('#credits').fadeIn();
-	 
+		$('#settings').fadeOut(); 
+		$('#credits').fadeIn();
+
 	 });
 	$('body').on('click', '#toggle-settings', function() {
-	
-	$('#settings').fadeIn();
-	 $('#credits').fadeOut(); 
-	
+
+		$('#settings').fadeIn();
+		$('#credits').fadeOut(); 
+
 	 });
 
 	$('body').on('click', '.junction', function() {
-	l('junc hit', 'lb');
+		l('junc hit', 'lb');
 		var id = getid (this);
-				//	$(this).addClass ('freeze');
+		//	$(this).addClass ('freeze');
 			hidejunction (0, id);
-			 		drawScene(container);
+			drawScene(container);
 	});	
 	$('body').on('click', '.shape', function() {
 	
