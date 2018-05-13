@@ -256,7 +256,7 @@ function paperseed ()
 		paperseed.init = true;
 		
 		paperseed.Items = [];
-		paperseed.impression = {printsize: 'A4', npages : 0, printmode : 'desktop', patterns : [] };
+		paperseed.print = {printsize: 'A4', npages : 0, printmode : 'desktop', patterns : [] };
 		
 		
 		buildScene ();
@@ -269,12 +269,11 @@ function paperseed ()
 
 		for ( var i = 0 ; i < paperseed.Items[0].w.triangles.length ; i++ )
 		{
-		
-		
-			var pattern = { triangles : [i], junctions : [] };
-			paperseed.impression.patterns.push(pattern);
+			var pattern = { triangles : [i], junctions : [], frontier : [] };
+			paperseed.print.patterns.push(pattern);
 
 		}
+		
 		// building patterns needs :
 		//
 		// - frontier[frontier_junction_1, frontier_junction_2, ... ]
@@ -459,7 +458,9 @@ function paperseed ()
 			trsltri[i] = applymatNscale(flatmat, tmptri[i]);
 
 		
-	});	
+	});
+	rebuildpatterns ();
+	
 }
 		
 window['paperseed'] = paperseed;

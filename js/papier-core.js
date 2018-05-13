@@ -1,7 +1,67 @@
 
 function rebuildpatterns ()
 {
+	l('### Rebuid patterns','l');	
+	l('    n patterns :'+paperseed.print.patterns.length,'lg' );
+	for ( var i = 0 ; i < paperseed.print.patterns.length ; i++ )
+	{
+	l('    pattern '+i+' : '+paperseed.print.patterns[i].triangles.length+' triangles, '+paperseed.print.patterns[i].junctions.length+' junctions','lg' );
+	
+	
+	}
+	
+	/*
+	
+	
+		// on recupere la normale du triangle
+		var n = paperseed.Items[0].w.trianglesnorm[id];
+		// on construit deux vecteurs pour l'interpolation
+		// - target corespond au plan du document final. Celui qui contient les patrons
+		// - bullet, dont le sens est confondu avec l'axe normal a la face selectionnée.
+		var target = new Vector ([0.0, 0.0, 0.0], [0.0, 0.0, 1.0], 1.0);
+		var bullet = new Vector ([0.0, 0.0, 0.0], n, 1.0);
+		// La,matrice de transformation peut etre construite
+		var itpmat = geninterpmat (bullet, target);
 
+		//un peu de bavardage avec la console
+		l('bullet', 'l');
+		logVector(bullet);
+		l('target', 'l');
+		logVector(target);
+		l('interpolation matrix', 'l');
+		logMatrix(itpmat);
+	
+		var w = $.extend(true, {}, paperseed.Items[0].w);
+		
+		for ( var i = 0 ; i < w.nv ; i++ )
+			w.vertices[i] = applymatNscale(itpmat, w.vertices[i]);
+		
+		var tmptri = [ [ (w.vertices[w.triangles[id][0]][0]), 
+				 (w.vertices[w.triangles[id][0]][1]), 
+				 (w.vertices[w.triangles[id][0]][2])  ],
+				     
+			       [ (w.vertices[w.triangles[id][1]][0]), 
+				 (w.vertices[w.triangles[id][1]][1]), 
+				 (w.vertices[w.triangles[id][1]][2])  ],
+				
+			       [ (w.vertices[w.triangles[id][2]][0]), 
+				 (w.vertices[w.triangles[id][2]][1]), 
+				 (w.vertices[w.triangles[id][2]][2])  ] ];
+
+		
+
+		var svgtrigon = tmptri[0][0]+', '+tmptri[0][1]+
+			    ' '+tmptri[1][0]+', '+tmptri[1][1]+
+			    ' '+tmptri[2][0]+', '+tmptri[2][1];
+		add_to_renderplane (renderplane, svgtrigon);
+		var flatmat = gentmat (234.0, 143.0, 0.0);
+		
+		var trsltri = $.extend(true, [], tmptri);
+
+		for ( var i = 0 ; i < 3 ; i++ )
+			trsltri[i] = applymatNscale(flatmat, tmptri[i]);
+*/
+		
 }
 
 
@@ -10,6 +70,13 @@ function checkpatterns ()
 
 	
 }
+
+
+
+
+
+
+
 
 
 var Acontext = new AudioContext();
