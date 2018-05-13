@@ -174,15 +174,8 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 }
 }
 
-.solid {
 
-	fill: #cfcfcff6;
-	opacity: 1.0;
-	stroke: #000;
-	stroke-width: .02px;
-	stroke-linejoin: bevel;
-}
-.junction {
+.junction.visible {
 
 	fill: #000;
 	opacity: 1.0;
@@ -190,51 +183,61 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 	stroke-width: 0.1px;
 	stroke-linejoin: bevel;
 }
-.junction.active {
-
+.junction.highlight {
 	fill: #000;
 	opacity: 1.0;
 	stroke: #0AA;
 	stroke-width: 0.16px;
 	stroke-linejoin: bevel;
-}
-.junction.freeze {
 
-	fill: #aaa;
+}
+
+.shape.highlight {
+
+	fill: rgb(209, 236, 241);
 	opacity: 1.0;
-	stroke: #ccc;
-	stroke-width: 0.0px;
+	stroke: none;
+}
+.shape.visible {
+
+	fill: #cfcfcff6;
+	opacity: 1.0;
+	stroke: #aaa;
+	stroke-width: .02px;
 	stroke-linejoin: bevel;
 }
-.solid.active {
-	stroke: none;
-	fill: rgb(209, 236, 241);
-	opacity: 1.0;
+.shape.visible.step-1 {	 fill: #d3d3d3ff; }
+.shape.visible.step-2 {	 fill: #d6d6d6fd; }
+.shape.visible.step-3 {	 fill: #d9d9d9fb; }
+.shape.visible.step-4 {	 fill: #dcdcdcf8; }
+.shape.visible.step-5 {	 fill: #dfdfdff4; }
+.shape.visible.step-6 {	 fill: #e3e3e3ef; }
+.shape.visible.step-7 {  fill: #e6e6e6ed; }
+.shape.visible.step-8 {  fill: #e9e9e9eb; }
+.shape.visible.step-9 {	 fill: #ececece8; }
+.shape.visible.step-10 { fill: #efefefe4; }
+.shape.visible.step-11 { fill: #f3f3f3df; }
+.shape.visible.step-12 { fill: #f6f6f6dd; }
+.shape.visible.step-13 { fill: #f9f9f9db; }
+.shape.visible.step-14 { fill: #fcfcfcd8; }
+.shape.visible.step-15 { fill: #ffffffd4; }
+/*
 
-
-}
-.solid.active0 {
-
-	fill: rgb(209, 236, 241);
-	opacity: 1.0;
-	stroke: none;
-	
-}
-.solid-step-1 {	 fill: #d3d3d3ff; }
-.solid-step-2 {	 fill: #d6d6d6fd; }
-.solid-step-3 {	 fill: #d9d9d9fb; }
-.solid-step-4 {	 fill: #dcdcdcf8; }
-.solid-step-5 {	 fill: #dfdfdff4; }
-.solid-step-6 {	 fill: #e3e3e3ef; }
-.solid-step-7 {  fill: #e6e6e6ed; }
-.solid-step-8 {  fill: #e9e9e9eb; }
-.solid-step-9 {	 fill: #ececece8; }
-.solid-step-10 { fill: #efefefe4; }
-.solid-step-11 { fill: #f3f3f3df; }
-.solid-step-12 { fill: #f6f6f6dd; }
-.solid-step-13 { fill: #f9f9f9db; }
-.solid-step-14 { fill: #fcfcfcd8; }
-.solid-step-15 { fill: #ffffffd4; }
+.active.solid.step-1 {	 fill: #d3d3d3ff; }
+.active.solid.step-2 {	 fill: #d6d6d6fd; }
+.active.solid.step-3 {	 fill: #d9d9d9fb; }
+.active.solid.step-4 {	 fill: #dcdcdcf8; }
+.active.solid.step-5 {	 fill: #dfdfdff4; }
+.active.solid.step-6 {	 fill: #e3e3e3ef; }
+.active.solid.step-7 {  fill: #e6e6e6ed; }
+.active.solid.step-8 {  fill: #e9e9e9eb; }
+.active.solid.step-9 {	 fill: #ececece8; }
+.active.solid.step-10 { fill: #efefefe4; }
+.active.solid.step-11 { fill: #f3f3f3df; }
+.active.solid.step-12 { fill: #f6f6f6dd; }
+.active.solid.step-13 { fill: #f9f9f9db; }
+.active.solid.step-14 { fill: #fcfcfcd8; }
+.active.solid.step-15 { fill: #ffffffd4; }
 /*
 .active.solid-step-1 {	 fill: #03b3b3; }
 .active.solid-step-2 {	 fill: #06b6b6; }

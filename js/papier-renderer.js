@@ -83,7 +83,7 @@ function drawScene(container) {  //optimised speed ( cut in lightening acuracy )
 				svg.setAttribute('x2',buffer.vertices[origin.triangles[j][1]][0]);
 				svg.setAttribute('y2',buffer.vertices[origin.triangles[j][1]][1]);
 
-				svg.setAttribute('class', 'junction');
+				svg.setAttribute('class', 'junction '+origin.triangles[j].state);
 				svg.setAttribute('id', origin.triangles[j].id);
 			}
 			else
@@ -97,7 +97,7 @@ function drawScene(container) {  //optimised speed ( cut in lightening acuracy )
 					buffer.triangles[ j ].trigon += ' '+buffer.vertices[origin.triangles[j][k]][0]+','+buffer.vertices[origin.triangles[j][k] ][1];
 
 				svg.setAttribute('points',buffer.triangles[j].trigon);
-				svg.setAttribute('class', 'shape solid solid-step-'+Math.floor(n*16) );
+				svg.setAttribute('class', 'shape '+origin.triangles[j].state+' solid step-'+Math.floor(n*16) );
 				svg.setAttribute('id', j);
 			}
 			container.appendChild(svg);

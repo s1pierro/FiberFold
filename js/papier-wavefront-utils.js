@@ -62,6 +62,7 @@ function parsewavefront(objText, id) {
 				mat = gMatch[0];
 			} else if (gMatch[0] === 'f')
 			{	
+				obj.triangles[ng].state="visible";
 				obj.triangles[ng].mat = mat;
 				ng++;
 			}

@@ -10,7 +10,7 @@
 
 $('#settings').hide();
 
-var silent = true;
+var silent = false;
 ////////////////////////////////////////////////////////////////////////////////
 //	paperseed core functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +81,7 @@ function addline (obj, s1, s2, n, id) {
 	obj.triangles.push([s1, s2]);
 	obj.trianglesnorm.push(n);
 	obj.triangles[tmp].id = id;
+	obj.triangles[tmp].state = "visible";
 
 }
 
@@ -125,7 +126,7 @@ function hidejunction (obj, j)
 }
 function isjunctionshown (obj, k)
 {
-	//TODO Important correction needed
+	//TODO Important correction needed //TODO
 	var s1 = obj.junctions[k].som[0];
 	var s2 = obj.junctions[k].som[1];
 	
@@ -154,7 +155,7 @@ function isjunctionshown (obj, k)
 				 s2 == obj.triangles[i][1]) |
 			  ( s2 == obj.triangles[i][0] &&
 			  	 s1 == obj.triangles[i][1]) ) /*&& obj.triangles[i].length == 2 */)
-			  return i;
+			  return obj.triangles[i].id;
 	}
 	l('  -> this junction is not showned');
 	return -1;
@@ -218,8 +219,10 @@ function aresharingjunction (obj, triangle_1, triangle_2)
 				 obj.junctions[i].tri[1] == triangle_2) |
 			  ( obj.junctions[i].tri[1] == triangle_1 &&
 				 obj.junctions[i].tri[0] == triangle_2) )
-			return i;
+{	console.log ('sharing');
+			return i;}
 	}
+	console.log ('not sharing');
 	return -1;
 }
 function paperseed ()
@@ -243,6 +246,8 @@ function paperseed ()
 	var renderplane = document.getElementById("renderplane");
 		var active1;
 		var active2;	
+		var active1shadowedstate;
+		var active2shadowedstate;	
 	
 	if ( typeof paperseed.init == 'undefined' ) {
 		
@@ -311,9 +316,12 @@ function paperseed ()
 	});
 //	$('html, .shape').on('mouseup', function() {
 	mc.on("panend", function(ev) {
-		
+/*
+		if ( active1 > -1 ) paperseed.Items[0].w.triangles[active1].state = active1shadowedstate;
+		if ( active2 > -1 ) paperseed.Items[0].w.triangles[active2].state = active2shadowedstate;
+
 		active2 = active1 = -1;
-	
+			drawScene(container);*/
 	});
 
 
@@ -341,8 +349,9 @@ function paperseed ()
 		//	$(this).addClass ('freeze');
 			hidejunction (paperseed.Items[0].w, id);
 			drawScene(container);
-			active2 = active1 = -1;
+
 	});	
+	
 	$('body').on('click', '.shape', function() {
 	
 		///////////////////////////////////////////////////////////////////////
@@ -353,6 +362,8 @@ function paperseed ()
 
 		// on recupere l'id tu triangle selectionné. Cela correspond a sa place
 		// dans le tableau Item[activeitem].w.triangles[]
+		if ( active1 > -1 ) paperseed.Items[0].w.triangles[active1].state = active1shadowedstate;
+		if ( active2 > -1 ) paperseed.Items[0].w.triangles[active2].state = active2shadowedstate;
 		active2 = active1;
 		var id = getid (this);
 		active1 = id;
@@ -360,19 +371,28 @@ function paperseed ()
 		var connected = aresharingjunction (paperseed.Items[0].w, active1, active2);
 		if ( connected > -1 && isjunctionshown (paperseed.Items[0].w, connected) > -1 )
 		{
-			$('.active').removeClass('active');
-			$('#'+active1+'.shape').addClass('active');
-			$('#'+active2+'.shape').addClass('active');
-			$('#'+connected+'.junction').addClass('active');
-			
+			active1shadowedstate = paperseed.Items[0].w.triangles[active1].state;
+			active2shadowedstate = paperseed.Items[0].w.triangles[active2].state;
+			paperseed.Items[0].w.triangles[active1].state = "highlight"
+			paperseed.Items[0].w.triangles[active2].state = "highlight"
 		}
 		else
 		{
-			$('.active').removeClass('active');
-			$('#'+active1+'.shape').addClass('active');
+			active1shadowedstate = paperseed.Items[0].w.triangles[active1].state;
+			paperseed.Items[0].w.triangles[active1].state = "highlight"
+			
+		}
+		if ( connected > -1 )
+		{
+			for (var i = paperseed.Items[0].w.nt ; i < paperseed.Items[0].w.triangles.length ; i++ )
+			{
+				if ( paperseed.Items[0].w.triangles[i].id == connected )
+				paperseed.Items[0].w.triangles[i].state = "highlight";
+			}
+			//paperseed.Items[0].w.
 		}
 
-
+			drawScene(container);
 		// on recupere la normale du triangle
 		var n = paperseed.Items[0].w.trianglesnorm[id];
 		// on construit deux vecteurs pour l'interpolation
