@@ -190,6 +190,14 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 	stroke-width: 0.1px;
 	stroke-linejoin: bevel;
 }
+.junction.active {
+
+	fill: #000;
+	opacity: 1.0;
+	stroke: #0AA;
+	stroke-width: 0.16px;
+	stroke-linejoin: bevel;
+}
 .junction.freeze {
 
 	fill: #aaa;
@@ -199,17 +207,15 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 	stroke-linejoin: bevel;
 }
 .solid.active {
-
-	fill: #fff;
+	stroke: none;
+	fill: rgb(209, 236, 241);
 	opacity: 1.0;
-	stroke: #000;
-	stroke-width: 0.1px;
-	stroke-linejoin: bevel;
+
 
 }
 .solid.active0 {
 
-	fill: #0ff;
+	fill: rgb(209, 236, 241);
 	opacity: 1.0;
 	stroke: none;
 	

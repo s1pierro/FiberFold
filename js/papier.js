@@ -61,53 +61,53 @@ function add_to_renderplane (renderplane, t)
 
 }
 
-function buildjunctionsItem (item)
+function buildjunctions (obj)
 {
-			for( var i = 0; i < paperseed.Items[item].w.triangles.length ; i++ )
+			for( var i = 0; i < obj.triangles.length ; i++ )
 			{
-				for ( var j = 0 ; j < paperseed.Items[item].w.triangles[i].length ; j ++ )
-					if ( j == ( paperseed.Items[item].w.triangles[i].length - 1 ) )
-						addjunction (paperseed.Items[item].w.triangles[i][j],
-										 paperseed.Items[item].w.triangles[i][0], i);
+				for ( var j = 0 ; j < obj.triangles[i].length ; j ++ )
+					if ( j == ( obj.triangles[i].length - 1 ) )
+						addjunction (obj, obj.triangles[i][j],
+										 obj.triangles[i][0], i);
 					else
-						addjunction (paperseed.Items[item].w.triangles[i][j],
-										 paperseed.Items[item].w.triangles[i][(j+1)], i);
+						addjunction (obj, obj.triangles[i][j],
+										 obj.triangles[i][(j+1)], i);
 			}
-			for( var i = 0; i < paperseed.Items[item].junctions.length ; i++ )
-				showjunction (0, i);
+			for( var i = 0; i < obj.junctions.length ; i++ )
+				showjunction (obj, i);
 }
-function addline (item, s1, s2, n, id) {
-	var tmp = paperseed.Items[item].w.triangles.length;
-	paperseed.Items[item].w.triangles.push([s1, s2]);
-	paperseed.Items[item].w.trianglesnorm.push(n);
-	paperseed.Items[item].w.triangles[tmp].id = id;
+function addline (obj, s1, s2, n, id) {
+	var tmp = obj.triangles.length;
+	obj.triangles.push([s1, s2]);
+	obj.trianglesnorm.push(n);
+	obj.triangles[tmp].id = id;
 
 }
 
-function rmline (item, s1, s2)
+function rmline (obj, s1, s2)
 {
-	for( var i = 0; i < paperseed.Items[item].w.triangles.length ; i++ )
+	for( var i = 0; i < obj.triangles.length ; i++ )
 	{
 
-		if ( paperseed.Items[item].w.triangles[i].length == 2 )
+		if ( obj.triangles[i].length == 2 )
 		{
-			l('testing '+i+' ( '+paperseed.Items[item].w.triangles[i][0]+', '+paperseed.Items[item].w.triangles[i][1]+' )');	
-			if ( ( s1 == paperseed.Items[item].w.triangles[i][0] && s2 == paperseed.Items[item].w.triangles[i][1] ) |
-				  ( s2 == paperseed.Items[item].w.triangles[i][0] && s1 == paperseed.Items[item].w.triangles[i][1] ) ) 
+			l('testing '+i+' ( '+obj.triangles[i][0]+', '+obj.triangles[i][1]+' )');	
+			if ( ( s1 == obj.triangles[i][0] && s2 == obj.triangles[i][1] ) |
+				  ( s2 == obj.triangles[i][0] && s1 == obj.triangles[i][1] ) ) 
 			{
-				paperseed.Items[item].w.triangles.splice(i, 1);
-				paperseed.Items[item].w.trianglesnorm.splice(i, 1);
+				obj.triangles.splice(i, 1);
+				obj.trianglesnorm.splice(i, 1);
 				l('# rm line '+s1+', '+s2+' : '+i, 'r');
 				return;
 			}
 		}
 	}
 }
-function rmtriangle (item, t) {
+function rmtriangle (obj, t) {
 
 	if (t > -1) {
-		paperseed.Items[item].w.triangles.splice(t, 1);
-		paperseed.Items[item].w.trianglesnorm.splice(t, 1);
+		obj.triangles.splice(t, 1);
+		obj.trianglesnorm.splice(t, 1);
 		l('# rm triangle '+t, 'r');
 			}
 	else
@@ -115,58 +115,58 @@ function rmtriangle (item, t) {
 		l('## rmtriangle - error rm triangle '+t, 'r');
 	}
 }
-function hidejunction (item, j)
+function hidejunction (obj, j)
 {
-	var rms1 = paperseed.Items[item].junctions[j].som[0];
-	var rms2 = paperseed.Items[item].junctions[j].som[1];
+	var rms1 = obj.junctions[j].som[0];
+	var rms2 = obj.junctions[j].som[1];
 
 	l('hide junc '+j+' rms1: '+rms1+', rms2: '+rms2, 'lr');
-	rmline (item, rms1, rms2 );
+	rmline (obj, rms1, rms2 );
 }
-function isjunctionshown (item, k)
+function isjunctionshown (obj, k)
 {
 	//TODO Important correction needed
-	var s1 = paperseed.Items[0].junctions[k].som[0];
-	var s2 = paperseed.Items[0].junctions[k].som[1];
+	var s1 = obj.junctions[k].som[0];
+	var s2 = obj.junctions[k].som[1];
 	
 		l('** isjunctionshown '+k+'( '+s1+', '+s2+' )');
 		
-		l('paperseed.Items[0].w.nt '+paperseed.Items[0].w.nt);
-		l('final buffer nt '+paperseed.Items[0].w.triangles.length);
-		l('n junctions '+ (paperseed.Items[0].w.triangles.length - paperseed.Items[0].w.nt));
+		l('obj.nt '+obj.nt);
+		l('final buffer nt '+obj.triangles.length);
+		l('n junctions '+ (obj.triangles.length - obj.nt));
 		
 		
-	if ( paperseed.Items[0].w.nt == paperseed.Items[0].w.triangles.length )
+	if ( obj.nt == obj.triangles.length )
 	{
 		l('there is no junction yet'+k);
 		return -1;
 	}
-	if ( k < 0 | k > (paperseed.Items[0].w.triangles.length-paperseed.Items[0].w.nt) )
+	if ( k < 0 | k > (obj.triangles.length-obj.nt) )
 	{
-		l('nj: '+(paperseed.Items[0].w.triangles.length-paperseed.Items[0].w.nt), 'r')
+		l('nj: '+(obj.triangles.length-obj.nt), 'r')
 		l('## isjunctionshow : index error: j='+k, 'r');
 		return -2;
 	}
-	for( var i = paperseed.Items[0].w.nt; i < paperseed.Items[0].w.triangles.length ; i++ )
+	for( var i = obj.nt; i < obj.triangles.length ; i++ )
 	{
-		l('testing '+i+' ( '+paperseed.Items[0].w.triangles[i][0]+', '+paperseed.Items[0].w.triangles[i][1]+' )');
-		if ((( s1 == paperseed.Items[0].w.triangles[i][0] &&
-				 s2 == paperseed.Items[0].w.triangles[i][1]) |
-			  ( s2 == paperseed.Items[0].w.triangles[i][0] &&
-			  	 s1 == paperseed.Items[0].w.triangles[i][1]) ) /*&& paperseed.Items[0].w.triangles[i].length == 2 */)
+		l('testing '+i+' ( '+obj.triangles[i][0]+', '+obj.triangles[i][1]+' )');
+		if ((( s1 == obj.triangles[i][0] &&
+				 s2 == obj.triangles[i][1]) |
+			  ( s2 == obj.triangles[i][0] &&
+			  	 s1 == obj.triangles[i][1]) ) /*&& obj.triangles[i].length == 2 */)
 			  return i;
 	}
 	l('  -> this junction is not showned');
 	return -1;
 }
 
-function showjunction (item, i) {
-	var tmp = isjunctionshown(item, i);
+function showjunction (obj, i) {
+	var tmp = isjunctionshown(obj, i);
 	if ( tmp == -1 )
 	//if(true)
 	{
-				var n1 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[0]]);
-				var n2 = $.extend(true, [], paperseed.Items[item].w.trianglesnorm[paperseed.Items[item].junctions[i].tri[1]]);
+				var n1 = $.extend(true, [], obj.trianglesnorm[obj.junctions[i].tri[0]]);
+				var n2 = $.extend(true, [], obj.trianglesnorm[obj.junctions[i].tri[1]]);
 				
 				vectfromvertices (n1, n2).o;
 				var mid0 =  vectfromvertices (n1, n2).o;
@@ -177,37 +177,51 @@ function showjunction (item, i) {
 				var sens = normalisevertex(mid1);
 
 				
-				addline (item, paperseed.Items[item].junctions[i].som[0],
-																  paperseed.Items[item].junctions[i].som[1], sens, i);
+				addline (obj, obj.junctions[i].som[0],
+																  obj.junctions[i].som[1], sens, i);
 	}
 	else l('showjunction '+i+' - error: junction already showned', 'r');
 }
 
-function addjunction (s1, s2, tri) {
+function addjunction (obj, s1, s2, tri) {
 
 	var mrg = false;
 	var same = false;
 
-	for( var i = 0; i < paperseed.Items[0].junctions.length ; i++ )
-		if ( ( paperseed.Items[0].junctions[i].som[0] == s1 && paperseed.Items[0].junctions[i].som[1] == s2) |
-			  ( paperseed.Items[0].junctions[i].som[1] == s1 && paperseed.Items[0].junctions[i].som[0] == s2) )
+	for( var i = 0; i < obj.junctions.length ; i++ )
+		if ( ( obj.junctions[i].som[0] == s1 && obj.junctions[i].som[1] == s2) |
+			  ( obj.junctions[i].som[1] == s1 && obj.junctions[i].som[0] == s2) )
 	{
 		same = false;
-		for( var j = 0; j < paperseed.Items[0].junctions[i].tri.length ; j++ )
-			if ( paperseed.Items[0].junctions[i].tri[j] == tri )
+		for( var j = 0; j < obj.junctions[i].tri.length ; j++ )
+			if ( obj.junctions[i].tri[j] == tri )
 				same = true;
 		if ( same == false )
 		{
-			paperseed.Items[0].junctions[i].tri.push(tri);
+			obj.junctions[i].tri.push(tri);
 			mrg = true;
 		}
 	}
 	if ( mrg == false )
 	{
-		 paperseed.Items[0].junctions.push({ som : [s1, s2], tri : [tri]});
+		 obj.junctions.push({ som : [s1, s2], tri : [tri]});
 	 }
 }
-
+function aresharingjunction (obj, triangle_1, triangle_2)
+{
+	if ( triangle_1 == triangle_2 ) return -2;
+	if ( triangle_1 == -1 ) return -3;
+	if ( -1 == triangle_2 ) return -3;
+	for (var i = 0 ; i < obj.junctions.length ; i++ )
+	{
+		if ( ( obj.junctions[i].tri[0] == triangle_1 &&
+				 obj.junctions[i].tri[1] == triangle_2) |
+			  ( obj.junctions[i].tri[1] == triangle_1 &&
+				 obj.junctions[i].tri[0] == triangle_2) )
+			return i;
+	}
+	return -1;
+}
 function paperseed ()
 {
 	$('#start-layer').hide();
@@ -227,7 +241,8 @@ function paperseed ()
 
 	var container = document.getElementById("renderbox");
 	var renderplane = document.getElementById("renderplane");
-	
+		var active1;
+		var active2;	
 	
 	if ( typeof paperseed.init == 'undefined' ) {
 		
@@ -238,8 +253,8 @@ function paperseed ()
 		
 		
 		buildScene ();
-		paperseed.Items[0].junctions = [];
-		buildjunctionsItem (0);
+		paperseed.Items[0].w.junctions = [];
+		buildjunctions (paperseed.Items[0].w);
 		
 
 		buffer = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'buffer'));
@@ -296,14 +311,15 @@ function paperseed ()
 	});
 //	$('html, .shape').on('mouseup', function() {
 	mc.on("panend", function(ev) {
+		
+		active2 = active1 = -1;
 	
-		var selector = '#'+activeshape+'.shape';
-		$(selector).addClass ('active');
 	});
 
 
 	$('#svg8').on('mousewheel', function(event)
 	{
+		active2 = active1 = -1;
 		translateView (0, 0,event.deltaY*event.deltaFactor );
 		drawScene(container);
 	});
@@ -317,14 +333,15 @@ function paperseed ()
 		$('#settings').fadeIn();
 		$('#credits').fadeOut(); 
 
-	 });
+	});
 
 	$('body').on('click', '.junction', function() {
 		l('junc hit', 'lb');
 		var id = getid (this);
 		//	$(this).addClass ('freeze');
-			hidejunction (0, id);
+			hidejunction (paperseed.Items[0].w, id);
 			drawScene(container);
+			active2 = active1 = -1;
 	});	
 	$('body').on('click', '.shape', function() {
 	
@@ -336,13 +353,26 @@ function paperseed ()
 
 		// on recupere l'id tu triangle selectionné. Cela correspond a sa place
 		// dans le tableau Item[activeitem].w.triangles[]
+		active2 = active1;
 		var id = getid (this);
+		active1 = id;
+		
+		var connected = aresharingjunction (paperseed.Items[0].w, active1, active2);
+		if ( connected > -1 && isjunctionshown (paperseed.Items[0].w, connected) > -1 )
+		{
+			$('.active').removeClass('active');
+			$('#'+active1+'.shape').addClass('active');
+			$('#'+active2+'.shape').addClass('active');
+			$('#'+connected+'.junction').addClass('active');
+			
+		}
+		else
+		{
+			$('.active').removeClass('active');
+			$('#'+active1+'.shape').addClass('active');
+		}
 
-		activeshape = id;
-		// Coloration du triaangl selectionné dans la vue 3D
-		$('.active0').removeClass('active0');
-		$('.active').removeClass('active').addClass('active0');
-		$(this).addClass ('active');
+
 		// on recupere la normale du triangle
 		var n = paperseed.Items[0].w.trianglesnorm[id];
 		// on construit deux vecteurs pour l'interpolation
