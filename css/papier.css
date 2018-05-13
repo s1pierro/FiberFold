@@ -105,73 +105,66 @@ background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#babdb6 1
 background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 }
-@media (min-aspect-ratio: 1/1) {
-#settings
+@media (min-aspect-ratio: 1/1)
 {
-	    background-color: #aaac;
-	color: #000;
-	overflow-x: hide;
-	overflow-y: scroll;
-padding-top: 1em;;
-	position : absolute;
-	z-index:15;
-width: calc(100vw - 70.7vh);
-height: 100vh;
-	top: 0px;
-	right: 0px;
-}
-#credits
-{
-	position : fixed;
-	top: 0px;
-	right: 0px;
-
-	color: #222;
-	z-index:4;
-	width: calc(100vw - 70.7vh);
-
-
-}
-#scratch-message
-{
-	position : fixed;
-	top: 0px;
-	left: 0px;
-
-	color: #222;
-	z-index:4;
-	width: 70.7vh;
-
-
-}
+	#settings
+	{
+		background-color: #aaac;
+		color: #000;
+		overflow-x: hide;
+		overflow-y: scroll;
+		padding-top: 1em;;
+		position : absolute;
+		z-index:15;
+		width: calc(100vw - 70.7vh);
+		height: 100vh;
+		top: 0px;
+		right: 0px;
+	}
+	#credits
+	{
+		position : fixed;
+		top: 0px;
+		right: 0px;
+		color: #222;
+		z-index:4;
+		width: calc(100vw - 70.7vh);
+	}
+	#scratch-message
+	{
+		position : fixed;
+		top: 0px;
+		left: 0px;
+		color: #222;
+		z-index:4;
+		width: 70.7vh;
+	}
 
 
-#svg7
-{
-	position : fixed;
-	z-index:2;
+	#svg7
+	{
+		position : fixed;
+		z-index:2;
+		top: 0px;
+		left: 0px;
+		width: 70.7vh;
+		height: 100vh;
+		background-color: #fff;
+		color: #eee;
+	}
 
-	top: 0px;
-	left: 0px;
-	width: 70.7vh;
-	height: 100vh;
+	#svg8
+	{
+		position : fixed;
+		z-index:1;
+		width: calc(100vw - 70.7vh);
+		height: 100vh;
+		top: 0px;
+		right: 0px;
 
-	background-color: #fff;
-	color: #eee;
-}
-
-#svg8
-{
-	position : fixed;
-	z-index:1;
-	width: calc(100vw - 70.7vh);
-	height: 100vh;
-	top: 0px;
-	right: 0px;
-
-background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#babdb6 100%); /* Chrome10-25,Safari5.1-6 */
-background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-}
+		background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#babdb6 100%); /* Chrome10-25,Safari5.1-6 */
+		background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	}
 }
 
 
@@ -221,54 +214,5 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 .shape.visible.step-13 { fill: #f9f9f9db; }
 .shape.visible.step-14 { fill: #fcfcfcd8; }
 .shape.visible.step-15 { fill: #ffffffd4; }
-/*
 
-.active.solid.step-1 {	 fill: #d3d3d3ff; }
-.active.solid.step-2 {	 fill: #d6d6d6fd; }
-.active.solid.step-3 {	 fill: #d9d9d9fb; }
-.active.solid.step-4 {	 fill: #dcdcdcf8; }
-.active.solid.step-5 {	 fill: #dfdfdff4; }
-.active.solid.step-6 {	 fill: #e3e3e3ef; }
-.active.solid.step-7 {  fill: #e6e6e6ed; }
-.active.solid.step-8 {  fill: #e9e9e9eb; }
-.active.solid.step-9 {	 fill: #ececece8; }
-.active.solid.step-10 { fill: #efefefe4; }
-.active.solid.step-11 { fill: #f3f3f3df; }
-.active.solid.step-12 { fill: #f6f6f6dd; }
-.active.solid.step-13 { fill: #f9f9f9db; }
-.active.solid.step-14 { fill: #fcfcfcd8; }
-.active.solid.step-15 { fill: #ffffffd4; }
-/*
-.active.solid-step-1 {	 fill: #03b3b3; }
-.active.solid-step-2 {	 fill: #06b6b6; }
-.active.solid-step-3 {	 fill: #09b9b9; }
-.active.solid-step-4 {	 fill: #0cbcbc; }
-.active.solid-step-5 {	 fill: #0fbfbf; }
-.active.solid-step-6 {	 fill: #03c3c3; }
-.active.solid-step-7 {  fill: #06c6c6; }
-.active.solid-step-8 {  fill: #09c9c9; }
-.active.solid-step-9 {	 fill: #0ccccc; }
-.active.solid-step-10 { fill: #0fcfcf; }
-.active.solid-step-11 { fill: #03d3d3; }
-.active.solid-step-12 { fill: #06d6d6; }
-.active.solid-step-13 { fill: #09d9d9; }
-.active.solid-step-14 { fill: #0cdcdc; }
-.active.solid-step-15 { fill: #0fdfdf; }
-
-.active0.solid-step-1 {	 fill: #03d3d3; }
-.active0.solid-step-2 {	 fill: #06d6d6; }
-.active0.solid-step-3 {	 fill: #09d9d9; }
-.active0.solid-step-4 {	 fill: #0cdcdc; }
-.active0.solid-step-5 {	 fill: #0fdfdf; }
-.active0.solid-step-6 {	 fill: #03e3e3; }
-.active0.solid-step-7 {  fill: #06e6e6; }
-.active0.solid-step-8 {  fill: #09e9e9; }
-.active0.solid-step-9 {	 fill: #0cecec; }
-.active0.solid-step-10 { fill: #0fefef; }
-.active0.solid-step-11 { fill: #03f3f3; }
-.active0.solid-step-12 { fill: #06f6f6; }
-.active0.solid-step-13 { fill: #09f9f9; }
-.active0.solid-step-14 { fill: #0cfcfc; }
-.active0.solid-step-15 { fill: #0fdfff; }
-*/
 

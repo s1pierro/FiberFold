@@ -92,7 +92,7 @@ function rmline (obj, s1, s2)
 
 		if ( obj.triangles[i].length == 2 )
 		{
-			l('testing '+i+' ( '+obj.triangles[i][0]+', '+obj.triangles[i][1]+' )');	
+		//	l('testing '+i+' ( '+obj.triangles[i][0]+', '+obj.triangles[i][1]+' )');	
 			if ( ( s1 == obj.triangles[i][0] && s2 == obj.triangles[i][1] ) |
 				  ( s2 == obj.triangles[i][0] && s1 == obj.triangles[i][1] ) ) 
 			{
@@ -150,7 +150,7 @@ function isjunctionshown (obj, k)
 	}
 	for( var i = obj.nt; i < obj.triangles.length ; i++ )
 	{
-		l('testing '+i+' ( '+obj.triangles[i][0]+', '+obj.triangles[i][1]+' )');
+	//	l('testing '+i+' ( '+obj.triangles[i][0]+', '+obj.triangles[i][1]+' )');
 		if ((( s1 == obj.triangles[i][0] &&
 				 s2 == obj.triangles[i][1]) |
 			  ( s2 == obj.triangles[i][0] &&
@@ -244,10 +244,12 @@ function paperseed ()
 
 	var container = document.getElementById("renderbox");
 	var renderplane = document.getElementById("renderplane");
-		var active1;
-		var active2;	
-		var active1shadowedstate;
-		var active2shadowedstate;	
+		var activeshape1;
+		var activeshape2;	
+		var activejunction;
+		var activejunctionshadowedstate;
+		var activeshape1shadowedstate;
+		var activeshape2shadowedstate;	
 	
 	if ( typeof paperseed.init == 'undefined' ) {
 		
@@ -317,17 +319,17 @@ function paperseed ()
 //	$('html, .shape').on('mouseup', function() {
 	mc.on("panend", function(ev) {
 /*
-		if ( active1 > -1 ) paperseed.Items[0].w.triangles[active1].state = active1shadowedstate;
-		if ( active2 > -1 ) paperseed.Items[0].w.triangles[active2].state = active2shadowedstate;
+		if ( activeshape1 > -1 ) paperseed.Items[0].w.triangles[activeshape1].state = activeshape1shadowedstate;
+		if ( activeshape2 > -1 ) paperseed.Items[0].w.triangles[activeshape2].state = activeshape2shadowedstate;
 
-		active2 = active1 = -1;
+		activeshape2 = activeshape1 = -1;
 			drawScene(container);*/
 	});
 
 
 	$('#svg8').on('mousewheel', function(event)
 	{
-		active2 = active1 = -1;
+		activeshape2 = activeshape1 = -1;
 		translateView (0, 0,event.deltaY*event.deltaFactor );
 		drawScene(container);
 	});
@@ -362,37 +364,52 @@ function paperseed ()
 
 		// on recupere l'id tu triangle selectionné. Cela correspond a sa place
 		// dans le tableau Item[activeitem].w.triangles[]
-		if ( active1 > -1 ) paperseed.Items[0].w.triangles[active1].state = active1shadowedstate;
-		if ( active2 > -1 ) paperseed.Items[0].w.triangles[active2].state = active2shadowedstate;
-		active2 = active1;
+		if ( activeshape1 > -1 ) paperseed.Items[0].w.triangles[activeshape1].state = activeshape1shadowedstate;
+		if ( activeshape2 > -1 ) paperseed.Items[0].w.triangles[activeshape2].state = activeshape2shadowedstate;
+		activeshape2 = activeshape1;
 		var id = getid (this);
-		active1 = id;
-		
-		var connected = aresharingjunction (paperseed.Items[0].w, active1, active2);
+		activeshape1 = id;
+		for ( var i = paperseed.Items[0].w.nt ; i < paperseed.Items[0].w.triangles.length ; i++ )
+			if ( paperseed.Items[0].w.triangles[i].state == "highlight" )
+			{
+				l('restore '+activejunctionshadowedstate);
+				paperseed.Items[0].w.triangles[i].state =activejunctionshadowedstate;
+			}
+
+		var connected = aresharingjunction (paperseed.Items[0].w, activeshape1, activeshape2);
 		if ( connected > -1 && isjunctionshown (paperseed.Items[0].w, connected) > -1 )
 		{
-			active1shadowedstate = paperseed.Items[0].w.triangles[active1].state;
-			active2shadowedstate = paperseed.Items[0].w.triangles[active2].state;
-			paperseed.Items[0].w.triangles[active1].state = "highlight"
-			paperseed.Items[0].w.triangles[active2].state = "highlight"
+			activeshape1shadowedstate = paperseed.Items[0].w.triangles[activeshape1].state;
+			activeshape2shadowedstate = paperseed.Items[0].w.triangles[activeshape2].state;
+			paperseed.Items[0].w.triangles[activeshape1].state = "highlight"
+			paperseed.Items[0].w.triangles[activeshape2].state = "highlight"
 		}
 		else
 		{
-			active1shadowedstate = paperseed.Items[0].w.triangles[active1].state;
-			paperseed.Items[0].w.triangles[active1].state = "highlight"
+			activeshape1shadowedstate = paperseed.Items[0].w.triangles[activeshape1].state;
+			paperseed.Items[0].w.triangles[activeshape1].state = "highlight"
 			
 		}
 		if ( connected > -1 )
 		{
-			for (var i = paperseed.Items[0].w.nt ; i < paperseed.Items[0].w.triangles.length ; i++ )
+			for ( var i = paperseed.Items[0].w.nt ; i < paperseed.Items[0].w.triangles.length ; i++ )
 			{
 				if ( paperseed.Items[0].w.triangles[i].id == connected )
-				paperseed.Items[0].w.triangles[i].state = "highlight";
+				{
+					activejunctionshadowedstate = paperseed.Items[0].w.triangles[i].state;
+					paperseed.Items[0].w.triangles[i].state = "highlight";
+					l('highlighting'+activejunctionshadowedstate);
+				}
 			}
-			//paperseed.Items[0].w.
-		}
 
-			drawScene(container);
+		}
+		drawScene(container);
+
+
+
+
+
+
 		// on recupere la normale du triangle
 		var n = paperseed.Items[0].w.trianglesnorm[id];
 		// on construit deux vecteurs pour l'interpolation
