@@ -1,6 +1,6 @@
 
 
-window['drawScene'] = drawScene;
+
 
 function jstate (j)
 {
@@ -25,7 +25,75 @@ window['settstate'] = settstate;
 
 function rebuildpatterns ()
 {
+
+	paperseed.print.patterns.splice (0, paperseed.print.patterns.length);
 	l('### Rebuid patterns','l');	
+	var o = paperseed.Items[0].w;
+	l('  * freezed junction :');
+	var freezedlist = [];
+	for ( var i = 0 ; i < o.nj ; i++ )
+	{
+	//	l('junction '+i+' : '+jstate(i));
+		if (jstate(i) == "freeze" ) freezedlist.push(i);
+	}
+	l(freezedlist);
+	
+	while ( freezedlist.length > 0 )
+	{
+		l('frz list length : '+freezedlist.length);
+		var add = -1;
+		var i = 0 ;
+		while ( add == -1 && i < freezedlist.length )
+		{
+			l('freezedlist['+i+'] : (add '+add+')');
+			var j = 0;
+			while ( add == -1 && j < paperseed.print.patterns.length )
+			{
+				l('paperseed.print.patterns['+j+'] :');
+				add = addjunctiontopattern ( paperseed.print.patterns[j], freezedlist[i] );
+				l('add : '+freezedlist[i]);
+				if ( add != -1 )
+				{
+					freezedlist.splice(i, 1);
+				}
+				j++;	
+			}	
+			i++;		
+		}
+		if ( add == -1 )
+		{	
+			l('junctions do not match with any pattern; Create new pattern : ');
+			var tmp = { triangles : [], junctions : [freezedlist[0]], frontier : [] };
+			PATTERNgentriangles(tmp);
+			paperseed.print.patterns.push(tmp);
+			freezedlist.splice(0, 1);	
+		}
+
+	}
+	l(paperseed.print.patterns);
+}
+	
+
+function addjunctiontopattern (pattern, junction)
+{
+	var t1 = paperseed.Items[0].w.junctions[junction].tri[0];
+	var t2 = paperseed.Items[0].w.junctions[junction].tri[1];
+	//l(pattern);
+	for ( var i = 0 ; i < pattern.junctions.length ; i++ )
+		if ( pattern.junctions[i] == junction )	return -2;
+	for ( var i = 0 ; i < pattern.triangles.length ; i++ )
+	{
+		if (t1 == pattern.triangles[i] | t2 == pattern.triangles[i] )
+		{
+			pattern.junctions.push(junction);
+			PATTERNgentriangles (pattern);
+			return 1;
+		}
+	}
+	return -1;
+}
+	
+	/*
 	l('    n patterns :'+paperseed.print.patterns.length,'lg' );
 	
 	for ( var i = 0 ; i < paperseed.print.patterns.length ; i++ )
@@ -36,25 +104,22 @@ function rebuildpatterns ()
 			l('  **  error pattern '+i+' has more than 1 triangle and less than 1junction','lr');
 
 		var cohesion = checkcohesion (paperseed.print.patterns[i]);
-	}
-}
-function PATTERNgottriangle (p,t)
+	}*/
+
+function PATTERNgottriangle (p, t)
 {
 	for( var i = 0 ; i < p.triangles.length ; i++ )	
 		if ( p.triangles[i] == t ) return i;
 	return -1;
 }
-function PATTERNgentriangles (p)
+function PATTERNgentriangles (p) // find triangle from junction list
 {
-	for( var i = 0 ; i < p.junctions.length ; i++ )	
-	{
-		for( var j = 0 ; j < paperseed.w.junctions[p.junctions[i]].triangles.length ; j++ )	
-			if ( PATTERNgottriangle (p ,paperseed.w.junctions[p.junctions[i]].triangles[j]) == -1 )
-				p.triangles.push(paperseed.w.junctions[p.junctions[i]].triangles[j]);
-		
-	}
-	l(p);
+	for( var i = 0 ; i < p.junctions.length ; i++ )
+		for( var j = 0 ; j < paperseed.Items[0].w.junctions[p.junctions[i]].tri.length ; j++ )	
+			if ( PATTERNgottriangle (p ,paperseed.Items[0].w.junctions[p.junctions[i]].tri[j]) == -1 )
+				p.triangles.push(paperseed.Items[0].w.junctions[p.junctions[i]].tri[j]);
 }
+
 function checkcohesion (p)
 {
 	if ( p.junctions.length < 1 ) return 2;

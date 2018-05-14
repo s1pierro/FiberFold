@@ -11,9 +11,6 @@
 $('#settings').hide();
 
 var silent = false;
-////////////////////////////////////////////////////////////////////////////////
-//	paperseed core functions
-////////////////////////////////////////////////////////////////////////////////
 
 
 function initScene()
@@ -76,13 +73,13 @@ function buildjunctions (obj)
 			for( var i = 0; i < obj.junctions.length ; i++ )
 				showjunction (obj, i);
 }
-function addline (obj, s1, s2, n, id) {
+function addline (obj, s1, s2, n, id)
+{
 	var tmp = obj.triangles.length;
 	obj.triangles.push([s1, s2]);
 	obj.trianglesnorm.push(n);
 	obj.triangles[tmp].id = id;
 	obj.triangles[tmp].state = "visible";
-
 }
 
 function rmline (obj, s1, s2)
@@ -206,6 +203,7 @@ function addjunction (obj, s1, s2, tri) {
 	if ( mrg == false )
 	{
 		 obj.junctions.push({ som : [s1, s2], tri : [tri]});
+		 obj.nj = obj.junctions.length;
 	 }
 }
 function aresharingjunction (obj, triangle_1, triangle_2)
@@ -279,14 +277,14 @@ function paperseed ()
 
 		buffer = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'buffer'));
 
-
+/*
 		for ( var i = 0 ; i < paperseed.Items[0].w.triangles.length ; i++ )
 		{
 			var pattern = { triangles : [i], junctions : [], frontier : [] };
 			paperseed.print.patterns.push(pattern);
 
 		}
-		
+*/
 		// building patterns needs :
 		//
 		// - frontier[frontier_junction_1, frontier_junction_2, ... ]
@@ -296,7 +294,7 @@ function paperseed ()
 
 		
 		l(paperseed.impression);
-		l(paperseed.Items[0]);
+		l(paperseed);
 		initScene();	
 		drawScene(container);
 	}
@@ -358,6 +356,7 @@ function paperseed ()
 		
 		l('junction '+id+' hit\n  freezed ?:'+jstate(id), 'lb');
 		setjstate(id, 'freeze');
+	rebuildpatterns ();
 		drawScene(container);
 		
 
