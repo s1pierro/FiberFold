@@ -330,18 +330,13 @@ function paperseed ()
 	});
 //	$('html, .shape').on('mouseup', function() {
 	mc.on("panend", function(ev) {
-/*
-		if ( activeshape1 > -1 ) paperseed.Items[0].w.triangles[activeshape1].state = activeshape1shadowedstate;
-		if ( activeshape2 > -1 ) paperseed.Items[0].w.triangles[activeshape2].state = activeshape2shadowedstate;
 
-		activeshape2 = activeshape1 = -1;
-			drawScene(container);*/
 	});
 
 
 	$('#svg8').on('mousewheel', function(event)
 	{
-		activeshape2 = activeshape1 = -1;
+
 		translateView (0, 0,event.deltaY*event.deltaFactor );
 		drawScene(container);
 	});
@@ -360,23 +355,11 @@ function paperseed ()
 	$('body').on('click', '.junction', function() {
 
 		var id = getid (this);
-		//	$(this).addClass ('freeze');
-		//	hidejunction (paperseed.Items[0].w, id);
-		var juncste = isfreezed (id);
 		
-		l('junction '+id+' hit\n  freezed ?:'+juncste, 'lb');
+		l('junction '+id+' hit\n  freezed ?:'+jstate(id), 'lb');
+		setjstate(id, 'freeze');
+		drawScene(container);
 		
-		
-		
-		
-		
-		
-			drawScene(container);
-			
-			
-			
-			
-			
 
 	});	
 	

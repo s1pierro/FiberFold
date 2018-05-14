@@ -1,4 +1,28 @@
 
+
+window['drawScene'] = drawScene;
+
+function jstate (j)
+{
+	return paperseed.Items[0].w.triangles[(paperseed.Items[0].w.nt+j)].state;
+}
+window['jstate'] = jstate;
+function setjstate (j, s)
+{
+	paperseed.Items[0].w.triangles[(paperseed.Items[0].w.nt+j)].state = s;
+}
+window['setjstate'] = setjstate;
+function tstate (t)
+{
+	return paperseed.Items[0].w.triangles[t].state;
+}
+window['tstate'] = tstate;
+function settstate (t, s)
+{
+	paperseed.Items[0].w.triangles[t].state = s;
+}
+window['settstate'] = settstate;
+
 function rebuildpatterns ()
 {
 	l('### Rebuid patterns','l');	
