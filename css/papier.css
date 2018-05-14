@@ -40,8 +40,8 @@ body
 @media (max-aspect-ratio: 1/1) {
 #settings
 {
-	    background-color: #aaac;
-	color: #000;
+		background-color: #666c;
+		color: #eee;
 	overflow-x: hide;
 	overflow-y: scroll;
 padding-top: 1em;;
@@ -109,8 +109,8 @@ background: radial-gradient(ellipse at center,  #aaa 0%,#777 100%); /* W3C, IE10
 {
 	#settings
 	{
-		background-color: #aaac;
-		color: #000;
+		background-color: #666c;
+		color: #eee;
 		overflow-x: hide;
 		overflow-y: scroll;
 		padding-top: 1em;;
@@ -192,6 +192,14 @@ background: radial-gradient(ellipse at center,  #aaa 0%,#444 100%); /* W3C, IE10
 	stroke-linejoin: bevel;
 
 }
+.junction.warnlight {
+	fill: #000;
+	opacity: 1.0;
+	stroke: #d77;
+	stroke-width: 0.16px;
+	stroke-linejoin: bevel;
+
+}
 
 .shape.highlight {
 
@@ -206,7 +214,7 @@ background: radial-gradient(ellipse at center,  #aaa 0%,#444 100%); /* W3C, IE10
 	stroke: none;
 }.shape.solid {
 
-	fill: #cfcfcf;
+	fill: #aaa;
 	opacity: 1.0;
 	stroke: none;
 }

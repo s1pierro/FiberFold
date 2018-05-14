@@ -357,8 +357,10 @@ function paperseed ()
 		var id = getid (this);
 		
 		l('junction '+id+' hit\n  freezed ?:'+jstate(id), 'lb');
-		setjstate(id, 'freeze');
-	rebuildpatterns ();
+		if (activejunctionshadowedstate != "freeze" )
+			setjstate(id, 'freeze');
+		else setjstate(id, 'hide');
+		rebuildpatterns ();
 		drawScene(container);
 		
 
@@ -380,7 +382,8 @@ function paperseed ()
 		var id = getid (this);
 		activeshape1 = id;
 		for ( var i = paperseed.Items[0].w.nt ; i < paperseed.Items[0].w.triangles.length ; i++ )
-			if ( paperseed.Items[0].w.triangles[i].state == "highlight" )
+			if ( paperseed.Items[0].w.triangles[i].state == "highlight" |
+				  paperseed.Items[0].w.triangles[i].state == "warnlight" )
 			{
 				l('restore '+activejunctionshadowedstate);
 				paperseed.Items[0].w.triangles[i].state =activejunctionshadowedstate;
@@ -407,8 +410,9 @@ function paperseed ()
 				if ( paperseed.Items[0].w.triangles[i].id == connected )
 				{
 					activejunctionshadowedstate = paperseed.Items[0].w.triangles[i].state;
+					if (activejunctionshadowedstate != "freeze" )
 					paperseed.Items[0].w.triangles[i].state = "highlight";
-					l('highlighting'+activejunctionshadowedstate);
+					else paperseed.Items[0].w.triangles[i].state = "warnlight";
 				}
 			}
 
