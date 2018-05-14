@@ -1,7 +1,3 @@
-
-
-
-
 function jstate (j)
 {
 	return paperseed.Items[0].w.triangles[(paperseed.Items[0].w.nt+j)].state;
@@ -30,14 +26,16 @@ function rebuildpatterns ()
 	l('### Rebuid patterns','l');	
 	var o = paperseed.Items[0].w;
 	l('  * freezed junction :');
+	
+	//create and fill freezed junctions list
 	var freezedlist = [];
 	for ( var i = 0 ; i < o.nj ; i++ )
 	{
-	//	l('junction '+i+' : '+jstate(i));
 		if (jstate(i) == "freeze" ) freezedlist.push(i);
 	}
 	l(freezedlist);
 	
+	// start building patterns def from freezed edges
 	while ( freezedlist.length > 0 )
 	{
 		l('frz list length : '+freezedlist.length);
@@ -53,9 +51,7 @@ function rebuildpatterns ()
 				add = addjunctiontopattern ( paperseed.print.patterns[j], freezedlist[i] );
 				l('add : '+freezedlist[i]);
 				if ( add != -1 )
-				{
 					freezedlist.splice(i, 1);
-				}
 				j++;	
 			}	
 			i++;		
@@ -68,9 +64,15 @@ function rebuildpatterns ()
 			paperseed.print.patterns.push(tmp);
 			freezedlist.splice(0, 1);	
 		}
-
 	}
 	l(paperseed.print.patterns);
+	
+	// at this point pattern's 2D vertices are safe to be generated
+	//TODO
+
+
+
+
 }
 	
 
@@ -87,29 +89,28 @@ function addjunctiontopattern (pattern, junction)
 		{
 			pattern.junctions.push(junction);
 			PATTERNgentriangles (pattern);
+			PATTERNgenfrontier (pattern);
 			return 1;
 		}
 	}
 	return -1;
 }
-	
-	/*
-	l('    n patterns :'+paperseed.print.patterns.length,'lg' );
-	
-	for ( var i = 0 ; i < paperseed.print.patterns.length ; i++ )
-	{
-		l('    pattern '+i+' : '+paperseed.print.patterns[i].triangles.length+' triangles, '+paperseed.print.patterns[i].junctions.length+' junctions','lg' );
-		if ( ( paperseed.print.patterns[i].triangles.length > 1 ) &&
-			  ( paperseed.print.patterns[i].junctions.length < 1 )    )
-			l('  **  error pattern '+i+' has more than 1 triangle and less than 1junction','lr');
 
-		var cohesion = checkcohesion (paperseed.print.patterns[i]);
-	}*/
-
+function JUNCTIONgottriangle (j, t)
+{
+	for( var i = 0 ; i < j.tri.length ; i++ )	
+		if ( j.tri[i] == t ) return i;
+	return -1;
+}
 function PATTERNgottriangle (p, t)
 {
 	for( var i = 0 ; i < p.triangles.length ; i++ )	
 		if ( p.triangles[i] == t ) return i;
+	return -1;
+}function PATTERNgotfrontier (p, f)
+{
+	for( var i = 0 ; i < p.frontier.length ; i++ )	
+		if ( p.frontier[i] == f ) return i;
 	return -1;
 }
 function PATTERNgentriangles (p) // find triangle from junction list
@@ -117,23 +118,40 @@ function PATTERNgentriangles (p) // find triangle from junction list
 	for( var i = 0 ; i < p.junctions.length ; i++ )
 		for( var j = 0 ; j < paperseed.Items[0].w.junctions[p.junctions[i]].tri.length ; j++ )	
 			if ( PATTERNgottriangle (p ,paperseed.Items[0].w.junctions[p.junctions[i]].tri[j]) == -1 )
+			{
 				p.triangles.push(paperseed.Items[0].w.junctions[p.junctions[i]].tri[j]);
+				settstate(paperseed.Items[0].w.junctions[p.junctions[i]].tri[j], "solid");
+			}
+}
+function PATTERNgenfrontier (p) // find fronier from junctions && triangles lists
+{
+	for( var i = 0 ; i < p.triangles.length ; i++ )
+	{
+		var tmp = TRIANGLEgetjunctions (p.triangles[i]);
+		for ( var j = 0 ; j < tmp.length ; j++ )
+			if ( ( PATTERNgotfrontier (p,  tmp[j]) == -1 ) && ( jstate(tmp[j]) != "freeze" ) )
+			{
+				p.frontier.push (tmp[j]);
+				setjstate (tmp[j], "visible");
+				l('add');
+			} else l('not add');
+	}
+	
+	
+	
+
+}
+function TRIANGLEgetjunctions (t) // find fronier from junctions && triangles lists
+{
+	var tmp = [];
+	for( var i = 0 ; i < paperseed.Items[0].w.junctions.length ; i++ )
+	{
+		if ( JUNCTIONgottriangle (paperseed.Items[0].w.junctions[i], t) != -1 ) tmp.push(i);
+	}
+	return tmp;
+
 }
 
-function checkcohesion (p)
-{
-	if ( p.junctions.length < 1 ) return 2;
-	PATTERNgentriangles (p);
-	var tstatus = [];
-	for( var i = 0 ; i < p.triangles.length ; i++ )	tstatus.push(0);
-	/*
-	do
-	{
-		
-	
-	} while ();
-*/
-}
 	
 	/*
 	

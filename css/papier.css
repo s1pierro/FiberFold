@@ -101,8 +101,8 @@ height: 100vh;
 	top: 0px;
 	right: 0px;
 
-background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#babdb6 100%); /* Chrome10-25,Safari5.1-6 */
-background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+background: -webkit-radial-gradient(center, ellipse cover,  #aaa 0%,#777 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  #aaa 0%,#777 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 }
 @media (min-aspect-ratio: 1/1)
@@ -162,12 +162,20 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 		top: 0px;
 		right: 0px;
 
-		background: -webkit-radial-gradient(center, ellipse cover,  #ffffff 0%,#babdb6 100%); /* Chrome10-25,Safari5.1-6 */
-		background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+background: -webkit-radial-gradient(center, ellipse cover,  #aaa 0%,#444 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  #aaa 0%,#444 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	}
 }
 
 
+.junction.hide {
+
+	fill: #000;
+	opacity: 1.0;
+	stroke: #ccc;
+	stroke-width: 0.01px;
+	stroke-linejoin: bevel;
+}
 .junction.visible {
 
 	fill: #000;
@@ -195,9 +203,12 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 
 	fill: #cfcfcff6;
 	opacity: 1.0;
-	stroke: #aaa;
-	stroke-width: .02px;
-	stroke-linejoin: bevel;
+	stroke: none;
+}.shape.solid {
+
+	fill: #cfcfcf;
+	opacity: 1.0;
+	stroke: none;
 }
 .shape.visible.step-1 {	 fill: #d3d3d3ff; }
 .shape.visible.step-2 {	 fill: #d6d6d6fd; }
@@ -214,5 +225,21 @@ background: radial-gradient(ellipse at center,  #ffffff 0%,#babdb6 100%); /* W3C
 .shape.visible.step-13 { fill: #f9f9f9db; }
 .shape.visible.step-14 { fill: #fcfcfcd8; }
 .shape.visible.step-15 { fill: #ffffffd4; }
+
+.shape.solid.step-1 {	 fill: #d3d3d3; }
+.shape.solid.step-2 {	 fill: #d6d6d6; }
+.shape.solid.step-3 {	 fill: #d9d9d9; }
+.shape.solid.step-4 {	 fill: #dcdcdc; }
+.shape.solid.step-5 {	 fill: #dfdfdf; }
+.shape.solid.step-6 {	 fill: #e3e3e3; }
+.shape.solid.step-7 {  fill: #e6e6e6; }
+.shape.solid.step-8 {  fill: #e9e9e9; }
+.shape.solid.step-9 {	 fill: #ececec; }
+.shape.solid.step-10 { fill: #efefef; }
+.shape.solid.step-11 { fill: #f3f3f3; }
+.shape.solid.step-12 { fill: #f6f6f6; }
+.shape.solid.step-13 { fill: #f9f9f9; }
+.shape.solid.step-14 { fill: #fcfcfc; }
+.shape.solid.step-15 { fill: #ffffff; }
 
 

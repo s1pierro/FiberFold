@@ -72,6 +72,8 @@ function buildjunctions (obj)
 			}
 			for( var i = 0; i < obj.junctions.length ; i++ )
 				showjunction (obj, i);
+			for( var i = 0; i < obj.junctions.length ; i++ )
+				setjstate (i, "hide");
 }
 function addline (obj, s1, s2, n, id)
 {
