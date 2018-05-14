@@ -3,12 +3,48 @@ function rebuildpatterns ()
 {
 	l('### Rebuid patterns','l');	
 	l('    n patterns :'+paperseed.print.patterns.length,'lg' );
+	
 	for ( var i = 0 ; i < paperseed.print.patterns.length ; i++ )
 	{
-	l('    pattern '+i+' : '+paperseed.print.patterns[i].triangles.length+' triangles, '+paperseed.print.patterns[i].junctions.length+' junctions','lg' );
-	
-	
+		l('    pattern '+i+' : '+paperseed.print.patterns[i].triangles.length+' triangles, '+paperseed.print.patterns[i].junctions.length+' junctions','lg' );
+		if ( ( paperseed.print.patterns[i].triangles.length > 1 ) &&
+			  ( paperseed.print.patterns[i].junctions.length < 1 )    )
+			l('  **  error pattern '+i+' has more than 1 triangle and less than 1junction','lr');
+
+		var cohesion = checkcohesion (paperseed.print.patterns[i]);
 	}
+}
+function PATTERNgottriangle (p,t)
+{
+	for( var i = 0 ; i < p.triangles.length ; i++ )	
+		if ( p.triangles[i] == t ) return i;
+	return -1;
+}
+function PATTERNgentriangles (p)
+{
+	for( var i = 0 ; i < p.junctions.length ; i++ )	
+	{
+		for( var j = 0 ; j < paperseed.w.junctions[p.junctions[i]].triangles.length ; j++ )	
+			if ( PATTERNgottriangle (p ,paperseed.w.junctions[p.junctions[i]].triangles[j]) == -1 )
+				p.triangles.push(paperseed.w.junctions[p.junctions[i]].triangles[j]);
+		
+	}
+	l(p);
+}
+function checkcohesion (p)
+{
+	if ( p.junctions.length < 1 ) return 2;
+	PATTERNgentriangles (p);
+	var tstatus = [];
+	for( var i = 0 ; i < p.triangles.length ; i++ )	tstatus.push(0);
+	/*
+	do
+	{
+		
+	
+	} while ();
+*/
+}
 	
 	/*
 	
@@ -62,7 +98,7 @@ function rebuildpatterns ()
 			trsltri[i] = applymatNscale(flatmat, tmptri[i]);
 */
 		
-}
+
 
 
 function checkpatterns ()

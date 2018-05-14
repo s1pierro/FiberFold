@@ -225,6 +225,19 @@ function aresharingjunction (obj, triangle_1, triangle_2)
 	console.log ('not sharing');
 	return -1;
 }
+function isfreezed (junction)
+{
+	for( var i = 0 ; i < paperseed.print.patterns.length ; i++ )
+		for( var j = 0 ; j < paperseed.print.patterns[i].junctions.length ; j++ )
+			if (paperseed.print.patterns[i].junctions[j] == junction ) return i;
+	return -1;
+}
+/*
+		for( var i =  ; i <  ; i++ )
+		{
+		
+		}
+*/
 function paperseed ()
 {
 	$('#start-layer').hide();
@@ -345,11 +358,25 @@ function paperseed ()
 	});
 
 	$('body').on('click', '.junction', function() {
-		l('junc hit', 'lb');
+
 		var id = getid (this);
 		//	$(this).addClass ('freeze');
-			hidejunction (paperseed.Items[0].w, id);
+		//	hidejunction (paperseed.Items[0].w, id);
+		var juncste = isfreezed (id);
+		
+		l('junction '+id+' hit\n  freezed ?:'+juncste, 'lb');
+		
+		
+		
+		
+		
+		
 			drawScene(container);
+			
+			
+			
+			
+			
 
 	});	
 	
@@ -376,7 +403,7 @@ function paperseed ()
 			}
 
 		var connected = aresharingjunction (paperseed.Items[0].w, activeshape1, activeshape2);
-		if ( connected > -1 && isjunctionshown (paperseed.Items[0].w, connected) > -1 )
+		if ( connected > -1 /*&& isjunctionshown (paperseed.Items[0].w, connected) > -1*/ )
 		{
 			activeshape1shadowedstate = paperseed.Items[0].w.triangles[activeshape1].state;
 			activeshape2shadowedstate = paperseed.Items[0].w.triangles[activeshape2].state;
