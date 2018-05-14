@@ -452,7 +452,7 @@ function paperseed ()
 				
 			       [ (w.vertices[w.triangles[id][2]][0]), 
 				 (w.vertices[w.triangles[id][2]][1]), 
-				 (w.vertices[w.triangles[id][2]][2])  ] ];
+				 (w.vertices[w.triangles[id][2]][2])]];
 
 		
 
