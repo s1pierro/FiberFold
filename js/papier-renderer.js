@@ -22,7 +22,25 @@ var pmat = genimat();
 function initView(x, y, z, zm)
 {
 	zoom = zm;
-	pmat = gentmat(0, 0, 0);
+	
+	var xmax = paperseed.Items[0].w.vertices[0][0];
+	var xmin = paperseed.Items[0].w.vertices[0][0];
+	var ymax = paperseed.Items[0].w.vertices[0][1];
+	var ymin = paperseed.Items[0].w.vertices[0][1];
+	var zmax = paperseed.Items[0].w.vertices[0][2];
+	var zmin = paperseed.Items[0].w.vertices[0][2];
+
+	for ( var i = 0 ; i < paperseed.Items[0].w.vertices.length ; i++)
+	{
+		if ( paperseed.Items[0].w.vertices[i][0] > xmax ) xmax =  paperseed.Items[0].w.vertices[i][0]
+		if ( paperseed.Items[0].w.vertices[i][0] < xmin ) xmin =  paperseed.Items[0].w.vertices[i][0]
+		if ( paperseed.Items[0].w.vertices[i][1] > ymax ) ymax =  paperseed.Items[0].w.vertices[i][1]
+		if ( paperseed.Items[0].w.vertices[i][1] < ymin ) ymin =  paperseed.Items[0].w.vertices[i][1]
+		if ( paperseed.Items[0].w.vertices[i][2] > zmax ) zmax =  paperseed.Items[0].w.vertices[i][2]
+		if ( paperseed.Items[0].w.vertices[i][2] < zmin ) zmin =  paperseed.Items[0].w.vertices[i][2]
+	}
+	var x
+	pmat = gentmat(-(xmin+((xmax-xmin)/2)), -(ymin+((ymax-ymin)/2)), -(zmin+((zmax-zmin)/2)) );
 	tmat = gentmat(0, 0, zoom);
 	rmat = genrmat( x, y, z);
 	genfmat();

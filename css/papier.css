@@ -212,7 +212,8 @@ background: radial-gradient(ellipse at center,  #aaa 0%,#444 100%); /* W3C, IE10
 	fill: #cfcfcff6;
 	opacity: 1.0;
 	stroke: none;
-}.shape.solid {
+}
+.shape.solid {
 
 	fill: #aaa;
 	opacity: 1.0;
