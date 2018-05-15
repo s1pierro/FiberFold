@@ -7,6 +7,41 @@
 	Licenced under the termes oftrhe GNU GPL v3
 */
 'use strict';
+function l (s, format)
+{
+	//if (silent == true ) return;
+	if ( format == 'xlb')
+	{
+		s = '%c'+s;
+		console.log(s, 'color: blue; font-size: x-large');
+	}
+	else if ( format == 'lb')
+	{
+		s = '%c'+s;
+		console.log(s, 'color: blue; font-size: large');
+	}
+	else if ( format == 'lg')
+	{
+		s = '%c'+s;
+		console.log(s, 'color: green; font-size: large');
+	}
+	else if ( format == 'xl')
+	{
+		s = '%c'+s;
+		console.log(s, 'color: black; font-size: x-large');
+	}
+	else if ( format == 'l')
+	{
+		s = '%c'+s;
+		console.log(s, 'color: black; font-size: large');
+	}
+	else if ( format == 'blr')
+	{
+		s = '%c'+s;
+		console.log(s, 'color: red; font-size: large; font-weight: 700');
+	}
+	else	console.log(s);
+}
 function parsewavefront(objText, id) {
 
 	var nv = 0;
@@ -70,19 +105,88 @@ function parsewavefront(objText, id) {
 	}
 	for (var i = 0 ; i < obj.triangles.length ; i++ )
 		obj.triangles[i].id  = id;
+	obj.edges = [];
+	genEdge (obj );
+		
 	obj.nv = nv;
 	obj.nt = nt;
 	obj.ng = ng;
 	return obj;
 }
 window['parsewavefront'] = parsewavefront;
+
+function genEdge (obj )
+{
+ console.log ('### nt'+obj.triangles.length);
+	for ( var i = 0 ; i < 	obj.triangles.length ; i++)
+	{
+		addEdge (obj, obj.triangles[i][obj.triangles[i].length-1], obj.triangles[i][0], i );		
+		for ( var  j = 0 ; j < obj.triangles[i].length-1 ; j++ )
+			addEdge (obj, obj.triangles[i][j], obj.triangles[i][j+1], i );
+	}
+		obj.ne = obj.edges.length;
+}
+window['genEdge'] = genEdge;
+function addEdge (obj, es1, es2, t)
+{
+	var e = gotEdge (obj, es1, es2 );
+	if (e == -1)
+	{
+		var tmp = { som : [es1, es2], tri : [t], state : "hide", id : obj.edges.length };
+		obj.edges.push (tmp);
+	//	console.log ('## tri '+t+' ## add edge : ');
+	//	console.log (tmp);
+	}
+	else
+	{
+		if( gotTriangleEdge (obj, es1, es2, t ) == -1 )
+		{
+			obj.edges[e].tri.push (t);
+//			console.log ('## tri '+t+' ## update edge : '+obj.edges[e]);
+		}
+	//	else console.log ('## tri '+t+' ## already exist');
+			
+	}
+}
+window.addEdge = addEdge;
+function gotEdge (obj, es1, es2 )
+{
+	for ( var i = 0 ; i < 	obj.edges.length ; i++)
+	{
+
+		if ( ( obj.edges[i].som[0] == es1 && obj.edges[i].som[1] == es2 ) |
+			  ( obj.edges[i].som[0] == es2 && obj.edges[i].som[1] == es1 ) )
+		{
+		//	console.log ('edge found : '+i+' es1 '+es1+', es2 '+es2);
+			return i;
+		}
+	//	console.log ('edge not found : '+i+' es1 '+es1+', es2 '+es2);
+	
+	
+	}
+	return -1;
+}
+
+function gotTriangleEdge (obj, es1, es2, t )
+{
+
+		var e = gotEdge (obj, es1, es2 );
+		if ( e != -1 )
+		{
+			for ( var j = 0 ; j < obj.edges[e].tri.length ; j++ )
+			{
+				if ( obj.edges[e].tri[j] == t )
+					return e;
+			}
+		}
+	return -1;
+}
+
 function loadWavefrontFromHTLM(object, id) {
 	
 	var contents = $(object).text();
 	var obj = parsewavefront(contents, id);
-	genNormales(obj);	
-	p(obj);	
-	genzmap(obj);
+
 	return obj;
 }
 window['loadWavefrontFromHTLM'] = loadWavefrontFromHTLM;

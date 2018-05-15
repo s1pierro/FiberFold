@@ -219,21 +219,21 @@ background: radial-gradient(ellipse at center,  #aaa 0%,#444 100%); /* W3C, IE10
 	opacity: 1.0;
 	stroke: none;
 }
-.shape.visible.step-1 {	 fill: #d3d3d3ff; }
-.shape.visible.step-2 {	 fill: #d6d6d6fd; }
-.shape.visible.step-3 {	 fill: #d9d9d9fb; }
-.shape.visible.step-4 {	 fill: #dcdcdcf8; }
-.shape.visible.step-5 {	 fill: #dfdfdff4; }
-.shape.visible.step-6 {	 fill: #e3e3e3ef; }
-.shape.visible.step-7 {  fill: #e6e6e6ed; }
-.shape.visible.step-8 {  fill: #e9e9e9eb; }
-.shape.visible.step-9 {	 fill: #ececece8; }
-.shape.visible.step-10 { fill: #efefefe4; }
-.shape.visible.step-11 { fill: #f3f3f3df; }
-.shape.visible.step-12 { fill: #f6f6f6dd; }
-.shape.visible.step-13 { fill: #f9f9f9db; }
-.shape.visible.step-14 { fill: #fcfcfcd8; }
-.shape.visible.step-15 { fill: #ffffffd4; }
+.shape.visible.step-1 {	 fill: #b3b3b3; }
+.shape.visible.step-2 {	 fill: #b6b6b6; }
+.shape.visible.step-3 {	 fill: #b9b9b9; }
+.shape.visible.step-4 {	 fill: #bcbcbc; }
+.shape.visible.step-5 {	 fill: #bfbfbf; }
+.shape.visible.step-6 {	 fill: #c3c3c3; }
+.shape.visible.step-7 {  fill: #c6c6c6; }
+.shape.visible.step-8 {  fill: #c9c9c9; }
+.shape.visible.step-9 {	 fill: #cccccc; }
+.shape.visible.step-10 { fill: #cfcfcf; }
+.shape.visible.step-11 { fill: #d3d3d3; }
+.shape.visible.step-12 { fill: #d6d6d6; }
+.shape.visible.step-13 { fill: #d9d9d9; }
+.shape.visible.step-14 { fill: #dcdcdc; }
+.shape.visible.step-15 { fill: #dfdfdf; }
 
 .shape.solid.step-1 {	 fill: #d3d3d3; }
 .shape.solid.step-2 {	 fill: #d6d6d6; }

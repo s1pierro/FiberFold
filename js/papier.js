@@ -1,488 +1,460 @@
-/*
-	this file is a part of 
-	paperseed 0.0.1
-		
-	Author : Saint Pierre Thomas
-	feel fre to contact me at spierro@free.fr
-	Licenced under the termes oftrhe GNU GPL v3
-*/
-'use strict';
-
-$('#settings').hide();
-
-var silent = false;
 
 
-function initScene()
+
+
+var Logo = {};
+Logo = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'logo'));
+
+var xmax = Logo.vertices[0][0];
+var xmin = Logo.vertices[0][0];
+var ymax = Logo.vertices[0][1];
+var ymin = Logo.vertices[0][1];
+var zmax = Logo.vertices[0][2];
+var zmin = Logo.vertices[0][2];
+
+for ( var i = 0 ; i < Logo.vertices.length ; i++)
 {
-
-	var zoom = 10;
-	var ratio = $("#svg8").width()/$("#svg8").height();
-	initView(270, 0, 0, 9);
-	$("#svg8").attr('viewBox', '-'+((zoom*ratio)/2)+' -'+(zoom/2)+' '+(zoom*ratio)+' '+zoom);
+	if ( Logo.vertices[i][0] > xmax ) xmax =  Logo.vertices[i][0]
+	if ( Logo.vertices[i][0] < xmin ) xmin =  Logo.vertices[i][0]
+	if ( Logo.vertices[i][1] > ymax ) ymax =  Logo.vertices[i][1]
+	if ( Logo.vertices[i][1] < ymin ) ymin =  Logo.vertices[i][1]
+	if ( Logo.vertices[i][2] > zmax ) zmax =  Logo.vertices[i][2]
+	if ( Logo.vertices[i][2] < zmin ) zmin =  Logo.vertices[i][2]
 }
-window['initScene'] = initScene;
-function buildScene()
-{
-	var Logo = {};
-	var TMPwvft = {};
-	Logo = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'logo'));
-	paperseed.Items.splice (0, paperseed.Items.length );
-	var tmpWvft2 = {};
+
+var sx = (xmax-xmin);
+var sy = (ymax-ymin);
+var sz = (zmax-zmin);
+var mx = xmax-sx/2;
+var my = ymax-sy/2;
+var mz = zmax-sz/2;
+
+var height = sx;
+if ( height < sy ) height = sy;
+if ( height < sz ) height = sz;
+Logo.height = height;
+
+translateWavefront (Logo, -mx, -my, -mz);
+
+//	var pobj = loadWavefrontFromHTLM("logo", 0);
+console.log(Logo);	
+
+var mouse = new THREE.Vector2(), mousein;
+var container;
+var camera, controls, scene, raycaster, renderer;
+var objects = [];
+var focus, focusshadowmaterial;
+var material, material1, material2, material3, material4, material5;
+var activeshape0, activeshape1 = -1, activeshape2;
+var activeshape1shadoweddstate, activeshape2shadoweddstate;
+var patterns = [];
+init();
+animate();
+
+
+
+function init() {
+
+	var w = $(window).width();
+	var h = $(window).height();
+	var viewW = w-0.707*h;
+	var viewH = h;
+
+	container = document.createElement( 'div' );
+	container.style.position = 'fixed';
+	container.style.top = '0px';
+	container.style.left = (0.707*h)+'px';
+	container.style.width = viewW+'px';
+	container.style.height = viewH+'px';
+	document.body.appendChild( container );
+
+	camera = new THREE.PerspectiveCamera( 70, viewW / viewH, 0.1, 5000 );
+	camera.position.z = Logo.height / 2 / Math.tan(Math.PI * 70 / 360);
+
+	controls = new THREE.TrackballControls( camera );
+	controls.rotateSpeed = 3.5;
+	controls.zoomSpeed = 1.2;
+	controls.panSpeed = 0.8;
+	controls.noZoom = false;
+	controls.noPan = false;
+	controls.staticMoving = true;
+	controls.dynamicDampingFactor = 0.3;
+
+	scene = new THREE.Scene();
+	scene.background = new THREE.Color( 0xc0c0c0 );
+
+	scene.add( new THREE.AmbientLight( 0xffffff ) );
+
+	var light = new THREE.SpotLight( 0xffffff, 0.9 );
+	light.position.set( 0, 500, 2000 );
+	light.angle = Math.PI / 3;
+
+	light.castShadow = false;
+	light.shadow.camera.near = 1000;
+	light.shadow.camera.far = 4000;
+	light.shadow.mapSize.width = 1024;
+	light.shadow.mapSize.height = 1024;
+
+	scene.add( light );
+
+//	var geometry = new THREE.BoxBufferGeometry( 40, 40, 40 );
+	material1 = new THREE.MeshStandardMaterial(  { color: 0xd1ecf1, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
+	material3 = new THREE.MeshStandardMaterial(  { color: 0x52b7ca, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
+	material4 = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
+	material2 = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 2} );
+	material5 = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 5} );
+	material6 = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 0.1} );
 	
-	var vpos = [0, 0, 0];
-	var u = 0;
-	var v = 0;
-	var square = 'a0';
-	tmpWvft2 = $.extend(true, {}, Logo);
-	var altItem = {id: paperseed.Items.length, pos: vpos,  x: u, y: v, index: 0, w: {}};
-	setWavefrontId(tmpWvft2, paperseed.Items.length);			
-	altItem.w = $.extend(true, {},tmpWvft2 );
-	paperseed.Items.push(altItem);
-}
-window['buildScene'] = buildScene;
-function getid(f) {
-var tmp = $(f).attr('id');
-return parseInt(tmp);
-
-}
-window['getid'] = getid;
+	material = new THREE.MeshStandardMaterial(  { color: 0xcccccc, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 
 
-function add_to_renderplane (renderplane, t)
-{
-			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
-			svg.setAttribute('points', t);
-			svg.setAttribute('class', 'solid' );
-			renderplane.appendChild(svg);
-
-}
-
-function buildjunctions (obj)
-{
-			for( var i = 0; i < obj.triangles.length ; i++ )
-			{
-				for ( var j = 0 ; j < obj.triangles[i].length ; j ++ )
-					if ( j == ( obj.triangles[i].length - 1 ) )
-						addjunction (obj, obj.triangles[i][j],
-										 obj.triangles[i][0], i);
-					else
-						addjunction (obj, obj.triangles[i][j],
-										 obj.triangles[i][(j+1)], i);
-			}
-			for( var i = 0; i < obj.junctions.length ; i++ )
-				showjunction (obj, i);
-			for( var i = 0; i < obj.junctions.length ; i++ )
-				setjstate (i, "hide");
-}
-function addline (obj, s1, s2, n, id)
-{
-	var tmp = obj.triangles.length;
-	obj.triangles.push([s1, s2]);
-	obj.trianglesnorm.push(n);
-	obj.triangles[tmp].id = id;
-	obj.triangles[tmp].state = "visible";
-}
-
-function rmline (obj, s1, s2)
-{
-	for( var i = 0; i < obj.triangles.length ; i++ )
+	for ( var i = 0; i < Logo.edges.length ; i ++ )
 	{
+		var geometry2 = new THREE.Geometry();
+	
+		geometry2.vertices.push(
+		new THREE.Vector3( Logo.vertices[Logo.edges[i].som[0]][0],
+		 						 Logo.vertices[Logo.edges[i].som[0]][1],
+		  						 Logo.vertices[Logo.edges[i].som[0]][2] ),
+		new THREE.Vector3( Logo.vertices[Logo.edges[i].som[1]][0],
+		 						 Logo.vertices[Logo.edges[i].som[1]][1],
+		  						 Logo.vertices[Logo.edges[i].som[1]][2] ));
+	
+		var line = new THREE.Line( geometry2, material6 );
+		//line.type="edge";
+		scene.add( line );
+		
+		
+	}
+	for ( var i = 0; i < Logo.triangles.length ; i ++ ) {
 
-		if ( obj.triangles[i].length == 2 )
+		var geometry = new THREE.Geometry();
+
+		
+		geometry.vertices.push(
+		new THREE.Vector3( Logo.vertices[Logo.triangles[i][0]][0],
+		 						 Logo.vertices[Logo.triangles[i][0]][1],
+		  						 Logo.vertices[Logo.triangles[i][0]][2] ),
+		new THREE.Vector3( Logo.vertices[Logo.triangles[i][1]][0],
+		 						 Logo.vertices[Logo.triangles[i][1]][1],
+		  						 Logo.vertices[Logo.triangles[i][1]][2] ),
+		new THREE.Vector3( Logo.vertices[Logo.triangles[i][2]][0],
+		 						 Logo.vertices[Logo.triangles[i][2]][1],
+		  						 Logo.vertices[Logo.triangles[i][2]][2] ) );
+	
+		geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
+
+		var object = new THREE.Mesh( geometry, material);
+		object.tid = i;
+//		object.type = "shape";
+
+
+
+
+		object.castShadow = false;
+		object.receiveShadow = false;
+
+		scene.add( object );
+
+
+		objects.push( object );
+
+	}
+			console.log (scene);
+	raycaster = new THREE.Raycaster();				
+	raycaster.linePrecision = 3;
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize( viewW, viewH );
+
+	renderer.shadowMap.enabled = true;
+	renderer.shadowMap.type = THREE.PCFShadowMap;
+
+	container.appendChild( renderer.domElement );
+
+/*
+
+	var info = document.createElement( 'div' );
+	info.style.position = 'absolute';
+	info.style.top = '10px';
+	info.style.width = '100%';
+	info.style.textAlign = 'center';
+	info.innerHTML = '<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - draggable cubes';
+	container.appendChild( info );
+*/
+
+
+	//"mousewheel",
+
+	window.addEventListener( 'resize', onWindowResize, false );
+	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+	document.addEventListener( 'wheel', onDocumentMouseMove, false );
+	controls.addEventListener( 'change', light_update );
+
+	function light_update()
+	{
+		 light.position.copy( camera.position );
+	}
+	light.position.copy( camera.position );
+	renderer.render( scene, camera );
+}
+
+document.addEventListener( 'mouseup', mouseup, false );
+document.addEventListener( 'mousedown', mousedown, false );
+function mousedown ( event ) { mouserayid = mouse.x*mouse.y; }
+function mouseup ( event )
+{ if (mouse.x*mouse.y == mouserayid && focus != undefined )
+
+	// TAP
+	{
+		console.log('focus.tid '+focus.tid);
+		var tappedshapeid = focus.tid;
+		
+		if ( activeshape1 != -1 )
 		{
-		//	l('testing '+i+' ( '+obj.triangles[i][0]+', '+obj.triangles[i][1]+' )');	
-			if ( ( s1 == obj.triangles[i][0] && s2 == obj.triangles[i][1] ) |
-				  ( s2 == obj.triangles[i][0] && s1 == obj.triangles[i][1] ) ) 
+			setshapestate(activeshape1, activeshape1shadoweddstate);
+		}
+		var e = aresharingedge (activeshape1, tappedshapeid);
+		if ( e > -1 )
+		{
+				setshapestate(activeshape1, "solid" );	
+				setshapestate(tappedshapeid, "solid" );
+				activeshape1 = -1 ;
+				setedgestate (e, "freeze");
+				
+				
+		}
+		else
+		{
+		activeshape1 = tappedshapeid;
+		activeshape1shadoweddstate = shapestate( tappedshapeid );
+		setshapestate(tappedshapeid, "highlight" );
+		}
+		
+		
+		buildpatterns() ;
+
+		//focusshadowmaterial = material4;
+	//	focus.material = material3;
+		
+	/*	
+		var junc1 = gotTriangleEdge (Logo, Logo.triangles[focus.tid][0], Logo.triangles[focus.tid][1], focus.tid )
+		var junc2 = gotTriangleEdge (Logo, Logo.triangles[focus.tid][1], Logo.triangles[focus.tid][2], focus.tid )
+		var junc3 = gotTriangleEdge (Logo, Logo.triangles[focus.tid][2], Logo.triangles[focus.tid][0], focus.tid )
+		
+		setedgestate(junc1, "visible" );
+		setedgestate(junc2, "visible" );
+		setedgestate(junc3, "visible" );*/
+	}
+	renderer.render( scene, camera );
+}
+function buildpatterns() {
+
+patterns.splice (0, patterns.length);
+	//create and fill freezed junctions list
+	var freezedlist = [];
+	for ( var i = 0 ; i < Logo.ne ; i++ )
+	{
+		if (edgestate(i) == "freeze" ) freezedlist.push(i);
+	}
+		console.log('n freeze : '+freezedlist.length );
+	while ( freezedlist.length > 0 )
+	{
+		l('frz list length : '+freezedlist.length);
+		var add = -1;
+		var i = 0 ;
+		while ( add == -1 && i < freezedlist.length )
+		{
+			l('freezedlist['+i+'] : (add '+add+')');
+			var j = 0;
+			while ( add == -1 && j < patterns.length )
 			{
-				obj.triangles.splice(i, 1);
-				obj.trianglesnorm.splice(i, 1);
-				l('# rm line '+s1+', '+s2+' : '+i, 'r');
-				return;
-			}
+				l('paperseed.print.patterns['+j+'] :');
+				add = addjunctiontopattern ( patterns[j], freezedlist[i] );
+				l('add : '+freezedlist[i]);
+				if ( add != -1 )
+					freezedlist.splice(i, 1);
+				j++;	
+			}	
+			i++;		
+		}
+		if ( add == -1 )
+		{	
+			l('junctions do not match with any pattern; Create new pattern : ');
+			var tmp = { triangles : [], edges : [freezedlist[0]], frontier : [] };
+			PATTERNgentriangles(tmp);
+			patterns.push(tmp);
+			freezedlist.splice(0, 1);	
 		}
 	}
-}
-function rmtriangle (obj, t) {
-
-	if (t > -1) {
-		obj.triangles.splice(t, 1);
-		obj.trianglesnorm.splice(t, 1);
-		l('# rm triangle '+t, 'r');
-			}
-	else
-	{
-		l('## rmtriangle - error rm triangle '+t, 'r');
-	}
-}
-function hidejunction (obj, j)
-{
-	var rms1 = obj.junctions[j].som[0];
-	var rms2 = obj.junctions[j].som[1];
-
-	l('hide junc '+j+' rms1: '+rms1+', rms2: '+rms2, 'lr');
-	rmline (obj, rms1, rms2 );
-}
-function isjunctionshown (obj, k)
-{
-	//TODO Important correction needed //TODO
-	var s1 = obj.junctions[k].som[0];
-	var s2 = obj.junctions[k].som[1];
+	console.log(patterns);
 	
-		l('** isjunctionshown '+k+'( '+s1+', '+s2+' )');
-		
-		l('obj.nt '+obj.nt);
-		l('final buffer nt '+obj.triangles.length);
-		l('n junctions '+ (obj.triangles.length - obj.nt));
-		
-		
-	if ( obj.nt == obj.triangles.length )
+	
+	// at this point pattern's 2D vertices are safe to be generated
+	//TODO
+
+}
+
+function addjunctiontopattern (pattern, edge)
+{
+	var t1 = Logo.edges[edge].tri[0];
+	var t2 = Logo.edges[edge].tri[1];
+	//l(pattern);
+	for ( var i = 0 ; i < pattern.edges.length ; i++ )
+		if ( pattern.edges[i] == edge )	return -2;
+	for ( var i = 0 ; i < pattern.triangles.length ; i++ )
 	{
-		l('there is no junction yet'+k);
-		return -1;
+		if (t1 == pattern.triangles[i] | t2 == pattern.triangles[i] )
+		{
+			pattern.edges.push(edge);
+			PATTERNgentriangles (pattern);
+			return 1;
+		}
 	}
-	if ( k < 0 | k > (obj.triangles.length-obj.nt) )
+	return -1;
+}
+function PATTERNgentriangles (p) // find triangle from junction list
+{
+	for( var i = 0 ; i < p.edges.length ; i++ )
+		for( var j = 0 ; j < Logo.edges[p.edges[i]].tri.length ; j++ )	
+			if ( PATTERNgottriangle (p ,Logo.edges[p.edges[i]].tri[j]) == -1 )
+			{
+				p.triangles.push(Logo.edges[p.edges[i]].tri[j]);
+				setshapestate(Logo.edges[p.edges[i]].tri[j], "solid");
+			}
+	PATTERNgenfrontier (p);
+}
+function PATTERNgottriangle (p, t)
+{
+	for( var i = 0 ; i < p.triangles.length ; i++ )	
+		if ( p.triangles[i] == t ) return i;
+	return -1;
+}
+function PATTERNgotfrontier (p, f)
+{
+	for( var i = 0 ; i < p.frontier.length ; i++ )	
+		if ( p.frontier[i] == f ) return i;
+	return -1;
+}
+function PATTERNgenfrontier (p) // find fronier from junctions && triangles lists
+{
+	for( var i = 0 ; i < p.triangles.length ; i++ )
 	{
-		l('nj: '+(obj.triangles.length-obj.nt), 'r')
-		l('## isjunctionshow : index error: j='+k, 'r');
-		return -2;
+		var tmp = TRIANGLEgetedges (p.triangles[i]);
+		for ( var j = 0 ; j < tmp.length ; j++ )
+			if ( ( PATTERNgotfrontier (p,  tmp[j]) == -1 ) && ( edgestate(tmp[j]) != "freeze" ) )
+			{
+				p.frontier.push (tmp[j]);
+				setedgestate (tmp[j], "visible");
+				l('add');
+			} else l('not add');
 	}
-	for( var i = obj.nt; i < obj.triangles.length ; i++ )
+}
+function TRIANGLEgetedges (t) // find fronier from edges && triangles lists
+{
+	var tmp = [];
+	for( var i = 0 ; i < Logo.edges.length ; i++ )
 	{
-	//	l('testing '+i+' ( '+obj.triangles[i][0]+', '+obj.triangles[i][1]+' )');
-		if ((( s1 == obj.triangles[i][0] &&
-				 s2 == obj.triangles[i][1]) |
-			  ( s2 == obj.triangles[i][0] &&
-			  	 s1 == obj.triangles[i][1]) ) /*&& obj.triangles[i].length == 2 */)
-			  return obj.triangles[i].id;
+		if ( JUNCTIONgottriangle (Logo.edges[i], t) != -1 ) tmp.push(i);
 	}
-	l('  -> this junction is not showned');
+	return tmp;
+}
+function JUNCTIONgottriangle (j, t)
+{
+	for( var i = 0 ; i < j.tri.length ; i++ )	
+		if ( j.tri[i] == t ) return i;
 	return -1;
 }
 
-function showjunction (obj, i) {
-	var tmp = isjunctionshown(obj, i);
-	if ( tmp == -1 )
-	//if(true)
-	{
-				var n1 = $.extend(true, [], obj.trianglesnorm[obj.junctions[i].tri[0]]);
-				var n2 = $.extend(true, [], obj.trianglesnorm[obj.junctions[i].tri[1]]);
-				
-				vectfromvertices (n1, n2).o;
-				var mid0 =  vectfromvertices (n1, n2).o;
-				var mid1 =  vectfromvertices (n1, n2).o;
-				mid1[0] = (mid0[0] + (vectfromvertices (n1, n2).s[0]*vectfromvertices (n1, n2).n/2));
-				mid1[1] = (mid0[1] + (vectfromvertices (n1, n2).s[1]*vectfromvertices (n1, n2).n/2));
-				mid1[2] = (mid0[2] + (vectfromvertices (n1, n2).s[2]*vectfromvertices (n1, n2).n/2));
-				var sens = normalisevertex(mid1);
 
-				
-				addline (obj, obj.junctions[i].som[0],
-																  obj.junctions[i].som[1], sens, i);
-	}
-	else l('showjunction '+i+' - error: junction already showned', 'r');
+function onWindowResize() {
+
+	camera.aspect =  viewW/ viewH;
+	camera.updateProjectionMatrix();
+
+	renderer.setSize( viewW, viewH );
+
 }
 
-function addjunction (obj, s1, s2, tri) {
+//
 
-	var mrg = false;
-	var same = false;
+function animate() {
 
-	for( var i = 0; i < obj.junctions.length ; i++ )
-		if ( ( obj.junctions[i].som[0] == s1 && obj.junctions[i].som[1] == s2) |
-			  ( obj.junctions[i].som[1] == s1 && obj.junctions[i].som[0] == s2) )
-	{
-		same = false;
-		for( var j = 0; j < obj.junctions[i].tri.length ; j++ )
-			if ( obj.junctions[i].tri[j] == tri )
-				same = true;
-		if ( same == false )
-		{
-			obj.junctions[i].tri.push(tri);
-			mrg = true;
-		}
-	}
-	if ( mrg == false )
-	{
-		 obj.junctions.push({ som : [s1, s2], tri : [tri]});
-		 obj.nj = obj.junctions.length;
-	 }
+	requestAnimationFrame( animate );
+	render();
 }
-function aresharingjunction (obj, triangle_1, triangle_2)
+function onDocumentMouseMove( event ) {
+
+	if ( event.clientX > 0.707*window.innerHeight )
+	{
+		mouse.x = ( (event.clientX-0.707*window.innerHeight) / (window.innerWidth-0.707*window.innerHeight )) * 2 - 1;
+		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+	}
+	controls.update();
+	
+	raycaster.setFromCamera( mouse, camera );
+	var intersects = raycaster.intersectObjects( objects , true);
+	if ( intersects.length > 0 )
+		focus = intersects[ 0 ].object;
+	else if ( focus != undefined ) focus = undefined;
+
+	renderer.render( scene, camera );
+
+}
+function render() {
+
+
+}
+function edgestate (e)
+{
+	return Logo.edges[e].state;
+}
+$
+function setedgestate (e, s)
+{
+	Logo.edges[e].state = s;
+	if( s == "visible")
+	scene.children[(2+e)].material = material5;
+	if( s == "freeze")
+	scene.children[(2+e)].material = material6;
+	if( s == "highlight")
+	scene.children[(2+e)].material = material5;
+	if( s == "hide")
+	scene.children[(2+e)].material = material5;
+}
+
+function shapestate (t)
+{
+	return Logo.triangles[t].state;
+}
+function setshapestate (t, s)
+{
+	Logo.triangles[t].state = s;
+	if( s == "visible")
+	{scene.children[(2+t+Logo.ne)].material = material;}
+	if( s == "solid")
+	{scene.children[(2+t+Logo.ne)].material = material4;}
+	if( s == "highlight")
+	{scene.children[(2+t+Logo.ne)].material = material3;}
+	
+	
+}
+
+
+function aresharingedge ( triangle_1, triangle_2)
 {
 	if ( triangle_1 == triangle_2 ) return -2;
 	if ( triangle_1 == -1 ) return -3;
 	if ( -1 == triangle_2 ) return -3;
-	for (var i = 0 ; i < obj.junctions.length ; i++ )
+	for (var i = 0 ; i < Logo.edges.length ; i++ )
 	{
-		if ( ( obj.junctions[i].tri[0] == triangle_1 &&
-				 obj.junctions[i].tri[1] == triangle_2) |
-			  ( obj.junctions[i].tri[1] == triangle_1 &&
-				 obj.junctions[i].tri[0] == triangle_2) )
-{	console.log ('sharing');
-			return i;}
+		if ( ( Logo.edges[i].tri[0] == triangle_1 &&
+				 Logo.edges[i].tri[1] == triangle_2) |
+			  ( Logo.edges[i].tri[1] == triangle_1 &&
+				 Logo.edges[i].tri[0] == triangle_2) )
+		{
+			return i;
+		}
 	}
-	console.log ('not sharing');
 	return -1;
 }
-function isfreezed (junction)
-{
-	for( var i = 0 ; i < paperseed.print.patterns.length ; i++ )
-		for( var j = 0 ; j < paperseed.print.patterns[i].junctions.length ; j++ )
-			if (paperseed.print.patterns[i].junctions[j] == junction ) return i;
-	return -1;
-}
-/*
-		for( var i =  ; i <  ; i++ )
-		{
-		
-		}
-*/
-function paperseed ()
-{
-	$('#start-layer').hide();
-	var mode = (eval("var __temp = null"), (typeof __temp === "undefined")) ? 
-	    "strict": 
-	    "non-strict";
-	    if (mode == "strict")
-	    	l('interprete js : '+mode, 'lg');
-		else
-	    	l('interprete js : '+mode, 'blr');
-
-	/*======================================================================
-	
-		Initialisations
-		
-	----------------------------------------------------------------------*/
-
-	var container = document.getElementById("renderbox");
-	var renderplane = document.getElementById("renderplane");
-		var activeshape1;
-		var activeshape2;	
-		var activejunction;
-		var activejunctionshadowedstate;
-		var activeshape1shadowedstate;
-		var activeshape2shadowedstate;	
-	
-	if ( typeof paperseed.init == 'undefined' ) {
-		
-		paperseed.init = true;
-		
-		paperseed.Items = [];
-		paperseed.print = {printsize: 'A4', npages : 0, printmode : 'desktop', patterns : [] };
-		
-		
-		buildScene ();
-		paperseed.Items[0].w.junctions = [];
-		buildjunctions (paperseed.Items[0].w);
-		
-
-		buffer = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'buffer'));
-
-/*
-		for ( var i = 0 ; i < paperseed.Items[0].w.triangles.length ; i++ )
-		{
-			var pattern = { triangles : [i], junctions : [], frontier : [] };
-			paperseed.print.patterns.push(pattern);
-
-		}
-*/
-		// building patterns needs :
-		//
-		// - frontier[frontier_junction_1, frontier_junction_2, ... ]
-		// - triangles []		 				( can be empty if freezedjunctions isn't.)
-		// - freezedjunctions []			( can only be empty if pattern is made of
-		//											  a single triangle  )
-
-		
-		l(paperseed.impression);
-		l(paperseed);
-		initScene();	
-		drawScene(container);
-	}
-	var activeshape = 0; 
-
-	// configuration hammerJS
-
-	var myElement = document.getElementById('svg8');
-	var mc = new Hammer(myElement);
-	mc.get('pan').set({
-		direction: Hammer.DIRECTION_ALL
-	});
-	
-	// Évenements fenetre
-		
-	$(window).on('resize', function() {
-
-		initScene();
-		drawScene(container);
-	});
-	
-	// interactions vue
-	mc.on("pan", function(ev) {
-		if (paperseed.view != 'mobile') {
-			rotateView(ev.velocityY * 15, ev.velocityX * 15, 0);
-			drawScene(container);
-		}
-		else {
-			window.scrollBy(0,-ev.velocityY*20);
-		}
-	});
-//	$('html, .shape').on('mouseup', function() {
-	mc.on("panend", function(ev) {
-
-	});
-
-
-	$('#svg8').on('mousewheel', function(event)
-	{
-
-		translateView (0, 0,event.deltaY*event.deltaFactor );
-		drawScene(container);
-	});
-	$('body').on('click', '#close-settings', function() {
-		$('#settings').fadeOut(); 
-		$('#credits').fadeIn();
-
-	 });
-	$('body').on('click', '#toggle-settings', function() {
-
-		$('#settings').fadeIn();
-		$('#credits').fadeOut(); 
-
-	});
-
-	$('body').on('click', '.junction', function() {
-
-		var id = getid (this);
-		
-		l('junction '+id+' hit\n  freezed ?:'+jstate(id), 'lb');
-		if (activejunctionshadowedstate != "freeze" )
-			setjstate(id, 'freeze');
-		else setjstate(id, 'hide');
-		rebuildpatterns ();
-		drawScene(container);
-		
-
-	});	
-	
-	$('body').on('click', '.shape', function() {
-	
-		///////////////////////////////////////////////////////////////////////
-		// Dirty implementation trying, will be replace by separate explicit //
-		// functions
-		///////////////////////////////////////////////////////////////////////
-
-
-		// on recupere l'id tu triangle selectionné. Cela correspond a sa place
-		// dans le tableau Item[activeitem].w.triangles[]
-		if ( activeshape1 > -1 ) paperseed.Items[0].w.triangles[activeshape1].state = activeshape1shadowedstate;
-		if ( activeshape2 > -1 ) paperseed.Items[0].w.triangles[activeshape2].state = activeshape2shadowedstate;
-		activeshape2 = activeshape1;
-		var id = getid (this);
-		activeshape1 = id;
-		for ( var i = paperseed.Items[0].w.nt ; i < paperseed.Items[0].w.triangles.length ; i++ )
-			if ( paperseed.Items[0].w.triangles[i].state == "highlight" |
-				  paperseed.Items[0].w.triangles[i].state == "warnlight" )
-			{
-				l('restore '+activejunctionshadowedstate);
-				paperseed.Items[0].w.triangles[i].state =activejunctionshadowedstate;
-			}
-
-		var connected = aresharingjunction (paperseed.Items[0].w, activeshape1, activeshape2);
-		if ( connected > -1 /*&& isjunctionshown (paperseed.Items[0].w, connected) > -1*/ )
-		{
-			activeshape1shadowedstate = paperseed.Items[0].w.triangles[activeshape1].state;
-			activeshape2shadowedstate = paperseed.Items[0].w.triangles[activeshape2].state;
-			paperseed.Items[0].w.triangles[activeshape1].state = "highlight"
-			paperseed.Items[0].w.triangles[activeshape2].state = "highlight"
-		}
-		else
-		{
-			activeshape1shadowedstate = paperseed.Items[0].w.triangles[activeshape1].state;
-			paperseed.Items[0].w.triangles[activeshape1].state = "highlight"
-			
-		}
-		if ( connected > -1 )
-		{
-			for ( var i = paperseed.Items[0].w.nt ; i < paperseed.Items[0].w.triangles.length ; i++ )
-			{
-				if ( paperseed.Items[0].w.triangles[i].id == connected )
-				{
-					activejunctionshadowedstate = paperseed.Items[0].w.triangles[i].state;
-					if (activejunctionshadowedstate != "freeze" )
-					paperseed.Items[0].w.triangles[i].state = "highlight";
-					else paperseed.Items[0].w.triangles[i].state = "warnlight";
-				}
-			}
-
-		}
-		drawScene(container);
-
-
-
-
-
-
-		// on recupere la normale du triangle
-		var n = paperseed.Items[0].w.trianglesnorm[id];
-		// on construit deux vecteurs pour l'interpolation
-		// - target corespond au plan du document final. Celui qui contient les patrons
-		// - bullet, dont le sens est confondu avec l'axe normal a la face selectionnée.
-		var target = new Vector ([0.0, 0.0, 0.0], [0.0, 0.0, 1.0], 1.0);
-		var bullet = new Vector ([0.0, 0.0, 0.0], n, 1.0);
-		// La,matrice de transformation peut etre construite
-		var itpmat = geninterpmat (bullet, target);
-
-		//un peu de bavardage avec la console
-		l('bullet', 'l');
-		logVector(bullet);
-		l('target', 'l');
-		logVector(target);
-		l('interpolation matrix', 'l');
-		logMatrix(itpmat);
-	
-		var w = $.extend(true, {}, paperseed.Items[0].w);
-		
-		for ( var i = 0 ; i < w.nv ; i++ )
-			w.vertices[i] = applymatNscale(itpmat, w.vertices[i]);
-		
-		var tmptri = [ [ (w.vertices[w.triangles[id][0]][0]), 
-				 (w.vertices[w.triangles[id][0]][1]), 
-				 (w.vertices[w.triangles[id][0]][2])  ],
-				     
-			       [ (w.vertices[w.triangles[id][1]][0]), 
-				 (w.vertices[w.triangles[id][1]][1]), 
-				 (w.vertices[w.triangles[id][1]][2])  ],
-				
-			       [ (w.vertices[w.triangles[id][2]][0]), 
-				 (w.vertices[w.triangles[id][2]][1]), 
-				 (w.vertices[w.triangles[id][2]][2])]];
-
-		
-
-		var svgtrigon = tmptri[0][0]+', '+tmptri[0][1]+
-			    ' '+tmptri[1][0]+', '+tmptri[1][1]+
-			    ' '+tmptri[2][0]+', '+tmptri[2][1];
-		add_to_renderplane (renderplane, svgtrigon);
-		var flatmat = gentmat (234.0, 143.0, 0.0);
-		
-		var trsltri = $.extend(true, [], tmptri);
-
-		for ( var i = 0 ; i < 3 ; i++ )
-			trsltri[i] = applymatNscale(flatmat, tmptri[i]);
-
-		
-	});
-	rebuildpatterns ();
-	
-}
-		
-window['paperseed'] = paperseed;
-
-
-$(window).on("load", paperseed ());
-
-
-
-
