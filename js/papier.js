@@ -252,11 +252,7 @@ function mouseup ( event )
 	}
 	renderer.render( scene, camera );
 }
-
-
 function onWindowResize() {
-
-
 
 	camera.aspect =  $('#svg8').width() / $('#svg8').height();
 	camera.updateProjectionMatrix();
