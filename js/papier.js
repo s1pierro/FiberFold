@@ -101,9 +101,9 @@ function init() {
 	material1 = new THREE.MeshStandardMaterial(  { color: 0xd1ecf1, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 	material3 = new THREE.MeshStandardMaterial(  { color: 0x52b7ca, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
 	material4 = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
-	material2 = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 2} );
+	material2 = new THREE.LineBasicMaterial( { color: 0xaaaaaa, linewidth: 1} );
 	material5 = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 5} );
-	material6 = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 0.1} );
+	material6 = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 1} );
 	
 	material = new THREE.MeshStandardMaterial(  { color: 0xcccccc, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 
@@ -120,7 +120,7 @@ function init() {
 		 						 Logo.vertices[Logo.edges[i].som[1]][1],
 		  						 Logo.vertices[Logo.edges[i].som[1]][2] ));
 	
-		var line = new THREE.Line( geometry2, material6 );
+		var line = new THREE.Line( geometry2, material2 );
 		//line.type="edge";
 		scene.add( line );
 		
@@ -203,61 +203,50 @@ document.addEventListener( 'mouseup', mouseup, false );
 document.addEventListener( 'mousedown', mousedown, false );
 function mousedown ( event ) { mouserayid = mouse.x*mouse.y; }
 function mouseup ( event )
-{ if (mouse.x*mouse.y == mouserayid && focus != undefined )
+{
+	if (mouse.x*mouse.y == mouserayid && focus != undefined )
 
 	// TAP
 	{
+		var connected = false;
 		console.log('focus.tid '+focus.tid);
 		var tappedshapeid = focus.tid;
 		
 		if ( activeshape1 != -1 )
 		{
 			setshapestate(activeshape1, activeshape1shadoweddstate);
+			var e = aresharingedge (activeshape1, tappedshapeid);
+			if ( e > -1 )
+			{
+					setshapestate(activeshape1, "solid" );	
+					setshapestate(tappedshapeid, "solid" );
+					activeshape1 = -1 ;
+					if (edgestate (e) != "freeze")
+					setedgestate (e, "freeze");
+					else setedgestate (e, "hide");
+					buildpatterns() ;
+					connected = true;					
+			}
 		}
-		var e = aresharingedge (activeshape1, tappedshapeid);
-		if ( e > -1 )
+		if ( connected == false )
 		{
-				setshapestate(activeshape1, "solid" );	
-				setshapestate(tappedshapeid, "solid" );
-				activeshape1 = -1 ;
-				setedgestate (e, "freeze");
-				
-				
-		}
-		else
-		{
-		activeshape1 = tappedshapeid;
-		activeshape1shadoweddstate = shapestate( tappedshapeid );
-		setshapestate(tappedshapeid, "highlight" );
-		}
-		
-		
-		buildpatterns() ;
-
-		//focusshadowmaterial = material4;
-	//	focus.material = material3;
-		
-	/*	
-		var junc1 = gotTriangleEdge (Logo, Logo.triangles[focus.tid][0], Logo.triangles[focus.tid][1], focus.tid )
-		var junc2 = gotTriangleEdge (Logo, Logo.triangles[focus.tid][1], Logo.triangles[focus.tid][2], focus.tid )
-		var junc3 = gotTriangleEdge (Logo, Logo.triangles[focus.tid][2], Logo.triangles[focus.tid][0], focus.tid )
-		
-		setedgestate(junc1, "visible" );
-		setedgestate(junc2, "visible" );
-		setedgestate(junc3, "visible" );*/
+			activeshape1 = tappedshapeid;
+			activeshape1shadoweddstate = shapestate( tappedshapeid );
+			setshapestate(tappedshapeid, "highlight" );
+		}		
 	}
 	renderer.render( scene, camera );
 }
 function buildpatterns() {
-
-patterns.splice (0, patterns.length);
+		console.log('## rebuild ##');
+	patterns.splice (0, patterns.length);
 	//create and fill freezed junctions list
 	var freezedlist = [];
 	for ( var i = 0 ; i < Logo.ne ; i++ )
 	{
 		if (edgestate(i) == "freeze" ) freezedlist.push(i);
 	}
-		console.log('n freeze : '+freezedlist.length );
+	console.log('n freeze : '+freezedlist.length );
 	while ( freezedlist.length > 0 )
 	{
 		l('frz list length : '+freezedlist.length);
