@@ -160,6 +160,7 @@ function shapestate (t)
 }
 function setshapestate (t, s)
 {
+	l('tri:'+t);
 	wavefront.triangles[t].state = s;
 	if( s == "visible")
 	{

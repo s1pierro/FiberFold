@@ -5,39 +5,8 @@ $('#settings').hide();
 var wavefront = {};
 wavefront = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'logo'));
 
-var xmax = wavefront.vertices[0][0];
-var xmin = wavefront.vertices[0][0];
-var ymax = wavefront.vertices[0][1];
-var ymin = wavefront.vertices[0][1];
-var zmax = wavefront.vertices[0][2];
-var zmin = wavefront.vertices[0][2];
-
-for ( var i = 0 ; i < wavefront.vertices.length ; i++)
-{
-	if ( wavefront.vertices[i][0] > xmax ) xmax =  wavefront.vertices[i][0]
-	if ( wavefront.vertices[i][0] < xmin ) xmin =  wavefront.vertices[i][0]
-	if ( wavefront.vertices[i][1] > ymax ) ymax =  wavefront.vertices[i][1]
-	if ( wavefront.vertices[i][1] < ymin ) ymin =  wavefront.vertices[i][1]
-	if ( wavefront.vertices[i][2] > zmax ) zmax =  wavefront.vertices[i][2]
-	if ( wavefront.vertices[i][2] < zmin ) zmin =  wavefront.vertices[i][2]
-}
-
-var sx = (xmax-xmin);
-var sy = (ymax-ymin);
-var sz = (zmax-zmin);
-var mx = xmax-sx/2;
-var my = ymax-sy/2;
-var mz = zmax-sz/2;
-
-var height = sx;
-if ( height < sy ) height = sy;
-if ( height < sz ) height = sz;
-wavefront.height = height*1.2;
-
-translateWavefront (wavefront, -mx, -my, -mz);
-
 //	var pobj = loadWavefrontFromHTLM("wavefront", 0);
-console.log(wavefront);	
+
 
 var mouse = new THREE.Vector2(), mousein;
 var container;
@@ -121,8 +90,74 @@ function init() {
 	material6 = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 1} );
 	
 	material = new THREE.MeshStandardMaterial(  { color: 0xcccccc, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
+feedscene ();
 
+	raycaster = new THREE.Raycaster();				
+	raycaster.linePrecision = 3;
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize( viewW, viewH );
 
+	renderer.shadowMap.enabled = true;
+	renderer.shadowMap.type = THREE.PCFShadowMap;
+
+	container.appendChild( renderer.domElement );
+
+	window.addEventListener( 'resize', onWindowResize, false );
+	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+	document.addEventListener( 'wheel', onDocumentMouseMove, false );
+	controls.addEventListener( 'change', light_update );
+
+	function light_update()
+	{
+		 light.position.copy( camera.position );
+	}
+	light.position.copy( camera.position );
+	renderer.render( scene, camera );
+}
+function blankscene ()
+{
+	for (let i = scene.children.length - 1; i >= 2; i--) 
+		scene.remove(scene.children[i]);
+
+}
+function feedscene ()
+{
+	blankscene ();
+	
+		camera.position.z = wavefront.height / 2 / Math.tan(Math.PI * 70 / 360);
+var xmax = wavefront.vertices[0][0];
+var xmin = wavefront.vertices[0][0];
+var ymax = wavefront.vertices[0][1];
+var ymin = wavefront.vertices[0][1];
+var zmax = wavefront.vertices[0][2];
+var zmin = wavefront.vertices[0][2];
+
+for ( var i = 0 ; i < wavefront.vertices.length ; i++)
+{
+	if ( wavefront.vertices[i][0] > xmax ) xmax =  wavefront.vertices[i][0]
+	if ( wavefront.vertices[i][0] < xmin ) xmin =  wavefront.vertices[i][0]
+	if ( wavefront.vertices[i][1] > ymax ) ymax =  wavefront.vertices[i][1]
+	if ( wavefront.vertices[i][1] < ymin ) ymin =  wavefront.vertices[i][1]
+	if ( wavefront.vertices[i][2] > zmax ) zmax =  wavefront.vertices[i][2]
+	if ( wavefront.vertices[i][2] < zmin ) zmin =  wavefront.vertices[i][2]
+}
+
+var sx = (xmax-xmin);
+var sy = (ymax-ymin);
+var sz = (zmax-zmin);
+var mx = xmax-sx/2;
+var my = ymax-sy/2;
+var mz = zmax-sz/2;
+
+var height = sx;
+if ( height < sy ) height = sy;
+if ( height < sz ) height = sz;
+wavefront.height = height*1.2;
+
+translateWavefront (wavefront, -mx, -my, -mz);
+		camera.position.z = wavefront.height / 2 / Math.tan(Math.PI * 70 / 360);
+	
 	for ( var i = 0; i < wavefront.edges.length ; i ++ )
 	{
 		var geometry2 = new THREE.Geometry();
@@ -170,28 +205,6 @@ function init() {
 
 	}
 	console.log (scene);
-	raycaster = new THREE.Raycaster();				
-	raycaster.linePrecision = 3;
-	renderer = new THREE.WebGLRenderer( { antialias: true } );
-	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( viewW, viewH );
-
-	renderer.shadowMap.enabled = true;
-	renderer.shadowMap.type = THREE.PCFShadowMap;
-
-	container.appendChild( renderer.domElement );
-
-	window.addEventListener( 'resize', onWindowResize, false );
-	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-	document.addEventListener( 'wheel', onDocumentMouseMove, false );
-	controls.addEventListener( 'change', light_update );
-
-	function light_update()
-	{
-		 light.position.copy( camera.position );
-	}
-	light.position.copy( camera.position );
-	renderer.render( scene, camera );
 }
 
 document.addEventListener( 'mouseup', mouseup, false );
@@ -206,7 +219,7 @@ function mouseup ( event )
 		var connected = false;
 		console.log('focus.tid '+focus.tid);
 		var tappedshapeid = focus.tid;
-		
+		console.log('active shape '+activeshape1);
 		if ( activeshape1 != -1 )
 		{
 			setshapestate(activeshape1, activeshape1shadoweddstate);
@@ -274,8 +287,8 @@ function onDocumentMouseMove( event ) {
 }
 function render() {
 
-
 }
+document.getElementById('fileinput').addEventListener('change', readWavefrontFile, false);
 	$('body').on('click', '#close-settings', function() {
 		$('#settings').fadeOut(); 
 		$('#credits').fadeIn();

@@ -186,7 +186,6 @@ function loadWavefrontFromHTLM(object, id) {
 	
 	var contents = $(object).text();
 	var obj = parsewavefront(contents, id);
-
 	return obj;
 }
 window['loadWavefrontFromHTLM'] = loadWavefrontFromHTLM;
@@ -242,5 +241,23 @@ function rotateWavefront (wavefront, x, y, z)
 
 }
 window['rotateWavefront'] = rotateWavefront;
-
+function readWavefrontFile(evt) {
+	var f = evt.target.files[0];
+	if (f) {
+		var r = new FileReader();
+		r.onload = function(e) {
+			var contents = e.target.result;
+			var obj = parsewavefront(e.target.result, 0);
+			wavefront = $.extend(true, {}, obj);
+			//l(wavefront);
+			feedscene();
+		$('#settings').fadeOut(); 
+		$('#credits').fadeIn();
+activeshape1 = -1;
+		}
+		r.readAsText(f);
+	} else {
+		alert("Failed to load file");
+	}
+}
 
