@@ -138,14 +138,11 @@ function init() {
 		var line = new THREE.Line( geometry2, material2 );
 		//line.type="edge";
 		scene.add( line );
-		
-		
 	}
 	for ( var i = 0; i < wavefront.triangles.length ; i ++ ) {
 
 		var geometry = new THREE.Geometry();
 
-		
 		geometry.vertices.push(
 		new THREE.Vector3( wavefront.vertices[wavefront.triangles[i][0]][0],
 		 						 wavefront.vertices[wavefront.triangles[i][0]][1],
@@ -162,9 +159,6 @@ function init() {
 		var object = new THREE.Mesh( geometry, material);
 		object.tid = i;
 //		object.type = "shape";
-
-
-
 
 		object.castShadow = false;
 		object.receiveShadow = false;
