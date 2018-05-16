@@ -1,54 +1,29 @@
-function jstate (j)
-{
-	return paperseed.Items[0].w.triangles[(paperseed.Items[0].w.nt+j)].state;
-}
-window['jstate'] = jstate;
-function setjstate (j, s)
-{
-	paperseed.Items[0].w.triangles[(paperseed.Items[0].w.nt+j)].state = s;
-}
-window['setjstate'] = setjstate;
-function tstate (t)
-{
-	return paperseed.Items[0].w.triangles[t].state;
-}
-window['tstate'] = tstate;
-function settstate (t, s)
-{
-	paperseed.Items[0].w.triangles[t].state = s;
-}
-window['settstate'] = settstate;
-function rebuildpatterns ()
-{
 
-	paperseed.print.patterns.splice (0, paperseed.print.patterns.length);
-	l('### Rebuid patterns','l');	
-	var o = paperseed.Items[0].w;
-	l('  * freezed junction :');
-	
+
+function buildpatterns() {
+		console.log('## rebuild ##');
+	patterns.splice (0, patterns.length);
 	//create and fill freezed junctions list
 	var freezedlist = [];
-	for ( var i = 0 ; i < o.nj ; i++ )
+	for ( var i = 0 ; i < wavefront.ne ; i++ )
 	{
-		if (jstate(i) == "freeze" ) freezedlist.push(i);
+		if (edgestate(i) == "freeze" ) freezedlist.push(i);
 	}
-	l(freezedlist);
-	
-	// start building patterns def from freezed edges
+	console.log('n freeze : '+freezedlist.length );
 	while ( freezedlist.length > 0 )
 	{
-		l('frz list length : '+freezedlist.length);
+
 		var add = -1;
 		var i = 0 ;
 		while ( add == -1 && i < freezedlist.length )
 		{
-			l('freezedlist['+i+'] : (add '+add+')');
+
 			var j = 0;
-			while ( add == -1 && j < paperseed.print.patterns.length )
+			while ( add == -1 && j < patterns.length )
 			{
-				l('paperseed.print.patterns['+j+'] :');
-				add = addjunctiontopattern ( paperseed.print.patterns[j], freezedlist[i] );
-				l('add : '+freezedlist[i]);
+
+				add = addjunctiontopattern ( patterns[j], freezedlist[i] );
+
 				if ( add != -1 )
 					freezedlist.splice(i, 1);
 				j++;	
@@ -57,91 +32,141 @@ function rebuildpatterns ()
 		}
 		if ( add == -1 )
 		{	
-			l('junctions do not match with any pattern; Create new pattern : ');
-			var tmp = { triangles : [], junctions : [freezedlist[0]], frontier : [] };
+
+			var tmp = { triangles : [], edges : [freezedlist[0]], frontier : [] };
 			PATTERNgentriangles(tmp);
-			paperseed.print.patterns.push(tmp);
+			patterns.push(tmp);
 			freezedlist.splice(0, 1);	
 		}
 	}
-	l(paperseed.print.patterns);
+	console.log(patterns);
+	
 	
 	// at this point pattern's 2D vertices are safe to be generated
 	//TODO
 
-
-
-
 }
-function addjunctiontopattern (pattern, junction)
+
+function addjunctiontopattern (pattern, edge)
 {
-	var t1 = paperseed.Items[0].w.junctions[junction].tri[0];
-	var t2 = paperseed.Items[0].w.junctions[junction].tri[1];
+	l(arguments);
+	var t1 = wavefront.edges[edge].tri[0];
+	var t2 = wavefront.edges[edge].tri[1];
 	//l(pattern);
-	for ( var i = 0 ; i < pattern.junctions.length ; i++ )
-		if ( pattern.junctions[i] == junction )	return -2;
+	for ( var i = 0 ; i < pattern.edges.length ; i++ )
+		if ( pattern.edges[i] == edge )	return -2;
 	for ( var i = 0 ; i < pattern.triangles.length ; i++ )
 	{
 		if (t1 == pattern.triangles[i] | t2 == pattern.triangles[i] )
 		{
-			pattern.junctions.push(junction);
+			pattern.edges.push(edge);
 			PATTERNgentriangles (pattern);
 			return 1;
 		}
 	}
 	return -1;
 }
-
-function JUNCTIONgottriangle (j, t)
+function PATTERNgentriangles (p) // find triangle from junction list
 {
-	for( var i = 0 ; i < j.tri.length ; i++ )	
-		if ( j.tri[i] == t ) return i;
-	return -1;
+	for( var i = 0 ; i < p.edges.length ; i++ )
+		for( var j = 0 ; j < wavefront.edges[p.edges[i]].tri.length ; j++ )	
+			if ( PATTERNgottriangle (p ,wavefront.edges[p.edges[i]].tri[j]) == -1 )
+			{
+				p.triangles.push(wavefront.edges[p.edges[i]].tri[j]);
+				setshapestate(wavefront.edges[p.edges[i]].tri[j], "solid");
+			}
+	PATTERNgenfrontier (p);
 }
 function PATTERNgottriangle (p, t)
 {
 	for( var i = 0 ; i < p.triangles.length ; i++ )	
 		if ( p.triangles[i] == t ) return i;
 	return -1;
-}function PATTERNgotfrontier (p, f)
+}
+function PATTERNgotfrontier (p, f)
 {
 	for( var i = 0 ; i < p.frontier.length ; i++ )	
 		if ( p.frontier[i] == f ) return i;
 	return -1;
 }
-function PATTERNgentriangles (p) // find triangle from junction list
-{
-	for( var i = 0 ; i < p.junctions.length ; i++ )
-		for( var j = 0 ; j < paperseed.Items[0].w.junctions[p.junctions[i]].tri.length ; j++ )	
-			if ( PATTERNgottriangle (p ,paperseed.Items[0].w.junctions[p.junctions[i]].tri[j]) == -1 )
-			{
-				p.triangles.push(paperseed.Items[0].w.junctions[p.junctions[i]].tri[j]);
-				settstate(paperseed.Items[0].w.junctions[p.junctions[i]].tri[j], "solid");
-			}
-	PATTERNgenfrontier (p);
-}
 function PATTERNgenfrontier (p) // find fronier from junctions && triangles lists
 {
 	for( var i = 0 ; i < p.triangles.length ; i++ )
 	{
-		var tmp = TRIANGLEgetjunctions (p.triangles[i]);
+		var tmp = TRIANGLEgetedges (p.triangles[i]);
 		for ( var j = 0 ; j < tmp.length ; j++ )
-			if ( ( PATTERNgotfrontier (p,  tmp[j]) == -1 ) && ( jstate(tmp[j]) != "freeze" ) )
+			if ( ( PATTERNgotfrontier (p,  tmp[j]) == -1 ) && ( edgestate(tmp[j]) != "freeze" ) )
 			{
 				p.frontier.push (tmp[j]);
-				setjstate (tmp[j], "visible");
-				l('add');
-			} else l('not add');
+				setedgestate (tmp[j], "visible");
+			}
 	}
 }
-function TRIANGLEgetjunctions (t) // find fronier from junctions && triangles lists
+function TRIANGLEgetedges (t) // find fronier from edges && triangles lists
 {
 	var tmp = [];
-	for( var i = 0 ; i < paperseed.Items[0].w.junctions.length ; i++ )
+	for( var i = 0 ; i < wavefront.edges.length ; i++ )
 	{
-		if ( JUNCTIONgottriangle (paperseed.Items[0].w.junctions[i], t) != -1 ) tmp.push(i);
+		if ( JUNCTIONgottriangle (wavefront.edges[i], t) != -1 ) tmp.push(i);
 	}
 	return tmp;
 }
+function JUNCTIONgottriangle (j, t)
+{
 
+	for( var i = 0 ; i < j.tri.length ; i++ )	
+		if ( j.tri[i] == t ) return i;
+	return -1;
+}
+
+function edgestate (e)
+{
+	return wavefront.edges[e].state;
+}
+$
+function setedgestate (e, s)
+{
+	wavefront.edges[e].state = s;
+	if( s == "visible")
+	scene.children[(2+e)].material = material5;
+	if( s == "freeze")
+	scene.children[(2+e)].material = material6;
+	if( s == "highlight")
+	scene.children[(2+e)].material = material5;
+	if( s == "hide")
+	scene.children[(2+e)].material = material5;
+}
+
+function shapestate (t)
+{
+	return wavefront.triangles[t].state;
+}
+function setshapestate (t, s)
+{
+	wavefront.triangles[t].state = s;
+	if( s == "visible")
+	{scene.children[(2+t+wavefront.ne)].material = material;}
+	if( s == "solid")
+	{scene.children[(2+t+wavefront.ne)].material = material4;}
+	if( s == "highlight")
+	{scene.children[(2+t+wavefront.ne)].material = material3;}
 	
+	
+}
+function aresharingedge ( triangle_1, triangle_2)
+{
+	if ( triangle_1 == triangle_2 ) return -2;
+	if ( triangle_1 == -1 ) return -3;
+	if ( -1 == triangle_2 ) return -3;
+	for (var i = 0 ; i < wavefront.edges.length ; i++ )
+	{
+		if ( ( wavefront.edges[i].tri[0] == triangle_1 &&
+				 wavefront.edges[i].tri[1] == triangle_2) |
+			  ( wavefront.edges[i].tri[1] == triangle_1 &&
+				 wavefront.edges[i].tri[0] == triangle_2) )
+		{
+			return i;
+		}
+	}
+	return -1;
+}
