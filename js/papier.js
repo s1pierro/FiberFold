@@ -32,7 +32,7 @@ var mz = zmax-sz/2;
 var height = sx;
 if ( height < sy ) height = sy;
 if ( height < sz ) height = sz;
-Logo.height = height;
+Logo.height = height*1.2;
 
 translateWavefront (Logo, -mx, -my, -mz);
 
@@ -50,22 +50,41 @@ var activeshape1shadoweddstate, activeshape2shadoweddstate;
 var patterns = [];
 init();
 animate();
-
+var landscape = true;
 
 
 function init() {
 
+	var viewW, viewH;
+	
 	var w = $(window).width();
 	var h = $(window).height();
-	var viewW = w-0.707*h;
-	var viewH = h;
+
 
 	container = document.createElement( 'div' );
 	container.style.position = 'fixed';
 	container.style.top = '0px';
+	
+	if (w>h)
+	{
+	landscape = true;
+	viewW = w-0.707*h;
+	viewH = h;
 	container.style.left = (0.707*h)+'px';
-	container.style.width = viewW+'px';
-	container.style.height = viewH+'px';
+	container.style.width = (w-0.707*h)+'px';
+	container.style.height = h+'px';
+	}
+	else
+	{
+	landscape = false;
+	viewW = w;
+	viewH = h-0.707*w;
+	container.style.left = 'Opx';
+	container.style.width = '100vw';
+	container.style.height = (h-0.707*w)+'px';
+	
+	}
+	
 	document.body.appendChild( container );
 
 	camera = new THREE.PerspectiveCamera( 70, viewW / viewH, 0.1, 5000 );
@@ -160,7 +179,7 @@ function init() {
 		objects.push( object );
 
 	}
-			console.log (scene);
+	console.log (scene);
 	raycaster = new THREE.Raycaster();				
 	raycaster.linePrecision = 3;
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -249,18 +268,18 @@ function buildpatterns() {
 	console.log('n freeze : '+freezedlist.length );
 	while ( freezedlist.length > 0 )
 	{
-		l('frz list length : '+freezedlist.length);
+
 		var add = -1;
 		var i = 0 ;
 		while ( add == -1 && i < freezedlist.length )
 		{
-			l('freezedlist['+i+'] : (add '+add+')');
+
 			var j = 0;
 			while ( add == -1 && j < patterns.length )
 			{
-				l('paperseed.print.patterns['+j+'] :');
+
 				add = addjunctiontopattern ( patterns[j], freezedlist[i] );
-				l('add : '+freezedlist[i]);
+
 				if ( add != -1 )
 					freezedlist.splice(i, 1);
 				j++;	
@@ -269,7 +288,7 @@ function buildpatterns() {
 		}
 		if ( add == -1 )
 		{	
-			l('junctions do not match with any pattern; Create new pattern : ');
+
 			var tmp = { triangles : [], edges : [freezedlist[0]], frontier : [] };
 			PATTERNgentriangles(tmp);
 			patterns.push(tmp);
@@ -335,8 +354,7 @@ function PATTERNgenfrontier (p) // find fronier from junctions && triangles list
 			{
 				p.frontier.push (tmp[j]);
 				setedgestate (tmp[j], "visible");
-				l('add');
-			} else l('not add');
+			}
 	}
 }
 function TRIANGLEgetedges (t) // find fronier from edges && triangles lists
@@ -358,7 +376,36 @@ function JUNCTIONgottriangle (j, t)
 
 function onWindowResize() {
 
-	camera.aspect =  viewW/ viewH;
+	var viewW, viewH;
+	
+	var w = $(window).width();
+	var h = $(window).height();
+
+
+	
+	if (w>h)
+	{
+	viewW = w-0.707*h;
+	viewH = h;
+	container.style.left = (0.707*h)+'px';
+	container.style.width = (w-0.707*h)+'px';
+	container.style.height = h+'px';
+	}
+	else
+	{
+	viewW = w;
+	viewH = h-0.707*w;
+	container.style.left = 'Opx';
+	container.style.width = '100vw';
+	container.style.height = (h-0.707*w)+'px';
+	
+	}
+	
+
+
+
+
+	camera.aspect =  viewW / viewH;
 	camera.updateProjectionMatrix();
 
 	renderer.setSize( viewW, viewH );
@@ -373,11 +420,26 @@ function animate() {
 	render();
 }
 function onDocumentMouseMove( event ) {
-
+	if ( window.innerWidth > window.innerHeight)
+	{
+l('ldscp  '+landscape);
 	if ( event.clientX > 0.707*window.innerHeight )
 	{
 		mouse.x = ( (event.clientX-0.707*window.innerHeight) / (window.innerWidth-0.707*window.innerHeight )) * 2 - 1;
 		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+		l('m  '+mouse.x+','+mouse.y);
+	}
+	}
+	else
+	{
+//	if ( event.clientY < 0.707*window.innerHeight )
+	{
+		mouse.x =  ( event.clientX / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( event.clientY / (window.innerHeight - window.innerWidth*0.707) ) * 2 + 1;
+		l('m  '+mouse.x+','+mouse.y);
+	}
+	
+	
 	}
 	controls.update();
 	
