@@ -1,8 +1,13 @@
 
 
 function buildpatterns() {
+
+	//TODO 
+
 		console.log('## rebuild ##');
 	patterns.splice (0, patterns.length);
+	
+	
 	//create and fill freezed junctions list
 	var freezedlist = [];
 	for ( var i = 0 ; i < wavefront.ne ; i++ )
@@ -39,6 +44,8 @@ function buildpatterns() {
 			freezedlist.splice(0, 1);	
 		}
 	}
+
+
 	console.log(patterns);
 	
 	
@@ -49,7 +56,7 @@ function buildpatterns() {
 
 function addjunctiontopattern (pattern, edge)
 {
-	l(arguments);
+
 	var t1 = wavefront.edges[edge].tri[0];
 	var t2 = wavefront.edges[edge].tri[1];
 	//l(pattern);
@@ -125,16 +132,26 @@ function edgestate (e)
 }
 $
 function setedgestate (e, s)
-{
+{	
+	scene.children[(2+e)].visible = true;
 	wavefront.edges[e].state = s;
 	if( s == "visible")
 	scene.children[(2+e)].material = material5;
 	if( s == "freeze")
-	scene.children[(2+e)].material = material6;
+	{
+
+		scene.children[(2+e)].visible = false;
+	
+	}
+
 	if( s == "highlight")
 	scene.children[(2+e)].material = material5;
 	if( s == "hide")
-	scene.children[(2+e)].material = material5;
+	{
+		scene.children[(2+e)].material = material5;
+		scene.children[(2+e)].visible = false;
+	
+	}
 }
 
 function shapestate (t)
@@ -145,11 +162,18 @@ function setshapestate (t, s)
 {
 	wavefront.triangles[t].state = s;
 	if( s == "visible")
-	{scene.children[(2+t+wavefront.ne)].material = material;}
+	{
+		scene.children[(2+t+wavefront.ne)].material = material;
+		scene.children[(2+t+wavefront.ne)].visible = true;
+		
+	}
 	if( s == "solid")
 	{scene.children[(2+t+wavefront.ne)].material = material4;}
 	if( s == "highlight")
-	{scene.children[(2+t+wavefront.ne)].material = material3;}
+	{
+		scene.children[(2+t+wavefront.ne)].visible = true;
+		scene.children[(2+t+wavefront.ne)].material = material3;
+	}
 	
 	
 }

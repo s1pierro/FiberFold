@@ -1,6 +1,6 @@
 
 
-
+$('#settings').hide();
 
 var wavefront = {};
 wavefront = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'logo'));
@@ -181,20 +181,6 @@ function init() {
 
 	container.appendChild( renderer.domElement );
 
-/*
-
-	var info = document.createElement( 'div' );
-	info.style.position = 'absolute';
-	info.style.top = '10px';
-	info.style.width = '100%';
-	info.style.textAlign = 'center';
-	info.innerHTML = '<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - draggable cubes';
-	container.appendChild( info );
-*/
-
-
-	//"mousewheel",
-
 	window.addEventListener( 'resize', onWindowResize, false );
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'wheel', onDocumentMouseMove, false );
@@ -290,4 +276,15 @@ function render() {
 
 
 }
+	$('body').on('click', '#close-settings', function() {
+		$('#settings').fadeOut(); 
+		$('#credits').fadeIn();
+
+	 });
+	$('body').on('click', '#toggle-settings', function() {
+
+		$('#settings').fadeIn();
+		$('#credits').fadeOut(); 
+
+	});
 
