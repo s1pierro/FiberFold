@@ -107,7 +107,8 @@ function parsewavefront(objText, id) {
 		obj.triangles[i].id  = id;
 	obj.edges = [];
 	genEdge (obj );
-		
+	
+	genNormales(obj);
 	obj.nv = nv;
 	obj.nt = nt;
 	obj.ng = ng;
@@ -248,12 +249,12 @@ function readWavefrontFile(evt) {
 		r.onload = function(e) {
 			var contents = e.target.result;
 			var obj = parsewavefront(e.target.result, 0);
-			wavefront = $.extend(true, {}, obj);
+			pobj = $.extend(true, {}, obj);
 			//l(wavefront);
 			feedscene();
 		$('#settings').fadeOut(); 
 		$('#credits').fadeIn();
-activeshape1 = -1;
+		activeshape1 = -1;
 		}
 		r.readAsText(f);
 	} else {

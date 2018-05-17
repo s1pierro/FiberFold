@@ -2,11 +2,8 @@
 
 $('#settings').hide();
 
-var wavefront = {};
-wavefront = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'logo'));
-
-//	var pobj = loadWavefrontFromHTLM("wavefront", 0);
-
+var pobj = {};
+pobj = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'logo'));
 
 var mouse = new THREE.Vector2(), mousein;
 var container;
@@ -17,46 +14,23 @@ var material, material1, material2, material3, material4, material5;
 var activeshape0, activeshape1 = -1, activeshape2;
 var activeshape1shadoweddstate, activeshape2shadoweddstate;
 var patterns = [];
-init();
-animate();
 var landscape = true;
+
+
+$(window).on("load",  init());
 
 
 function init() {
 
-	var viewW, viewH;
-	
-	var w = $(window).width();
-	var h = $(window).height();
-
-
 	container = document.createElement( 'div' );
-
 	container.id = 'svg8';
-	
-	if (w>h)
-	{
-	landscape = true;
-	viewW = w-0.707*h;
-	viewH = h;
-
-	}
-	else
-	{
-	landscape = false;
-	viewW = w;
-	viewH = h-0.707*w;
-
-	
-	}
-	
 	document.body.appendChild( container );
-
-	camera = new THREE.PerspectiveCamera( 70, viewW / viewH, 0.1, 5000 );
-	camera.position.z = wavefront.height / 2 / Math.tan(Math.PI * 70 / 360);
+	
+	camera = new THREE.PerspectiveCamera( 70, $('#svg8').width() / $('#svg8').height(), 0.1, 5000 );
+	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
 
 	controls = new THREE.TrackballControls( camera );
-	controls.rotateSpeed = 3.5;
+	controls.rotateSpeed = 2.5;
 	controls.zoomSpeed = 1.2;
 	controls.panSpeed = 0.8;
 	controls.noZoom = false;
@@ -86,7 +60,7 @@ function init() {
 	material3 = new THREE.MeshStandardMaterial(  { color: 0x52b7ca, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
 	material4 = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 	material2 = new THREE.LineBasicMaterial( { color: 0xaaaaaa, linewidth: 1} );
-	material5 = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 5} );
+	material5 = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 3} );
 	material6 = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 1} );
 	
 	material = new THREE.MeshStandardMaterial(  { color: 0xcccccc, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
@@ -96,7 +70,7 @@ feedscene ();
 	raycaster.linePrecision = 3;
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( viewW, viewH );
+	renderer.setSize(  $('#svg8').width(), $('#svg8').height() );
 
 	renderer.shadowMap.enabled = true;
 	renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -125,22 +99,22 @@ function feedscene ()
 {
 	blankscene ();
 	
-		camera.position.z = wavefront.height / 2 / Math.tan(Math.PI * 70 / 360);
-var xmax = wavefront.vertices[0][0];
-var xmin = wavefront.vertices[0][0];
-var ymax = wavefront.vertices[0][1];
-var ymin = wavefront.vertices[0][1];
-var zmax = wavefront.vertices[0][2];
-var zmin = wavefront.vertices[0][2];
+		camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
+var xmax = pobj.vertices[0][0];
+var xmin = pobj.vertices[0][0];
+var ymax = pobj.vertices[0][1];
+var ymin = pobj.vertices[0][1];
+var zmax = pobj.vertices[0][2];
+var zmin = pobj.vertices[0][2];
 
-for ( var i = 0 ; i < wavefront.vertices.length ; i++)
+for ( var i = 0 ; i < pobj.vertices.length ; i++)
 {
-	if ( wavefront.vertices[i][0] > xmax ) xmax =  wavefront.vertices[i][0]
-	if ( wavefront.vertices[i][0] < xmin ) xmin =  wavefront.vertices[i][0]
-	if ( wavefront.vertices[i][1] > ymax ) ymax =  wavefront.vertices[i][1]
-	if ( wavefront.vertices[i][1] < ymin ) ymin =  wavefront.vertices[i][1]
-	if ( wavefront.vertices[i][2] > zmax ) zmax =  wavefront.vertices[i][2]
-	if ( wavefront.vertices[i][2] < zmin ) zmin =  wavefront.vertices[i][2]
+	if ( pobj.vertices[i][0] > xmax ) xmax =  pobj.vertices[i][0]
+	if ( pobj.vertices[i][0] < xmin ) xmin =  pobj.vertices[i][0]
+	if ( pobj.vertices[i][1] > ymax ) ymax =  pobj.vertices[i][1]
+	if ( pobj.vertices[i][1] < ymin ) ymin =  pobj.vertices[i][1]
+	if ( pobj.vertices[i][2] > zmax ) zmax =  pobj.vertices[i][2]
+	if ( pobj.vertices[i][2] < zmin ) zmin =  pobj.vertices[i][2]
 }
 
 var sx = (xmax-xmin);
@@ -153,41 +127,41 @@ var mz = zmax-sz/2;
 var height = sx;
 if ( height < sy ) height = sy;
 if ( height < sz ) height = sz;
-wavefront.height = height*1.2;
+pobj.height = height*1.2;
 
-translateWavefront (wavefront, -mx, -my, -mz);
-		camera.position.z = wavefront.height / 2 / Math.tan(Math.PI * 70 / 360);
+translateWavefront (pobj, -mx, -my, -mz);
+		camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
 	
-	for ( var i = 0; i < wavefront.edges.length ; i ++ )
+	for ( var i = 0; i < pobj.edges.length ; i ++ )
 	{
 		var geometry2 = new THREE.Geometry();
 	
 		geometry2.vertices.push(
-		new THREE.Vector3( wavefront.vertices[wavefront.edges[i].som[0]][0],
-		 						 wavefront.vertices[wavefront.edges[i].som[0]][1],
-		  						 wavefront.vertices[wavefront.edges[i].som[0]][2] ),
-		new THREE.Vector3( wavefront.vertices[wavefront.edges[i].som[1]][0],
-		 						 wavefront.vertices[wavefront.edges[i].som[1]][1],
-		  						 wavefront.vertices[wavefront.edges[i].som[1]][2] ));
+		new THREE.Vector3( pobj.vertices[pobj.edges[i].som[0]][0],
+		 						 pobj.vertices[pobj.edges[i].som[0]][1],
+		  						 pobj.vertices[pobj.edges[i].som[0]][2] ),
+		new THREE.Vector3( pobj.vertices[pobj.edges[i].som[1]][0],
+		 						 pobj.vertices[pobj.edges[i].som[1]][1],
+		  						 pobj.vertices[pobj.edges[i].som[1]][2] ));
 	
 		var line = new THREE.Line( geometry2, material2 );
 		//line.type="edge";
 		scene.add( line );
 	}
-	for ( var i = 0; i < wavefront.triangles.length ; i ++ ) {
+	for ( var i = 0; i < pobj.triangles.length ; i ++ ) {
 
 		var geometry = new THREE.Geometry();
 
 		geometry.vertices.push(
-		new THREE.Vector3( wavefront.vertices[wavefront.triangles[i][0]][0],
-		 						 wavefront.vertices[wavefront.triangles[i][0]][1],
-		  						 wavefront.vertices[wavefront.triangles[i][0]][2] ),
-		new THREE.Vector3( wavefront.vertices[wavefront.triangles[i][1]][0],
-		 						 wavefront.vertices[wavefront.triangles[i][1]][1],
-		  						 wavefront.vertices[wavefront.triangles[i][1]][2] ),
-		new THREE.Vector3( wavefront.vertices[wavefront.triangles[i][2]][0],
-		 						 wavefront.vertices[wavefront.triangles[i][2]][1],
-		  						 wavefront.vertices[wavefront.triangles[i][2]][2] ) );
+		new THREE.Vector3( pobj.vertices[pobj.triangles[i][0]][0],
+		 						 pobj.vertices[pobj.triangles[i][0]][1],
+		  						 pobj.vertices[pobj.triangles[i][0]][2] ),
+		new THREE.Vector3( pobj.vertices[pobj.triangles[i][1]][0],
+		 						 pobj.vertices[pobj.triangles[i][1]][1],
+		  						 pobj.vertices[pobj.triangles[i][1]][2] ),
+		new THREE.Vector3( pobj.vertices[pobj.triangles[i][2]][0],
+		 						 pobj.vertices[pobj.triangles[i][2]][1],
+		  						 pobj.vertices[pobj.triangles[i][2]][2] ) );
 	
 		geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
 
@@ -220,27 +194,35 @@ function mouseup ( event )
 		console.log('focus.tid '+focus.tid);
 		var tappedshapeid = focus.tid;
 		console.log('active shape '+activeshape1);
+		
+		
 		if ( activeshape1 != -1 )
 		{
-			setshapestate(activeshape1, activeshape1shadoweddstate);
-			var e = aresharingedge (activeshape1, tappedshapeid);
+			setshapestate(pobj, activeshape1, activeshape1shadoweddstate);
+			var e = aresharingedge (pobj, activeshape1, tappedshapeid);
 			if ( e > -1 )
 			{
-					setshapestate(activeshape1, "solid" );	
-					setshapestate(tappedshapeid, "solid" );
+					setshapestate(pobj, activeshape1, "solid" );	
+					setshapestate(pobj, tappedshapeid, "solid" );
 					activeshape1 = -1 ;
-					if (edgestate (e) != "freeze")
-					setedgestate (e, "freeze");
-					else setedgestate (e, "hide");
-					buildpatterns() ;
+					if (edgestate (pobj, e) != "freeze")
+					setedgestate (pobj, e, "freeze");
+					else setedgestate (pobj, e, "hide");
+					buildpatterns(pobj) ;
 					connected = true;					
 			}
 		}
+		else
+		{
+			
+		}
 		if ( connected == false )
 		{
+		
+				//console.log(pobj );
 			activeshape1 = tappedshapeid;
-			activeshape1shadoweddstate = shapestate( tappedshapeid );
-			setshapestate(tappedshapeid, "highlight" );
+			activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
+			setshapestate(pobj, tappedshapeid, "highlight" );
 		}		
 	}
 	renderer.render( scene, camera );

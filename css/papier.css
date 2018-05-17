@@ -20,8 +20,12 @@ body
 	color: #eee;
 }
 
+#settings
+{
+		background-color: #fffb;
+		color: #222;
 
-
+}
 
 
 .noselect {
@@ -40,9 +44,7 @@ body
 @media (max-aspect-ratio: 1/1) {
 #settings
 {
-		background-color: #666c;
-		color: #eee;
-	overflow-x: hide;
+		overflow-x: hide;
 	overflow-y: scroll;
 padding-top: 1em;;
 	position : absolute;
@@ -109,8 +111,6 @@ background: radial-gradient(ellipse at center,  #aaa 0%,#777 100%); /* W3C, IE10
 {
 	#settings
 	{
-		background-color: #666c;
-		color: #eee;
 		overflow-x: hide;
 		overflow-y: scroll;
 		padding-top: 1em;;
