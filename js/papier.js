@@ -183,8 +183,8 @@ translateWavefront (pobj, -mx, -my, -mz);
 	}
 	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
 	console.log (scene);
-	raycaster = new THREE.Raycaster();				
-						setshapestate(pobj, 0, "solid" );	
+
+
 }					
 
 document.addEventListener( 'mouseup', mouseup, false );
@@ -281,7 +281,7 @@ function onDocumentMouseMove( event ) {
 	var intersects = raycaster.intersectObjects( objects , true);
 	if ( intersects.length > 0 )
 	{
-		l(intersects);
+
 		
 		focus = $.extend(true, {}, intersects[ 0 ].object );
 	}

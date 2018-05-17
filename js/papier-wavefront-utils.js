@@ -256,6 +256,7 @@ blankscene ();
 		$('#settings').fadeOut(); 
 		$('#credits').fadeIn();
 		activeshape1 = -1;
+			renderer.render( scene, camera );
 		}
 		r.readAsText(f);
 	} else {
