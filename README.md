@@ -6,3 +6,5 @@
 </p>
 
 [ paperseed-js](https://s1pierro.github.io/Papier/)
+
+3d print from desktop printer.
