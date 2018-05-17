@@ -243,6 +243,7 @@ function rotateWavefront (wavefront, x, y, z)
 }
 window['rotateWavefront'] = rotateWavefront;
 function readWavefrontFile(evt) {
+blankscene ();
 	var f = evt.target.files[0];
 	if (f) {
 		var r = new FileReader();

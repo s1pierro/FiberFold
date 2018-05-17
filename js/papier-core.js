@@ -54,7 +54,7 @@ function buildpatterns(o) {
 
 function addjunctiontopattern (o, pattern, edge)
 {
-
+	l('## addjunctiontopattern ##');
 	var t1 = o.edges[edge].tri[0];
 	var t2 = o.edges[edge].tri[1];
 	//l(pattern);
@@ -73,6 +73,7 @@ function addjunctiontopattern (o, pattern, edge)
 }
 function PATTERNgentriangles (o, p) // find triangle from junction list
 {
+	l('## PATTERNgentriangles ##');
 	for( var i = 0 ; i < p.edges.length ; i++ )
 		for( var j = 0 ; j < o.edges[p.edges[i]].tri.length ; j++ )	
 			if ( PATTERNgottriangle (p ,o.edges[p.edges[i]].tri[j]) == -1 )
@@ -96,6 +97,7 @@ function PATTERNgotfrontier (p, f)
 }
 function PATTERNgenfrontier (o, p) // find fronier from junctions && triangles lists
 {
+	l('## PATTERNgenfrontier ##');
 	for( var i = 0 ; i < p.triangles.length ; i++ )
 	{
 		var tmp = TRIANGLEgetedges (o, p.triangles[i]);
@@ -154,12 +156,13 @@ function setedgestate (o, e, s)
 
 function shapestate (o, t)
 {
-	l(o);
-	l(t);
+	l('## shapestate ##');
+	l('tri:'+t);
 	return o.triangles[t].state;
 }
 function setshapestate (o, t, s)
 {
+	l('## setshapestate ##');
 	l('tri:'+t);
 	l(o);
 	o.triangles[t].state = s;

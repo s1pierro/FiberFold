@@ -88,16 +88,19 @@ feedscene ();
 	}
 	light.position.copy( camera.position );
 	renderer.render( scene, camera );
+	
 }
 function blankscene ()
 {
 	for (let i = scene.children.length - 1; i >= 2; i--) 
 		scene.remove(scene.children[i]);
+	for (let i = objects.length - 1; i >= 0; i--) 
+		objects.splice(i, 1);
 
 }
 function feedscene ()
 {
-	blankscene ();
+
 	
 		camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
 var xmax = pobj.vertices[0][0];
@@ -178,8 +181,11 @@ translateWavefront (pobj, -mx, -my, -mz);
 		objects.push( object );
 
 	}
+	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
 	console.log (scene);
-}
+	raycaster = new THREE.Raycaster();				
+						setshapestate(pobj, 0, "solid" );	
+}					
 
 document.addEventListener( 'mouseup', mouseup, false );
 document.addEventListener( 'mousedown', mousedown, false );
@@ -190,6 +196,13 @@ function mouseup ( event )
 
 	// TAP
 	{
+	
+		l(' TAP SHAPE '+focus.tid,"lr");
+		l('###############','lr');
+		l('**************#','lr');
+	console.log (focus);	
+	console.log (scene);	
+	
 		var connected = false;
 		console.log('focus.tid '+focus.tid);
 		var tappedshapeid = focus.tid;
@@ -211,19 +224,22 @@ function mouseup ( event )
 					buildpatterns(pobj) ;
 					connected = true;					
 			}
+			else
+			{
+				activeshape1 = tappedshapeid;
+				activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
+				setshapestate(pobj, tappedshapeid, "highlight" );
+			}
 		}
 		else
 		{
+			activeshape1 = tappedshapeid;
+				activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
+				setshapestate(pobj, tappedshapeid, "highlight" );
+		
 			
 		}
-		if ( connected == false )
-		{
-		
-				//console.log(pobj );
-			activeshape1 = tappedshapeid;
-			activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
-			setshapestate(pobj, tappedshapeid, "highlight" );
-		}		
+	
 	}
 	renderer.render( scene, camera );
 }
@@ -237,9 +253,11 @@ function onWindowResize() {
 }
 function animate() {
 
-	//requestAnimationFrame( animate );
-	//render();
+  requestAnimationFrame( animate );
+  render();
+  controls.update();
 }
+
 function onDocumentMouseMove( event ) {
 	if ( window.innerWidth > window.innerHeight)
 	{
@@ -262,8 +280,13 @@ function onDocumentMouseMove( event ) {
 	raycaster.setFromCamera( mouse, camera );
 	var intersects = raycaster.intersectObjects( objects , true);
 	if ( intersects.length > 0 )
-		focus = intersects[ 0 ].object;
+	{
+		l(intersects);
+		
+		focus = $.extend(true, {}, intersects[ 0 ].object );
+	}
 	else if ( focus != undefined ) focus = undefined;
+
 
 	renderer.render( scene, camera );
 }
