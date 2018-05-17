@@ -4,7 +4,7 @@ function buildpatterns(o) {
 
 	//TODO 
 
-		console.log('## rebuild ##');
+		l('## rebuild ##');
 	patterns.splice (0, patterns.length);
 	//create and fill freezed junctions list
 	var freezedlist = [];
@@ -12,7 +12,7 @@ function buildpatterns(o) {
 	{
 		if (edgestate(o, i) == "freeze" ) freezedlist.push(i);
 	}
-	console.log('n freeze : '+freezedlist.length );
+	l('n freeze : '+freezedlist.length );
 	while ( freezedlist.length > 0 )
 	{
 
@@ -44,7 +44,7 @@ function buildpatterns(o) {
 	}
 
 
-	console.log(patterns);
+
 	
 	
 	// at this point pattern's 2D vertices are safe to be generated
@@ -164,7 +164,7 @@ function setshapestate (o, t, s)
 {
 	l('## setshapestate ##');
 	l('tri:'+t);
-	l(o);
+
 	o.triangles[t].state = s;
 	if( s == "visible")
 	{

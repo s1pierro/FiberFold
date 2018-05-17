@@ -182,7 +182,7 @@ translateWavefront (pobj, -mx, -my, -mz);
 
 	}
 	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
-	console.log (scene);
+	l (scene);
 
 
 }					
@@ -200,13 +200,13 @@ function mouseup ( event )
 		l(' TAP SHAPE '+focus.tid,"lr");
 		l('###############','lr');
 		l('**************#','lr');
-	console.log (focus);	
-	console.log (scene);	
+	l (focus);	
+	l (scene);	
 	
 		var connected = false;
-		console.log('focus.tid '+focus.tid);
+		l('focus.tid '+focus.tid);
 		var tappedshapeid = focus.tid;
-		console.log('active shape '+activeshape1);
+		l('active shape '+activeshape1);
 		
 		
 		if ( activeshape1 != -1 )
