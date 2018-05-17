@@ -63,18 +63,8 @@ function buildpatterns(o) {
 
 	$('#scratch-message').hide();
 	
-	// at this point pattern's 2D vertices are safe to be generated
-	//TODO
-	//TODO     
-	//TODO
-	//TODO
-	//TODO
-	//TODO
-	//TODO
-	//TODO
-		//l(patterns);
-		
-		for ()
+
+
 		var id = 10;
 
 		// on recupere la normale du triangle
