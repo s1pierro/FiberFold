@@ -1,5 +1,13 @@
 
+var scaleconst = 50;
+function add_to_renderplane (renderplane, t)
+{
+			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
+			svg.setAttribute('points', t);
+			svg.setAttribute('class', 'solid' );
+			renderplane.appendChild(svg);
 
+}
 function buildpatterns(o) {
 
 	//TODO 
@@ -45,11 +53,72 @@ function buildpatterns(o) {
 
 
 
-	
+	for (var i = 0 ; i < o.triangles.length ; i++ )
+		if ( getpattern(i) == -1 && shapestate(o, i) == "solid" )
+		{
+			var tmp = { triangles : [i], edges : [], frontier : [] };
+				PATTERNgenfrontier (o, tmp);
+			patterns.push(tmp);
+		}
+
+	$('#scratch-message').hide();
 	
 	// at this point pattern's 2D vertices are safe to be generated
 	//TODO
+	//TODO     
+	//TODO
+	//TODO
+	//TODO
+	//TODO
+	//TODO
+	//TODO
+		//l(patterns);
+		
+		for ()
+		var id = 10;
 
+		// on recupere la normale du triangle
+		var n = o.trianglesnorm[id];
+		// on construit deux vecteurs pour l'interpolation
+		// - target corespond au plan du document final. Celui qui contient les patrons
+		// - bullet, dont le sens est confondu avec l'axe normal a la face selectionnée.
+		var target = new Vector ([0.0, 0.0, 0.0], [0.0, 0.0, 1.0], 1.0);
+		var bullet = new Vector ([0.0, 0.0, 0.0], n, 1.0);
+		// La,matrice de transformation peut etre construite
+		var itpmat = geninterpmat (bullet, target);
+
+		//un peu de bavardage avec la console
+		l('bullet', 'l');
+		//logVector(bullet);
+		l('target', 'l');
+	//	logVector(target);
+		l('interpolation matrix', 'l');
+		//logMatrix(itpmat);
+	
+		var w = $.extend(true, {}, o);
+		
+		for ( var i = 0 ; i < w.nv ; i++ )
+			w.vertices[i] = applymatNscale(itpmat, w.vertices[i]);
+		
+		var tmptri = [ [ (w.vertices[w.triangles[id][0]][0]), 
+				 (w.vertices[w.triangles[id][0]][1]), 
+				 (w.vertices[w.triangles[id][0]][2])  ],
+				     
+			       [ (w.vertices[w.triangles[id][1]][0]), 
+				 (w.vertices[w.triangles[id][1]][1]), 
+				 (w.vertices[w.triangles[id][1]][2])  ],
+				
+			       [ (w.vertices[w.triangles[id][2]][0]), 
+				 (w.vertices[w.triangles[id][2]][1]), 
+				 (w.vertices[w.triangles[id][2]][2])]];
+
+		
+
+		var svgtrigon = tmptri[0][0]+', '+tmptri[0][1]+
+			    ' '+tmptri[1][0]+', '+tmptri[1][1]+
+			    ' '+tmptri[2][0]+', '+tmptri[2][1];
+		add_to_renderplane (renderplane, svgtrigon);
+		
 }
 
 function addjunctiontopattern (o, pattern, edge)
@@ -181,6 +250,15 @@ function setshapestate (o, t, s)
 	}
 	
 	
+}
+function getpattern(triangle)
+{
+	for (var i = 0 ; i < patterns.length ; i++ )
+		for ( var j = 0 ; j < patterns[i].triangles.length ; j ++ )	
+			if ( patterns[i].triangles[j] == triangle )
+				return i;
+	return -1;
+
 }
 function aresharingedge ( o, triangle_1, triangle_2)
 {

@@ -30,7 +30,7 @@ function init() {
 	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
 
 	controls = new THREE.TrackballControls( camera );
-	controls.rotateSpeed = 2.5;
+	controls.rotateSpeed = 3.5;
 	controls.zoomSpeed = 1.2;
 	controls.panSpeed = 0.8;
 	controls.noZoom = false;
