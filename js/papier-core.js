@@ -1,10 +1,13 @@
-
+var BUILDmode = "safe";
+//var BUILDmode = "safe";
 var scaleconst = 50;
-function add_to_renderplane (renderplane, t)
+
+
+function genflatcoord (o, t)
 {
-	var id = t;
+var id = t;
 	// on recupere la normale du triangle
-	var n = pobj.trianglesnorm[id];
+	var n = o.trianglesnorm[id];
 	// on construit deux vecteurs pour l'interpolation
 	// - target corespond au plan du document final. Celui qui contient les patrons
 	// - bullet, dont le sens est confondu avec l'axe normal a la face selectionnée.
@@ -13,23 +16,30 @@ function add_to_renderplane (renderplane, t)
 	// La,matrice de transformation peut etre construite
 	var itpmat = geninterpmat (bullet, target);
 
-	var w = $.extend(true, {}, pobj);
+	var w = $.extend(true, {}, o);
 	
 	for ( var i = 0 ; i < w.nv ; i++ )
 		w.vertices[i] = applymatNscale(itpmat, w.vertices[i]);
 	
-	var tmptri =  [[(w.vertices[w.triangles[id][0]][0]), 
+	var tmptri = [ [(w.vertices[w.triangles[id][0]][0]), 
 						 (w.vertices[w.triangles[id][0]][1]), 
 						 (w.vertices[w.triangles[id][0]][2])],
-			     
+
 					   [(w.vertices[w.triangles[id][1]][0]), 
 						 (w.vertices[w.triangles[id][1]][1]), 
 						 (w.vertices[w.triangles[id][1]][2])],
-				
+
 				      [(w.vertices[w.triangles[id][2]][0]), 
 						 (w.vertices[w.triangles[id][2]][1]), 
-						 (w.vertices[w.triangles[id][2]][2])]];
+						 (w.vertices[w.triangles[id][2]][2])] ];
 
+	return tmptri;
+
+}
+function add_to_renderplane (renderplane, t)
+{
+
+	var tmptri = genflatcoord (pobj, t);
 	var svgtrigon =  tmptri[0][0]+', '+tmptri[0][1]+
 					 ' '+tmptri[1][0]+', '+tmptri[1][1]+
 					 ' '+tmptri[2][0]+', '+tmptri[2][1];
@@ -37,7 +47,6 @@ function add_to_renderplane (renderplane, t)
 	svg.setAttribute('points', svgtrigon);
 	svg.setAttribute('class', 'solid' );
 	renderplane.appendChild(svg);
-
 }
 function buildpatterns(o)
 {
@@ -75,20 +84,32 @@ function buildpatterns(o)
 			freezedlist.splice(0, 1);	
 		}
 	}
+	
+	// precedent code prodce patterns defs from freezed edges, by this way,
+	//  it cannot add single triangle patterns, the fallowing for loop process
+	// those singles triangles pattern
+	
 	for (var i = 0 ; i < o.triangles.length ; i++ )
 		if ( getpattern(i) == -1 && shapestate(o, i) == "solid" )
 		{
+			var flatcoord = genflatcoord (o, i);
 			var tmp = { triangles : [i], edges : [], frontier : [] };
-				PATTERNgenfrontier (o, tmp);
+			PATTERNgenfrontier (o, tmp);
 			patterns.push(tmp);
-		}
+			patterns[patterns.length-1].triangles[0].flatcoord = flatcoord;
+			l(flatcoord);
+		}									
 	if ( patterns.length > 0 ) $('#scratch-message').fadeOut();
 	else $('#scratch-message').fadeIn();
   	renderplane.innerHTML = "";
+  	
+  	// At this point Patterns have correct define
+  	
+   
+  	
 	for ( var i = 0 ; i < patterns.length ; i++ )
-	{
 		add_to_renderplane (renderplane, patterns[i].triangles[0]);
-	}
+	l(patterns);
 }
 function addjunctiontopattern (o, pattern, edge)
 {
@@ -109,14 +130,17 @@ function addjunctiontopattern (o, pattern, edge)
 	}
 	return -1;
 }
-function PATTERNgentriangles (o, p) // find triangle from junction list
+function PATTERNgentriangles (o, p) // find triangles from junction list
 {
 	l('## PATTERNgentriangles ##');
 	for( var i = 0 ; i < p.edges.length ; i++ )
-		for( var j = 0 ; j < o.edges[p.edges[i]].tri.length ; j++ )	
+		for( var j = 0 ; j < o.edges[p.edges[i]].tri.length ; j++ )
 			if ( PATTERNgottriangle (p ,o.edges[p.edges[i]].tri[j]) == -1 )
 			{
+				var flatcoord = genflatcoord (o, o.edges[p.edges[i]].tri[j]);
+			l(flatcoord);
 				p.triangles.push(o.edges[p.edges[i]].tri[j]);
+				p.triangles[p.triangles.length-1].flatcoord = flatcoord;
 				setshapestate(o, o.edges[p.edges[i]].tri[j], "solid");
 			}
 	PATTERNgenfrontier (o, p);
@@ -163,12 +187,10 @@ function JUNCTIONgottriangle (j, t)
 		if ( j.tri[i] == t ) return i;
 	return -1;
 }
-
 function edgestate (o, e)
 {
 	return o.edges[e].state;
 }
-$
 function setedgestate (o, e, s)
 {	
 	scene.children[(2+e)].visible = true;
@@ -177,38 +199,34 @@ function setedgestate (o, e, s)
 	scene.children[(2+e)].material = material5;
 	if( s == "freeze")
 	{
-
 		scene.children[(2+e)].visible = false;
-	
 	}
-
 	if( s == "highlight")
 	scene.children[(2+e)].material = material5;
 	if( s == "hide")
 	{
 		scene.children[(2+e)].material = material5;
 		scene.children[(2+e)].visible = false;
-	
 	}
 }
-
 function shapestate (o, t)
 {
 	l('## shapestate ##');
-	l('tri:'+t);
+
 	return o.triangles[t].state;
 }
 function setshapestate (o, t, s)
 {
-	l('## setshapestate ##');
-	l('tri:'+t);
+	if ( s == undefined )
+	l('-#- ERROR unable to set shape stae to '+s+' leaving function "setshapestate"', 'lr');
+
+
 
 	o.triangles[t].state = s;
 	if( s == "visible")
 	{
 		scene.children[(2+t+o.ne)].material = material;
 		scene.children[(2+t+o.ne)].visible = true;
-		
 	}
 	if( s == "solid")
 	{scene.children[(2+t+o.ne)].material = material4;}
@@ -217,8 +235,6 @@ function setshapestate (o, t, s)
 		scene.children[(2+t+o.ne)].visible = true;
 		scene.children[(2+t+o.ne)].material = material3;
 	}
-	
-	
 }
 function getpattern(triangle)
 {
@@ -227,7 +243,6 @@ function getpattern(triangle)
 			if ( patterns[i].triangles[j] == triangle )
 				return i;
 	return -1;
-
 }
 function aresharingedge ( o, triangle_1, triangle_2)
 {
@@ -252,8 +267,7 @@ function download(data, filename, type) {
     if (window.navigator.msSaveOrOpenBlob) // IE10+
         window.navigator.msSaveOrOpenBlob(file, filename);
     else { // Others
-        var a = document.createElement("a"),
-                url = URL.createObjectURL(file);
+        var a = document.createElement("a"), url = URL.createObjectURL(file);
         a.href = url;
         a.download = filename;
         document.body.appendChild(a);

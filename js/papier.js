@@ -222,7 +222,18 @@ function mouseup ( event )
 					setedgestate (pobj, e, "freeze");
 					else setedgestate (pobj, e, "hide");
 					buildpatterns(pobj) ;
-					connected = true;					
+					connected = true;
+					if ( BUILDmode == "fast" )
+					{
+						activeshape1 = tappedshapeid;
+						activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
+						setshapestate(pobj, tappedshapeid, "highlight" );
+					}
+					else if ( BUILDmode == "safe" )
+					{
+						activeshape1 = -1 ;
+						activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
+					}
 			}
 			else
 			{
@@ -305,4 +316,14 @@ document.getElementById('fileinput').addEventListener('change', readWavefrontFil
 		$('#credits').fadeOut(); 
 
 	});
+	
+	$('body').on('click', '#patterns-safe-edit-mode', function() {
+		BUILDmode = "safe";
+	});
+	$('body').on('click', '#patterns-fast-edit-mode', function() {
+		BUILDmode = "fast";
+	});
+/*	$('body').on('click', '#', function() {
 
+	});
+*/
