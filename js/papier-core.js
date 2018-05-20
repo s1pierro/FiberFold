@@ -82,7 +82,6 @@ function buildpatterns(o)
 				PATTERNgenfrontier (o, tmp);
 			patterns.push(tmp);
 		}
-
 	if ( patterns.length > 0 ) $('#scratch-message').fadeOut();
 	else $('#scratch-message').fadeIn();
   	renderplane.innerHTML = "";
