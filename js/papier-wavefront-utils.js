@@ -9,7 +9,7 @@
 'use strict';
 function l (s, format)
 {
-	//return;
+	return;
 	if ( format == 'xlb')
 	{
 		s = '%c'+s;
