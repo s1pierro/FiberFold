@@ -105,11 +105,22 @@ function buildpatterns(o)
   	
   	// At this point Patterns have correct define
   	
+ 	for ( var i = 0 ; i < patterns.length ; i++ )
+ 	{
+ 		patterns[i].trianglesflatcoord = [];
+ 		for ( var j = 0 ; j < patterns[i].triangles.length ; j++ )
+ 		{
+ 			patterns[i].trianglesflatcoord.push(genflatcoord (o, patterns[i].triangles[j] ));
+ 		}	
+ 	}
+ 	
    
   	
 	for ( var i = 0 ; i < patterns.length ; i++ )
 		add_to_renderplane (renderplane, patterns[i].triangles[0]);
+	verbose = true;
 	l(patterns);
+	verbose = false;		
 }
 function addjunctiontopattern (o, pattern, edge)
 {

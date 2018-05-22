@@ -15,7 +15,7 @@ var activeshape0, activeshape1 = -1, activeshape2;
 var activeshape1shadoweddstate, activeshape2shadoweddstate;
 var patterns = [];
 var landscape = true;
-
+var verbose = false;
 
 $(window).on("load",  init());
 
