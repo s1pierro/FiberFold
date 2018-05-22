@@ -103,8 +103,8 @@ height: 100vh;
 	top: 0px;
 	right: 0px;
 
-background: -webkit-radial-gradient(center, ellipse cover,  #aaa 0%,#777 100%); /* Chrome10-25,Safari5.1-6 */
-background: radial-gradient(ellipse at center,  #aaa 0%,#777 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+background: -webkit-radial-gradient(center, ellipse cover,  #999 0%,#222 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  #999 0%,#222 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 }
 @media (min-aspect-ratio: 1/1)
@@ -162,8 +162,8 @@ background: radial-gradient(ellipse at center,  #aaa 0%,#777 100%); /* W3C, IE10
 		top: 0px;
 		right: 0px;
 
-background: -webkit-radial-gradient(center, ellipse cover,  #aaa 0%,#444 100%); /* Chrome10-25,Safari5.1-6 */
-background: radial-gradient(ellipse at center,  #aaa 0%,#444 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		background: -webkit-radial-gradient(center, ellipse cover,  #999 0%,#222 100%);
+		background: radial-gradient(ellipse at center,  #999 0%,#222 100%); 
 	}
 }
 

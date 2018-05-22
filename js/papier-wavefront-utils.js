@@ -3,8 +3,8 @@
 	paperseed 0.0.1
 		
 	Author : Saint Pierre Thomas
-	feel fre to contact me at spierro@free.fr
-	Licenced under the termes oftrhe GNU GPL v3
+	feel free to contact me at spierro@free.fr
+	Licenced under the termes of the GNU GPL v3
 */
 'use strict';
 function l (s, format)

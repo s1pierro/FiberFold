@@ -73,7 +73,7 @@ feedscene ();
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize(  $('#svg8').width(), $('#svg8').height() );
 	renderer.setClearColor( 0x000000, 0 ); // the default
-	renderer.shadowMap.enabled = true;
+	renderer.shadowMap.enabled = false;
 	renderer.shadowMap.type = THREE.PCFShadowMap;
 
 	container.appendChild( renderer.domElement );
