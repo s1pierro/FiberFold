@@ -25,6 +25,7 @@ function init() {
 	container = document.createElement( 'div' );
 	container.id = 'svg8';
 	document.body.appendChild( container );
+
 	
 	camera = new THREE.PerspectiveCamera( 70, $('#svg8').width() / $('#svg8').height(), 0.1, 5000 );
 	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
@@ -39,7 +40,7 @@ function init() {
 	controls.dynamicDampingFactor = 0.3;
 
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0xc0c0c0 );
+//	scene.background = new THREE.Color( 0x000000 );
 
 	scene.add( new THREE.AmbientLight( 0xffffff ) );
 
@@ -59,7 +60,7 @@ function init() {
 	material1 = new THREE.MeshStandardMaterial(  { color: 0xd1ecf1, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 	material3 = new THREE.MeshStandardMaterial(  { color: 0x52b7ca, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
 	material4 = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
-	material2 = new THREE.LineBasicMaterial( { color: 0xaaaaaa, linewidth: 1} );
+	material2 = new THREE.LineBasicMaterial( { color: 0x666666, linewidth: 1} );
 	material5 = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 3} );
 	material6 = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 1} );
 	
@@ -68,10 +69,10 @@ feedscene ();
 
 	raycaster = new THREE.Raycaster();				
 	raycaster.linePrecision = 3;
-	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize(  $('#svg8').width(), $('#svg8').height() );
-
+	renderer.setClearColor( 0x000000, 0 ); // the default
 	renderer.shadowMap.enabled = true;
 	renderer.shadowMap.type = THREE.PCFShadowMap;
 
@@ -101,83 +102,78 @@ function blankscene ()
 function feedscene ()
 {
 
-	
-		camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
-var xmax = pobj.vertices[0][0];
-var xmin = pobj.vertices[0][0];
-var ymax = pobj.vertices[0][1];
-var ymin = pobj.vertices[0][1];
-var zmax = pobj.vertices[0][2];
-var zmin = pobj.vertices[0][2];
 
-for ( var i = 0 ; i < pobj.vertices.length ; i++)
-{
-	if ( pobj.vertices[i][0] > xmax ) xmax =  pobj.vertices[i][0]
-	if ( pobj.vertices[i][0] < xmin ) xmin =  pobj.vertices[i][0]
-	if ( pobj.vertices[i][1] > ymax ) ymax =  pobj.vertices[i][1]
-	if ( pobj.vertices[i][1] < ymin ) ymin =  pobj.vertices[i][1]
-	if ( pobj.vertices[i][2] > zmax ) zmax =  pobj.vertices[i][2]
-	if ( pobj.vertices[i][2] < zmin ) zmin =  pobj.vertices[i][2]
-}
+	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
+	var xmax = pobj.vertices[0][0];
+	var xmin = pobj.vertices[0][0];
+	var ymax = pobj.vertices[0][1];
+	var ymin = pobj.vertices[0][1];
+	var zmax = pobj.vertices[0][2];
+	var zmin = pobj.vertices[0][2];
 
-var sx = (xmax-xmin);
-var sy = (ymax-ymin);
-var sz = (zmax-zmin);
-var mx = xmax-sx/2;
-var my = ymax-sy/2;
-var mz = zmax-sz/2;
+	for ( var i = 0 ; i < pobj.vertices.length ; i++)
+	{
+		if ( pobj.vertices[i][0] > xmax ) xmax =  pobj.vertices[i][0]
+		if ( pobj.vertices[i][0] < xmin ) xmin =  pobj.vertices[i][0]
+		if ( pobj.vertices[i][1] > ymax ) ymax =  pobj.vertices[i][1]
+		if ( pobj.vertices[i][1] < ymin ) ymin =  pobj.vertices[i][1]
+		if ( pobj.vertices[i][2] > zmax ) zmax =  pobj.vertices[i][2]
+		if ( pobj.vertices[i][2] < zmin ) zmin =  pobj.vertices[i][2]
+	}
 
-var height = sx;
-if ( height < sy ) height = sy;
-if ( height < sz ) height = sz;
-pobj.height = height*1.2;
+	var sx = (xmax-xmin);
+	var sy = (ymax-ymin);
+	var sz = (zmax-zmin);
+	var mx = xmax-sx/2;
+	var my = ymax-sy/2;
+	var mz = zmax-sz/2;
 
-translateWavefront (pobj, -mx, -my, -mz);
-		camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
-	
+	var height = sx;
+	if ( height < sy ) height = sy;
+	if ( height < sz ) height = sz;
+	pobj.height = height*1.2;
+
+	translateWavefront (pobj, -mx, -my, -mz);
+	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
+
 	for ( var i = 0; i < pobj.edges.length ; i ++ )
 	{
 		var geometry2 = new THREE.Geometry();
-	
-		geometry2.vertices.push(
-		new THREE.Vector3( pobj.vertices[pobj.edges[i].som[0]][0],
-		 						 pobj.vertices[pobj.edges[i].som[0]][1],
-		  						 pobj.vertices[pobj.edges[i].som[0]][2] ),
-		new THREE.Vector3( pobj.vertices[pobj.edges[i].som[1]][0],
-		 						 pobj.vertices[pobj.edges[i].som[1]][1],
-		  						 pobj.vertices[pobj.edges[i].som[1]][2] ));
-	
+		geometry2.vertices
+		.push(
+			new THREE.Vector3( pobj.vertices[pobj.edges[i].som[0]][0],
+									 pobj.vertices[pobj.edges[i].som[0]][1],
+									 pobj.vertices[pobj.edges[i].som[0]][2] ),
+			new THREE.Vector3( pobj.vertices[pobj.edges[i].som[1]][0],
+									 pobj.vertices[pobj.edges[i].som[1]][1],
+									 pobj.vertices[pobj.edges[i].som[1]][2] )
+		);
 		var line = new THREE.Line( geometry2, material2 );
-		//line.type="edge";
 		scene.add( line );
 	}
-	for ( var i = 0; i < pobj.triangles.length ; i ++ ) {
-
+	for ( var i = 0; i < pobj.triangles.length ; i ++ )
+	{
 		var geometry = new THREE.Geometry();
-
 		geometry.vertices.push(
 		new THREE.Vector3( pobj.vertices[pobj.triangles[i][0]][0],
-		 						 pobj.vertices[pobj.triangles[i][0]][1],
-		  						 pobj.vertices[pobj.triangles[i][0]][2] ),
+		pobj.vertices[pobj.triangles[i][0]][1],
+		pobj.vertices[pobj.triangles[i][0]][2] ),
 		new THREE.Vector3( pobj.vertices[pobj.triangles[i][1]][0],
-		 						 pobj.vertices[pobj.triangles[i][1]][1],
-		  						 pobj.vertices[pobj.triangles[i][1]][2] ),
+		pobj.vertices[pobj.triangles[i][1]][1],
+		pobj.vertices[pobj.triangles[i][1]][2] ),
 		new THREE.Vector3( pobj.vertices[pobj.triangles[i][2]][0],
-		 						 pobj.vertices[pobj.triangles[i][2]][1],
-		  						 pobj.vertices[pobj.triangles[i][2]][2] ) );
-	
+		pobj.vertices[pobj.triangles[i][2]][1],
+		pobj.vertices[pobj.triangles[i][2]][2] ) );
+
 		geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
 
 		var object = new THREE.Mesh( geometry, material);
 		object.tid = i;
-//		object.type = "shape";
-
+		
+		
 		object.castShadow = false;
 		object.receiveShadow = false;
-
 		scene.add( object );
-
-
 		objects.push( object );
 
 	}
@@ -302,9 +298,11 @@ function onDocumentMouseMove( event ) {
 	renderer.render( scene, camera );
 }
 function render() {
-
+	renderer.render( scene, camera );
 }
+
 document.getElementById('fileinput').addEventListener('change', readWavefrontFile, false);
+
 	$('body').on('click', '#close-settings', function() {
 		$('#settings').fadeOut(); 
 		$('#credits').fadeIn();
