@@ -36,17 +36,21 @@ var id = t;
 	return tmptri;
 
 }
-function add_to_renderplane (renderplane, t)
+function add_to_renderplane (renderplane, p)
 {
 
-	var tmptri = genflatcoord (pobj, t);
-	var svgtrigon =  tmptri[0][0]+', '+tmptri[0][1]+
-					 ' '+tmptri[1][0]+', '+tmptri[1][1]+
-					 ' '+tmptri[2][0]+', '+tmptri[2][1];
-	var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
-	svg.setAttribute('points', svgtrigon);
-	svg.setAttribute('class', 'solid' );
-	renderplane.appendChild(svg);
+	//var tmptri = genflatcoord ( pobj, t );
+	for ( var i = 0 ; i < p.triangles.length ; i++ )
+	{
+		var tmptri = p.trianglesflatcoord[i];
+		var svgtrigon =  tmptri[0][0]+', '+tmptri[0][1]+
+						 ' '+tmptri[1][0]+', '+tmptri[1][1]+
+						 ' '+tmptri[2][0]+', '+tmptri[2][1];
+		var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
+		svg.setAttribute('points', svgtrigon);
+		svg.setAttribute('class', 'solid' );
+		renderplane.appendChild(svg);
+	}
 }
 function buildpatterns(o)
 {
@@ -117,7 +121,7 @@ function buildpatterns(o)
    
   	
 	for ( var i = 0 ; i < patterns.length ; i++ )
-		add_to_renderplane (renderplane, patterns[i].triangles[0]);
+		add_to_renderplane (renderplane, patterns[i]);
 	verbose = true;
 	l(patterns);
 	verbose = false;		
