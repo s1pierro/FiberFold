@@ -57,7 +57,7 @@ function init() {
 	scene.add( light );
 
 //	var geometry = new THREE.BoxBufferGeometry( 40, 40, 40 );
-	material1 = new THREE.MeshStandardMaterial(  { color: 0xd1ecf1, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
+	material1 = new THREE.MeshStandardMaterial(  { color: 0xd1ecf1,  flatShading : true, roughness : 1.0 } ) ;
 	material3 = new THREE.MeshStandardMaterial(  { color: 0x52b7ca, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
 	material4 = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 	material2 = new THREE.LineBasicMaterial( { color: 0x666666, linewidth: 1} );

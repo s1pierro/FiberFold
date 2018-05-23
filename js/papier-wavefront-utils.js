@@ -7,6 +7,26 @@
 	Licenced under the termes of the GNU GPL v3
 */
 'use strict';
+function logMatrix(m) {
+
+	var s = '';
+	for ( var i = 0 ; i < 4 ; i++ )
+	{
+		for ( var j = 0 ; j < 4 ; j++ )
+			s += m[i*4+j].toFixed(2)+' ';
+		s+='\n';
+	}
+	fl(s, 'lr');
+}
+function logVector(a) {
+    l("origine: " + a.o + "\nsens: " + a.s + "\nnorme: " + a.n, 'l')
+}
+window.logVector = logVector;
+function logVertice(a) {
+    console.log("x: " + a[0] + " y: " + a[1] + " z: " + a[2])
+}
+window.logVertice = logVertice;
+
 function fl (s, format)
 {
 	verbose = true;
@@ -66,7 +86,7 @@ function parsewavefront(objText, id) {
 			nv++;
 			var vertices = vertex.split(" ");
 			vertices.shift(); 
-			return Float32Array.from(vertices);;
+			return Float64Array.from(vertices);;
 		});
 	}
 	if (positionMatches) {

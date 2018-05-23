@@ -187,15 +187,22 @@ function geninterpmat (vs, ve)
 	l(' ## interpolation', 'lg');
 	var scal, ang;
 	var frmat = genimat ();
+	var m = new THREE.Matrix4();
+	
 	// matrice de translation :
-	var translatevector = vectfromvertices( vs.o, ve.o );
+	//var translatevector = vectfromvertices( ve.o, vs.o );
+	
+	var a = ve.o[0] - vs.o[0];
+	var b = ve.o[1] - vs.o[1];
+	var c = ve.o[2] - vs.o[2];
+	var ftmat = gentmat(a, b, c);
 //	l('vertice a');
 //	logVertice (vs.o);
 //	l('vertice b');
 //	logVertice (ve.o);
 //	l('translate vector :', 'lg');
 //	logVector (translatevector);	
-	var ftmat = gentmatfromvector (translatevector);
+//	var ftmat = gentmatfromvector (translatevector);
 //	l('ftmat', 'lb')
 //	logMatrix(ftmat);
 
@@ -227,15 +234,21 @@ function geninterpmat (vs, ve)
       var ang = Math.acos (sp);
 
 		frmat = axe_ang_to_mat (vp , ang );
-		
-		fl('produit vectoriel :'+vp);
-		fl('produit scalaire :'+sp);
-		fl('ang : '+ang)
+	
+
+	
+//		fl('produit vectoriel :'+vp);
+//		fl('produit scalaire :'+sp);
+//		fl('ang : '+ang)
 //		logMatrix(frmat, 'lb');
 				
 	}
+	var mat = gentmat( -vs.o[0], -vs.o[1], -vs.o[2]);
+	var mat3 = gentmat( ve.o[0], ve.o[1], ve.o[2]);
 
-	var finalmat = multiplymatrix (ftmat, frmat);
+	var mat2 = multiplymatrix (frmat, mat);
+
+	var finalmat = multiplymatrix (mat3, mat2);
 
 //	logMatrix(finalmat);
 	return finalmat;

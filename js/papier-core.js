@@ -22,16 +22,13 @@ var id = t;
 		w.vertices[i] = applymatNscale(itpmat, w.vertices[i]);
 	
 	var tmptri = [ [(w.vertices[w.triangles[id][0]][0]), 
-						 (w.vertices[w.triangles[id][0]][1]), 
-						 (w.vertices[w.triangles[id][0]][2])],
+						 (w.vertices[w.triangles[id][0]][1]), 0],
 
 					   [(w.vertices[w.triangles[id][1]][0]), 
-						 (w.vertices[w.triangles[id][1]][1]), 
-						 (w.vertices[w.triangles[id][1]][2])],
+						 (w.vertices[w.triangles[id][1]][1]), 0],
 
 				      [(w.vertices[w.triangles[id][2]][0]), 
-						 (w.vertices[w.triangles[id][2]][1]), 
-						 (w.vertices[w.triangles[id][2]][2])] ];
+						 (w.vertices[w.triangles[id][2]][1]), 0]];
 
 	return tmptri;
 
@@ -60,6 +57,7 @@ function getpidt (p, t)
 }
 function buildpatterns(o)
 {
+	console.clear();
 	//TODO 
 	l('## rebuild ##');
 	patterns.splice (0, patterns.length);
@@ -131,73 +129,74 @@ function buildpatterns(o)
   	fl(o);
 	for ( var i = 0 ; i < patterns.length ; i++ )
  	{
+ 		var p = patterns[i];
  	  	cleardonelist ();
  	  	var k;
-		for ( var j = 0 ; j < patterns[i].edges.length ; j++ )
+		for ( var j = 0 ; j < p.edges.length ; j++ )
  		{
-			fl (o.edges[patterns[i].edges[j]].som);
-			fl (o.edges[patterns[i].edges[j]].tri);
+			fl (o.edges[p.edges[j]].som);
+			fl (o.edges[p.edges[j]].tri);
 			// pattern cannot own single triangles edges, so we're safe with
 			// fallowing code
 			var vt1s, vt1e, vt2s, vt2e;
-			var vs = o.edges[patterns[i].edges[j]].som[0];
-			var ve = o.edges[patterns[i].edges[j]].som[1];
+			var vs = o.edges[p.edges[j]].som[0];
+			var ve = o.edges[p.edges[j]].som[1];
 			
-			for ( var m = 0 ; m < o.triangles[o.edges[patterns[i].edges[j]].tri[0] ].length ; m++)
+			for ( var m = 0 ; m < o.triangles[o.edges[p.edges[j]].tri[0] ].length ; m++)
 			{
-				if ( o.triangles[o.edges[patterns[i].edges[j]].tri[0] ][m] == vs )
+				if ( o.triangles[o.edges[p.edges[j]].tri[0] ][m] == vs )
 					vt1s = m;
-				if ( o.triangles[o.edges[patterns[i].edges[j]].tri[0] ][m] == ve )
+				if ( o.triangles[o.edges[p.edges[j]].tri[0] ][m] == ve )
 					vt1e = m;
 			}
 			fl ('vt1: '+vt1s+', '+vt1e );
-			for ( var m = 0 ; m < o.triangles[o.edges[patterns[i].edges[j]].tri[1] ].length ; m++)
+			for ( var m = 0 ; m < o.triangles[o.edges[p.edges[j]].tri[1] ].length ; m++)
 			{
-				if ( o.triangles[o.edges[patterns[i].edges[j]].tri[1] ][m] == vs )
+				if ( o.triangles[o.edges[p.edges[j]].tri[1] ][m] == vs )
 					vt2s = m;
-				if ( o.triangles[o.edges[patterns[i].edges[j]].tri[1] ][m] == ve )
+				if ( o.triangles[o.edges[p.edges[j]].tri[1] ][m] == ve )
 					vt2e = m;
 			}
 			fl ('vt2: '+vt2s+', '+vt2e );
 
 
 			
-			//fl('som: '+o.triangles[o.edges[patterns[i].edges[j]].tri[0] ][m], 'xlr');
+			//fl('som: '+o.triangles[o.edges[p.edges[j]].tri[0] ][m], 'xlr');
 			
-				var t = getpidt (patterns[i], o.edges[patterns[i].edges[j]].tri[0] );
-				var t2 = getpidt (patterns[i], o.edges[patterns[i].edges[j]].tri[1] );
+				var t = getpidt (p, o.edges[p.edges[j]].tri[0] );
+				var t2 = getpidt (p, o.edges[p.edges[j]].tri[1] );
  			
-			if ( isdone ( o.edges[patterns[i].edges[j]].tri[0] ) )
+			if ( isdone ( o.edges[p.edges[j]].tri[0] ) )
 			{
-				var target = vectfromvertices (patterns[i].trianglesflatcoord[t][vt1s],
-												 patterns[i].trianglesflatcoord[t][vt1e]);
+				var target = vectfromvertices (p.trianglesflatcoord[t][vt1s],
+												 p.trianglesflatcoord[t][vt1e]);
 
-				var bullet = vectfromvertices (patterns[i].trianglesflatcoord[t2][vt2s],
-												 patterns[i].trianglesflatcoord[t2][vt2e]);
+				var bullet = vectfromvertices (p.trianglesflatcoord[t2][vt2s],
+												 p.trianglesflatcoord[t2][vt2e]);
 				
 				var itpmat = geninterpmat (bullet, target);
 				fl (itpmat);
-			   var pp = $.extend( true, [], patterns[i].trianglesflatcoord[t2]);
+			   var pp = $.extend( true, [], p.trianglesflatcoord[t2]);
 			   fl('pp');fl(pp);
 				for ( var ii = 0 ; ii < 3 ; ii++ )
-					patterns[i].trianglesflatcoord[t2][ii] = applymat(itpmat, pp[ii]);
+					p.trianglesflatcoord[t2][ii] = applymat(itpmat, pp[ii]);
 
 			
 				k = 1;
 			}
 			else
 			{
-				var bullet = vectfromvertices (patterns[i].trianglesflatcoord[t][vt1s],
-														 patterns[i].trianglesflatcoord[t][vt1e]);
+				var bullet = vectfromvertices (p.trianglesflatcoord[t][vt1s],
+														 p.trianglesflatcoord[t][vt1e]);
 
-				var target = vectfromvertices (patterns[i].trianglesflatcoord[t2][vt2s],
-														 patterns[i].trianglesflatcoord[t2][vt2e]);
+				var target = vectfromvertices (p.trianglesflatcoord[t2][vt2s],
+														 p.trianglesflatcoord[t2][vt2e]);
 				var itpmat = geninterpmat (bullet, target);
 				fl (itpmat);
-				var pp = $.extend(true, [], patterns[i].trianglesflatcoord[t]);
+				var pp = $.extend(true, [], p.trianglesflatcoord[t]);
 			   fl('pp');fl(pp);
 				for ( var ii = 0 ; ii < 3 ; ii++ )
-					patterns[i].trianglesflatcoord[t][ii] = applymat(itpmat, pp[ii]);
+					p.trianglesflatcoord[t][ii] = applymat(itpmat, pp[ii]);
 		
 			
 				k = 0;			
@@ -208,7 +207,7 @@ function buildpatterns(o)
 			fl(target);
 			fl('itpmat');
 			fl(itpmat);
-			done ( o.edges[ patterns[i].edges[j] ].tri[k] );
+			done ( o.edges[ p.edges[j] ].tri[k] );
 			fl('add tri '+k, 'xlb');
 			
 			
