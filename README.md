@@ -2,12 +2,12 @@
 ### An application to perform 3d print from desktop printer.
 
 ![screen](https://github.com/s1pierro/Papier/blob/master/Papier-sreen.jpg "Papier screenshot")
-[try it !](https://s1pierro.github.io/Papier/)
+
 
 
 This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=Rcpjqd3NSTE "eMesh") desktop application (SDL, openGL2, C++)
 
-And here is the begining of something working.
+And here is the begining of something working. -> [try it !](https://s1pierro.github.io/Papier/)
 
 
 to do :
