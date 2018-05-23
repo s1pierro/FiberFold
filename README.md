@@ -40,11 +40,11 @@ _This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=
 
  - clean, beautify and clarify code design
  - obtain funding to continue
- - generate assembly marks
- - generate autoclave tabs
- - automate pattern layout
+ - make it able to generate autoclave tabs
+ - make it able to generate assembly marks
+ - automate patterns final layout
  - enrich configuration options
- - generate laser-cut compatible documents
+ - make it able to generate laser-cut compatible documents
  - automate pattern selection
  - polish to fit with mobile devices
 
