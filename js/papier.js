@@ -90,6 +90,7 @@ feedscene ();
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'wheel', onDocumentMouseMove, false );
 	controls.addEventListener( 'change', light_update );
+	  controls.update();
 
 	function light_update()
 	{
@@ -97,7 +98,6 @@ feedscene ();
 	}
 	light.position.copy( camera.position );
 	renderer.render( scene, camera );
-	
 }
 function blankscene ()
 {
@@ -105,7 +105,7 @@ function blankscene ()
 		scene.remove(scene.children[i]);
 	for (let i = objects.length - 1; i >= 0; i--) 
 		objects.splice(i, 1);
-
+  	renderplane.innerHTML = "";
 }
 function feedscene ()
 {

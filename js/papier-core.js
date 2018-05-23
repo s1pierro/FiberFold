@@ -312,7 +312,7 @@ function shapestate (o, t)
 function setshapestate (o, t, s)
 {
 	if ( s == undefined )
-	l('-#- ERROR unable to set shape stae to '+s+' leaving function "setshapestate"', 'lr');
+	fl('-#- ERROR unable to set shape stae to '+s+' leaving function "setshapestate"', 'lr');
 
 
 
