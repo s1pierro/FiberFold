@@ -12,13 +12,13 @@ _touch devices are not supported yet, they will be soon_
 
 ### Goals :
 
- - Provide an enought advanced paper-crafting tool to be used as an alternative prototyping tool ( as [paperAce](https://plus.google.com/photos/118368888481050824788/album/6366533843773096817/6366533840814789570?authkey=CIr985KLmqXwTA "paperAce") does )
+ - Provide an enought advanced paper-crafting tool to be used as an alternative prototyping tool ( as [paperAce](https://plus.google.com/photos/118368888481050824788/album/6366533843773096817/6366533840814789570?authkey=CIr985KLmqXwTA "paperAce") does ).
  - Be as simple as possible to use.
 
 ### non-Goals :
 
- - texturing
- - mesh editing
+ - texturing.
+ - mesh editing.
 
 
 ### Standards and technologies :
@@ -38,23 +38,23 @@ _touch devices are not supported yet, they will be soon_
  
 ### to do :
 
- - full mobile devices support
- - clean, beautify and clarify code design
- - obtain funding to continue
- - make it able to generate autoclave tabs
- - make it able to generate assembly marks
- - automate patterns final layout
- - enrich configuration options
- - make it able to generate laser-cut compatible documents
- - automate pattern selection
+ - full mobile devices support.
+ - clean, beautify and clarify code design.
+ - obtain funding to continue.
+ - make it able to generate autoclave tabs.
+ - make it able to generate assembly marks.
+ - automate patterns final layout.
+ - enrich configuration options.
+ - make it able to generate laser-cut compatible documents.
+ - automate pattern selection.
 
 ### done:
 
- - application layout
- - loading 3D user models
- - manual pattern editing
- - added an alternative pattern editing mode (fast way) 
- - pattern flattening
+ - application layout.
+ - loading 3D user models.
+ - manual pattern editing.
+ - added an alternative pattern editing mode (fast way).
+ - pattern flattening.
  
 If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@free.fr
 #### You should also know that I am currently looking for a way to earn a living by coding. Any proposal in this context is welcome.
