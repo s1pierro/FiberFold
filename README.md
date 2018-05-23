@@ -23,6 +23,7 @@ _This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=
 ### Standards and technologies :
 
  - Javascript
+ - WebGL ( throught three.js )
  - SVG
  - HTML
  - CSS
