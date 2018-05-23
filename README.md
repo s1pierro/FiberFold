@@ -1,15 +1,15 @@
-# paperseed-js
+
+![logo](https://github.com/s1pierro/Papier/blob/master/paperseed-icon.png "# Papier 0.4.1")
 
 
-<p align="center">
-  <img style="float: left;" src="https://github.com/s1pierro/Papier/blob/master/paperseed-icon.png">
-</p>
-
-[ paperseed-js](https://s1pierro.github.io/Papier/)
+[try it !](https://s1pierro.github.io/Papier/)
 
 3d print from desktop printer.
 
+This project is a rewritting of my old "eMesh desktop application (C++)
+
 Here is the begining of something working.
+
 
 to do :
 
@@ -28,6 +28,8 @@ done:
  - manual pattern editing
  - added an alternative pattern editing mode (fast way) 
  - pattern flattening
+ 
+If you got soe interset in such kind of app and
 
 
 	 
