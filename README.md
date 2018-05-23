@@ -1,9 +1,9 @@
 # ![logo](https://github.com/s1pierro/Papier/blob/master/paperseed-icon.png "Papier logo")apier 0.4.1 
+### An application to perform 3d print from desktop printer.
 
 ![screen](https://github.com/s1pierro/Papier/blob/master/Papier-sreen.jpg "Papier screenshot")
 [try it !](https://s1pierro.github.io/Papier/)
 
-3d print from desktop printer.
 
 This project is a rewritting of my old "eMesh desktop application (C++)
 
