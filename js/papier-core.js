@@ -1,6 +1,6 @@
 var BUILDmode = "safe";
 //var BUILDmode = "safe";
-var scaleconst = 100;
+var scaleconst = 30;
 
 
 function genflatcoord (o, t)
@@ -130,7 +130,8 @@ function buildpatterns(o)
 	for ( var i = 0 ; i < patterns.length ; i++ )
  	{
  		var p = patterns[i];
- 	  	cleardonelist ();
+ 	  	cleardonelist ();		
+ 	  	done ( p.triangles[0] );
  	  	var k;
 		for ( var j = 0 ; j < p.edges.length ; j++ )
  		{
@@ -169,15 +170,15 @@ function buildpatterns(o)
 			if ( isdone ( o.edges[p.edges[j]].tri[0] ) )
 			{
 				var target = vectfromvertices (p.trianglesflatcoord[t][vt1s],
-												 p.trianglesflatcoord[t][vt1e]);
+														 p.trianglesflatcoord[t][vt1e]);
 
 				var bullet = vectfromvertices (p.trianglesflatcoord[t2][vt2s],
-												 p.trianglesflatcoord[t2][vt2e]);
+														 p.trianglesflatcoord[t2][vt2e]);
 				
 				var itpmat = geninterpmat (bullet, target);
-				fl (itpmat);
+
 			   var pp = $.extend( true, [], p.trianglesflatcoord[t2]);
-			   fl('pp');fl(pp);
+
 				for ( var ii = 0 ; ii < 3 ; ii++ )
 					p.trianglesflatcoord[t2][ii] = applymat(itpmat, pp[ii]);
 
@@ -192,9 +193,9 @@ function buildpatterns(o)
 				var target = vectfromvertices (p.trianglesflatcoord[t2][vt2s],
 														 p.trianglesflatcoord[t2][vt2e]);
 				var itpmat = geninterpmat (bullet, target);
-				fl (itpmat);
+
 				var pp = $.extend(true, [], p.trianglesflatcoord[t]);
-			   fl('pp');fl(pp);
+
 				for ( var ii = 0 ; ii < 3 ; ii++ )
 					p.trianglesflatcoord[t][ii] = applymat(itpmat, pp[ii]);
 		
@@ -205,10 +206,9 @@ function buildpatterns(o)
 			fl(bullet);
 			fl('target');
 			fl(target);
-			fl('itpmat');
-			fl(itpmat);
+
 			done ( o.edges[ p.edges[j] ].tri[k] );
-			fl('add tri '+k, 'xlb');
+			fl('add tri '+k+' pid : '+o.edges[ p.edges[j] ].tri[k], 'xlb');
 			
 			
 			
