@@ -17,7 +17,7 @@ This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=R
 ### non-Goals :
 
  - texturing
- - mesh editor
+ - mesh editing
 
 
 ### Standards and technologies :
@@ -31,7 +31,7 @@ This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=R
 ### Third party code library :
 
  - Three.js
- - Hammer.js ( comming soon )
+ - Hammer.js ( comming soon to provide touch devices compatibility )
  - jQuery
  
 ### to do :
