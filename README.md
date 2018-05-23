@@ -5,7 +5,7 @@
 [try it !](https://s1pierro.github.io/Papier/)
 
 
-This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=Rcpjqd3NSTE "eMesh") desktop application (C++)
+This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=Rcpjqd3NSTE "eMesh") desktop application (SDL, openGL2, C++)
 
 Here is the begining of something working.
 
