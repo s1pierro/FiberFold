@@ -1,6 +1,6 @@
 var BUILDmode = "safe";
 //var BUILDmode = "safe";
-var scaleconst = 30;
+var scaleconst = 25;
 
 
 function genflatcoord (o, t)
@@ -135,8 +135,6 @@ function buildpatterns(o)
  	  	var k;
 		for ( var j = 0 ; j < p.edges.length ; j++ )
  		{
-			fl (o.edges[p.edges[j]].som);
-			fl (o.edges[p.edges[j]].tri);
 			// pattern cannot own single triangles edges, so we're safe with
 			// fallowing code
 			var vt1s, vt1e, vt2s, vt2e;
@@ -158,67 +156,38 @@ function buildpatterns(o)
 				if ( o.triangles[o.edges[p.edges[j]].tri[1] ][m] == ve )
 					vt2e = m;
 			}
-			fl ('vt2: '+vt2s+', '+vt2e );
-
-
-			
-			//fl('som: '+o.triangles[o.edges[p.edges[j]].tri[0] ][m], 'xlr');
-			
 				var t = getpidt (p, o.edges[p.edges[j]].tri[0] );
 				var t2 = getpidt (p, o.edges[p.edges[j]].tri[1] );
- 			
-			if ( isdone ( o.edges[p.edges[j]].tri[0] ) )
-			{
-				var target = vectfromvertices (p.trianglesflatcoord[t][vt1s],
+ 
+ 				var target = vectfromvertices (p.trianglesflatcoord[t][vt1s],
 														 p.trianglesflatcoord[t][vt1e]);
 
 				var bullet = vectfromvertices (p.trianglesflatcoord[t2][vt2s],
 														 p.trianglesflatcoord[t2][vt2e]);
-				
+	
+			if ( isdone ( o.edges[p.edges[j]].tri[0] ) )
+			{
 				var itpmat = geninterpmat (bullet, target);
-
 			   var pp = $.extend( true, [], p.trianglesflatcoord[t2]);
-
 				for ( var ii = 0 ; ii < 3 ; ii++ )
 					p.trianglesflatcoord[t2][ii] = applymat(itpmat, pp[ii]);
-
-			
 				k = 1;
 			}
 			else
 			{
-				var bullet = vectfromvertices (p.trianglesflatcoord[t][vt1s],
-														 p.trianglesflatcoord[t][vt1e]);
-
-				var target = vectfromvertices (p.trianglesflatcoord[t2][vt2s],
-														 p.trianglesflatcoord[t2][vt2e]);
-				var itpmat = geninterpmat (bullet, target);
-
+				var itpmat = geninterpmat (target, bullet);
 				var pp = $.extend(true, [], p.trianglesflatcoord[t]);
-
 				for ( var ii = 0 ; ii < 3 ; ii++ )
 					p.trianglesflatcoord[t][ii] = applymat(itpmat, pp[ii]);
-		
-			
 				k = 0;			
 			}
-			fl('bullet');
-			fl(bullet);
-			fl('target');
-			fl(target);
-
 			done ( o.edges[ p.edges[j] ].tri[k] );
 			fl('add tri '+k+' pid : '+o.edges[ p.edges[j] ].tri[k], 'xlb');
-			
-			
-			
-			
-			
  		}		
  	}
 	
+	//
    
-  
 	for ( var i = 0 ; i < patterns.length ; i++ )
 		add_to_renderplane (renderplane, patterns[i]);
 
@@ -412,16 +381,4 @@ function isdone (id)
 			return true;
 	return false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

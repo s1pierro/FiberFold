@@ -29,7 +29,7 @@ window.logVertice = logVertice;
 
 function fl (s, format)
 {
-	verbose = true;
+	verbose = false;
 	l(s, format);
 	verbose = false;	
 }
