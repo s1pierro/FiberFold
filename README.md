@@ -10,7 +10,14 @@ This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=R
 #### Here is the begining of something working. -> [try it !](https://s1pierro.github.io/Papier/)
 
 
-### Standards and technologies:
+### Goals :
+
+ - 
+
+### non-Goals :
+
+
+### Standards and technologies :
 
  - Javascript
  - SVG
@@ -45,6 +52,6 @@ This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=R
  - pattern flattening
  
 If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@free.fr
-
+#### I also want you to know that I'm looking for a way to make a living coding. Any proposal in this context is welcome.
 
 	 
