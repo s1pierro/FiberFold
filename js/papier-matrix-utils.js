@@ -1,7 +1,12 @@
-
-////////////////////////////////////////////////////////////////////////////////
-//	Maths funcions
-
+/*
+	this file is a part of 
+	papier 0.4.1
+		
+	Author : Saint Pierre Thomas
+	If you got interest in such kind of app
+	feel free to contact me at spierro@free.fr
+	Licenced under the termes of the GNU GPL v3
+*/
 function Vector(a, b, c) {
     this.o = a;
     this.s = b;
