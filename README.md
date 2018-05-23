@@ -13,6 +13,7 @@ _This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=
 ### Goals :
 
  - Provide an enought advanced paper-crafting tool to be used as an alternative prototyping tool ( as [paperAce](https://plus.google.com/photos/118368888481050824788/album/6366533843773096817/6366533840814789570?authkey=CIr985KLmqXwTA "paperAce") does )
+ - Be as simple as possible to use.
 
 ### non-Goals :
 
