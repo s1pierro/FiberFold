@@ -1,6 +1,6 @@
 # ![logo](https://github.com/s1pierro/Papier/blob/master/paperseed-icon.png "Papier logo")apier 0.4.1 
 
-
+![screen](https://github.com/s1pierro/Papier/blob/master/papier-screen.jpg "Papier screenshot")
 [try it !](https://s1pierro.github.io/Papier/)
 
 3d print from desktop printer.
@@ -19,6 +19,7 @@ to do :
  - enrich configuration options
  - generate laser-cut compatible documents
  - automate pattern selection
+ - polish to fit with mobile devices
 
 done:
 
