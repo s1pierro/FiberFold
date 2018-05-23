@@ -7,6 +7,12 @@
 	Licenced under the termes of the GNU GPL v3
 */
 'use strict';
+function fl (s, format)
+{
+	verbose = true;
+	l(s, format);
+	verbose = false;	
+}
 function l (s, format)
 {
 	if (!verbose) return;

@@ -166,7 +166,16 @@ background: radial-gradient(ellipse at center,  #999 0%,#222 100%); /* W3C, IE10
 		background: radial-gradient(ellipse at center,  #999 0%,#222 100%); 
 	}
 }
+.flatshape {
 
+	fill: #efefef;
+	opacity: 1.0;
+
+	stroke: #444;
+	stroke-width: 1px;
+	stroke-linejoin: bevel;
+
+}
 
 .junction.hide {
 

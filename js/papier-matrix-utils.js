@@ -81,11 +81,11 @@ function applymatNpersp(a, b) {
 window.applymatNpersp = applymatNpersp;
 
 function applymatNscale(a, b) {
-    var c = [];
+     var c = [];
     c.lenth = 3;
-    c[2] = a[8] * b[0] + a[9] * b[1] + a[10] * b[2] + a[11];
-    c[0] = scaleconst / c[2] * (a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3]);
-    c[1] = scaleconst / c[2] * (a[4] * b[0] + a[5] * b[1] + a[6] * b[2] + a[7]);
+   c[0] = (a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3])*scaleconst;
+    c[1] = (a[4] * b[0] + a[5] * b[1] + a[6] * b[2] + a[7])*scaleconst;
+    c[2] = (a[8] * b[0] + a[9] * b[1] + a[10] * b[2] + a[11])*scaleconst;
     return c
 }
 window.applymatNscale = applymatNscale;
@@ -228,9 +228,9 @@ function geninterpmat (vs, ve)
 
 		frmat = axe_ang_to_mat (vp , ang );
 		
-//		l('produit vectoriel :'+vp);
-//		l('produit scalaire :'+sp);
-//		l('ang : '+ang)
+		fl('produit vectoriel :'+vp);
+		fl('produit scalaire :'+sp);
+		fl('ang : '+ang)
 //		logMatrix(frmat, 'lb');
 				
 	}

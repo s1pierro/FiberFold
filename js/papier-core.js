@@ -1,6 +1,6 @@
 var BUILDmode = "safe";
 //var BUILDmode = "safe";
-var scaleconst = 50;
+var scaleconst = 100;
 
 
 function genflatcoord (o, t)
@@ -48,9 +48,15 @@ function add_to_renderplane (renderplane, p)
 						 ' '+tmptri[2][0]+', '+tmptri[2][1];
 		var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
 		svg.setAttribute('points', svgtrigon);
-		svg.setAttribute('class', 'solid' );
+		svg.setAttribute('class', 'flatshape' );
 		renderplane.appendChild(svg);
 	}
+}
+function getpidt (p, t)
+{
+	for ( var i = 0 ; i < p.triangles.length ; i++ )
+		if ( t == p.triangles[i] ) return i;
+	fl( 'ERROR', 'xlr' );
 }
 function buildpatterns(o)
 {
@@ -107,8 +113,11 @@ function buildpatterns(o)
 	else $('#scratch-message').fadeIn();
   	renderplane.innerHTML = "";
   	
-  	// At this point Patterns have correct define
+  	// At this point Patterns are correctly defined
   	
+  	
+  	
+ 	// lets calculate the flat coord of each triangle
  	for ( var i = 0 ; i < patterns.length ; i++ )
  	{
  		patterns[i].trianglesflatcoord = [];
@@ -117,14 +126,105 @@ function buildpatterns(o)
  			patterns[i].trianglesflatcoord.push(genflatcoord (o, patterns[i].triangles[j] ));
  		}	
  	}
- 	
+  	// lets assemble flat patterns with previous calculated coordinates
+  	// and patterns definitions
+  	fl(o);
+	for ( var i = 0 ; i < patterns.length ; i++ )
+ 	{
+ 	  	cleardonelist ();
+ 	  	var k;
+		for ( var j = 0 ; j < patterns[i].edges.length ; j++ )
+ 		{
+			fl (o.edges[patterns[i].edges[j]].som);
+			fl (o.edges[patterns[i].edges[j]].tri);
+			// pattern cannot own single triangles edges, so we're safe with
+			// fallowing code
+			var vt1s, vt1e, vt2s, vt2e;
+			var vs = o.edges[patterns[i].edges[j]].som[0];
+			var ve = o.edges[patterns[i].edges[j]].som[1];
+			
+			for ( var m = 0 ; m < o.triangles[o.edges[patterns[i].edges[j]].tri[0] ].length ; m++)
+			{
+				if ( o.triangles[o.edges[patterns[i].edges[j]].tri[0] ][m] == vs )
+					vt1s = m;
+				if ( o.triangles[o.edges[patterns[i].edges[j]].tri[0] ][m] == ve )
+					vt1e = m;
+			}
+			fl ('vt1: '+vt1s+', '+vt1e );
+			for ( var m = 0 ; m < o.triangles[o.edges[patterns[i].edges[j]].tri[1] ].length ; m++)
+			{
+				if ( o.triangles[o.edges[patterns[i].edges[j]].tri[1] ][m] == vs )
+					vt2s = m;
+				if ( o.triangles[o.edges[patterns[i].edges[j]].tri[1] ][m] == ve )
+					vt2e = m;
+			}
+			fl ('vt2: '+vt2s+', '+vt2e );
+
+
+			
+			//fl('som: '+o.triangles[o.edges[patterns[i].edges[j]].tri[0] ][m], 'xlr');
+			
+				var t = getpidt (patterns[i], o.edges[patterns[i].edges[j]].tri[0] );
+				var t2 = getpidt (patterns[i], o.edges[patterns[i].edges[j]].tri[1] );
+ 			
+			if ( isdone ( o.edges[patterns[i].edges[j]].tri[0] ) )
+			{
+				var target = vectfromvertices (patterns[i].trianglesflatcoord[t][vt1s],
+												 patterns[i].trianglesflatcoord[t][vt1e]);
+
+				var bullet = vectfromvertices (patterns[i].trianglesflatcoord[t2][vt2s],
+												 patterns[i].trianglesflatcoord[t2][vt2e]);
+				
+				var itpmat = geninterpmat (bullet, target);
+				fl (itpmat);
+			   var pp = $.extend( true, [], patterns[i].trianglesflatcoord[t2]);
+			   fl('pp');fl(pp);
+				for ( var ii = 0 ; ii < 3 ; ii++ )
+					patterns[i].trianglesflatcoord[t2][ii] = applymat(itpmat, pp[ii]);
+
+			
+				k = 1;
+			}
+			else
+			{
+				var bullet = vectfromvertices (patterns[i].trianglesflatcoord[t][vt1s],
+														 patterns[i].trianglesflatcoord[t][vt1e]);
+
+				var target = vectfromvertices (patterns[i].trianglesflatcoord[t2][vt2s],
+														 patterns[i].trianglesflatcoord[t2][vt2e]);
+				var itpmat = geninterpmat (bullet, target);
+				fl (itpmat);
+				var pp = $.extend(true, [], patterns[i].trianglesflatcoord[t]);
+			   fl('pp');fl(pp);
+				for ( var ii = 0 ; ii < 3 ; ii++ )
+					patterns[i].trianglesflatcoord[t][ii] = applymat(itpmat, pp[ii]);
+		
+			
+				k = 0;			
+			}
+			fl('bullet');
+			fl(bullet);
+			fl('target');
+			fl(target);
+			fl('itpmat');
+			fl(itpmat);
+			done ( o.edges[ patterns[i].edges[j] ].tri[k] );
+			fl('add tri '+k, 'xlb');
+			
+			
+			
+			
+			
+ 		}		
+ 	}
+	
    
-  	
+  
 	for ( var i = 0 ; i < patterns.length ; i++ )
 		add_to_renderplane (renderplane, patterns[i]);
-	verbose = true;
+
 	l(patterns);
-	verbose = false;		
+
 }
 function addjunctiontopattern (o, pattern, edge)
 {
@@ -293,4 +393,36 @@ function download(data, filename, type) {
         }, 0); 
     }
 }
+// the fallowing functions abd var would have better to be rewritten in a single
+// using POO patern
+
+var donelist = [];
+function cleardonelist ()
+{
+	for (let i = donelist.length - 1; i >= 0; i--) 
+		donelist.splice(i, 1);
+}
+function done ( id )
+{
+	donelist.push(id);
+}
+function isdone (id)
+{
+	for ( var i = 0 ; i < donelist.length ; i++ )
+		if ( donelist[i] == id )
+			return true;
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
