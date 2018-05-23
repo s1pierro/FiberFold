@@ -1,5 +1,5 @@
-
-![logo](https://github.com/s1pierro/Papier/blob/master/paperseed-icon.png "Papier logo") # Papier 0.4.1
+# Papier 0.4.1
+![logo](https://github.com/s1pierro/Papier/blob/master/paperseed-icon.png "Papier logo")
 
 
 [try it !](https://s1pierro.github.io/Papier/)
