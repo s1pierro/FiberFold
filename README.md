@@ -7,11 +7,11 @@
 
 This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=Rcpjqd3NSTE "eMesh") desktop application (SDL, openGL2, C++)
 
-Here is the begining of something working.
+And here is the begining of something working.
 
 
 to do :
-
+ - clean, beautify and clarify code design
  - obtain funding to continue
  - generate assembly marks
  - generate autoclave tabs
