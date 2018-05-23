@@ -52,6 +52,5 @@ This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=R
  - pattern flattening
  
 If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@free.fr
-#### I also want you to know that I'm looking for a way to make a living coding. Any proposal in this context is welcome.
-
+#### You should also know that I am currently looking for a way to earn a living by coding. Any proposal in this context is welcome.
 	 
