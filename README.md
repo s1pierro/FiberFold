@@ -10,7 +10,7 @@ This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=R
 #### Here is the begining of something working. -> [try it !](https://s1pierro.github.io/Papier/)
 
 
-Standards and technologies:
+### Standards and technologies:
 
  - Javascript
  - SVG
@@ -18,13 +18,13 @@ Standards and technologies:
  - CSS
 
 
-Third party code library :
+### Third party code library :
 
  - Three.js
  - Hammer.js ( comming soon )
  - jQuery
  
-to do :
+### to do :
 
  - clean, beautify and clarify code design
  - obtain funding to continue
@@ -36,7 +36,7 @@ to do :
  - automate pattern selection
  - polish to fit with mobile devices
 
-done:
+### done:
 
  - application layout
  - loading 3D user models
