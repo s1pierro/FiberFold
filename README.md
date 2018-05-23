@@ -38,6 +38,7 @@ _touch devices are not supported yet, they will be soon_
  
 ### to do :
 
+ - full mobile devices support
  - clean, beautify and clarify code design
  - obtain funding to continue
  - make it able to generate autoclave tabs
@@ -46,7 +47,6 @@ _touch devices are not supported yet, they will be soon_
  - enrich configuration options
  - make it able to generate laser-cut compatible documents
  - automate pattern selection
- - polish to fit with mobile devices
 
 ### done:
 
