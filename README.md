@@ -29,7 +29,7 @@ done:
  - added an alternative pattern editing mode (fast way) 
  - pattern flattening
  
-If you got soe interset in such kind of app and
+If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@free.fr
 
 
 	 
