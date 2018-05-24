@@ -46,7 +46,6 @@ var id = t;
 }
 function add_to_renderplane (renderplane, p)
 {
-
 	//var tmptri = genflatcoord ( pobj, t );
 	for ( var i = 0 ; i < p.triangles.length ; i++ )
 	{
@@ -59,6 +58,7 @@ function add_to_renderplane (renderplane, p)
 		svg.setAttribute('class', 'flatshape' );
 		renderplane.appendChild(svg);
 	}
+
 }
 function getpidt (p, t)
 {
@@ -196,14 +196,24 @@ function buildpatterns(o)
 			fl('add tri '+k+' pid : '+o.edges[ p.edges[j] ].tri[k], 'xlb');
  		}		
  	}
-	
 	//
-   
 	for ( var i = 0 ; i < patterns.length ; i++ )
 		add_to_renderplane (renderplane, patterns[i]);
-
+		
 	l(patterns);
-
+}
+function arrangefrontier (p)
+{
+	
+}
+function genpatternnodes (p)
+{
+	
+}
+function patternstats (p)
+{
+	var nNod, nTri, nEdg, nFro;
+	var maxX, minX, maxY, minY;
 }
 function addjunctiontopattern (o, pattern, edge)
 {
@@ -313,8 +323,6 @@ function setshapestate (o, t, s)
 {
 	if ( s == undefined )
 	fl('-#- ERROR unable to set shape stae to '+s+' leaving function "setshapestate"', 'lr');
-
-
 
 	o.triangles[t].state = s;
 	if( s == "visible")
