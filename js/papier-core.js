@@ -41,7 +41,7 @@ var id = t;
 	return tmptri;
 
 }
-function add_to_renderplane (renderplane, p)
+function addpatterntofinaldoc (renderplane, p)
 {
 	var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
 	g.setAttribute('id', 'pattern-'+p.id);
@@ -202,11 +202,13 @@ function buildpatterns(o)
 			done ( o.edges[ p.edges[j] ].tri[k] );
  		}		
  	}
-
-	for ( var i = 0 ; i < patterns.length ; i++ )
-		add_to_renderplane (renderplane, patterns[i]);
-		
+ 	
+ 	
 	fl(patterns);
+	for ( var i = 0 ; i < patterns.length ; i++ )
+		addpatterntofinaldoc (renderplane, patterns[i]);
+		
+
 }
 function arrangefrontier (p)
 {
@@ -214,7 +216,11 @@ function arrangefrontier (p)
 }
 function genpatternnodes (p)
 {
-	
+	for (  var i = 0 ; i < p.frontier.length ; i++ )
+	{
+		
+
+	}
 }
 function patternstats (p)
 {
