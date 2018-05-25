@@ -7,12 +7,13 @@
 	feel free to contact me at spierro@free.fr
 	Licenced under the termes of the GNU GPL v3
 */
+'use strict';
 
 $('#settings').hide();
 
 var pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
 
-var mouse = new THREE.Vector2(), mousein;
+var mouse = new THREE.Vector2(), mouserayid;
 var container;
 var camera, controls, scene, raycaster, renderer;
 var objects = [];
@@ -163,7 +164,7 @@ function mouseup ( event )
 		if ( activeshape1 != -1 )
 		{
 			setshapestate(pobj, activeshape1, activeshape1shadoweddstate);
-			var e = aresharingedge (pobj, activeshape1, tappedshapeid);
+			var e = sharededge (pobj, activeshape1, tappedshapeid);
 			if ( e > -1 )
 			{
 					setshapestate(pobj, activeshape1, "solid" );	

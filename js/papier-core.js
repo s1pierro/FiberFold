@@ -8,10 +8,7 @@
 	Licenced under the termes of the GNU GPL v3
 */
 
-
-var BUILDmode = "safe";
-//var BUILDmode = "safe";
-var scaleconst = 25;
+'use strict';
 
 
 function genflatcoord (o, t)
@@ -116,15 +113,24 @@ function buildpatterns(o)
 			patterns[patterns.length-1].triangles[0].flatcoord = flatcoord;
 			l(flatcoord);
 		}									
-	if ( patterns.length > 0 ) $('#scratch-message').fadeOut();
-	else $('#scratch-message').fadeIn();
+	if ( patterns.length > 0 )
+		$('#scratch-message').fadeOut();
+	else
+		$('#scratch-message').fadeIn();
   	renderplane.innerHTML = "";
   	
   	// At this point Patterns are correctly defined
   	
   	
   	
- 	// lets calculate the flat coord of each triangle
+ 	// let's calculate the flat coord of each triangle
+ 	//================================================
+ 	// mistake was done earlyer, patterns triangles ids are store in an array of array
+ 	// instead of an array of (js) objects
+ 	// dont wand to rewrite this now, so flat coordinates will be store in a separate array
+ 	// of array - SO - P.triangles[x] & P.trianlesflatcoord[x] define the same triangle
+ 	// and will always be
+ 	
  	for ( var i = 0 ; i < patterns.length ; i++ )
  	{
  		patterns[i].trianglesflatcoord = [];
@@ -135,7 +141,7 @@ function buildpatterns(o)
  	}
   	// lets assemble flat patterns with previous calculated coordinates
   	// and patterns definitions
-  	fl(o);
+
 	for ( var i = 0 ; i < patterns.length ; i++ )
  	{
  		var p = patterns[i];
@@ -144,7 +150,7 @@ function buildpatterns(o)
  	  	var k;
 		for ( var j = 0 ; j < p.edges.length ; j++ )
  		{
-			// pattern cannot own single triangles edges, so we're safe with
+			// pattern cannot own single triangle edges, so we're safe with
 			// fallowing code
 			var vt1s, vt1e, vt2s, vt2e;
 			var vs = o.edges[p.edges[j]].som[0];
@@ -165,14 +171,14 @@ function buildpatterns(o)
 				if ( o.triangles[o.edges[p.edges[j]].tri[1] ][m] == ve )
 					vt2e = m;
 			}
-				var t = getpidt (p, o.edges[p.edges[j]].tri[0] );
-				var t2 = getpidt (p, o.edges[p.edges[j]].tri[1] );
- 
- 				var target = vectfromvertices (p.trianglesflatcoord[t][vt1s],
-														 p.trianglesflatcoord[t][vt1e]);
+			var t = getpidt (p, o.edges[p.edges[j]].tri[0] );
+			var t2 = getpidt (p, o.edges[p.edges[j]].tri[1] );
 
-				var bullet = vectfromvertices (p.trianglesflatcoord[t2][vt2s],
-														 p.trianglesflatcoord[t2][vt2e]);
+			var target = vectfromvertices (p.trianglesflatcoord[t][vt1s],
+													 p.trianglesflatcoord[t][vt1e]);
+
+			var bullet = vectfromvertices (p.trianglesflatcoord[t2][vt2s],
+													 p.trianglesflatcoord[t2][vt2e]);
 	
 			if ( isdone ( o.edges[p.edges[j]].tri[0] ) )
 			{
@@ -194,7 +200,7 @@ function buildpatterns(o)
 			fl('add tri '+k+' pid : '+o.edges[ p.edges[j] ].tri[k], 'xlb');
  		}		
  	}
-	//
+
 	for ( var i = 0 ; i < patterns.length ; i++ )
 		add_to_renderplane (renderplane, patterns[i]);
 		
@@ -239,10 +245,9 @@ function PATTERNgentriangles (o, p) // find triangles from junction list
 		for( var j = 0 ; j < o.edges[p.edges[i]].tri.length ; j++ )
 			if ( PATTERNgottriangle (p ,o.edges[p.edges[i]].tri[j]) == -1 )
 			{
-				var flatcoord = genflatcoord (o, o.edges[p.edges[i]].tri[j]);
-			l(flatcoord);
+
 				p.triangles.push(o.edges[p.edges[i]].tri[j]);
-				p.triangles[p.triangles.length-1].flatcoord = flatcoord;
+
 				setshapestate(o, o.edges[p.edges[i]].tri[j], "solid");
 			}
 	PATTERNgenfrontier (o, p);
@@ -344,7 +349,7 @@ function getpattern(triangle)
 				return i;
 	return -1;
 }
-function aresharingedge ( o, triangle_1, triangle_2)
+function sharededge ( o, triangle_1, triangle_2)
 {
 	if ( triangle_1 == triangle_2 ) return -2;
 	if ( triangle_1 == -1 ) return -3;
@@ -362,22 +367,6 @@ function aresharingedge ( o, triangle_1, triangle_2)
 	return -1;
 }
 
-function download(data, filename, type) {
-    var file = new Blob([data], {type: type});
-    if (window.navigator.msSaveOrOpenBlob) // IE10+
-        window.navigator.msSaveOrOpenBlob(file, filename);
-    else { // Others
-        var a = document.createElement("a"), url = URL.createObjectURL(file);
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(function() {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);  
-        }, 0); 
-    }
-}
 // the fallowing functions and var would have better to be rewritten in a single
 // one, using POO patern
 
