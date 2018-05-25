@@ -79,6 +79,38 @@ function parsewavefront(objText, id) {
 	obj.nv = nv;
 	obj.nt = nt;
 	obj.ng = ng;
+	
+	var xmax = obj.vertices[0][0];
+	var xmin = obj.vertices[0][0];
+	var ymax = obj.vertices[0][1];
+	var ymin = obj.vertices[0][1];
+	var zmax = obj.vertices[0][2];
+	var zmin = obj.vertices[0][2];
+
+	for ( var i = 0 ; i < obj.vertices.length ; i++)
+	{
+		if ( obj.vertices[i][0] > xmax ) xmax =  obj.vertices[i][0]
+		if ( obj.vertices[i][0] < xmin ) xmin =  obj.vertices[i][0]
+		if ( obj.vertices[i][1] > ymax ) ymax =  obj.vertices[i][1]
+		if ( obj.vertices[i][1] < ymin ) ymin =  obj.vertices[i][1]
+		if ( obj.vertices[i][2] > zmax ) zmax =  obj.vertices[i][2]
+		if ( obj.vertices[i][2] < zmin ) zmin =  obj.vertices[i][2]
+	}
+
+	var sx = (xmax-xmin);
+	var sy = (ymax-ymin);
+	var sz = (zmax-zmin);
+	var mx = xmax-sx/2;
+	var my = ymax-sy/2;
+	var mz = zmax-sz/2;
+
+	var height = sx;
+	if ( height < sy ) height = sy;
+	if ( height < sz ) height = sz;
+	obj.height = height*1.2;
+
+	translateWavefront (obj, -mx, -my, -mz);
+
 	return obj;
 }
 window['parsewavefront'] = parsewavefront;

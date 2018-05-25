@@ -89,13 +89,7 @@ function init() {
 	light.position.copy( camera.position );
 	renderer.render( scene, camera );
 }
-function onWindowResize() {
 
-	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-	camera.updateProjectionMatrix();
-	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
-	render();
-}
 function blankscene ()
 {
 	for (let i = scene.children.length - 1; i >= 2; i--) 
@@ -106,37 +100,6 @@ function blankscene ()
 }
 function feedscene ()
 {
-
-	var xmax = pobj.vertices[0][0];
-	var xmin = pobj.vertices[0][0];
-	var ymax = pobj.vertices[0][1];
-	var ymin = pobj.vertices[0][1];
-	var zmax = pobj.vertices[0][2];
-	var zmin = pobj.vertices[0][2];
-
-	for ( var i = 0 ; i < pobj.vertices.length ; i++)
-	{
-		if ( pobj.vertices[i][0] > xmax ) xmax =  pobj.vertices[i][0]
-		if ( pobj.vertices[i][0] < xmin ) xmin =  pobj.vertices[i][0]
-		if ( pobj.vertices[i][1] > ymax ) ymax =  pobj.vertices[i][1]
-		if ( pobj.vertices[i][1] < ymin ) ymin =  pobj.vertices[i][1]
-		if ( pobj.vertices[i][2] > zmax ) zmax =  pobj.vertices[i][2]
-		if ( pobj.vertices[i][2] < zmin ) zmin =  pobj.vertices[i][2]
-	}
-
-	var sx = (xmax-xmin);
-	var sy = (ymax-ymin);
-	var sz = (zmax-zmin);
-	var mx = xmax-sx/2;
-	var my = ymax-sy/2;
-	var mz = zmax-sz/2;
-
-	var height = sx;
-	if ( height < sy ) height = sy;
-	if ( height < sz ) height = sz;
-	pobj.height = height*1.2;
-
-	translateWavefront (pobj, -mx, -my, -mz);
 
 	for ( var i = 0; i < pobj.edges.length ; i ++ )
 	{
@@ -180,7 +143,13 @@ function feedscene ()
 	}
 	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
 }
+function onWindowResize() {
 
+	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+	camera.updateProjectionMatrix();
+	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+	render();
+}
 document.addEventListener( 'mouseup', mouseup, false );
 document.addEventListener( 'mousedown', mousedown, false );
 function mousedown ( event ) { mouserayid = mouse.x*mouse.y; }

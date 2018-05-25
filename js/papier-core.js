@@ -46,7 +46,6 @@ var id = t;
 }
 function add_to_renderplane (renderplane, p)
 {
-	//var tmptri = genflatcoord ( pobj, t );
 	for ( var i = 0 ; i < p.triangles.length ; i++ )
 	{
 		var tmptri = p.trianglesflatcoord[i];
@@ -58,7 +57,6 @@ function add_to_renderplane (renderplane, p)
 		svg.setAttribute('class', 'flatshape' );
 		renderplane.appendChild(svg);
 	}
-
 }
 function getpidt (p, t)
 {
@@ -286,8 +284,7 @@ function TRIANGLEgetedges (o, t) // find fronier from edges && triangles lists
 }
 function JUNCTIONgottriangle (j, t)
 {
-
-	for( var i = 0 ; i < j.tri.length ; i++ )	
+	for( var i = 0 ; i < j.tri.length ; i++ )
 		if ( j.tri[i] == t ) return i;
 	return -1;
 }
@@ -381,8 +378,8 @@ function download(data, filename, type) {
         }, 0); 
     }
 }
-// the fallowing functions abd var would have better to be rewritten in a single
-// using POO patern
+// the fallowing functions and var would have better to be rewritten in a single
+// one, using POO patern
 
 var donelist = [];
 function cleardonelist ()
