@@ -43,6 +43,9 @@ var id = t;
 }
 function add_to_renderplane (renderplane, p)
 {
+	var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
+	g.setAttribute('id', 'pattern-'+p.id);
+	
 	for ( var i = 0 ; i < p.triangles.length ; i++ )
 	{
 		var tmptri = p.trianglesflatcoord[i];
@@ -52,8 +55,9 @@ function add_to_renderplane (renderplane, p)
 		var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
 		svg.setAttribute('points', svgtrigon);
 		svg.setAttribute('class', 'flatshape' );
-		renderplane.appendChild(svg);
+		g.appendChild(svg);
 	}
+	renderplane.appendChild(g);
 }
 function getpidt (p, t)
 {
@@ -92,7 +96,7 @@ function buildpatterns(o)
 		}
 		if ( add == -1 )
 		{	
-			var tmp = { triangles : [], edges : [freezedlist[0]], frontier : [] };
+			var tmp = { triangles : [], edges : [freezedlist[0]], frontier : [], id : patterns.length };
 			PATTERNgentriangles(o, tmp);
 			patterns.push(tmp);
 			freezedlist.splice(0, 1);	
@@ -140,7 +144,7 @@ function buildpatterns(o)
  		}	
  	}
   	// lets assemble flat patterns with previous calculated coordinates
-  	// and patterns definitions
+  	// and pattern definitions
 
 	for ( var i = 0 ; i < patterns.length ; i++ )
  	{
@@ -163,7 +167,6 @@ function buildpatterns(o)
 				if ( o.triangles[o.edges[p.edges[j]].tri[0] ][m] == ve )
 					vt1e = m;
 			}
-			fl ('vt1: '+vt1s+', '+vt1e );
 			for ( var m = 0 ; m < o.triangles[o.edges[p.edges[j]].tri[1] ].length ; m++)
 			{
 				if ( o.triangles[o.edges[p.edges[j]].tri[1] ][m] == vs )
@@ -197,14 +200,13 @@ function buildpatterns(o)
 				k = 0;			
 			}
 			done ( o.edges[ p.edges[j] ].tri[k] );
-			fl('add tri '+k+' pid : '+o.edges[ p.edges[j] ].tri[k], 'xlb');
  		}		
  	}
 
 	for ( var i = 0 ; i < patterns.length ; i++ )
 		add_to_renderplane (renderplane, patterns[i]);
 		
-	l(patterns);
+	fl(patterns);
 }
 function arrangefrontier (p)
 {
@@ -245,9 +247,7 @@ function PATTERNgentriangles (o, p) // find triangles from junction list
 		for( var j = 0 ; j < o.edges[p.edges[i]].tri.length ; j++ )
 			if ( PATTERNgottriangle (p ,o.edges[p.edges[i]].tri[j]) == -1 )
 			{
-
 				p.triangles.push(o.edges[p.edges[i]].tri[j]);
-
 				setshapestate(o, o.edges[p.edges[i]].tri[j], "solid");
 			}
 	PATTERNgenfrontier (o, p);

@@ -33,7 +33,7 @@ window.logVertice = logVertice;
 
 function fl (s, format)
 {
-	verbose = false;
+	verbose = true;
 	l(s, format);
 	verbose = false;	
 }
