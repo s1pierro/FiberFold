@@ -300,42 +300,43 @@ function setedgestate (o, e, s)
 	scene.children[(2+e)].visible = true;
 	o.edges[e].state = s;
 	if( s == "visible")
-	scene.children[(2+e)].material = material5;
+	scene.children[(2+e)].material = materialFrontier;
 	if( s == "freeze")
 	{
 		scene.children[(2+e)].visible = false;
 	}
 	if( s == "highlight")
-	scene.children[(2+e)].material = material5;
+	scene.children[(2+e)].material = materialFrontier;
 	if( s == "hide")
 	{
-		scene.children[(2+e)].material = material5;
 		scene.children[(2+e)].visible = false;
 	}
 }
 function shapestate (o, t)
 {
-	l('## shapestate ##');
-
+	l('## shape('+t+').state : '+o.triangles[t].state);
 	return o.triangles[t].state;
 }
 function setshapestate (o, t, s)
 {
 	if ( s == undefined )
-	fl('-#- ERROR unable to set shape stae to '+s+' leaving function "setshapestate"', 'lr');
+	fl('-#- ERROR unable to set shape ( '+t+' ) state to '+s+' leaving function "setshapestate"', 'lr');
 
 	o.triangles[t].state = s;
 	if( s == "visible")
 	{
-		scene.children[(2+t+o.ne)].material = material;
+		scene.children[(2+t+o.ne)].material = materialVisible;
 		scene.children[(2+t+o.ne)].visible = true;
 	}
 	if( s == "solid")
-	{scene.children[(2+t+o.ne)].material = material4;}
+	{
+		scene.children[(2+t+o.ne)].material = materialSolid;
+		scene.children[(2+t+o.ne)].visible = true;
+	}
 	if( s == "highlight")
 	{
 		scene.children[(2+t+o.ne)].visible = true;
-		scene.children[(2+t+o.ne)].material = material3;
+		scene.children[(2+t+o.ne)].material = materialHighlighted;
 	}
 }
 function getpattern(triangle)

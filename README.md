@@ -38,15 +38,15 @@ _touch devices are not fully supported yet, they will be soon_
  
 ### to do :
 
+ - automate patterns final layout.
  - full mobile devices support.
  - clean, beautify and clarify code design.
  - obtain funding to continue.
  - make it able to generate autoclave tabs.
  - make it able to generate assembly marks.
- - automate patterns final layout.
- - enrich configuration options.
  - make it able to generate laser-cut compatible documents.
  - automate pattern selection.
+ - enrich configuration options.
 
 ### done:
 

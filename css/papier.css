@@ -95,7 +95,7 @@ height: 100vh;
 	color: #eee;
 }
 
-#svg8
+#renderbox
 {
 	position : fixed;
 	z-index:1;
@@ -154,7 +154,7 @@ background: radial-gradient(ellipse at center,  #999 0%,#222 100%); /* W3C, IE10
 		color: #eee;
 	}
 
-	#svg8
+	#renderbox
 	{
 		position : fixed;
 		z-index:1;

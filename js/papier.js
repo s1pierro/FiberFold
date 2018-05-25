@@ -10,32 +10,31 @@
 
 $('#settings').hide();
 
-var pobj = {};
-pobj = $.extend(true, {}, loadWavefrontFromHTLM('#logo', 'logo'));
+var pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
 
 var mouse = new THREE.Vector2(), mousein;
 var container;
 var camera, controls, scene, raycaster, renderer;
 var objects = [];
-var focus, focusshadowmaterial;
-var material, material1, material2, material3, material4, material5;
-var activeshape0, activeshape1 = -1, activeshape2;
-var activeshape1shadoweddstate, activeshape2shadoweddstate;
+var focus;
+var materialVisible, material1, materialSoftEdge, materialHighlighted, materialSolid, materialFrontier;
+var activeshape1 = -1;
+var activeshape1shadoweddstate;
+
 var patterns = [];
-var landscape = true;
 var verbose = false;
+var BUILDmode = "safe";
+var scaleconst = 25;
 
 $(window).on("load",  init());
-
 
 function init() {
 
 	container = document.createElement( 'div' );
-	container.id = 'svg8';
+	container.id = 'renderbox';
 	document.body.appendChild( container );
-
 	
-	camera = new THREE.PerspectiveCamera( 70, $('#svg8').width() / $('#svg8').height(), 0.1, 5000 );
+	camera = new THREE.PerspectiveCamera( 70, $('#renderbox').width() / $('#renderbox').height(), 0.1, 5000 );
 	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
 
 	controls = new THREE.TrackballControls( camera );
@@ -48,38 +47,29 @@ function init() {
 	controls.dynamicDampingFactor = 0.3;
 
 	scene = new THREE.Scene();
-//	scene.background = new THREE.Color( 0x000000 );
 
 	scene.add( new THREE.AmbientLight( 0xffffff ) );
 
 	var light = new THREE.SpotLight( 0xffffff, 0.9 );
-	light.position.set( 0, 500, 2000 );
+	light.position.copy( camera.position );
 	light.angle = Math.PI / 3;
-
 	light.castShadow = false;
-	light.shadow.camera.near = 1000;
-	light.shadow.camera.far = 4000;
-	light.shadow.mapSize.width = 1024;
-	light.shadow.mapSize.height = 1024;
-
 	scene.add( light );
 
-//	var geometry = new THREE.BoxBufferGeometry( 40, 40, 40 );
-	material1 = new THREE.MeshStandardMaterial(  { color: 0xd1ecf1,  flatShading : true, roughness : 1.0 } ) ;
-	material3 = new THREE.MeshStandardMaterial(  { color: 0x52b7ca, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
-	material4 = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
-	material2 = new THREE.LineBasicMaterial( { color: 0x666666, linewidth: 1} );
-	material5 = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 3} );
-	material6 = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 1} );
+
+	materialVisible = new THREE.MeshStandardMaterial(  { color: 0xcccccc, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
+	materialHighlighted = new THREE.MeshStandardMaterial(  { color: 0x52b7ca, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
+	materialSolid = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
+
+	materialSoftEdge = new THREE.LineBasicMaterial( { color: 0x666666, linewidth: 1} );
+	materialFrontier = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 3} );
 	
-	material = new THREE.MeshStandardMaterial(  { color: 0xcccccc, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
-feedscene ();
+	feedscene ();
 
 	raycaster = new THREE.Raycaster();				
-	raycaster.linePrecision = 3;
 	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize(  $('#svg8').width(), $('#svg8').height() );
+	renderer.setSize(  $('#renderbox').width(), $('#renderbox').height() );
 	renderer.setClearColor( 0x000000, 0 ); // the default
 	renderer.shadowMap.enabled = false;
 	renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -90,7 +80,7 @@ feedscene ();
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'wheel', onDocumentMouseMove, false );
 	controls.addEventListener( 'change', light_update );
-	  controls.update();
+	controls.update();
 
 	function light_update()
 	{
@@ -98,6 +88,13 @@ feedscene ();
 	}
 	light.position.copy( camera.position );
 	renderer.render( scene, camera );
+}
+function onWindowResize() {
+
+	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+	camera.updateProjectionMatrix();
+	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+	render();
 }
 function blankscene ()
 {
@@ -110,8 +107,6 @@ function blankscene ()
 function feedscene ()
 {
 
-
-	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
 	var xmax = pobj.vertices[0][0];
 	var xmin = pobj.vertices[0][0];
 	var ymax = pobj.vertices[0][1];
@@ -142,7 +137,6 @@ function feedscene ()
 	pobj.height = height*1.2;
 
 	translateWavefront (pobj, -mx, -my, -mz);
-	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
 
 	for ( var i = 0; i < pobj.edges.length ; i ++ )
 	{
@@ -156,7 +150,7 @@ function feedscene ()
 									 pobj.vertices[pobj.edges[i].som[1]][1],
 									 pobj.vertices[pobj.edges[i].som[1]][2] )
 		);
-		var line = new THREE.Line( geometry2, material2 );
+		var line = new THREE.Line( geometry2, materialSoftEdge );
 		scene.add( line );
 	}
 	for ( var i = 0; i < pobj.triangles.length ; i ++ )
@@ -175,9 +169,8 @@ function feedscene ()
 
 		geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
 
-		var object = new THREE.Mesh( geometry, material);
+		var object = new THREE.Mesh( geometry, materialVisible);
 		object.tid = i;
-		
 		
 		object.castShadow = false;
 		object.receiveShadow = false;
@@ -186,32 +179,17 @@ function feedscene ()
 
 	}
 	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
-	l (scene);
-
-
-}					
+}
 
 document.addEventListener( 'mouseup', mouseup, false );
 document.addEventListener( 'mousedown', mousedown, false );
 function mousedown ( event ) { mouserayid = mouse.x*mouse.y; }
 function mouseup ( event )
 {
-	if (mouse.x*mouse.y == mouserayid && focus != undefined )
-
-	// TAP
+	if (mouse.x*mouse.y == mouserayid && focus != undefined ) // SHAPE TAPPED
 	{
-	
-		l(' TAP SHAPE '+focus.tid,"lr");
-		l('###############','lr');
-		l('**************#','lr');
-	l (focus);	
-	l (scene);	
-	
-		var connected = false;
-		l('focus.tid '+focus.tid);
+
 		var tappedshapeid = focus.tid;
-		l('active shape '+activeshape1);
-		
 		
 		if ( activeshape1 != -1 )
 		{
@@ -223,10 +201,11 @@ function mouseup ( event )
 					setshapestate(pobj, tappedshapeid, "solid" );
 					activeshape1 = -1 ;
 					if (edgestate (pobj, e) != "freeze")
-					setedgestate (pobj, e, "freeze");
-					else setedgestate (pobj, e, "hide");
+						setedgestate (pobj, e, "freeze");
+					else
+						setedgestate (pobj, e, "hide");
 					buildpatterns(pobj) ;
-					connected = true;
+
 					if ( BUILDmode == "fast" )
 					{
 						activeshape1 = tappedshapeid;
@@ -249,30 +228,12 @@ function mouseup ( event )
 		else
 		{
 			activeshape1 = tappedshapeid;
-				activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
-				setshapestate(pobj, tappedshapeid, "highlight" );
-		
-			
+			activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
+			setshapestate(pobj, tappedshapeid, "highlight" );		
 		}
-	
 	}
-	renderer.render( scene, camera );
+	render();
 }
-function onWindowResize() {
-
-	camera.aspect =  $('#svg8').width() / $('#svg8').height();
-	camera.updateProjectionMatrix();
-
-	renderer.setSize( $('#svg8').width(), $('#svg8').height() );
-	renderer.render( scene, camera );
-}
-function animate() {
-
-  requestAnimationFrame( animate );
-  render();
-  controls.update();
-}
-
 function onDocumentMouseMove( event ) {
 	if ( window.innerWidth > window.innerHeight)
 	{
@@ -291,19 +252,12 @@ function onDocumentMouseMove( event ) {
 		}
 	}
 	controls.update();
-	
 	raycaster.setFromCamera( mouse, camera );
 	var intersects = raycaster.intersectObjects( objects , true);
 	if ( intersects.length > 0 )
-	{
-
-		
 		focus = $.extend(true, {}, intersects[ 0 ].object );
-	}
 	else if ( focus != undefined ) focus = undefined;
-
-
-	renderer.render( scene, camera );
+	render();
 }
 function render() {
 	renderer.render( scene, camera );
@@ -311,24 +265,20 @@ function render() {
 
 document.getElementById('fileinput').addEventListener('change', readWavefrontFile, false);
 
-	$('body').on('click', '#close-settings', function() {
-		$('#settings').fadeOut(); 
-		$('#credits').fadeIn();
-
-	 });
-	$('body').on('click', '#toggle-settings', function() {
-
+$('body').on('click', '#close-settings', function() {
+	$('#settings').fadeOut(); 
+	$('#credits').fadeIn();
+});
+$('body').on('click', '#toggle-settings', function() {
 		$('#settings').fadeIn();
 		$('#credits').fadeOut(); 
-
-	});
-	
-	$('body').on('click', '#patterns-safe-edit-mode', function() {
+});
+$('body').on('click', '#patterns-safe-edit-mode', function() {
 		BUILDmode = "safe";
-	});
-	$('body').on('click', '#patterns-fast-edit-mode', function() {
-		BUILDmode = "fast";
-	});
+});
+$('body').on('click', '#patterns-fast-edit-mode', function() {
+	BUILDmode = "fast";
+});
 /*	$('body').on('click', '#', function() {
 
 	});
