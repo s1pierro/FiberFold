@@ -56,6 +56,7 @@ _touch devices are not fully supported yet, they will be soon_
  - added an alternative pattern editing mode (fast way).
  - pattern flattening.
  
-If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@free.fr
+If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@protonmail.com
+
 #### You should also know that I am currently looking for a way to earn a living by coding. Any proposal in this context is welcome.
 	 
