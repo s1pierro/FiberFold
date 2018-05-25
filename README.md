@@ -30,7 +30,7 @@ _touch devices are not fully supported yet, they will be soon_
  - CSS
 
 
-### Third party code library :
+### Third party code libraries :
 
  - Three.js
  - Hammer.js ( comming soon to provide touch devices compatibility )
