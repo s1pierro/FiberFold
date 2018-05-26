@@ -25,16 +25,12 @@ var activeshape1shadoweddstate;
 var patterns = [];
 var verbose = false;
 var BUILDmode = "safe";
-var scaleconst = 25;
+var scaleconst = 1;
 
 $(window).on("load",  init());
 
 function init() {
 
-	var dnl = new processedelements();
-	dnl.add(10);
-	fl('done ? : '+dnl.is(10));
-	fl('done ? : '+dnl.is(110));
 
 	container = document.createElement( 'div' );
 	container.id = 'renderbox';
@@ -243,10 +239,12 @@ document.getElementById('fileinput').addEventListener('change', readWavefrontFil
 $('body').on('click', '#close-settings', function() {
 	$('#settings').fadeOut(); 
 	$('#credits').fadeIn();
+		controls.enabled = true;
 });
 $('body').on('click', '#toggle-settings', function() {
 		$('#settings').fadeIn();
-		$('#credits').fadeOut(); 
+		$('#credits').fadeOut();
+		controls.enabled = false;
 });
 $('body').on('click', '#patterns-safe-edit-mode', function() {
 		BUILDmode = "safe";

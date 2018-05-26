@@ -9,7 +9,22 @@
 */
 
 'use strict';
+//Start of some unused code ( OPP tests ) //
+function Pattern ()
+{
+	this.frontier = new Frontiers ();
+	this.ownededges = [];
+	this.ownedtriangles = [];
+	
+}
+function Frontiers ()
+{
+	this.edges = [];
+	this.ne = this.edges.length;
+}
 
+
+//End of unused code //
 
 function genflatcoord (o, t)
 {
@@ -202,24 +217,20 @@ function buildpatterns(o)
 			done.add ( o.edges[ p.edges[j] ].tri[k] );
  		}		
  	}
- 	
- 	
 	fl(patterns);
 	for ( var i = 0 ; i < patterns.length ; i++ )
 		addpatterntofinaldoc (renderplane, patterns[i]);
-		
-
 }
 function arrangefrontier (p)
 {
-	
+
 }
 function genpatternnodes (p)
 {
+	var nodes = [];
 	for (  var i = 0 ; i < p.frontier.length ; i++ )
 	{
 		
-
 	}
 }
 function patternstats (p)

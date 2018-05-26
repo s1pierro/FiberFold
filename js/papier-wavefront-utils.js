@@ -8,7 +8,30 @@
 	Licenced under the termes of the GNU GPL v3
 */
 'use strict';
+function getwavefrontproperties (o)
+{
+	var xmax = obj.vertices[0][0];
+	var xmin = obj.vertices[0][0];
+	var ymax = obj.vertices[0][1];
+	var ymin = obj.vertices[0][1];
+	var zmax = obj.vertices[0][2];
+	var zmin = obj.vertices[0][2];
 
+	for ( var i = 0 ; i < obj.vertices.length ; i++)
+	{
+		if ( obj.vertices[i][0] > xmax ) xmax =  obj.vertices[i][0]
+		if ( obj.vertices[i][0] < xmin ) xmin =  obj.vertices[i][0]
+		if ( obj.vertices[i][1] > ymax ) ymax =  obj.vertices[i][1]
+		if ( obj.vertices[i][1] < ymin ) ymin =  obj.vertices[i][1]
+		if ( obj.vertices[i][2] > zmax ) zmax =  obj.vertices[i][2]
+		if ( obj.vertices[i][2] < zmin ) zmin =  obj.vertices[i][2]
+	}
+
+	o.sx = xmax-xmin;
+	o.sy = ymax-ymin;
+	o.sz = zmax-zmin;
+	
+}
 function parsewavefront(objText, id) {
 
 	var nv = 0;
@@ -110,6 +133,12 @@ function parsewavefront(objText, id) {
 	obj.height = height*1.2;
 
 	translateWavefront (obj, -mx, -my, -mz);
+	obj.sx = xmax-xmin;
+	obj.sy = ymax-ymin;
+	obj.sz = zmax-zmin;
+	$('#sizeX').text(obj.sx/10);
+	$('#sizeY').text(obj.sy/10);
+	$('#sizeZ').text(obj.sz/10);
 
 	return obj;
 }
