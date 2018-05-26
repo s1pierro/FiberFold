@@ -237,29 +237,31 @@ function render() {
 
 document.getElementById('fileinput').addEventListener('change', readWavefrontFile, false);
 
-$('body').on('click', '#close-settings', function() {
+$('body').on('click', '#close-settings', function()
+{
 	$('#settings').fadeOut(); 
 	$('#credits').fadeIn();
 		controls.enabled = true;
 });
-$('body').on('click', '#toggle-settings', function() {
+$('body').on('click', '#toggle-settings', function()
+{
 		$('#settings').fadeIn();
 		$('#credits').fadeOut();
 		controls.enabled = false;
 });
-$('body').on('click', '#patterns-safe-edit-mode', function() {
+$('body').on('click', '#patterns-safe-edit-mode', function()
+{
 		BUILDmode = "safe";
 });
-$('body').on('click', '#patterns-fast-edit-mode', function() {
+$('body').on('click', '#patterns-fast-edit-mode', function()
+{
 	BUILDmode = "fast";
 });
-$('body').on('click', '#apply-scale', function() {
-	
+$('body').on('click', '#apply-scale', function()
+{	
 	var sc = document.getElementById('user-scale-factor').value;
 	var scale = parseFloat(sc);
 	scaleWavefront (pobj, scale);
-	fl(scale);
-	fl(pobj);
 	buildpatterns(pobj) ;
 
 });

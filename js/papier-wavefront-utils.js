@@ -130,15 +130,15 @@ function parsewavefront(objText, id) {
 	var height = sx;
 	if ( height < sy ) height = sy;
 	if ( height < sz ) height = sz;
-	obj.height = height*1.2;
+	obj.height = height*1.5;
 
 	translateWavefront (obj, -mx, -my, -mz);
 	obj.sx = xmax-xmin;
 	obj.sy = ymax-ymin;
 	obj.sz = zmax-zmin;
-	$('#sizeX').text(obj.sx/10);
-	$('#sizeY').text(obj.sy/10);
-	$('#sizeZ').text(obj.sz/10);
+	$('#sizeX').text((obj.sx/10).toFixed(2));
+	$('#sizeY').text((obj.sy/10).toFixed(2));
+	$('#sizeZ').text((obj.sz/10).toFixed(2));
 
 	return obj;
 }
@@ -290,9 +290,9 @@ function scaleWavefront (wavefront, scale)
 	wavefront.sx = xmax-xmin;
 	wavefront.sy = ymax-ymin;
 	wavefront.sz = zmax-zmin;
-	$('#sizeX').text(wavefront.sx/10);
-	$('#sizeY').text(wavefront.sy/10);
-	$('#sizeZ').text(wavefront.sz/10);
+	$('#sizeX').text((wavefront.sx/10).toFixed(2));
+	$('#sizeY').text((wavefront.sy/10).toFixed(2));
+	$('#sizeZ').text((wavefront.sz/10).toFixed(2));
 
 
 	
