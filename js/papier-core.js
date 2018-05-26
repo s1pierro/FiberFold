@@ -9,90 +9,23 @@
 */
 
 'use strict';
-//Start of some unused code ( OPP tests ) //
-function Pattern ()
-{
-	this.frontier = new Frontiers ();
-	this.ownededges = [];
-	this.ownedtriangles = [];
-	
-}
-function Frontiers ()
-{
-	this.edges = [];
-	this.ne = this.edges.length;
-}
 
 
-//End of unused code //
-
-function genflatcoord (o, t)
-{
-var id = t;
-	// on recupere la normale du triangle
-	var n = o.trianglesnorm[id];
-	// on construit deux vecteurs pour l'interpolation
-	// - target corespond au plan du document final. Celui qui contient les patrons
-	// - bullet, dont le sens est confondu avec l'axe normal a la face selectionnée.
-	var target = new Vector ([0.0, 0.0, 0.0], [0.0, 0.0, 1.0], 1.0);
-	var bullet = new Vector ([0.0, 0.0, 0.0], n, 1.0);
-	// La,matrice de transformation peut etre construite
-	var itpmat = geninterpmat (bullet, target);
-
-	var w = $.extend(true, {}, o);
-	
-	for ( var i = 0 ; i < w.nv ; i++ )
-		w.vertices[i] = applymatNscale(itpmat, w.vertices[i]);
-	
-	var tmptri = [ [(w.vertices[w.triangles[id][0]][0]), 
-						 (w.vertices[w.triangles[id][0]][1]), 0],
-
-					   [(w.vertices[w.triangles[id][1]][0]), 
-						 (w.vertices[w.triangles[id][1]][1]), 0],
-
-				      [(w.vertices[w.triangles[id][2]][0]), 
-						 (w.vertices[w.triangles[id][2]][1]), 0]];
-
-	return tmptri;
-
-}
-function addpatterntofinaldoc (renderplane, p)
-{
-	var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
-	g.setAttribute('id', 'pattern-'+p.id);
-	
-	for ( var i = 0 ; i < p.triangles.length ; i++ )
-	{
-		var tmptri = p.trianglesflatcoord[i];
-		var svgtrigon =  tmptri[0][0]+', '+tmptri[0][1]+
-						 ' '+tmptri[1][0]+', '+tmptri[1][1]+
-						 ' '+tmptri[2][0]+', '+tmptri[2][1];
-		var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
-		svg.setAttribute('points', svgtrigon);
-		svg.setAttribute('class', 'flatshape' );
-		g.appendChild(svg);
-	}
-	renderplane.appendChild(g);
-}
-function getpidt (p, t)
-{
-	for ( var i = 0 ; i < p.triangles.length ; i++ )
-		if ( t == p.triangles[i] ) return i;
-	fl( 'ERROR', 'xlr' );
-}
 function buildpatterns(o)
 {
-	//console.clear();
-	//TODO 
-	l('## rebuild ##');
+
+
+	l('## rebuild patterns ##');
 	patterns.splice (0, patterns.length);
-	//create and fill freezed junctions list
+	
+	// first we need to create and fill freezed edges list
 	var freezedlist = [];
 	for ( var i = 0 ; i < o.ne ; i++ )
 	{
 		if (edgestate(o, i) == "freeze" ) freezedlist.push(i);
 	}
-	l('n freeze : '+freezedlist.length );
+
+	// Let's now dispatch those freezed edges into different patterns
 	while ( freezedlist.length > 0 )
 	{
 		var add = -1;
@@ -131,24 +64,24 @@ function buildpatterns(o)
 			patterns.push(tmp);
 			patterns[patterns.length-1].triangles[0].flatcoord = flatcoord;
 			l(flatcoord);
-		}									
+		}
+	// show some help to the user if no pattern has been created yet					
 	if ( patterns.length > 0 )
 		$('#scratch-message').fadeOut();
 	else
 		$('#scratch-message').fadeIn();
-  	renderplane.innerHTML = "";
-  	
-  	// At this point Patterns are correctly defined
-  	
-  	
+		  	
+ 	// At this point Patterns are correctly defined but they have not been flattened yet
   	
  	// let's calculate the flat coord of each triangle
  	//================================================
- 	// mistake was done earlyer, patterns triangles ids are store in an array of array
+ 	// mistake was done earlyer, pattern triangles ids are store in an array of array
  	// instead of an array of (js) objects
  	// dont wand to rewrite this now, so flat coordinates will be store in a separate array
- 	// of array - SO - P.triangles[x] & P.trianlesflatcoord[x] define the same triangle
+ 	// of array - SO - P.triangles[x] & P.trianlesflatcoord[x] refer to the same triangle
  	// and will always be
+ 	// the other reason why is that full OOP rewrite is planed
+ 	//================================================
  	
  	for ( var i = 0 ; i < patterns.length ; i++ )
  	{
@@ -158,8 +91,9 @@ function buildpatterns(o)
  			patterns[i].trianglesflatcoord.push(genflatcoord (o, patterns[i].triangles[j] ));
  		}	
  	}
-  	// lets assemble flat patterns with previous calculated coordinates
+  	// lets assemble flat patterns using previous calculated coordinates
   	// and pattern definitions
+
 
 	for ( var i = 0 ; i < patterns.length ; i++ )
  	{
@@ -174,7 +108,7 @@ function buildpatterns(o)
 			var vt1s, vt1e, vt2s, vt2e;
 			var vs = o.edges[p.edges[j]].som[0];
 			var ve = o.edges[p.edges[j]].som[1];
-			
+
 			for ( var m = 0 ; m < o.triangles[o.edges[p.edges[j]].tri[0] ].length ; m++)
 			{
 				if ( o.triangles[o.edges[p.edges[j]].tri[0] ][m] == vs )
@@ -217,7 +151,10 @@ function buildpatterns(o)
 			done.add ( o.edges[ p.edges[j] ].tri[k] );
  		}		
  	}
-	fl(patterns);
+	
+	// Let's finally blank and refill the final document with our new computed
+	// patterns
+  	renderplane.innerHTML = "";
 	for ( var i = 0 ; i < patterns.length ; i++ )
 		addpatterntofinaldoc (renderplane, patterns[i]);
 }
@@ -383,8 +320,59 @@ function sharededge ( o, triangle_1, triangle_2)
 	}
 	return -1;
 }
+function genflatcoord (o, t)
+{
+var id = t;
 
-// here is an OOP training ...
+	var n = o.trianglesnorm[id];
+
+	var target = new Vector ([0.0, 0.0, 0.0], [0.0, 0.0, 1.0], 1.0);
+	var bullet = new Vector ([0.0, 0.0, 0.0], n, 1.0);
+	// La,matrice de transformation peut etre construite
+	var itpmat = geninterpmat (bullet, target);
+
+	var w = $.extend(true, {}, o);
+	
+	for ( var i = 0 ; i < w.nv ; i++ )
+		w.vertices[i] = applymatNscale(itpmat, w.vertices[i]);
+	
+	var tmptri = [ [(w.vertices[w.triangles[id][0]][0]), 
+						 (w.vertices[w.triangles[id][0]][1]), 0],
+
+					   [(w.vertices[w.triangles[id][1]][0]), 
+						 (w.vertices[w.triangles[id][1]][1]), 0],
+
+				      [(w.vertices[w.triangles[id][2]][0]), 
+						 (w.vertices[w.triangles[id][2]][1]), 0]];
+
+	return tmptri;
+
+}
+function addpatterntofinaldoc (renderplane, p)
+{
+	var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
+	g.setAttribute('id', 'pattern-'+p.id);
+	
+	for ( var i = 0 ; i < p.triangles.length ; i++ )
+	{
+		var tmptri = p.trianglesflatcoord[i];
+		var svgtrigon =  tmptri[0][0]+', '+tmptri[0][1]+
+						 ' '+tmptri[1][0]+', '+tmptri[1][1]+
+						 ' '+tmptri[2][0]+', '+tmptri[2][1];
+		var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
+		svg.setAttribute('points', svgtrigon);
+		svg.setAttribute('class', 'flatshape' );
+		g.appendChild(svg);
+	}
+	renderplane.appendChild(g);
+}
+function getpidt (p, t)
+{
+	for ( var i = 0 ; i < p.triangles.length ; i++ )
+		if ( t == p.triangles[i] ) return i;
+	fl( 'ERROR', 'xlr' );
+}
+// here is some OOP training ...
 
 function processedelements ()
 {
@@ -401,3 +389,31 @@ processedelements.prototype.is = function (id)
 			return true;
 	return false;
 }
+
+
+//Start of some unused code ( OPP tests ) //
+function Pattern ()
+{
+	this.frontier = new Frontiers ();
+	this.ownededges = [];
+	this.ownedtriangles = [];
+	
+}
+function Frontiers ()
+{
+	this.edges = [];
+	this.ne = this.edges.length;
+}
+
+
+//End of unused code //
+
+/*
+	this file is a part of 
+	papier 0.4.1
+		
+	Author : Saint Pierre Thomas
+	If you got interest in such kind of app
+	feel free to contact me at spierro@protonmail.fr
+	Licenced under the termes of the GNU GPL v3
+*/
