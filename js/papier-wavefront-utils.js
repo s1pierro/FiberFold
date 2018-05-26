@@ -259,6 +259,46 @@ function translateWavefront (wavefront, x, y, z)
 	}	
 }
 window['translateWavefront'] = translateWavefront;
+function scaleWavefront (wavefront, scale)
+{
+	fl( 'scaling '+scale);
+	for ( var i = 0 ; i < wavefront.vertices.length ; i ++ )
+	{
+
+		wavefront.vertices[i][0] =  parseFloat(wavefront.vertices[i][0])*scale;
+		wavefront.vertices[i][1] =  parseFloat(wavefront.vertices[i][1])*scale;
+		wavefront.vertices[i][2] =  parseFloat(wavefront.vertices[i][2])*scale;
+
+	}	
+	var xmax = wavefront.vertices[0][0];
+	var xmin = wavefront.vertices[0][0];
+	var ymax = wavefront.vertices[0][1];
+	var ymin = wavefront.vertices[0][1];
+	var zmax = wavefront.vertices[0][2];
+	var zmin = wavefront.vertices[0][2];
+
+	for ( var i = 0 ; i < wavefront.vertices.length ; i++)
+	{
+		if ( wavefront.vertices[i][0] > xmax ) xmax =  wavefront.vertices[i][0]
+		if ( wavefront.vertices[i][0] < xmin ) xmin =  wavefront.vertices[i][0]
+		if ( wavefront.vertices[i][1] > ymax ) ymax =  wavefront.vertices[i][1]
+		if ( wavefront.vertices[i][1] < ymin ) ymin =  wavefront.vertices[i][1]
+		if ( wavefront.vertices[i][2] > zmax ) zmax =  wavefront.vertices[i][2]
+		if ( wavefront.vertices[i][2] < zmin ) zmin =  wavefront.vertices[i][2]
+	}
+
+	wavefront.sx = xmax-xmin;
+	wavefront.sy = ymax-ymin;
+	wavefront.sz = zmax-zmin;
+	$('#sizeX').text(wavefront.sx/10);
+	$('#sizeY').text(wavefront.sy/10);
+	$('#sizeZ').text(wavefront.sz/10);
+
+
+	
+	
+	
+}
 
 function rotateWavefront (wavefront, x, y, z)
 {
@@ -284,6 +324,7 @@ blankscene ();
 		$('#settings').fadeOut(); 
 		$('#credits').fadeIn();
 		activeshape1 = -1;
+		controls.enabled = true;
 			renderer.render( scene, camera );
 		}
 		r.readAsText(f);

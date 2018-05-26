@@ -82,7 +82,7 @@ function getpidt (p, t)
 }
 function buildpatterns(o)
 {
-	console.clear();
+	//console.clear();
 	//TODO 
 	l('## rebuild ##');
 	patterns.splice (0, patterns.length);

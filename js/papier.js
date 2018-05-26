@@ -157,6 +157,7 @@ document.addEventListener( 'mousedown', mousedown, false );
 function mousedown ( event ) { mouserayid = mouse.x*mouse.y; }
 function mouseup ( event )
 {
+	if ( controls.enabled == false ) return;
 	if (mouse.x*mouse.y == mouserayid && focus != undefined ) // SHAPE TAPPED
 	{
 
@@ -251,6 +252,16 @@ $('body').on('click', '#patterns-safe-edit-mode', function() {
 });
 $('body').on('click', '#patterns-fast-edit-mode', function() {
 	BUILDmode = "fast";
+});
+$('body').on('click', '#apply-scale', function() {
+	
+	var sc = document.getElementById('user-scale-factor').value;
+	var scale = parseFloat(sc);
+	scaleWavefront (pobj, scale);
+	fl(scale);
+	fl(pobj);
+	buildpatterns(pobj) ;
+
 });
 /*	$('body').on('click', '#', function() {
 

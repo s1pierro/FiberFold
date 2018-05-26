@@ -56,6 +56,7 @@ _touch devices are not fully supported yet, they will be soon_
  - manual pattern editing.
  - added an alternative pattern editing mode (fast way).
  - pattern flattening.
+ - scaling capability.
  
 If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@protonmail.com
 
