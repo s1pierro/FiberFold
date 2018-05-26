@@ -149,8 +149,8 @@ function buildpatterns(o)
 	for ( var i = 0 ; i < patterns.length ; i++ )
  	{
  		var p = patterns[i];
- 	  	cleardonelist ();		
- 	  	done ( p.triangles[0] );
+ 		var done = new processedelements(); 		
+ 	  	done.add ( p.triangles[0] );
  	  	var k;
 		for ( var j = 0 ; j < p.edges.length ; j++ )
  		{
@@ -183,7 +183,7 @@ function buildpatterns(o)
 			var bullet = vectfromvertices (p.trianglesflatcoord[t2][vt2s],
 													 p.trianglesflatcoord[t2][vt2e]);
 	
-			if ( isdone ( o.edges[p.edges[j]].tri[0] ) )
+			if ( done.is ( o.edges[p.edges[j]].tri[0] ) )
 			{
 				var itpmat = geninterpmat (bullet, target);
 			   var pp = $.extend( true, [], p.trianglesflatcoord[t2]);
@@ -199,7 +199,7 @@ function buildpatterns(o)
 					p.trianglesflatcoord[t][ii] = applymat(itpmat, pp[ii]);
 				k = 0;			
 			}
-			done ( o.edges[ p.edges[j] ].tri[k] );
+			done.add ( o.edges[ p.edges[j] ].tri[k] );
  		}		
  	}
  	
@@ -284,7 +284,7 @@ function PATTERNgenfrontier (o, p) // find fronier from junctions && triangles l
 			}
 	}
 }
-function TRIANGLEgetedges (o, t) // find fronier from edges && triangles lists
+function TRIANGLEgetedges (o, t) 
 {
 	var tmp = [];
 	for( var i = 0 ; i < o.edges.length ; i++ )
@@ -373,24 +373,20 @@ function sharededge ( o, triangle_1, triangle_2)
 	return -1;
 }
 
-// the fallowing functions and var would have better to be rewritten in a single
-// one, using POO patern
+// here is an OOP training ...
 
-var donelist = [];
-function cleardonelist ()
+function processedelements ()
 {
-	for (let i = donelist.length - 1; i >= 0; i--) 
-		donelist.splice(i, 1);
+	this.pe = [];
 }
-function done ( id )
+processedelements.prototype.add = function ( id )
 {
-	donelist.push(id);
+	this.pe.push(id);
 }
-function isdone (id)
+processedelements.prototype.is = function (id)
 {
-	for ( var i = 0 ; i < donelist.length ; i++ )
-		if ( donelist[i] == id )
+	for ( var i = 0 ; i < this.pe.length ; i++ )
+		if ( this.pe[i] == id )
 			return true;
 	return false;
 }
-

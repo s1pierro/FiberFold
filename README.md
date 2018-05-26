@@ -47,6 +47,7 @@ _touch devices are not fully supported yet, they will be soon_
  - make it able to generate laser-cut compatible documents.
  - automate pattern selection.
  - enrich configuration options.
+ - OOP rewrite.
 
 ### done:
 

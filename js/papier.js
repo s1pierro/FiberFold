@@ -31,6 +31,11 @@ $(window).on("load",  init());
 
 function init() {
 
+	var dnl = new processedelements();
+	dnl.add(10);
+	fl('done ? : '+dnl.is(10));
+	fl('done ? : '+dnl.is(110));
+
 	container = document.createElement( 'div' );
 	container.id = 'renderbox';
 	document.body.appendChild( container );
