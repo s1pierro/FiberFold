@@ -31,6 +31,10 @@ $(window).on("load",  init());
 
 function init() {
 
+	var tmp = { triangles : [], edges : [], frontier : [], id : patterns.length };
+	fl(tmp);
+	var tmp2 = new Pattern(patterns.length);
+	fl(tmp2);
 
 	container = document.createElement( 'div' );
 	container.id = 'renderbox';

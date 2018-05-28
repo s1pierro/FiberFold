@@ -33,7 +33,7 @@ function buildpatterns(o)
 			var j = 0;
 			while ( add == -1 && j < patterns.length )
 			{
-				add = addjunctiontopattern (o,  patterns[j], freezedlist[i] );
+				add = patterns[j].addEdge (o, freezedlist[i] );
 				if ( add != -1 )
 					freezedlist.splice(i, 1);
 				j++;	
@@ -42,8 +42,10 @@ function buildpatterns(o)
 		}
 		if ( add == -1 )
 		{	
-			var tmp = { triangles : [], edges : [freezedlist[0]], frontier : [], id : patterns.length };
-			PATTERNgentriangles(o, tmp);
+			//var tmp = { triangles : [], edges : [freezedlist[0]], frontier : [], id : patterns.length };
+			var tmp = new Pattern ();
+			tmp.addEdge(o, freezedlist[0]);
+			tmp.gentriangles(o);
 			patterns.push(tmp);
 			freezedlist.splice(0, 1);	
 		}
@@ -156,7 +158,7 @@ function buildpatterns(o)
   	renderplane.innerHTML = "";
 	for ( var i = 0 ; i < patterns.length ; i++ )
 	{
-		//genpatternnodes (patterns[i]);
+
 		addpatterntofinaldoc (renderplane, patterns[i]);
 	}
 }
@@ -168,76 +170,13 @@ function  distance (c1, c2)
 	return d;
 
 }
-function arrangefrontier (p)
-{
 
-}
-function genpatternnodes (p)
-{ 		
-
-	var done = new processedelements(); 		
-  //	done.add (  );
-
-	var nodes = [];
-	for (  var i = 0 ; i < p.frontier.length ; i++ )
-	{
-		for ( var j = 0 ; j < 2 ; j++)
-		{
-			if ( done.is ( pobj.edges[p.frontier[i]].som[j] ) )
-			{
-				fl('already exis');
-			}
-			else
-			{
-				nodes.push( pobj.edges[p.frontier[i]].som[j] );
-				done.add ( pobj.edges[p.frontier[i]].som[j] );
-			}
-		}
-	}
-	fl(nodes);
-}
 function patternstats (p)
 {
 	var nNod, nTri, nEdg, nFro;
 	var maxX, minX, maxY, minY;
 }
-function addjunctiontopattern (o, pattern, edge)
-{
-	l('## addjunctiontopattern ##');
-	var t1 = o.edges[edge].tri[0];
-	var t2 = o.edges[edge].tri[1];
-	//l(pattern);
-	for ( var i = 0 ; i < pattern.edges.length ; i++ )
-		if ( pattern.edges[i] == edge )	return -2;
-	for ( var i = 0 ; i < pattern.triangles.length ; i++ )
-	{
-		if (t1 == pattern.triangles[i] | t2 == pattern.triangles[i] )
-		{
-			pattern.edges.push(edge);
-			PATTERNgentriangles (o, pattern);
-			return 1;
-		}
-	}
-	return -1;
-}
-function PATTERNgentriangles (o, p) // find triangles from junction list
-{
-	l('## PATTERNgentriangles ##');
-	for( var i = 0 ; i < p.edges.length ; i++ )
-		for( var j = 0 ; j < o.edges[p.edges[i]].tri.length ; j++ )
-			if ( PATTERNgottriangle (p ,o.edges[p.edges[i]].tri[j]) == -1 )
-			{
-				p.triangles.push(o.edges[p.edges[i]].tri[j]);
-				setshapestate(o, o.edges[p.edges[i]].tri[j], "solid");
-			}
-	PATTERNgenfrontier (o, p);
-}
-function PATTERNgottriangle (p, t)
-{
-	for( var i = 0 ; i < p.triangles.length ; i++ )	
-		if ( p.triangles[i] == t ) return i;
-	return -1;
-}
+
 function PATTERNgotfrontier (p, f)
 {
 	for( var i = 0 ; i < p.frontier.length ; i++ )	
@@ -399,6 +338,7 @@ function getpidt (p, t)
 		if ( t == p.triangles[i] ) return i;
 	fl( 'ERROR', 'xlr' );
 }
+
 // here is some OOP training ...
 
 function processedelements ()
@@ -418,23 +358,65 @@ processedelements.prototype.is = function (id)
 }
 
 
-//Start of some unused code ( OPP tests ) //
-function Pattern ()
+// Pattern OOP define
+
+function Pattern (id)
 {
-	this.frontier = new Frontiers ();
-	this.ownededges = [];
-	this.ownedtriangles = [];
-	
-}
-function Frontiers ()
-{
+	this.triangles = [];
 	this.edges = [];
-	this.ne = this.edges.length;
+	this.frontier = [];
+	this.id = patterns.length;
 }
+Pattern.prototype.owntriangle = function (t)
+{
+	for( var i = 0 ; i < this.triangles.length ; i++ )	
+		if ( this.triangles[i] == t ) return i;
+	return -1;
 
+}
+Pattern.prototype.gentriangles = function (o)
+{
 
-//End of unused code //
+	for( var i = 0 ; i < this.edges.length ; i++ )
+		for( var j = 0 ; j < o.edges[this.edges[i]].tri.length ; j++ )
+			if ( this.owntriangle ( o.edges[this.edges[i]].tri[j] ) == -1 )
+			{
+				this.triangles.push(o.edges[this.edges[i]].tri[j]);
+				setshapestate(o, o.edges[this.edges[i]].tri[j], "solid");
+			}
+	
+	PATTERNgenfrontier (o, this);
+}
+Pattern.prototype.addEdge = function (o, edge)
+{
 
+	if ( this.triangles.length == 0 && this.edges.length == 0)
+	{
+		this.edges.push (edge);
+		return 0;
+	}
+	var t1 = o.edges[edge].tri[0];
+	var t2 = o.edges[edge].tri[1];
+	//l(pattern);
+	for ( var i = 0 ; i < this.edges.length ; i++ )
+		if ( this.edges[i] == edge )	return -2;
+	for ( var i = 0 ; i < this.triangles.length ; i++ )
+	{
+		if (t1 == this.triangles[i] | t2 == this.triangles[i] )
+		{
+			this.edges.push(edge);
+			this.gentriangles (o);
+			return 1;
+		}
+	}
+	return -1;
+}
+Pattern.prototype.getTriangleIndex = function (t)
+{
+	for ( var i = 0 ; i < this.triangles.length ; i++ )
+		if ( t == this.triangles[i] ) return i;
+	fl( 'ERROR', 'xlr' );
+}
 /*
 	this file is a part of 
 	papier 0.4.1
