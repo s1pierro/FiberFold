@@ -123,8 +123,8 @@ function buildpatterns(o)
 				if ( o.triangles[o.edges[p.edges[j]].tri[1] ][m] == ve )
 					vt2e = m;
 			}
-			var t = getpidt (p, o.edges[p.edges[j]].tri[0] );
-			var t2 = getpidt (p, o.edges[p.edges[j]].tri[1] );
+			var t = p.getTriangleIndex ( o.edges[p.edges[j]].tri[0] );
+			var t2 = p.getTriangleIndex( o.edges[p.edges[j]].tri[1] );
 
 			var target = vectfromvertices (p.trianglesflatcoord[t][vt1s].c,
 													 p.trianglesflatcoord[t][vt1e].c);
