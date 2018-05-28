@@ -52,7 +52,7 @@ function buildpatterns(o)
 	}
 	
 	// precedent code prodce patterns defs from freezed edges, by this way,
-	//  it cannot add single triangle patterns, the fallowing for loop process
+	// it cannot add single triangle patterns, the fallowing for loop process
 	// those singles triangles pattern
 	
 	for (var i = 0 ; i < o.triangles.length ; i++ )
@@ -154,21 +154,41 @@ function buildpatterns(o)
 	
 	// Let's finally blank and refill the final document with our new computed
 	// patterns
+	
   	renderplane.innerHTML = "";
 	for ( var i = 0 ; i < patterns.length ; i++ )
+	{
+		genpatternnodes (patterns[i]);
 		addpatterntofinaldoc (renderplane, patterns[i]);
+	}
 }
 function arrangefrontier (p)
 {
 
 }
 function genpatternnodes (p)
-{
+{ 		
+
+	var done = new processedelements(); 		
+  //	done.add (  );
+
 	var nodes = [];
 	for (  var i = 0 ; i < p.frontier.length ; i++ )
 	{
-		
+		for ( var j = 0 ; j < 2 ; j++)
+		{
+			if ( done.is ( pobj.edges[p.frontier[i]].som[j] ) )
+			{
+				fl('already exis');
+			}
+			else
+			{
+				nodes.push( pobj.edges[p.frontier[i]].som[j] );
+				done.add ( pobj.edges[p.frontier[i]].som[j] );
+			}
+		}
 	}
+	fl(nodes);
 }
 function patternstats (p)
 {
