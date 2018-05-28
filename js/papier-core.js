@@ -62,8 +62,7 @@ function buildpatterns(o)
 			var tmp = { triangles : [i], edges : [], frontier : [] };
 			PATTERNgenfrontier (o, tmp);
 			patterns.push(tmp);
-			patterns[patterns.length-1].triangles[0].flatcoord = flatcoord;
-			l(flatcoord);
+			
 		}
 	// show some help to the user if no pattern has been created yet					
 	if ( patterns.length > 0 )
@@ -89,6 +88,7 @@ function buildpatterns(o)
  		for ( var j = 0 ; j < patterns[i].triangles.length ; j++ )
  		{
  			patterns[i].trianglesflatcoord.push(genflatcoord (o, patterns[i].triangles[j] ));
+			
  		}	
  	}
   	// lets assemble flat patterns using previous calculated coordinates
@@ -126,18 +126,18 @@ function buildpatterns(o)
 			var t = getpidt (p, o.edges[p.edges[j]].tri[0] );
 			var t2 = getpidt (p, o.edges[p.edges[j]].tri[1] );
 
-			var target = vectfromvertices (p.trianglesflatcoord[t][vt1s],
-													 p.trianglesflatcoord[t][vt1e]);
+			var target = vectfromvertices (p.trianglesflatcoord[t][vt1s].c,
+													 p.trianglesflatcoord[t][vt1e].c);
 
-			var bullet = vectfromvertices (p.trianglesflatcoord[t2][vt2s],
-													 p.trianglesflatcoord[t2][vt2e]);
+			var bullet = vectfromvertices (p.trianglesflatcoord[t2][vt2s].c,
+													 p.trianglesflatcoord[t2][vt2e].c);
 	
 			if ( done.is ( o.edges[p.edges[j]].tri[0] ) )
 			{
 				var itpmat = geninterpmat (bullet, target);
 			   var pp = $.extend( true, [], p.trianglesflatcoord[t2]);
 				for ( var ii = 0 ; ii < 3 ; ii++ )
-					p.trianglesflatcoord[t2][ii] = applymat(itpmat, pp[ii]);
+					p.trianglesflatcoord[t2][ii].c = applymat(itpmat, pp[ii].c);
 				k = 1;
 			}
 			else
@@ -145,7 +145,7 @@ function buildpatterns(o)
 				var itpmat = geninterpmat (target, bullet);
 				var pp = $.extend(true, [], p.trianglesflatcoord[t]);
 				for ( var ii = 0 ; ii < 3 ; ii++ )
-					p.trianglesflatcoord[t][ii] = applymat(itpmat, pp[ii]);
+					p.trianglesflatcoord[t][ii].c = applymat(itpmat, pp[ii].c);
 				k = 0;			
 			}
 			done.add ( o.edges[ p.edges[j] ].tri[k] );
@@ -356,14 +356,15 @@ var id = t;
 	for ( var i = 0 ; i < w.nv ; i++ )
 		w.vertices[i] = applymatNscale(itpmat, w.vertices[i]);
 	
-	var tmptri = [ [(w.vertices[w.triangles[id][0]][0]), 
-						 (w.vertices[w.triangles[id][0]][1]), 0],
+	var tmptri = [ {c : [(w.vertices[w.triangles[id][0]][0]), 
+						 (w.vertices[w.triangles[id][0]][1]), 0], sid : o.triangles[t][0] },
 
-					   [(w.vertices[w.triangles[id][1]][0]), 
-						 (w.vertices[w.triangles[id][1]][1]), 0],
+					   {c : [(w.vertices[w.triangles[id][1]][0]), 
+						 (w.vertices[w.triangles[id][1]][1]), 0], sid : o.triangles[t][1] },
 
-				      [(w.vertices[w.triangles[id][2]][0]), 
-						 (w.vertices[w.triangles[id][2]][1]), 0]];
+				      {c : [(w.vertices[w.triangles[id][2]][0]), 
+						 (w.vertices[w.triangles[id][2]][1]), 0], sid : o.triangles[t][2] }];
+	fl(tmptri);
 
 	return tmptri;
 
@@ -376,9 +377,9 @@ function addpatterntofinaldoc (renderplane, p)
 	for ( var i = 0 ; i < p.triangles.length ; i++ )
 	{
 		var tmptri = p.trianglesflatcoord[i];
-		var svgtrigon =  tmptri[0][0]+', '+tmptri[0][1]+
-						 ' '+tmptri[1][0]+', '+tmptri[1][1]+
-						 ' '+tmptri[2][0]+', '+tmptri[2][1];
+		var svgtrigon =  tmptri[0].c[0]+', '+tmptri[0].c[1]+
+						 ' '+tmptri[1].c[0]+', '+tmptri[1].c[1]+
+						 ' '+tmptri[2].c[0]+', '+tmptri[2].c[1];
 		var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
 		svg.setAttribute('points', svgtrigon);
 		svg.setAttribute('class', 'flatshape' );
