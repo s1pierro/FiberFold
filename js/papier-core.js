@@ -309,8 +309,6 @@ var id = t;
 
 				      {c : [(w.vertices[w.triangles[id][2]][0]), 
 						 (w.vertices[w.triangles[id][2]][1]), 0], sid : o.triangles[t][2] }];
-	fl(tmptri);
-
 	return tmptri;
 
 }
