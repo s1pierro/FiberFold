@@ -13,8 +13,6 @@
 
 function buildpatterns(o)
 {
-
-
 	l('## rebuild patterns ##');
 	patterns.splice (0, patterns.length);
 	
@@ -158,9 +156,17 @@ function buildpatterns(o)
   	renderplane.innerHTML = "";
 	for ( var i = 0 ; i < patterns.length ; i++ )
 	{
-		genpatternnodes (patterns[i]);
+		//genpatternnodes (patterns[i]);
 		addpatterntofinaldoc (renderplane, patterns[i]);
 	}
+}
+function  distance (c1, c2)
+{
+	var d = Math.sqrt( (c2[0]-c1[0])*(c2[0]-c1[0])+
+							 (c2[1]-c1[1])*(c2[1]-c1[1])+
+							 (c2[2]-c1[2])*(c2[2]-c1[2]) );
+	return d;
+
 }
 function arrangefrontier (p)
 {
