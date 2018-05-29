@@ -58,9 +58,10 @@ function buildpatterns(o)
 	for (var i = 0 ; i < o.triangles.length ; i++ )
 		if ( getpattern(i) == -1 && shapestate(o, i) == "solid" )
 		{
-			var flatcoord = genflatcoord (o, i);
-			var tmp = { triangles : [i], edges : [], frontier : [] };
-			PATTERNgenfrontier (o, tmp);
+
+			var tmp = new Pattern ();		
+			tmp.addTriangle(i);
+			tmp.genFrontiers (o);
 			patterns.push(tmp);
 			
 		}
@@ -161,105 +162,9 @@ function buildpatterns(o)
 
 		addpatterntofinaldoc (renderplane, patterns[i]);
 	}
-}
-function  distance (c1, c2)
-{
-	var d = Math.sqrt( (c2[0]-c1[0])*(c2[0]-c1[0])+
-							 (c2[1]-c1[1])*(c2[1]-c1[1])+
-							 (c2[2]-c1[2])*(c2[2]-c1[2]) );
-	return d;
-
+	fl(patterns);
 }
 
-function patternstats (p)
-{
-	var nNod, nTri, nEdg, nFro;
-	var maxX, minX, maxY, minY;
-}
-
-function PATTERNgotfrontier (p, f)
-{
-	for( var i = 0 ; i < p.frontier.length ; i++ )	
-		if ( p.frontier[i] == f ) return i;
-	return -1;
-}
-function PATTERNgenfrontier (o, p) // find fronier from junctions && triangles lists
-{
-	l('## PATTERNgenfrontier ##');
-	for( var i = 0 ; i < p.triangles.length ; i++ )
-	{
-		var tmp = TRIANGLEgetedges (o, p.triangles[i]);
-		for ( var j = 0 ; j < tmp.length ; j++ )
-			if ( ( PATTERNgotfrontier (p,  tmp[j]) == -1 ) && ( edgestate(o, tmp[j]) != "freeze" ) )
-			{
-				p.frontier.push (tmp[j]);
-				setedgestate (o, tmp[j], "visible");
-			}
-	}
-}
-function TRIANGLEgetedges (o, t) 
-{
-	var tmp = [];
-	for( var i = 0 ; i < o.edges.length ; i++ )
-	{
-		if ( JUNCTIONgottriangle (o.edges[i], t) != -1 ) tmp.push(i);
-	}
-	return tmp;
-}
-function JUNCTIONgottriangle (j, t)
-{
-	for( var i = 0 ; i < j.tri.length ; i++ )
-		if ( j.tri[i] == t ) return i;
-	return -1;
-}
-function edgestate (o, e)
-{
-	return o.edges[e].state;
-}
-function setedgestate (o, e, s)
-{	
-	scene.children[(2+e)].visible = true;
-	o.edges[e].state = s;
-	if( s == "visible")
-	scene.children[(2+e)].material = materialFrontier;
-	if( s == "freeze")
-	{
-		scene.children[(2+e)].visible = false;
-	}
-	if( s == "highlight")
-	scene.children[(2+e)].material = materialFrontier;
-	if( s == "hide")
-	{
-		scene.children[(2+e)].visible = false;
-	}
-}
-function shapestate (o, t)
-{
-	l('## shape('+t+').state : '+o.triangles[t].state);
-	return o.triangles[t].state;
-}
-function setshapestate (o, t, s)
-{
-	if ( s == undefined )
-	fl('-#- ERROR unable to set shape ( '+t+' ) state to '+s+' leaving function "setshapestate"', 'lr');
-
-	o.triangles[t].state = s;
-	if( s == "visible")
-	{
-		scene.children[(2+t+o.ne)].material = materialVisible;
-		scene.children[(2+t+o.ne)].visible = true;
-	}
-	if( s == "solid")
-	{
-		scene.children[(2+t+o.ne)].material = materialSolid;
-		scene.children[(2+t+o.ne)].visible = true;
-	}
-	if( s == "highlight")
-	{
-		scene.children[(2+t+o.ne)].visible = true;
-		scene.children[(2+t+o.ne)].material = materialHighlighted;
-	}
-}
 function getpattern(triangle)
 {
 	for (var i = 0 ; i < patterns.length ; i++ )
@@ -268,26 +173,10 @@ function getpattern(triangle)
 				return i;
 	return -1;
 }
-function sharededge ( o, triangle_1, triangle_2)
-{
-	if ( triangle_1 == triangle_2 ) return -2;
-	if ( triangle_1 == -1 ) return -3;
-	if ( -1 == triangle_2 ) return -3;
-	for (var i = 0 ; i < o.edges.length ; i++ )
-	{
-		if ( ( o.edges[i].tri[0] == triangle_1 &&
-				 o.edges[i].tri[1] == triangle_2) |
-			  ( o.edges[i].tri[1] == triangle_1 &&
-				 o.edges[i].tri[0] == triangle_2) )
-		{
-			return i;
-		}
-	}
-	return -1;
-}
+
 function genflatcoord (o, t)
 {
-var id = t;
+	var id = t;
 
 	var n = o.trianglesnorm[id];
 
@@ -330,47 +219,23 @@ function addpatterntofinaldoc (renderplane, p)
 	}
 	renderplane.appendChild(g);
 }
-function getpidt (p, t)
-{
-	for ( var i = 0 ; i < p.triangles.length ; i++ )
-		if ( t == p.triangles[i] ) return i;
-	fl( 'ERROR', 'xlr' );
-}
 
-// here is some OOP training ...
-
-function processedelements ()
-{
-	this.pe = [];
-}
-processedelements.prototype.add = function ( id )
-{
-	this.pe.push(id);
-}
-processedelements.prototype.is = function (id)
-{
-	for ( var i = 0 ; i < this.pe.length ; i++ )
-		if ( this.pe[i] == id )
-			return true;
-	return false;
-}
 
 
 // Pattern OOP define
 
-function Pattern (id)
+function Pattern ()
 {
 	this.triangles = [];
 	this.edges = [];
 	this.frontier = [];
-	this.id = patterns.length;
+	this.guid = uuidv4();
 }
 Pattern.prototype.owntriangle = function (t)
 {
 	for( var i = 0 ; i < this.triangles.length ; i++ )	
 		if ( this.triangles[i] == t ) return i;
 	return -1;
-
 }
 Pattern.prototype.gentriangles = function (o)
 {
@@ -379,11 +244,14 @@ Pattern.prototype.gentriangles = function (o)
 		for( var j = 0 ; j < o.edges[this.edges[i]].tri.length ; j++ )
 			if ( this.owntriangle ( o.edges[this.edges[i]].tri[j] ) == -1 )
 			{
-				this.triangles.push(o.edges[this.edges[i]].tri[j]);
+				this.addTriangle(o.edges[this.edges[i]].tri[j]);
 				setshapestate(o, o.edges[this.edges[i]].tri[j], "solid");
 			}
-	
-	PATTERNgenfrontier (o, this);
+	this.genFrontiers(o);
+}
+Pattern.prototype.addTriangle = function (t)
+{
+	this.triangles.push(t);
 }
 Pattern.prototype.addEdge = function (o, edge)
 {
@@ -413,7 +281,33 @@ Pattern.prototype.getTriangleIndex = function (t)
 {
 	for ( var i = 0 ; i < this.triangles.length ; i++ )
 		if ( t == this.triangles[i] ) return i;
-	fl( 'ERROR', 'xlr' );
+	return -1;
+}
+Pattern.prototype.updateStats = function ()
+{
+	//TODO
+	var nNod, nTri, nEdg, nFro;
+	var maxX, minX, maxY, minY;
+}
+Pattern.prototype.ownFrontier = function (f)
+{
+	for( var i = 0 ; i < this.frontier.length ; i++ )	
+		if ( this.frontier[i] == f ) return i;
+	return -1;
+}
+Pattern.prototype.genFrontiers = function (o) // find fronier from junctions && triangles lists
+{
+	l('## PATTERNgenfrontier ##');
+	for( var i = 0 ; i < this.triangles.length ; i++ )
+	{
+		var tmp = TRIANGLEgetedges (o, this.triangles[i]);
+		for ( var j = 0 ; j < tmp.length ; j++ )
+			if ( ( this.ownFrontier( tmp[j]) == -1 ) && ( edgestate(o, tmp[j]) != "freeze" ) )
+			{
+				this.frontier.push (tmp[j]);
+				setedgestate (o, tmp[j], "visible");
+			}
+	}
 }
 /*
 	this file is a part of 

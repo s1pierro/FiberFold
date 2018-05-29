@@ -146,7 +146,6 @@ window['parsewavefront'] = parsewavefront;
 
 function genEdge (obj )
 {
- console.log ('### nt'+obj.triangles.length);
 	for ( var i = 0 ; i < 	obj.triangles.length ; i++)
 	{
 		addEdge (obj, obj.triangles[i][obj.triangles[i].length-1], obj.triangles[i][0], i );		
@@ -330,6 +329,89 @@ blankscene ();
 		r.readAsText(f);
 	} else {
 		alert("Failed to load file");
+	}
+}
+
+function sharededge ( o, triangle_1, triangle_2)
+{
+	if ( triangle_1 == triangle_2 ) return -2;
+	if ( triangle_1 == -1 ) return -3;
+	if ( -1 == triangle_2 ) return -3;
+	for (var i = 0 ; i < o.edges.length ; i++ )
+	{
+		if ( ( o.edges[i].tri[0] == triangle_1 &&
+				 o.edges[i].tri[1] == triangle_2) |
+			  ( o.edges[i].tri[1] == triangle_1 &&
+				 o.edges[i].tri[0] == triangle_2) )
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+
+function TRIANGLEgetedges (o, t) 
+{
+	var tmp = [];
+	for( var i = 0 ; i < o.edges.length ; i++ )
+	{
+		if ( JUNCTIONgottriangle (o.edges[i], t) != -1 ) tmp.push(i);
+	}
+	return tmp;
+}
+function JUNCTIONgottriangle (j, t)
+{
+	for( var i = 0 ; i < j.tri.length ; i++ )
+		if ( j.tri[i] == t ) return i;
+	return -1;
+}
+function edgestate (o, e)
+{
+	return o.edges[e].state;
+}
+function setedgestate (o, e, s)
+{	
+	scene.children[(2+e)].visible = true;
+	o.edges[e].state = s;
+	if( s == "visible")
+	scene.children[(2+e)].material = materialFrontier;
+	if( s == "freeze")
+	{
+		scene.children[(2+e)].visible = false;
+	}
+	if( s == "highlight")
+	scene.children[(2+e)].material = materialFrontier;
+	if( s == "hide")
+	{
+		scene.children[(2+e)].visible = false;
+	}
+}
+function shapestate (o, t)
+{
+	l('## shape('+t+').state : '+o.triangles[t].state);
+	return o.triangles[t].state;
+}
+function setshapestate (o, t, s)
+{
+	if ( s == undefined )
+	fl('-#- ERROR unable to set shape ( '+t+' ) state to '+s+' leaving function "setshapestate"', 'lr');
+
+	o.triangles[t].state = s;
+	if( s == "visible")
+	{
+		scene.children[(2+t+o.ne)].material = materialVisible;
+		scene.children[(2+t+o.ne)].visible = true;
+	}
+	if( s == "solid")
+	{
+		scene.children[(2+t+o.ne)].material = materialSolid;
+		scene.children[(2+t+o.ne)].visible = true;
+	}
+	if( s == "highlight")
+	{
+		scene.children[(2+t+o.ne)].visible = true;
+		scene.children[(2+t+o.ne)].material = materialHighlighted;
 	}
 }
 /*

@@ -7,6 +7,13 @@
 	feel free to contact me at spierro@free.fr
 	Licenced under the termes of the GNU GPL v3
 */
+function  distance (c1, c2)
+{
+	var d = Math.sqrt( (c2[0]-c1[0])*(c2[0]-c1[0])+
+							 (c2[1]-c1[1])*(c2[1]-c1[1])+
+							 (c2[2]-c1[2])*(c2[2]-c1[2]) );
+	return d;
+}
 function Vector(a, b, c) {
     this.o = a;
     this.s = b;
@@ -238,15 +245,7 @@ function geninterpmat (vs, ve)
 
       var ang = Math.acos (sp);
 
-		frmat = axe_ang_to_mat (vp , ang );
-	
-
-	
-//		fl('produit vectoriel :'+vp);
-//		fl('produit scalaire :'+sp);
-//		fl('ang : '+ang)
-//		logMatrix(frmat, 'lb');
-				
+		frmat = axe_ang_to_mat (vp , ang );				
 	}
 	var mat = gentmat( -vs.o[0], -vs.o[1], -vs.o[2]);
 	var mat3 = gentmat( ve.o[0], ve.o[1], ve.o[2]);

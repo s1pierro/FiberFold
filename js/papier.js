@@ -31,10 +31,9 @@ $(window).on("load",  init());
 
 function init() {
 
-	var tmp = { triangles : [], edges : [], frontier : [], id : patterns.length };
-	fl(tmp);
-	var tmp2 = new Pattern(patterns.length);
-	fl(tmp2);
+	fl('Papier 0.4.3', 'xl')
+	fl('a paper-crafing tool', 'l');
+	fl('feel free to contact me at s1pierro@protonmail.com to contribute, in any way')
 
 	container = document.createElement( 'div' );
 	container.id = 'renderbox';
@@ -79,7 +78,11 @@ function init() {
 	renderer.setClearColor( 0x000000, 0 ); // the default
 	renderer.shadowMap.enabled = false;
 	renderer.shadowMap.type = THREE.PCFShadowMap;
-
+ 
+	// shut firefox up !
+	var ctx = renderer.context;
+	ctx.getShaderInfoLog = function () { return '' };
+	
 	container.appendChild( renderer.domElement );
 
 	window.addEventListener( 'resize', onWindowResize, false );

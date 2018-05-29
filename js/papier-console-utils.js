@@ -9,7 +9,12 @@
 */
 'use strict';
 
-
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
 
 function logMatrix(m) {
 
@@ -55,15 +60,25 @@ function l (s, format)
 		s = '%c'+s;
 		console.log(s, 'color: green; font-size: large');
 	}
+	else if ( format == 'xlg')
+	{
+		s = '%c'+s;
+		console.log(s, 'color: green; font-size: x-large');
+	}
+	else if ( format == 'ly')
+	{
+		s = '%c'+s;
+		console.log(s, 'color: yellow; font-size: large');
+	}
 	else if ( format == 'xl')
 	{
 		s = '%c'+s;
-		console.log(s, 'color: black; font-size: x-large');
+		console.log(s, 'font-size: x-large');
 	}
 	else if ( format == 'l')
 	{
 		s = '%c'+s;
-		console.log(s, 'color: black; font-size: large');
+		console.log(s, 'font-size: large');
 	}
 	else if ( format == 'blr')
 	{
@@ -72,3 +87,21 @@ function l (s, format)
 	}
 	else	console.log(s);
 }
+
+// An utility to note the treated elements
+function processedelements ()
+{
+	this.pe = [];
+}
+processedelements.prototype.add = function ( id )
+{
+	this.pe.push(id);
+}
+processedelements.prototype.is = function (id)
+{
+	for ( var i = 0 ; i < this.pe.length ; i++ )
+		if ( this.pe[i] == id )
+			return true;
+	return false;
+}
+
