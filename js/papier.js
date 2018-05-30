@@ -33,9 +33,11 @@ $(window).on("load",  init());
 
 function init() {
 
-	fl('Papier 0.4.3', 'xl')
+	fl('Papier 0.4.3', 'xl');
 	fl('a paper-crafing tool', 'l');
-	fl('feel free to contact me at s1pierro@protonmail.com to contribute, in any way')
+	fl('feel free to contact me at s1pierro@protonmail.com to contribute, in any way');
+	
+
 
 	container = document.createElement( 'div' );
 	container.id = 'renderbox';
