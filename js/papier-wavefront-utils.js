@@ -368,8 +368,7 @@ function syncTriangleSomOrder (o)
 				if (true == dnl.is(tmp[i]))
 					tmp.splice(i, 1);
 					
-					
-					
+			
 			fl(tmp.length+' triangle to check')
 					
 			for (var i = 0 ; i < tmp.length ; i++)

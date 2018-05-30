@@ -25,7 +25,7 @@ Patterns.prototype.rebuild = function (o)
 	// first of all, we erase patterns
 	this.children.splice (0, this.children.length);
 	
-	// first we need to create and fill freezed edges list
+	// we need to create and fill freezed edges list
 	var freezedlist = [];
 	for ( var i = 0 ; i < o.edges.length ; i++ )
 		if (edgestate(o, i) == "freeze" ) freezedlist.push(i);
