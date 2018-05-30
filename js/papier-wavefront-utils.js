@@ -146,7 +146,7 @@ function parsewavefront(objText, id) {
 	$('#sizeX').text((obj.sx/10).toFixed(2));
 	$('#sizeY').text((obj.sy/10).toFixed(2));
 	$('#sizeZ').text((obj.sz/10).toFixed(2));
-	fl(obj);
+	//fl(obj);
 	return obj;
 }
 window['parsewavefront'] = parsewavefront;
@@ -335,8 +335,7 @@ blankscene ();
 function sharededge ( o, triangle_1, triangle_2)
 {
 	if ( triangle_1 == triangle_2 ) return -2;
-	if ( triangle_1 == -1 ) return -3;
-	if ( -1 == triangle_2 ) return -3;
+	if ( triangle_1 == -1 | -1 == triangle_2 ) return -3;
 	for (var i = 0 ; i < o.edges.length ; i++ )
 	{
 		var ok1 = false;
@@ -344,8 +343,7 @@ function sharededge ( o, triangle_1, triangle_2)
 		for ( var j = 0 ; j < o.edges[i].tri.length ; j++ )
 		{
 			if ( o.edges[i].tri[j] == triangle_1 ) ok1 = true;
-			if ( o.edges[i].tri[j] == triangle_2 ) ok2 = true;
-			
+			if ( o.edges[i].tri[j] == triangle_2 ) ok2 = true;	
 		}
 		if ( ok1 && ok2 ) return i;
 	}
@@ -353,7 +351,7 @@ function sharededge ( o, triangle_1, triangle_2)
 }
 function syncTriangleSomOrder (o) 
 {
-//TODO Emergency, Very important.
+
 	var td = new ToDo ();
 	td.add(0);
 	
@@ -365,20 +363,20 @@ function syncTriangleSomOrder (o)
 	while (td.isEmpty() == false)
 	{		
 			var crtTri = td.next();
-			fl('\nLoop ('+cnt+') start, triangle : '+crtTri+'\n##################');
+		//	fl('\nLoop ('+cnt+') start, triangle : '+crtTri+'\n##################');
 			dnl.add (crtTri);
 			var tmp = findJoinedTriangles (o, crtTri );
 			// we need to elimanate triangles that have already by checked
 			for (let i = tmp.length - 1; i >= 0; i--) 			
 				if (true == dnl.is(tmp[i]))
 					tmp.splice(i, 1);
-			fl(tmp.length+' triangle to check');
-			fl(tmp);
+		//	fl(tmp.length+' triangle to check');
+		//	fl(tmp);
 					
 			for (var i = 0 ; i < tmp.length ; i++)
 			{
 				//TODO test each triange with crtTri
-				fl('is done '+tmp[i]+' : '+dnl.is(tmp[i]));
+				//fl('is done '+tmp[i]+' : '+dnl.is(tmp[i]));
 				if (dnl.is(tmp[i]) == false )
 				{
 					if ( doesTrianleNeedFlip (o, tmp[i], crtTri) == true )
@@ -387,19 +385,16 @@ function syncTriangleSomOrder (o)
 						flipTriangle (o, tmp[i]);
 						flipCnt++;
 					}
-
 					td.add(tmp[i]);
 					dnl.add (tmp[i]);
 				}
 			}
 			td.done(crtTri);
 			cnt++;
-
 	}
 	if ( cnt != o.triangles.length ) alert('WARNING,the mesh is not monobloc, flattening errors could occur.')
-	fl (dnl.pe);
-	fl(flipCnt+' triangle(s) fliped')
-	
+//	fl (dnl.pe);
+	//fl(flipCnt+' triangle(s) fliped')
 	
 	//if ( dnl.is(tmp[i]) == false ) td.add(tmp[i]);	
 }
@@ -407,14 +402,13 @@ function syncTriangleSomOrder (o)
 function doesTrianleNeedFlip (o, t, ref) 
 {
 //TODO Emergency, Very important.
-fl ('shared edge ('+t+', '+ref+') : '+sharededge ( o, t, ref ));
+
 	var s1 = o.edges[sharededge ( o, t, ref )].som[0];
 	var s2 = o.edges[sharededge ( o, t, ref )].som[1];
 	
 	var st1 = -1;
 	var st2 = -1;
 	
-	fl('som : '+s1+', '+s2);
 	if ( o.triangles[t][0] == s1 && o.triangles[t][1] == s2 ) st1 = 1;
 	if ( o.triangles[t][1] == s1 && o.triangles[t][2] == s2 ) st1 = 1;
 	if ( o.triangles[t][2] == s1 && o.triangles[t][0] == s2 ) st1 = 1;
@@ -423,20 +417,8 @@ fl ('shared edge ('+t+', '+ref+') : '+sharededge ( o, t, ref ));
 	if ( o.triangles[ref][1] == s1 && o.triangles[ref][2] == s2 ) st2 = 1;
 	if ( o.triangles[ref][2] == s1 && o.triangles[ref][0] == s2 ) st2 = 1;
 	
-	fl ( 'st : '+st1+', '+st2 );
-	
 	if (st1 == st2 )
-	{
-	fl('######\n#######\n#######');
-	return true;		
-		
-	}
-						
-
-
-
-
-
+		return true;
 	return false;
 }
 function findJoinedTriangles (o, t)
@@ -451,14 +433,9 @@ function findJoinedTriangles (o, t)
 }
 function flipTriangle (o, t) 
 {
-	fl('flip triangle '+t);
-	fl(o.triangles[t]);
-	
 	var tmp = $.extend(true, {}, o.triangles[t]);
 	o.triangles[t][0] = tmp[1];
 	o.triangles[t][1] = tmp[0];
-	fl(o.triangles[t]);
-	
 }
 
 function TRIANGLEgetedges (o, t) 

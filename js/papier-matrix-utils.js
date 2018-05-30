@@ -22,7 +22,7 @@ function Vector(a, b, c) {
 }
 function vectfromvertices(a, b) {
 	if (a[0] == b[0] && a[1] == b[1] && a[2] == b[2])
-		return new Vector([0.0, 0.0, 0.0], [0.0, 0.0, 0.0], 1.0);
+		return new Vector([0.0, 0.0, 0.0], [0.0, 0.0, 0.0], 0.0);
     var c = Math.sqrt((b[0] - a[0]) * (b[0] - a[0]) + (b[1] - a[1]) * (b[1] - a[1]) + (b[2] - a[2]) * (b[2] - a[2]));
     return new Vector(a, [(b[0] - a[0]) / c, (b[1] - a[1]) / c, (b[2] - a[2]) / c], c)
 }
@@ -217,18 +217,26 @@ function geninterpmat (vs, ve)
 //	var ftmat = gentmatfromvector (translatevector);
 //	l('ftmat', 'lb')
 //	logMatrix(ftmat);
-
+	
+	fl (vs);
+	fl (ve);
 	// verrification du cas d'alignement des vecteurs :
 	var aligntestvector = vectfromvertices( vs.s, ve.s );
+	
+		fl(aligntestvector);
+
 //	l('align : '+aligntestvector.n);
+	fl( 'lligntest : '+aligntestvector.n)
 	if ( aligntestvector.n == 0 )
 	{
+		fl('ALLIGNED TARGET');
 		// les vecteurs sont de meme sens, une matrice d'identté suffit
 		// pour la rotation
 		frmat = genimat ();
 	}
 	else if ( aligntestvector.n == 2 )
 	{
+		fl('OPPOSED TARGET');
 	//TODO /!\ IMPORTANT
 	// Les vecteur sont de sens opposés, un vecteur aligné a leurs plan normal
 	// doit etre defini pour effectuer une rotation de 180°
@@ -242,9 +250,10 @@ function geninterpmat (vs, ve)
 		var vp = vectorproduct ( a, b);	
 		vp = normalisevertex (vp);
 		var sp = scalarproduct ( a, b );
-
+		
       var ang = Math.acos (sp);
-
+      
+      
 		frmat = axe_ang_to_mat (vp , ang );				
 	}
 	var mat = gentmat( -vs.o[0], -vs.o[1], -vs.o[2]);
