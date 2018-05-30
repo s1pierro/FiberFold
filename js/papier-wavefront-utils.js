@@ -364,11 +364,10 @@ function syncTriangleSomOrder (o)
 			fl('\nLoop ('+cnt+') start, triangle : '+crtTri+'\n##################');
 			dnl.add (crtTri);
 			var tmp = findJoinedTriangles (o, crtTri );
+			// we need to elimanate triangles that have already by checked
 			for (let i = tmp.length - 1; i >= 0; i--) 			
 				if (true == dnl.is(tmp[i]))
 					tmp.splice(i, 1);
-					
-			
 			fl(tmp.length+' triangle to check')
 					
 			for (var i = 0 ; i < tmp.length ; i++)
