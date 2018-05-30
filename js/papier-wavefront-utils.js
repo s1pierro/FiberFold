@@ -104,6 +104,7 @@ function parsewavefront(objText, id) {
 								 getRandomArbitrary(0, 1));	
 **/
 	//flipTriangle (obj, 0) 
+	syncTriangleSomOrder (obj);
 	genNormales(obj);
 	obj.nv = nv;
 	obj.nt = nt;
@@ -351,8 +352,64 @@ function sharededge ( o, triangle_1, triangle_2)
 function syncTriangleSomOrder (o) 
 {
 //TODO Emergency, Very important.
+	var td = new ToDo ();
+	td.add(0);
+	fl('next : '+td.next());
+	var dnl = new processedelements ();
+	fl(td.isEmpty());
+	var cnt = 0;
+	while (td.isEmpty() == false)
+	{		
+			var crtTri = td.next();
+			fl('\nLoop ('+cnt+') start, triangle : '+crtTri+'\n##################');
+			dnl.add (crtTri);
+			var tmp = findJoinedTriangles (o, crtTri );
+			for (let i = tmp.length - 1; i >= 0; i--) 			
+				if (true == dnl.is(tmp[i]))
+					tmp.splice(i, 1);
+					
+					
+					
+			fl(tmp.length+' triangle to check')
+					
+			for (var i = 0 ; i < tmp.length ; i++)
+			{
+				//TODO test each triange with crtTri
+				fl('is done '+tmp[i]+' : '+dnl.is(tmp[i]));
+				if (dnl.is(tmp[i]) == false )
+				{
+					td.add(tmp[i]);
+					dnl.add (tmp[i]);
+				}
+			}
+			td.done(crtTri);
+			cnt++;
+
+	}
+	if ( cnt != o.triangles.length ) alert('WARNING,the mesh is not monobloc, flattening errors could occur.')
+	fl (dnl.pe);
+	
+	
+	//if ( dnl.is(tmp[i]) == false ) td.add(tmp[i]);	
+}
+
+function doesTrianleNeedFlip (o, t, ref) 
+{
+//TODO Emergency, Very important.
+	
 
 
+
+}
+function findJoinedTriangles (o, t)
+{
+	var tmp = TRIANGLEgetedges (o, t);
+	var tmp2 = [];
+	for ( var i = 0 ; i < tmp.length ; i ++ )
+		for ( var j = 0 ; j < o.edges[tmp[i]].tri.length ; j++ )
+			if ( o.edges[tmp[i]].tri[j] != t )
+				tmp2.push(o.edges[tmp[i]].tri[j])
+	return tmp2;
 }
 function flipTriangle (o, t) 
 {

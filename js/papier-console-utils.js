@@ -15,6 +15,9 @@ function uuidv4() {
     return v.toString(16);
   });
 }
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
 function logMatrix(m) {
 
@@ -95,6 +98,7 @@ function processedelements ()
 }
 processedelements.prototype.add = function ( id )
 {
+	if ( this.is(id) == false )
 	this.pe.push(id);
 }
 processedelements.prototype.is = function (id)
@@ -104,6 +108,29 @@ processedelements.prototype.is = function (id)
 			return true;
 	return false;
 }
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
+
+// An utility to note the treated elements
+function ToDo ()
+{
+	this.td = [];
 }
+ToDo.prototype.add = function (id)
+{
+	this.td.push(id);
+}
+ToDo.prototype.done = function (id)
+{
+	for ( var i = 0 ; i < this.td.length ; i++ )
+		if ( this.td[i] == id )
+			this.td.splice(i, 1);
+}
+ToDo.prototype.next = function ()
+{
+	return this.td[0];
+}
+ToDo.prototype.isEmpty = function ()
+{
+	if ( this.td.length == 0 ) return true;
+	else return false;
+}
+
