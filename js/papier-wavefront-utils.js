@@ -347,12 +347,7 @@ function sharededge ( o, triangle_1, triangle_2)
 			if ( o.edges[i].tri[j] == triangle_2 ) ok2 = true;
 			
 		}
-			
-			
-		if ( ok1 && ok2 )		
-		{
-			return i;
-		}
+		if ( ok1 && ok2 ) return i;
 	}
 	return -1;
 }
