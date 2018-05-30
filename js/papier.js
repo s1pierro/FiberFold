@@ -22,7 +22,9 @@ var materialVisible, material1, materialSoftEdge, materialHighlighted, materialS
 var activeshape1 = -1;
 var activeshape1shadoweddstate;
 
-var patterns = [];
+
+var patterns = new Patterns;
+
 var verbose = false;
 var BUILDmode = "safe";
 var scaleconst = 1;
@@ -183,8 +185,8 @@ function mouseup ( event )
 						setedgestate (pobj, e, "freeze");
 					else
 						setedgestate (pobj, e, "hide");
-					buildpatterns(pobj) ;
-
+					//buildpatterns(pobj) ;
+					patterns.rebuild(pobj);
 					if ( BUILDmode == "fast" )
 					{
 						activeshape1 = tappedshapeid;
@@ -269,7 +271,8 @@ $('body').on('click', '#apply-scale', function()
 	var sc = document.getElementById('user-scale-factor').value;
 	var scale = parseFloat(sc);
 	scaleWavefront (pobj, scale);
-	buildpatterns(pobj) ;
+	//buildpatterns(pobj) ;
+	patterns.rebuild(pobj);
 
 });
 /*	$('body').on('click', '#', function() {

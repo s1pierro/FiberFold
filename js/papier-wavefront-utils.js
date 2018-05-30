@@ -97,7 +97,13 @@ function parsewavefront(objText, id) {
 		obj.triangles[i].id  = id;
 	obj.edges = [];
 	genEdge (obj );
-	
+	rotateWavefront (obj, 21.4, 43.3, 66.3);
+/*
+	rotateWavefront (obj, getRandomArbitrary(0, 1),
+								 getRandomArbitrary(0, 1),
+								 getRandomArbitrary(0, 1));	
+**/
+	//flipTriangle (obj, 0) 
 	genNormales(obj);
 	obj.nv = nv;
 	obj.nt = nt;
@@ -139,20 +145,30 @@ function parsewavefront(objText, id) {
 	$('#sizeX').text((obj.sx/10).toFixed(2));
 	$('#sizeY').text((obj.sy/10).toFixed(2));
 	$('#sizeZ').text((obj.sz/10).toFixed(2));
-
+	fl(obj);
 	return obj;
 }
 window['parsewavefront'] = parsewavefront;
 
 function genEdge (obj )
 {
+	var edgeOverBurdedError = false;
+	
 	for ( var i = 0 ; i < 	obj.triangles.length ; i++)
 	{
 		addEdge (obj, obj.triangles[i][obj.triangles[i].length-1], obj.triangles[i][0], i );		
 		for ( var  j = 0 ; j < obj.triangles[i].length-1 ; j++ )
 			addEdge (obj, obj.triangles[i][j], obj.triangles[i][j+1], i );
 	}
-		obj.ne = obj.edges.length;
+	obj.ne = obj.edges.length;	
+	
+	for ( var i = 0 ; i < obj.edges.length ; i++)
+		if ( obj.edges[i].tri.length > 2 )
+			edgeOverBurdedError = true;
+	if (edgeOverBurdedError)
+		alert ( 'Error, the mesh contains edges that are shared by more than'+
+				 ' two triangles. Some pattern flattening will be corrupted');
+
 }
 window['genEdge'] = genEdge;
 function addEdge (obj, es1, es2, t)
@@ -162,36 +178,19 @@ function addEdge (obj, es1, es2, t)
 	{
 		var tmp = { som : [es1, es2], tri : [t], state : "hide", id : obj.edges.length };
 		obj.edges.push (tmp);
-	//	console.log ('## tri '+t+' ## add edge : ');
-	//	console.log (tmp);
 	}
 	else
 	{
-		if( gotTriangleEdge (obj, es1, es2, t ) == -1 )
-		{
-			obj.edges[e].tri.push (t);
-//			console.log ('## tri '+t+' ## update edge : '+obj.edges[e]);
-		}
-	//	else console.log ('## tri '+t+' ## already exist');
-			
+		if( gotTriangleEdge (obj, es1, es2, t ) == -1 ) obj.edges[e].tri.push (t);
 	}
 }
 window.addEdge = addEdge;
 function gotEdge (obj, es1, es2 )
 {
 	for ( var i = 0 ; i < 	obj.edges.length ; i++)
-	{
-
-		if ( ( obj.edges[i].som[0] == es1 && obj.edges[i].som[1] == es2 ) |
+if ( ( obj.edges[i].som[0] == es1 && obj.edges[i].som[1] == es2 ) |
 			  ( obj.edges[i].som[0] == es2 && obj.edges[i].som[1] == es1 ) )
-		{
-		//	console.log ('edge found : '+i+' es1 '+es1+', es2 '+es2);
 			return i;
-		}
-	//	console.log ('edge not found : '+i+' es1 '+es1+', es2 '+es2);
-	
-	
-	}
 	return -1;
 }
 
@@ -349,7 +348,23 @@ function sharededge ( o, triangle_1, triangle_2)
 	}
 	return -1;
 }
+function syncTriangleSomOrder (o) 
+{
+//TODO Emergency, Very important.
 
+
+}
+function flipTriangle (o, t) 
+{
+	fl('flip triangle '+t);
+	fl(o.triangles[t]);
+	
+	var tmp = $.extend(true, {}, o.triangles[t]);
+	o.triangles[t][0] = tmp[1];
+	o.triangles[t][1] = tmp[0];
+	fl(o.triangles[t]);
+	
+}
 
 function TRIANGLEgetedges (o, t) 
 {

@@ -104,4 +104,6 @@ processedelements.prototype.is = function (id)
 			return true;
 	return false;
 }
-
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}

@@ -14,12 +14,12 @@ function  distance (c1, c2)
 							 (c2[2]-c1[2])*(c2[2]-c1[2]) );
 	return d;
 }
+/** @constructor */
 function Vector(a, b, c) {
     this.o = a;
     this.s = b;
     this.n = c
 }
-window.Vector = Vector;
 function vectfromvertices(a, b) {
 	if (a[0] == b[0] && a[1] == b[1] && a[2] == b[2])
 		return new Vector([0.0, 0.0, 0.0], [0.0, 0.0, 0.0], 1.0);
