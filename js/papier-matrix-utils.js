@@ -250,11 +250,14 @@ function geninterpmat (vs, ve)
 		var vp = vectorproduct ( a, b);	
 		vp = normalisevertex (vp);
 		var sp = scalarproduct ( a, b );
-		
+		// FREAK solution
+		if ( sp > 1.0 && sp < 1.000001) sp = 1;
       var ang = Math.acos (sp);
       
+      fl('ang: '+ang+', sp: '+sp+', vp: '+vp);
       
-		frmat = axe_ang_to_mat (vp , ang );				
+		frmat = axe_ang_to_mat (vp , ang );
+		logMatrix(frmat);
 	}
 	var mat = gentmat( -vs.o[0], -vs.o[1], -vs.o[2]);
 	var mat3 = gentmat( ve.o[0], ve.o[1], ve.o[2]);
