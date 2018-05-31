@@ -32,7 +32,7 @@ var activeshape1 = -1;
 var activeshape1shadoweddstate;
 
 
-var patterns = new Patterns;
+var patterns = new Patterns(pobj);
 
 var verbose = false;
 var BUILDmode = "safe";
@@ -87,7 +87,7 @@ function init() {
 	feedscene ();
 
 	raycaster = new THREE.Raycaster();				
-	renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true } );
+	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize(  $('#renderbox').width(), $('#renderbox').height() );
 	renderer.setClearColor( 0x000000, 0 ); // the default
@@ -199,7 +199,7 @@ function mouseup ( event )
 					else
 						setedgestate (pobj, e, "hide");
 					//buildpatterns(pobj) ;
-					patterns.rebuild(pobj);
+					patterns.rebuild();
 					if ( BUILDmode == "fast" )
 					{
 						activeshape1 = tappedshapeid;
@@ -285,7 +285,7 @@ $('body').on('click', '#apply-scale', function()
 	var scale = parseFloat(sc);
 	scaleWavefront (pobj, scale);
 	//buildpatterns(pobj) ;
-	patterns.rebuild(pobj);
+	patterns.rebuild();
 
 });
 /*	$('body').on('click', '#', function() {

@@ -68,6 +68,7 @@ _touch devices are not fully supported yet, they will be soon_
 ## Authors
 
 * **Thomas Saint Pierre** - *Initial work*
+* **Gabriel Garcia** - *Graphic Design | Brand identity* [ggabogarcia](https://github.com/ggabogarcia, "ggabogarcia")
 
 
 ## License
