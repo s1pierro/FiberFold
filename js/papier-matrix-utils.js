@@ -1,11 +1,20 @@
 /*
-	this file is a part of 
-	papier 0.4.1
-		
-	Author : Saint Pierre Thomas
-	If you got interest in such kind of app
-	feel free to contact me at spierro@free.fr
-	Licenced under the termes of the GNU GPL v3
+	This file is a part of "Papier" a paper-crafting tool
+	
+Copyright (C) 2018  Saint Pierre Thomas ( s1pierro@protonmail.fr )
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 function  distance (c1, c2)
 {
