@@ -1,4 +1,32 @@
-/*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: papier-wavefront-utils.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: papier-wavefront-utils.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
 	this file is a part of 
 	papier 0.4.1
 		
@@ -22,14 +50,14 @@ function getwavefrontproperties (o)
 	var zmax = obj.vertices[0][2];
 	var zmin = obj.vertices[0][2];
 
-	for ( var i = 0 ; i < obj.vertices.length ; i++)
+	for ( var i = 0 ; i &lt; obj.vertices.length ; i++)
 	{
 		if ( obj.vertices[i][0] > xmax ) xmax =  obj.vertices[i][0]
-		if ( obj.vertices[i][0] < xmin ) xmin =  obj.vertices[i][0]
+		if ( obj.vertices[i][0] &lt; xmin ) xmin =  obj.vertices[i][0]
 		if ( obj.vertices[i][1] > ymax ) ymax =  obj.vertices[i][1]
-		if ( obj.vertices[i][1] < ymin ) ymin =  obj.vertices[i][1]
+		if ( obj.vertices[i][1] &lt; ymin ) ymin =  obj.vertices[i][1]
 		if ( obj.vertices[i][2] > zmax ) zmax =  obj.vertices[i][2]
-		if ( obj.vertices[i][2] < zmin ) zmin =  obj.vertices[i][2]
+		if ( obj.vertices[i][2] &lt; zmin ) zmin =  obj.vertices[i][2]
 	}
 
 	o.sx = xmax-xmin;
@@ -105,7 +133,7 @@ function parsewavefront(objText, id) {
 			}
 		});
 	}
-	for (var i = 0 ; i < obj.triangles.length ; i++ )
+	for (var i = 0 ; i &lt; obj.triangles.length ; i++ )
 		obj.triangles[i].id  = id;
 	obj.edges = [];
 	genEdge (obj );
@@ -129,14 +157,14 @@ function parsewavefront(objText, id) {
 	var zmax = obj.vertices[0][2];
 	var zmin = obj.vertices[0][2];
 
-	for ( var i = 0 ; i < obj.vertices.length ; i++)
+	for ( var i = 0 ; i &lt; obj.vertices.length ; i++)
 	{
 		if ( obj.vertices[i][0] > xmax ) xmax =  obj.vertices[i][0]
-		if ( obj.vertices[i][0] < xmin ) xmin =  obj.vertices[i][0]
+		if ( obj.vertices[i][0] &lt; xmin ) xmin =  obj.vertices[i][0]
 		if ( obj.vertices[i][1] > ymax ) ymax =  obj.vertices[i][1]
-		if ( obj.vertices[i][1] < ymin ) ymin =  obj.vertices[i][1]
+		if ( obj.vertices[i][1] &lt; ymin ) ymin =  obj.vertices[i][1]
 		if ( obj.vertices[i][2] > zmax ) zmax =  obj.vertices[i][2]
-		if ( obj.vertices[i][2] < zmin ) zmin =  obj.vertices[i][2]
+		if ( obj.vertices[i][2] &lt; zmin ) zmin =  obj.vertices[i][2]
 	}
 
 	var sx = (xmax-xmin);
@@ -147,8 +175,8 @@ function parsewavefront(objText, id) {
 	var mz = zmax-sz/2;
 
 	var height = sx;
-	if ( height < sy ) height = sy;
-	if ( height < sz ) height = sz;
+	if ( height &lt; sy ) height = sy;
+	if ( height &lt; sz ) height = sz;
 	obj.height = height*1.5;
 
 	translateWavefront (obj, -mx, -my, -mz);
@@ -167,15 +195,15 @@ function genEdge (obj )
 {
 	var edgeOverBurdedError = false;
 	
-	for ( var i = 0 ; i < 	obj.triangles.length ; i++)
+	for ( var i = 0 ; i &lt; 	obj.triangles.length ; i++)
 	{
 		addEdge (obj, obj.triangles[i][obj.triangles[i].length-1], obj.triangles[i][0], i );		
-		for ( var  j = 0 ; j < obj.triangles[i].length-1 ; j++ )
+		for ( var  j = 0 ; j &lt; obj.triangles[i].length-1 ; j++ )
 			addEdge (obj, obj.triangles[i][j], obj.triangles[i][j+1], i );
 	}
 	obj.ne = obj.edges.length;	
 	
-	for ( var i = 0 ; i < obj.edges.length ; i++)
+	for ( var i = 0 ; i &lt; obj.edges.length ; i++)
 		if ( obj.edges[i].tri.length > 2 )
 			edgeOverBurdedError = true;
 	if (edgeOverBurdedError)
@@ -200,9 +228,9 @@ function addEdge (obj, es1, es2, t)
 window.addEdge = addEdge;
 function gotEdge (obj, es1, es2 )
 {
-	for ( var i = 0 ; i < 	obj.edges.length ; i++)
-if ( ( obj.edges[i].som[0] == es1 && obj.edges[i].som[1] == es2 ) |
-			  ( obj.edges[i].som[0] == es2 && obj.edges[i].som[1] == es1 ) )
+	for ( var i = 0 ; i &lt; 	obj.edges.length ; i++)
+if ( ( obj.edges[i].som[0] == es1 &amp;&amp; obj.edges[i].som[1] == es2 ) |
+			  ( obj.edges[i].som[0] == es2 &amp;&amp; obj.edges[i].som[1] == es1 ) )
 			return i;
 	return -1;
 }
@@ -213,7 +241,7 @@ function gotTriangleEdge (obj, es1, es2, t )
 		var e = gotEdge (obj, es1, es2 );
 		if ( e != -1 )
 		{
-			for ( var j = 0 ; j < obj.edges[e].tri.length ; j++ )
+			for ( var j = 0 ; j &lt; obj.edges[e].tri.length ; j++ )
 			{
 				if ( obj.edges[e].tri[j] == t )
 					return e;
@@ -232,7 +260,7 @@ window['loadWavefrontFromHTLM'] = loadWavefrontFromHTLM;
 
 function setWavefrontId(w, id) {
 
-	for ( var j = 0 ; j < w.nt  ; j++)
+	for ( var j = 0 ; j &lt; w.nt  ; j++)
 		w.triangles[ j ].id = id;
 }
 window['setWavefrontId'] = setWavefrontId;
@@ -240,7 +268,7 @@ window['setWavefrontId'] = setWavefrontId;
 
 function genNormales(obj) {
 		obj.trianglesnorm = [];
-	for (var i = 0; i < obj.triangles.length ; i += 1) {
+	for (var i = 0; i &lt; obj.triangles.length ; i += 1) {
 		var norm = normalisevertex(
 										vectorproduct(
 											vectfromvertices(
@@ -260,7 +288,7 @@ window['genNormales'] = genNormales;
 function translateWavefront (wavefront, x, y, z)
 {
 
-	for ( var i = 0 ; i < wavefront.vertices.length ; i ++ )
+	for ( var i = 0 ; i &lt; wavefront.vertices.length ; i ++ )
 	{
 
 		wavefront.vertices[i][0] =  parseFloat(wavefront.vertices[i][0])+x;
@@ -273,7 +301,7 @@ window['translateWavefront'] = translateWavefront;
 function scaleWavefront (wavefront, scale)
 {
 	fl( 'scaling '+scale);
-	for ( var i = 0 ; i < wavefront.vertices.length ; i ++ )
+	for ( var i = 0 ; i &lt; wavefront.vertices.length ; i ++ )
 	{
 
 		wavefront.vertices[i][0] =  parseFloat(wavefront.vertices[i][0])*scale;
@@ -288,14 +316,14 @@ function scaleWavefront (wavefront, scale)
 	var zmax = wavefront.vertices[0][2];
 	var zmin = wavefront.vertices[0][2];
 
-	for ( var i = 0 ; i < wavefront.vertices.length ; i++)
+	for ( var i = 0 ; i &lt; wavefront.vertices.length ; i++)
 	{
 		if ( wavefront.vertices[i][0] > xmax ) xmax =  wavefront.vertices[i][0]
-		if ( wavefront.vertices[i][0] < xmin ) xmin =  wavefront.vertices[i][0]
+		if ( wavefront.vertices[i][0] &lt; xmin ) xmin =  wavefront.vertices[i][0]
 		if ( wavefront.vertices[i][1] > ymax ) ymax =  wavefront.vertices[i][1]
-		if ( wavefront.vertices[i][1] < ymin ) ymin =  wavefront.vertices[i][1]
+		if ( wavefront.vertices[i][1] &lt; ymin ) ymin =  wavefront.vertices[i][1]
 		if ( wavefront.vertices[i][2] > zmax ) zmax =  wavefront.vertices[i][2]
-		if ( wavefront.vertices[i][2] < zmin ) zmin =  wavefront.vertices[i][2]
+		if ( wavefront.vertices[i][2] &lt; zmin ) zmin =  wavefront.vertices[i][2]
 	}
 
 	wavefront.sx = xmax-xmin;
@@ -315,7 +343,7 @@ function rotateWavefront (wavefront, x, y, z)
 {
 	var tmpmat = genrmat(x, y, z);
 	var tmp = wavefront;
-	for (var i = 0; i < wavefront.vertices.length; i++)
+	for (var i = 0; i &lt; wavefront.vertices.length; i++)
 		wavefront.vertices[i] = applymat(tmpmat, wavefront.vertices[i]);
 	genNormales(wavefront); 
 
@@ -348,16 +376,16 @@ function sharededge ( o, triangle_1, triangle_2)
 {
 	if ( triangle_1 == triangle_2 ) return -2;
 	if ( triangle_1 == -1 | -1 == triangle_2 ) return -3;
-	for (var i = 0 ; i < o.edges.length ; i++ )
+	for (var i = 0 ; i &lt; o.edges.length ; i++ )
 	{
 		var ok1 = false;
 		var ok2 = false;
-		for ( var j = 0 ; j < o.edges[i].tri.length ; j++ )
+		for ( var j = 0 ; j &lt; o.edges[i].tri.length ; j++ )
 		{
 			if ( o.edges[i].tri[j] == triangle_1 ) ok1 = true;
 			if ( o.edges[i].tri[j] == triangle_2 ) ok2 = true;	
 		}
-		if ( ok1 && ok2 ) return i;
+		if ( ok1 &amp;&amp; ok2 ) return i;
 	}
 	return -1;
 }
@@ -385,7 +413,7 @@ function syncTriangleSomOrder (o)
 		//	fl(tmp.length+' triangle to check');
 		//	fl(tmp);
 					
-			for (var i = 0 ; i < tmp.length ; i++)
+			for (var i = 0 ; i &lt; tmp.length ; i++)
 			{
 				//TODO test each triange with crtTri
 				//fl('is done '+tmp[i]+' : '+dnl.is(tmp[i]));
@@ -421,13 +449,13 @@ function doesTrianleNeedFlip (o, t, ref)
 	var st1 = -1;
 	var st2 = -1;
 	
-	if ( o.triangles[t][0] == s1 && o.triangles[t][1] == s2 ) st1 = 1;
-	if ( o.triangles[t][1] == s1 && o.triangles[t][2] == s2 ) st1 = 1;
-	if ( o.triangles[t][2] == s1 && o.triangles[t][0] == s2 ) st1 = 1;
+	if ( o.triangles[t][0] == s1 &amp;&amp; o.triangles[t][1] == s2 ) st1 = 1;
+	if ( o.triangles[t][1] == s1 &amp;&amp; o.triangles[t][2] == s2 ) st1 = 1;
+	if ( o.triangles[t][2] == s1 &amp;&amp; o.triangles[t][0] == s2 ) st1 = 1;
 						
-	if ( o.triangles[ref][0] == s1 && o.triangles[ref][1] == s2 ) st2 = 1;
-	if ( o.triangles[ref][1] == s1 && o.triangles[ref][2] == s2 ) st2 = 1;
-	if ( o.triangles[ref][2] == s1 && o.triangles[ref][0] == s2 ) st2 = 1;
+	if ( o.triangles[ref][0] == s1 &amp;&amp; o.triangles[ref][1] == s2 ) st2 = 1;
+	if ( o.triangles[ref][1] == s1 &amp;&amp; o.triangles[ref][2] == s2 ) st2 = 1;
+	if ( o.triangles[ref][2] == s1 &amp;&amp; o.triangles[ref][0] == s2 ) st2 = 1;
 	
 	if (st1 == st2 )
 		return true;
@@ -437,8 +465,8 @@ function findJoinedTriangles (o, t)
 {
 	var tmp = TRIANGLEgetedges (o, t);
 	var tmp2 = [];
-	for ( var i = 0 ; i < tmp.length ; i ++ )
-		for ( var j = 0 ; j < o.edges[tmp[i]].tri.length ; j++ )
+	for ( var i = 0 ; i &lt; tmp.length ; i ++ )
+		for ( var j = 0 ; j &lt; o.edges[tmp[i]].tri.length ; j++ )
 			if ( o.edges[tmp[i]].tri[j] != t )
 				tmp2.push(o.edges[tmp[i]].tri[j])
 	return tmp2;
@@ -453,7 +481,7 @@ function flipTriangle (o, t)
 function TRIANGLEgetedges (o, t) 
 {
 	var tmp = [];
-	for( var i = 0 ; i < o.edges.length ; i++ )
+	for( var i = 0 ; i &lt; o.edges.length ; i++ )
 	{
 		if ( JUNCTIONgottriangle (o.edges[i], t) != -1 ) tmp.push(i);
 	}
@@ -461,7 +489,7 @@ function TRIANGLEgetedges (o, t)
 }
 function JUNCTIONgottriangle (j, t)
 {
-	for( var i = 0 ; i < j.tri.length ; i++ )
+	for( var i = 0 ; i &lt; j.tri.length ; i++ )
 		if ( j.tri[i] == t ) return i;
 	return -1;
 }
@@ -522,3 +550,26 @@ function setshapestate (o, t, s)
 	feel free to contact me at spierro@protonmail.fr
 	Licenced under the termes of the GNU GPL v3
 */
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Pattern.html">Pattern</a></li><li><a href="Patterns.html">Patterns</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getwavefrontproperties">getwavefrontproperties</a></li><li><a href="global.html#parsewavefront">parsewavefront</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu May 31 2018 17:00:48 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
