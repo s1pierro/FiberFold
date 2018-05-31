@@ -195,7 +195,7 @@ Pattern.prototype.genFrontiers = function (o) // find fronier from junctions && 
 Pattern.prototype.addToFinalDocument = function (renderplane)
 {
 	var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
-	g.setAttribute('id', 'pattern-'+this.guid);
+	g.setAttribute('id', this.guid);
 	
 	for ( var i = 0 ; i < this.triangles.length ; i++ )
 	{

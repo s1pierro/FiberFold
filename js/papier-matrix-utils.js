@@ -251,7 +251,9 @@ function geninterpmat (vs, ve)
 		vp = normalisevertex (vp);
 		var sp = scalarproduct ( a, b );
 		// FREAK solution
-		if ( sp > 1.0 && sp < 1.000001) sp = 1;
+		if ( sp > 1.0 && sp < 1.000001) sp = 1.0;
+		if ( sp < -1.0 && sp > -1.000001) sp = 1.0;
+		
       var ang = Math.acos (sp);
       
       fl('ang: '+ang+', sp: '+sp+', vp: '+vp);
