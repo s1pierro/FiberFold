@@ -2,8 +2,10 @@
 #### as this issue impact several webapps, It might be resolved soon, I hope.
 
 #### Workaround :
-use an other web browser. Chromium and Gnome Web (Epiphany) are not affected on my machine;
-![logo](https://github.com/s1pierro/Papier/blob/master/papier-logo.png "Papier logo")
+use an other web browser. Chromium and Gnome Web (Epiphany) are not affected on my machine.
+
+#![logo](https://github.com/s1pierro/Papier/blob/master/papier-logo.png "Papier logo")
+
 # Papier  
 ### A webapp to perform 3d print from desktop printer.
 
