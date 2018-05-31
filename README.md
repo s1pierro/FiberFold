@@ -1,10 +1,4 @@
-#### bad news, since I update firefox to v60 ( througth updating fedora 28 ), three.js isn't able to create WebGL context anymore in this web browser.
-#### as this issue impact several webapps, It might be resolved soon, I hope.
-
-#### Workaround :
-use an other web browser. Chromium and Gnome Web (Epiphany) are not affected on my machine.
-
-#![logo](https://github.com/s1pierro/Papier/blob/master/papier-logo.png "Papier logo")
+![logo](https://github.com/s1pierro/Papier/blob/master/papier-logo.png "Papier logo")
 
 # Papier  
 ### A webapp to perform 3d print from desktop printer.
