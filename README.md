@@ -3,8 +3,8 @@
 
 #### Workaround :
 use an other web browser. Chromium and Gnome Web (Epiphany) are not affected on my machine;
-
-# ![logo](https://github.com/s1pierro/Papier/blob/master/paperseed-icon.png "Papier logo")apier 0.4.1 
+![logo](https://github.com/s1pierro/Papier/blob/master/papier-logo.png "Papier logo")
+# Papier  
 ### A webapp to perform 3d print from desktop printer.
 
 ![screen](https://github.com/s1pierro/Papier/blob/master/Papier-sreen.jpg "Papier screenshot")
