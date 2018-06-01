@@ -285,6 +285,7 @@ $('body').on('click', '#apply-scale', function()
 	var scale = parseFloat(sc);
 	scaleWavefront (pobj, scale);
 	//buildpatterns(pobj) ;
+	patterns = new Patterns(pobj);
 	patterns.rebuild();
 
 });

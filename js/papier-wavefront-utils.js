@@ -327,7 +327,7 @@ function rotateWavefront (wavefront, x, y, z)
 	for (var i = 0; i < wavefront.vertices.length; i++)
 		wavefront.vertices[i] = applymat(tmpmat, wavefront.vertices[i]);
 	genNormales(wavefront); 
-
+	
 }
 window['rotateWavefront'] = rotateWavefront;
 function readWavefrontFile(evt) {
@@ -340,6 +340,7 @@ blankscene ();
 			var obj = parsewavefront(e.target.result, 0);
 			pobj = $.extend(true, {}, obj);
 			//l(wavefront);
+			patterns = new Patterns(pobj);
 			feedscene();
 		$('#settings').fadeOut(); 
 		$('#credits').fadeIn();

@@ -26,6 +26,12 @@ function Patterns (targetmesh)
 	// GUID might always be useless ... or not
 	this.guid = uuidv4();
 }
+Patterns.prototype.updateTargetMesh = function (targetmesh)	
+{
+	this.targetMesh = targetmesh;
+	this.guid = uuidv4();
+}
+	
 Patterns.prototype.addPattern = function (pattern)
 {
 	this.children.push(pattern);
