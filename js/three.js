@@ -21481,11 +21481,8 @@
 
 			console.error( 'THREE.WebGLRenderer: ' + error.message );
 			
-			// custom message
-			console.log(_canvas);
-			
+			// custom message			
 			var element = document.getElementById("renderbox");
-		//	element.style.background = "rgb(40, 40, 40)";
 			element.style.textAlign = "center";
 			element.style.fontWeight = "900"; 
 			element.style.fontSize = "larger"; 

@@ -31,8 +31,9 @@ function Vector(a, b, c) {
 }
 /**
 	set the vector from two vertice wher a will be the origin
-	@param {object} a, b - the two vertice to use to compute the vector object
-	@returns {object}
+	@param {object} a - the first vertice to use to compute the vector object ( will be origin )
+	@param {object} b - the seecond vertice to use to compute the vector object
+
 */
 Vector.prototype.setFromVertices = function (a, b)
 {
@@ -41,13 +42,11 @@ Vector.prototype.setFromVertices = function (a, b)
 		this.o = [0.0, 0.0, 0.0];
 		this.s = [0.0, 0.0, 0.0];
 		this.n = 0.0;
-		//return this;
 	}
 	var c = Math.sqrt((b[0] - a[0]) * (b[0] - a[0]) + (b[1] - a[1]) * (b[1] - a[1]) + (b[2] - a[2]) * (b[2] - a[2]));
 	this.o = a;
 	this.s = [(b[0] - a[0]) / c, (b[1] - a[1]) / c, (b[2] - a[2]) / c];
 	this.n = c;
-	//return this;
 }
 function vectfromvertices(a, b) {
 	if (a[0] == b[0] && a[1] == b[1] && a[2] == b[2])

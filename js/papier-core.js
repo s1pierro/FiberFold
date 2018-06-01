@@ -26,12 +26,25 @@ function Patterns (targetmesh)
 	// GUID might always be useless ... or not
 	this.guid = uuidv4();
 }
+/** @description
+	Update the targeted mesh reference. That is needed when user load a new mesh.
+	
+	 @param {object} targetmesh - the new mesh to flatten.
+ 
+ */
+
 Patterns.prototype.updateTargetMesh = function (targetmesh)	
 {
 	this.targetMesh = targetmesh;
 	this.guid = uuidv4();
 }
-	
+/**
+ * @description
+ *	simply add a new pattern 
+ *
+ *	@param {object} pattern - the pattern to add
+ *
+ */
 Patterns.prototype.addPattern = function (pattern)
 {
 	this.children.push(pattern);
@@ -141,11 +154,58 @@ Pattern.prototype.owntriangle = function (t)
 }
 /** @description
 	compute the frontier's nodes of the pattern, using the pattern's flattened triangles summits
+	And order them to corectly define a shape frontier
  */
 Pattern.prototype.genNodes = function ()
 {
+	var tmp = [];
+	for( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
+	{
+		for (var j = 0 ; j < this.trianglesflatcoord[i].length ; j++)
+		{
+			var duplicate = false;
+			for ( var k = 0 ; k < tmp.length ; k++ )
+			{
+				if ( distance (tmp[k].c, this.trianglesflatcoord[i][j].c ) < 0.0001 &&
+				 	  tmp[k].sid == this.trianglesflatcoord[i][j].sid )
+					duplicate = true;
+			}
+			if ( duplicate == false )
+				tmp.push(new Node ( this.trianglesflatcoord[i][j].sid,
+					                 [ this.trianglesflatcoord[i][j].c[0],
+					                   this.trianglesflatcoord[i][j].c[1],
+					                   this.trianglesflatcoord[i][j].c[2] ] ) );
+		}
+	}
 	
+	fl(tmp);
 	
+
+	// now, we need to order the foounded nodes,
+	// and it's Friday, so ->> TODO
+	/*
+	for ( var k = 0 ; k < tmp.length-1 ; k++ )
+	{
+		while ( ! tmp[k].shareFrontierWith(tmp[k+1])  )
+		{
+			var tmp2 = $.extend(true, {}, tmp[k+1]);
+			tmp.splice(k+1, 1);
+			tmp.push (tmp2);
+		}
+			
+	}
+*/
+	
+	fl(tmp);
+	
+}
+/** @constructor */
+
+function Node (sid, coordinate )
+{
+	this.sid = sid;
+	this.c = coordinate;
+	this.guid = uuidv4();
 }
 /** @description
 	find the pattern triangles using pattern edges
@@ -178,8 +238,9 @@ Pattern.prototype.addTriangle = function (t)
 }
 /** @description
 	Try to ad an edges to the pattern, by looking for a triangle that is joined to it.
+	@param {number} edge - the id of the edge to add.
 	@return {number=} -2 when egde is already owned by the pattern 
-	@return {number=} -1 was not able to add the edge
+	@return {number=} -1 when was not able to add the edge
  */
 Pattern.prototype.addEdge = function (edge)
 {
@@ -279,24 +340,23 @@ Pattern.prototype.flatten = function ()
 
 	this.flattenTrianglesCoord ();
 	this.assembleFlattenedTriangles ();
+	this.genNodes ();
+	
 }
 /** @description
-	-
+	 calculate the flat coord of each triangle.
+	 mistake was done earlyer, pattern triangles ids are store in an array of array
+    instead of an array of (js) objects
+ 	 dont wand to rewrite this now, so flat coordinates will be store in a separate array
+ 	 of array - SO - P.triangles[x] & P.trianlesflatcoord[x] refer to the same triangle
+ 	 and will always be.
+ 	 the other reason why is that full OOP rewrite is planed
+
+	 
  */
 
 Pattern.prototype.flattenTrianglesCoord = function ()
 {
- 	// let's calculate the flat coord of each triangle
- 	//================================================
- 	// mistake was done earlyer, pattern triangles ids are store in an array of array
- 	// instead of an array of (js) objects
- 	// dont wand to rewrite this now, so flat coordinates will be store in a separate array
- 	// of array - SO - P.triangles[x] & P.trianlesflatcoord[x] refer to the same triangle
- 	// and will always be
- 	// the other reason why is that full OOP rewrite is planed
- 	//================================================
-
-
 	for ( var j = 0 ; j < this.triangles.length ; j++ )
 	{
 		var id = this.triangles[j];
