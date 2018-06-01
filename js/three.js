@@ -21480,7 +21480,21 @@
 		} catch ( error ) {
 
 			console.error( 'THREE.WebGLRenderer: ' + error.message );
+			
+			// custom message
+			console.log(_canvas);
+			
+			var element = document.getElementById("renderbox");
+		//	element.style.background = "rgb(40, 40, 40)";
+			element.style.textAlign = "center";
+			element.style.fontWeight = "900"; 
+			element.style.fontSize = "larger"; 
+			element.style.paddingTop = "25vh";
+			element.style.text = "rgb(240, 240, 255)";
+			element.innerHTML = "Error, this browser does not seem to support WebGL";
 
+			
+$
 		}
 
 		var extensions, capabilities, state, info;

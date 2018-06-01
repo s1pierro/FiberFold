@@ -86,8 +86,11 @@ function init() {
 	
 	feedscene ();
 
-	raycaster = new THREE.Raycaster();				
-	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
+	raycaster = new THREE.Raycaster();		
+	fl(' Create Renderer :')
+	renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true } );
+	fl('renderer :');
+	fl(renderer);
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize(  $('#renderbox').width(), $('#renderbox').height() );
 	renderer.setClearColor( 0x000000, 0 ); // the default
