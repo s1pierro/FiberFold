@@ -11,7 +11,7 @@ _This project is a rewritting of my old [eMesh](https://www.youtube.com/watch?v=
 #### Here is the begining of something functional. [try it !](https://s1pierro.github.io/Papier/)
 _touch devices are not fully supported yet, they will be soon_
 
-**firefox encount some dificulty with WebGl on my terminal since version 60**
+**firefox encount some dificulty with WebGl on my terminal since version 60, Chromium and Gnome Web are ok**
 
 ### Goals :
 
