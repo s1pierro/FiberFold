@@ -158,7 +158,7 @@ Pattern.prototype.owntriangle = function (t)
 	And order them to corectly define a shape frontier
  */
 Pattern.prototype.genNodes = function ()
-{
+{	console.clear();
 	var tmp = [];
 	for( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
 	{
@@ -169,13 +169,17 @@ Pattern.prototype.genNodes = function ()
 			{
 				if ( distance (tmp[k].c, this.trianglesflatcoord[i][j].c ) < 0.0001 &&
 				 	  tmp[k].sid == this.trianglesflatcoord[i][j].sid )
+				{
 					duplicate = true;
+					tmp[k].tid.push(this.triangles[i]);
+				}
 			}
 			if ( duplicate == false )
 				tmp.push(new Node ( this.trianglesflatcoord[i][j].sid, this.triangles[i],
 					                 [ this.trianglesflatcoord[i][j].c[0],
 					                   this.trianglesflatcoord[i][j].c[1],
 					                   this.trianglesflatcoord[i][j].c[2] ] ) );
+			 
 		}
 	}
 	var out = "";
@@ -183,6 +187,7 @@ Pattern.prototype.genNodes = function ()
 	for( var k = 0 ; k < tmp.length ; k++ )
 		out += tmp[k].sid+" ";
 	fl(out);
+	fl(tmp);
 	
 
 	// now, we need to order the foounded nodes,
@@ -190,7 +195,7 @@ Pattern.prototype.genNodes = function ()
 	//NOT EDGES, FRRRRONTIER
 	
 	var cnt =0;
-	
+
 	for ( var k = 0 ; k < tmp.length-1 ; k++ )
 	{
 		cnt++;
@@ -201,8 +206,11 @@ Pattern.prototype.genNodes = function ()
 			out += tmp[q].sid+" ";
 		fl("nodes :"+out);
 		var isok = false;
-		if ( tmp[k+1].tid == tmp[k].tid )
+		fl(tmp[k]);
+		if ( tmp[k].shareFlatTriangleWith( tmp[k+1] ) )
 		{
+			
+			fl(tmp[k].sid+' and '+tmp[k+1].sid+'are on same flat tri')
 			// good start, nodes are on the same flattened triangle
 			
 			// are the shariing a freezed edge ?
@@ -211,7 +219,7 @@ Pattern.prototype.genNodes = function ()
 			var edg = getEdgeId (this.targetMesh, tmp[k+1].sid, tmp[k].sid);
 			if ( edg > -1 )
 				if ( edgestate (this.targetMesh, edg) == "freeze" ) frz = true;
-			
+				fl('edge is freezed : ' + frz);
 			if ( frz == false )
 			{
 				isok = true;
@@ -234,10 +242,19 @@ Pattern.prototype.genNodes = function ()
 function Node (sid, tid, coordinate )
 {
 	this.sid = sid;
-	this.tid = tid;
+	this.tid = [tid];
 	
 	this.c = coordinate;
 	this.guid = uuidv4();
+}
+Node.prototype.shareFlatTriangleWith = function (nde)
+{
+	for ( var i = 0 ; i < nde.tid.length ; i++ )
+	{
+		for( var j = 0 ; j < this.tid.length ; j++ )
+			if (this.tid[j] == nde.tid[i] ) return true;
+	}
+	return false;
 }
 /** @description
 	find the pattern triangles using pattern edges
@@ -487,6 +504,26 @@ Pattern.prototype.assembleFlattenedTriangles = function ()
 		}
 		done.add ( this.targetMesh.edges[ this.edges[j] ].tri[k] );
 	}
+}
+Pattern.prototype.areOnSameFlattenedTriangle = function (s1, s2)
+{
+
+	for ( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
+	{
+		
+		var ftri = this.trianglesflatcoord[i];
+		
+		var ok1 = false;
+		var ok2 = false;
+		for ( var j = 0 ; j < ftri.length ; j++ )
+		{
+			if ( ftri[j].sid == s1 ) ok1 = true;
+			if ( ftri[j].sid == s2 ) ok2 = true;	
+		}
+
+		if ( ok1 && ok2 ) return true;
+	}
+	return false;	
 }
 
 
