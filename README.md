@@ -2,11 +2,11 @@
 
 ### A webapp to perform 3d print from desktop printer.
 
+_This project is a (js) rewritting of my old [eMesh](https://www.youtube.com/watch?v=Rcpjqd3NSTE "eMesh") desktop application (SDL, openGL2, C++)_
+
+
 ![screen](https://github.com/s1pierro/Papier/blob/master/img/papier-screen-shadow.png "Papier screenshot")
 
-
-
-_This project is a (js) rewritting of my old [eMesh](https://www.youtube.com/watch?v=Rcpjqd3NSTE "eMesh") desktop application (SDL, openGL2, C++)_
 
 #### Here is the begining of something functional. [try it !](https://s1pierro.github.io/Papier/)
 _touch devices are not fully supported yet, they will be soon_
