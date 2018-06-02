@@ -91,15 +91,23 @@ function init() {
 
 	raycaster = new THREE.Raycaster();		
 	fl(' Create Renderer :')
-	renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true } );
-	fl('renderer :');
-	fl(renderer);
-	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize(  $('#renderbox').width(), $('#renderbox').height() );
-	renderer.setClearColor( 0x000000, 0 ); // the default
-	renderer.shadowMap.enabled = false;
-	renderer.shadowMap.type = THREE.PCFShadowMap;
- 	$('#startapp').fadeIn();
+	try {
+		renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true } );
+	
+		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize(  $('#renderbox').width(), $('#renderbox').height() );
+		renderer.setClearColor( 0x000000, 0 ); // the default
+		renderer.shadowMap.enabled = false;
+		renderer.shadowMap.type = THREE.PCFShadowMap;
+		$('#startapp').fadeIn();
+	}
+	catch (err)
+	{
+		$('#startapp').replaceWith( "<h3 id=\"cantstart\">Oups, something went wrong with three.js, WebGl does not seem to be supported on this browser</h3>" );
+		
+	}
+
+
 
 	// shut firefox up !
 	var ctx = renderer.context;

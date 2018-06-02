@@ -21,6 +21,15 @@
 	stroke-width: 2px;
 	stroke-linejoin: bevel;
 }
+#cantstart
+{		
+	position: relative;
+
+color: rgb(200, 0,0);
+		text-align: center;
+top:80vh;
+
+}
 #startscreen
 {	
 	background-color: #fff;
