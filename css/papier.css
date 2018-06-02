@@ -21,6 +21,21 @@
 	stroke-width: 2px;
 	stroke-linejoin: bevel;
 }
+#startscreen
+{	
+	background-color: #fff;
+	color: #000;
+
+	position: absolute;
+	z-index: 100;
+	width: 100vw;
+	height: 100vh;
+	top: 0px;
+	left: 0px;
+
+
+}  
+
 #credits p {
 	font-size: 1em;
 	padding: 0.2em;
@@ -49,6 +64,24 @@ body {
 	/* Non-prefixed version, currently supported by Chrome and Opera */
 }
 @media (max-aspect-ratio: 1/1) {
+	#startapp
+	{
+		position: absolute;
+		top: 80vh;
+		left: 40vw;
+		width: 20vw;
+		height: auto;
+
+	/*display:none;
+	*/
+	}#startlogo
+	{
+		position: absolute;
+		top: 10vh;
+		left: 25vw;
+		width: 50vw;
+		height: auto;
+	}
 	#settings {
 		overflow-x: hide;
 		overflow-y: scroll;
@@ -101,6 +134,24 @@ body {
 	}
 }
 @media (min-aspect-ratio: 1/1) {
+	#startapp
+	{
+		position: absolute;
+		top: 80vh;
+		left: 40vw;
+		width: 20vw;
+		height: auto;
+
+	/*display:none;
+	*/
+	}#startlogo
+	{
+		position: absolute;
+		top: 10vh;
+		left: 35vw;
+		width: 30vw;
+		height: auto;
+	}
 	#settings {
 		overflow-x: hide;
 		overflow-y: scroll;

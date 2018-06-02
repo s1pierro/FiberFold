@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 $('#settings').hide();
+$('#startpapp').hide();
 
 var pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
 
@@ -41,7 +42,9 @@ var scaleconst = 1;
 $(window).on("load",  init());
 
 function init() {
-
+	
+	$('#startpapp').fadeOut();
+	
 	fl('Papier 0.4.3', 'xl');
 	
 	fl('\n Copyright (C) 2018  Saint Pierre Thomas ( s1pierro@protonmail.fr )\n\n')
@@ -78,7 +81,7 @@ function init() {
 
 
 	materialVisible = new THREE.MeshStandardMaterial(  { color: 0xcccccc, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
-	materialHighlighted = new THREE.MeshStandardMaterial(  { color: 0x52b7ca, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
+	materialHighlighted = new THREE.MeshStandardMaterial(  { color: 0x009075, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
 	materialSolid = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 
 	materialSoftEdge = new THREE.LineBasicMaterial( { color: 0x666666, linewidth: 1} );
@@ -96,7 +99,8 @@ function init() {
 	renderer.setClearColor( 0x000000, 0 ); // the default
 	renderer.shadowMap.enabled = false;
 	renderer.shadowMap.type = THREE.PCFShadowMap;
- 
+ 	$('#startpapp').fadeIn();
+
 	// shut firefox up !
 	var ctx = renderer.context;
 	ctx.getShaderInfoLog = function () { return '' };
@@ -263,6 +267,12 @@ function render() {
 }
 
 document.getElementById('fileinput').addEventListener('change', readWavefrontFile, false);
+
+$('body').on('click', '#startapp', function()
+{
+	$("#startscreen").fadeOut();
+
+});
 
 $('body').on('click', '#close-settings', function()
 {
