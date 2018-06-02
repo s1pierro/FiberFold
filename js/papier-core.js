@@ -182,44 +182,25 @@ Pattern.prototype.genNodes = function ()
 			 
 		}
 	}
-	var out = "";
-	out = "";
-	for( var k = 0 ; k < tmp.length ; k++ )
-		out += tmp[k].sid+" ";
-	fl(out);
-	fl(tmp);
-	
 
-	// now, we need to order the foounded nodes,
-	// and it's Friday, so ->> TODO
-	//NOT EDGES, FRRRRONTIER
-	
 	var cnt =0;
 
 	for ( var k = 0 ; k < tmp.length-1 ; k++ )
 	{
-		cnt++;
-		if (cnt == 100)break;
-		fl('k: '+k)
-		out = "";
-		for( var q = 0 ; q < tmp.length ; q++ )
-			out += tmp[q].sid+" ";
-		fl("nodes :"+out);
 		var isok = false;
-		fl(tmp[k]);
+
 		if ( tmp[k].shareFlatTriangleWith( tmp[k+1] ) )
 		{
 			
-			fl(tmp[k].sid+' and '+tmp[k+1].sid+'are on same flat tri')
 			// good start, nodes are on the same flattened triangle
 			
-			// are the shariing a freezed edge ?
+			// are they shariing a freezed edge ?
 				
 			var frz = false;
 			var edg = getEdgeId (this.targetMesh, tmp[k+1].sid, tmp[k].sid);
 			if ( edg > -1 )
 				if ( edgestate (this.targetMesh, edg) == "freeze" ) frz = true;
-				fl('edge is freezed : ' + frz);
+
 			if ( frz == false )
 			{
 				isok = true;
@@ -233,7 +214,6 @@ Pattern.prototype.genNodes = function ()
 			k--;
 		}
 	}
-	fl(tmp);
 	this.nodes = tmp;
 	
 }
