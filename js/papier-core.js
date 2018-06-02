@@ -118,7 +118,7 @@ Patterns.prototype.rebuild = function ()
 	{
 		this.children[i].addToFinalDocument(renderplane);
 	}
-	//fl(this.children);
+	fl(this.children);
 }
 Patterns.prototype.findTriangleOwner = function (triangle)
 {
@@ -136,6 +136,7 @@ function Pattern (targetmesh)
 	this.triangles = [];
 	this.trianglesflatcoord = [];
 	this.edges = [];
+	this.nodes = [];
 	this.frontier = [];
 	this.guid = uuidv4();
 	this.targetMesh = targetmesh;
@@ -171,39 +172,70 @@ Pattern.prototype.genNodes = function ()
 					duplicate = true;
 			}
 			if ( duplicate == false )
-				tmp.push(new Node ( this.trianglesflatcoord[i][j].sid,
+				tmp.push(new Node ( this.trianglesflatcoord[i][j].sid, this.triangles[i],
 					                 [ this.trianglesflatcoord[i][j].c[0],
 					                   this.trianglesflatcoord[i][j].c[1],
 					                   this.trianglesflatcoord[i][j].c[2] ] ) );
 		}
 	}
-	
-	fl(tmp);
+	var out = "";
+	out = "";
+	for( var k = 0 ; k < tmp.length ; k++ )
+		out += tmp[k].sid+" ";
+	fl(out);
 	
 
 	// now, we need to order the foounded nodes,
 	// and it's Friday, so ->> TODO
-	/*
+	//NOT EDGES, FRRRRONTIER
+	
+	var cnt =0;
+	
 	for ( var k = 0 ; k < tmp.length-1 ; k++ )
 	{
-		while ( ! tmp[k].shareFrontierWith(tmp[k+1])  )
+		cnt++;
+		if (cnt == 100)break;
+		fl('k: '+k)
+		out = "";
+		for( var q = 0 ; q < tmp.length ; q++ )
+			out += tmp[q].sid+" ";
+		fl("nodes :"+out);
+		var isok = false;
+		if ( tmp[k+1].tid == tmp[k].tid )
+		{
+			// good start, nodes are on the same flattened triangle
+			
+			// are the shariing a freezed edge ?
+				
+			var frz = false;
+			var edg = getEdgeId (this.targetMesh, tmp[k+1].sid, tmp[k].sid);
+			if ( edg > -1 )
+				if ( edgestate (this.targetMesh, edg) == "freeze" ) frz = true;
+			
+			if ( frz == false )
+			{
+				isok = true;
+			}
+		}
+		if (isok == false )
 		{
 			var tmp2 = $.extend(true, {}, tmp[k+1]);
 			tmp.splice(k+1, 1);
 			tmp.push (tmp2);
+			k--;
 		}
-			
 	}
-*/
-	
 	fl(tmp);
+	this.nodes = tmp;
 	
 }
 /** @constructor */
 
-function Node (sid, coordinate )
+function Node (sid, tid, coordinate )
 {
 	this.sid = sid;
+	this.tid = tid;
+	
 	this.c = coordinate;
 	this.guid = uuidv4();
 }
@@ -319,6 +351,7 @@ Pattern.prototype.addToFinalDocument = function (renderplane)
 	var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
 	g.setAttribute( 'id', this.guid );
 	
+	
 	for ( var i = 0 ; i < this.triangles.length ; i++ )
 	{
 		var tmptri = this.trianglesflatcoord[i];
@@ -330,6 +363,17 @@ Pattern.prototype.addToFinalDocument = function (renderplane)
 		svg.setAttribute('class', 'flatshape' );
 		g.appendChild(svg);
 	}
+	var svgpolygon = this.nodes[this.nodes.length-1].c[0]+', '+this.nodes[this.nodes.length-1].c[1];
+	for ( var i = 0 ; i < this.nodes.length ; i++ )
+		svgpolygon +=  " "+this.nodes[i].c[0]+', '+this.nodes[i].c[1];
+						
+		var svg2 = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
+		svg2.setAttribute('points', svgpolygon);
+		svg2.setAttribute('class', 'nodeshape' );
+		g.appendChild(svg2);
+	
+	
+	
 	renderplane.appendChild(g);
 }
 /** @description

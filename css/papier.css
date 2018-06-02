@@ -8,10 +8,17 @@
 	Licenced under the termes of the GNU GPL v3
 */
 .flatshape {
-	fill: #efefef;
+	fill: #fff;
 	opacity: 1.0;
-	stroke: #444;
+	stroke: #babdb6;
 	stroke-width: 1px;
+	stroke-linejoin: bevel;
+}
+.nodeshape {
+	fill: #efefef00;
+	opacity: 1.0;
+	stroke: #a44;
+	stroke-width: 2px;
 	stroke-linejoin: bevel;
 }
 #credits p {

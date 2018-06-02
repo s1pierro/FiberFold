@@ -353,7 +353,23 @@ blankscene ();
 		alert("Failed to load file");
 	}
 }
-
+function getEdgeId (o, s1, s2)
+{
+	if ( s1 == s2 ) return -2;
+	if ( s1 == -1 | -1 == s2 ) return -3;
+	for (var i = 0 ; i < o.edges.length ; i++ )
+	{
+		var ok1 = false;
+		var ok2 = false;
+		for ( var j = 0 ; j < o.edges[i].som.length ; j++ )
+		{
+			if ( o.edges[i].som[j] == s1 ) ok1 = true;
+			if ( o.edges[i].som[j] == s2 ) ok2 = true;	
+		}
+		if ( ok1 && ok2 ) return i;
+	}
+	return -1;
+}
 function sharededge ( o, triangle_1, triangle_2)
 {
 	if ( triangle_1 == triangle_2 ) return -2;
