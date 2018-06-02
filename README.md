@@ -1,4 +1,4 @@
-![banner](https://github.com/s1pierro/Papier/blob/master/img/papier-banner.png "Papier banner")
+![banner](https://github.com/s1pierro/Papier/blob/master/img/papier-GHMDbanner.png "Papier banner")
 
 ### A webapp to perform 3d print from desktop printer.
 
