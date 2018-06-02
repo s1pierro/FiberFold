@@ -1,9 +1,8 @@
 ![banner](https://github.com/s1pierro/Papier/blob/master/img/papier-GHMDbanner.png "Papier banner")
 
 ### A webapp to perform 3d print from desktop printer.
-
 _This project is a (js) rewritting of my old [eMesh](https://www.youtube.com/watch?v=Rcpjqd3NSTE "eMesh") desktop application (SDL, openGL2, C++)_
-
+ It aim to provide an enought advanced paper-crafting tool to be used as an alternative prototyping tool ( as [paperAce](https://plus.google.com/photos/118368888481050824788/album/6366533843773096817/6366533840814789570?authkey=CIr985KLmqXwTA "paperAce") does ). Beside being as simple as possible to use.
 
 ![screen](https://github.com/s1pierro/Papier/blob/master/img/papier-screen-shadow.png "Papier screenshot")
 
