@@ -18,7 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 'use strict';
 
-/** @constructor */
+/** @constructor 
+ * @param {object}                   targetmesh - The mesh to flatten.
+ * @property {Array.Pattern}           children - The array tht contain patterns.
+ * @property {object}                targetMesh - The mesh to flatten.
+ * @property {string}             		    guid - A global identifier.
+ 
+ */ 
 function Patterns (targetmesh)
 {
 	this.targetMesh = targetmesh;
@@ -27,7 +33,7 @@ function Patterns (targetmesh)
 	this.guid = uuidv4();
 }
 /** @description
-	Update the targeted mesh reference. That is needed when user load a new mesh.
+	Update the targeted mesh. That is needed when user load a new mesh.
 	
 	 @param {object} targetmesh - the new mesh to flatten.
  
@@ -49,6 +55,22 @@ Patterns.prototype.addPattern = function (pattern)
 {
 	this.children.push(pattern);
 }
+/**
+ * @description
+ *	try to rebuild patterns. 
+ * this method build pattern using freezd edges
+ 	
+   step by step, it try to dispatch freezed egdes into patterns by looking if
+   they are joined.
+   When it cannot, it creat a new pattern.
+   
+   a temporary var is used, so, if sometings go wrong, it leave the pattern as they were
+ 
+ 
+ *	@return {boolean=} true  If it succesed to dispatch every edges
+ *	@return {boolean=} false  If something goes wrong.
+ *
+ */
 Patterns.prototype.rebuild = function ()
 {
 	// back up patterns in case of fail
@@ -256,7 +278,7 @@ Node.prototype.shareFlatTriangleWith = function (nde)
 	return false;
 }
 /** @description
-	find the pattern triangles using pattern edges
+	Find the pattern triangles using pattern edges
  */
 Pattern.prototype.gentriangles = function ()
 {
@@ -402,7 +424,7 @@ Pattern.prototype.flatten = function ()
 
 	this.flattenTrianglesCoord ();
 	this.assembleFlattenedTriangles ();
-	if ( this.checkFreezedEdges() ) return false;
+	if ( ! this.checkFreezedEdges() ) return false;
 	this.genNodes ();
 	return true;
 	
@@ -524,35 +546,29 @@ Pattern.prototype.checkFreezedEdges = function ()
 	var ww = 0;
 	for ( var i = 0 ; i < this.edges.length ; i++ )	
 	{
-		var wrongone = this.areFlatTriangleJoined (  this.edges[i],
+		var joined = this.areFlatTriangleJoined (  this.edges[i],
 		                                     this.getFlatTriangle(this.targetMesh.edges[this.edges[i]].tri[0]),
 		                                     this.getFlatTriangle(this.targetMesh.edges[this.edges[i]].tri[1]) );
-		if (wrongone) ww++;
+		if (!joined) ww++;
 	}
-	if (ww == 0 ) return false;
-	else return true;
-}
+	if (ww == 0 ) return true;
+	else return false;
+}/**
+	test if two triangles are joined, by checking the distance between shared summits.
+		
+*/
 Pattern.prototype.areFlatTriangleJoined = function (eid, ft1, ft2 )
 {
-
-	var wrong = false;
+	// more test must be needed but, right now, this method only hasnone caller
+	
+	var joined = true;
 	for ( var i = 0 ; i < ft1.length ; i++ )
 	for ( var j = 0 ; j < ft2.length ; j++ )
 		if ( ft1[i].sid == ft2[j].sid )
 		{
-			if ( distance ( ft1[i].c, ft2[j].c) > 0.000001 ) wrong = true;
+			if ( distance ( ft1[i].c, ft2[j].c) > 0.000001 ) joined = false;
 		}
-	return wrong;
+	return joined;
 
 }
 
-
-/*
-	this file is a part of 
-	papier 0.4.1
-		
-	Author : Saint Pierre Thomas
-	If you got interest in such kind of app
-	feel free to contact me at spierro@protonmail.fr
-	Licenced under the termes of the GNU GPL v3
-*/
