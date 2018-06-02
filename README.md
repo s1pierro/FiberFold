@@ -2,7 +2,7 @@
 
 ### A webapp to perform 3d print from desktop printer.
 
-![screen](https://github.com/s1pierro/Papier/blob/master/img/papier-sreen.png "Papier screenshot")
+![screen](https://github.com/s1pierro/Papier/blob/master/img/papier-screen.png "Papier screenshot")
 
 
 
