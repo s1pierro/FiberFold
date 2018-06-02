@@ -202,7 +202,9 @@ function mouseup ( event )
 					else
 						setedgestate (pobj, e, "hide");
 					//buildpatterns(pobj) ;
-					patterns.rebuild();
+					if (!patterns.rebuild())
+						setedgestate (pobj, e, "visible");
+					
 					if ( BUILDmode == "fast" )
 					{
 						activeshape1 = tappedshapeid;

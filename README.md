@@ -13,8 +13,6 @@ _touch devices are not fully supported yet, they will be soon_
 
 **Firefox encount some dificulty with WebGl on my terminal since version 60, Chromium and Gnome Web are ok**
 
-**Be realy careful in pattern editing, Papier is in a development state (node frontiers generanor implement ) that make it unstable. ( infinite loops occur !!! )**
-
 ### Goals :
 
  - Provide an enought advanced paper-crafting tool to be used as an alternative prototyping tool ( as [paperAce](https://plus.google.com/photos/118368888481050824788/album/6366533843773096817/6366533840814789570?authkey=CIr985KLmqXwTA "paperAce") does ).

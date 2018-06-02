@@ -51,7 +51,9 @@ Patterns.prototype.addPattern = function (pattern)
 }
 Patterns.prototype.rebuild = function ()
 {
-	
+	// back up patterns in case of fail
+	var pbu = $.extend(true, [], this.children);
+
 	// first of all, we erase patterns
 	this.children.splice (0, this.children.length);
 	//console.clear();
@@ -108,8 +110,15 @@ Patterns.prototype.rebuild = function ()
 		  	
  	// At this point Patterns are correctly defined but they have not been flattened yet
   	
- 	for ( var i = 0 ; i < this.children.length ; i++ ) this.children[i].flatten();
- 	
+ 	for ( var i = 0 ; i < this.children.length ; i++ )
+   {
+	   if (!this.children[i].flatten())
+	   {
+		   
+		   this.children = $.extend(true, [], pbu);
+		   return false;
+	   }
+   }
 	// Let's finally blank and refill the final document with our new computed
 	// patterns
 	
@@ -118,7 +127,8 @@ Patterns.prototype.rebuild = function ()
 	{
 		this.children[i].addToFinalDocument(renderplane);
 	}
-	fl(this.children);
+	return true;
+//	fl(this.children);
 }
 Patterns.prototype.findTriangleOwner = function (triangle)
 {
@@ -158,7 +168,7 @@ Pattern.prototype.owntriangle = function (t)
 	And order them to corectly define a shape frontier
  */
 Pattern.prototype.genNodes = function ()
-{	console.clear();
+{	//console.clear();
 	var tmp = [];
 	for( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
 	{
@@ -227,6 +237,15 @@ function Node (sid, tid, coordinate )
 	this.c = coordinate;
 	this.guid = uuidv4();
 }
+/** @description
+	Indicates if the node and the one passed in parameter are located on the same
+	flat triangle.
+	
+	@param {object} nde
+	@returns {boolean=} true If they are.
+	@returns {boolean=} false If they are not.
+ */
+
 Node.prototype.shareFlatTriangleWith = function (nde)
 {
 	for ( var i = 0 ; i < nde.tid.length ; i++ )
@@ -360,6 +379,7 @@ Pattern.prototype.addToFinalDocument = function (renderplane)
 		svg.setAttribute('class', 'flatshape' );
 		g.appendChild(svg);
 	}
+	
 	var svgpolygon = this.nodes[this.nodes.length-1].c[0]+', '+this.nodes[this.nodes.length-1].c[1];
 	for ( var i = 0 ; i < this.nodes.length ; i++ )
 		svgpolygon +=  " "+this.nodes[i].c[0]+', '+this.nodes[i].c[1];
@@ -374,16 +394,17 @@ Pattern.prototype.addToFinalDocument = function (renderplane)
 	renderplane.appendChild(g);
 }
 /** @description
-	-
+	symply call flattenTrianglesCoord (), assembleFlattenedTriangles ()
+	and genNodes (). In this order.
  */
 Pattern.prototype.flatten = function ()
 {
 
 	this.flattenTrianglesCoord ();
 	this.assembleFlattenedTriangles ();
-	// TODO before calling thid, we need to check if everything is ok in flattening, assembling
-	// or it could crash
+	if ( this.checkFreezedEdges() ) return false;
 	this.genNodes ();
+	return true;
 	
 }
 /** @description
@@ -487,29 +508,42 @@ Pattern.prototype.assembleFlattenedTriangles = function ()
 		done.add ( this.targetMesh.edges[ this.edges[j] ].tri[k] );
 	}
 	
-	//TODO check if every frezed edge has two flat triangles
+	//TODO check if every freezed edge has two flat triangles
 	
 	
 }
-Pattern.prototype.areOnSameFlattenedTriangle = function (s1, s2)
+Pattern.prototype.getFlatTriangle = function (mtid)
+{
+	
+	for (var i = 0 ; i < this.triangles.length ; i++)
+		if (mtid == this.triangles[i] ) return this.trianglesflatcoord[i];
+	return null;
+}
+Pattern.prototype.checkFreezedEdges = function ()
+{
+	var ww = 0;
+	for ( var i = 0 ; i < this.edges.length ; i++ )	
+	{
+		var wrongone = this.areFlatTriangleJoined (  this.edges[i],
+		                                     this.getFlatTriangle(this.targetMesh.edges[this.edges[i]].tri[0]),
+		                                     this.getFlatTriangle(this.targetMesh.edges[this.edges[i]].tri[1]) );
+		if (wrongone) ww++;
+	}
+	if (ww == 0 ) return false;
+	else return true;
+}
+Pattern.prototype.areFlatTriangleJoined = function (eid, ft1, ft2 )
 {
 
-	for ( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
-	{
-		
-		var ftri = this.trianglesflatcoord[i];
-		
-		var ok1 = false;
-		var ok2 = false;
-		for ( var j = 0 ; j < ftri.length ; j++ )
+	var wrong = false;
+	for ( var i = 0 ; i < ft1.length ; i++ )
+	for ( var j = 0 ; j < ft2.length ; j++ )
+		if ( ft1[i].sid == ft2[j].sid )
 		{
-			if ( ftri[j].sid == s1 ) ok1 = true;
-			if ( ftri[j].sid == s2 ) ok2 = true;	
+			if ( distance ( ft1[i].c, ft2[j].c) > 0.000001 ) wrong = true;
 		}
+	return wrong;
 
-		if ( ok1 && ok2 ) return true;
-	}
-	return false;	
 }
 
 
