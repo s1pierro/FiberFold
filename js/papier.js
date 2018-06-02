@@ -103,7 +103,7 @@ function init() {
 	}
 	catch (err)
 	{
-		$('#startapp').replaceWith( "<h3 id=\"cantstart\">Oups, something went wrong with three.js, WebGl does not seem to be supported on this browser</h3>" );
+		$('#startapp').replaceWith( "<h3 id=\"cantstart\">Oups, something went wrong with three.js, WebGL does not seem to be supported on this browser</h3>" );
 		
 	}
 
