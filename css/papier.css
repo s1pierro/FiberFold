@@ -87,8 +87,8 @@ body {
 	{
 		position: absolute;
 		top: 10vh;
-		left: 25vw;
-		width: 50vw;
+		left: 30vw;
+		width: 40vw;
 		height: auto;
 	}
 	#settings {
@@ -159,8 +159,8 @@ body {
 	{
 		position: absolute;
 		top: 10vh;
-		left: 35vw;
-		width: 30vw;
+		left: 40vw;
+		width: 20vw;
 		height: auto;
 	}
 	#settings {
