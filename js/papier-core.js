@@ -381,6 +381,8 @@ Pattern.prototype.flatten = function ()
 
 	this.flattenTrianglesCoord ();
 	this.assembleFlattenedTriangles ();
+	// TODO before calling thid, we need to check if everything is ok in flattening, assembling
+	// or it could crash
 	this.genNodes ();
 	
 }
@@ -484,6 +486,10 @@ Pattern.prototype.assembleFlattenedTriangles = function ()
 		}
 		done.add ( this.targetMesh.edges[ this.edges[j] ].tri[k] );
 	}
+	
+	//TODO check if every frezed edge has two flat triangles
+	
+	
 }
 Pattern.prototype.areOnSameFlattenedTriangle = function (s1, s2)
 {
