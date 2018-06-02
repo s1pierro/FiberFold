@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 $('#settings').hide();
-$('#startpapp').hide();
+$('#startapp').hide();
 
 var pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
 
@@ -43,7 +43,7 @@ $(window).on("load",  init());
 
 function init() {
 	
-	$('#startpapp').fadeOut();
+	$('#startapp').hide();
 	
 	fl('Papier 0.4.3', 'xl');
 	
@@ -99,7 +99,7 @@ function init() {
 	renderer.setClearColor( 0x000000, 0 ); // the default
 	renderer.shadowMap.enabled = false;
 	renderer.shadowMap.type = THREE.PCFShadowMap;
- 	$('#startpapp').fadeIn();
+ 	$('#startapp').fadeIn();
 
 	// shut firefox up !
 	var ctx = renderer.context;
