@@ -353,6 +353,35 @@ blankscene ();
 		alert("Failed to load file");
 	}
 }
+function loadWavefrontExample() {
+jQuery.get('https://', function(data) {
+    alert(data);
+});
+}/*
+	fl(file);
+	var f = file;
+	if (f) {
+		var r = new FileReader();
+		r.onload = function(e) {
+			var contents = e.target.result;
+			fl('contents')
+			var obj = parsewavefront(e.target.result, 0);
+			pobj = $.extend(true, {}, obj);
+			//l(wavefront);
+			patterns = new Patterns(pobj);
+			blankscene ();
+			feedscene();
+		$('#settings').fadeOut(); 
+		$('#credits').fadeIn();
+		activeshape1 = -1;
+		controls.enabled = true;
+			renderer.render( scene, camera );
+		}
+		r.readAsText(f);
+	} else {
+		alert("Failed to load file");
+	}
+}*/
 function getEdgeId (o, s1, s2)
 {
 	if ( s1 == s2 ) return -2;

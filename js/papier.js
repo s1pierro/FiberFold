@@ -43,6 +43,8 @@ $(window).on("load",  init());
 
 function init() {
 	
+	loadWavefrontExample();
+	
 	$('#startapp').hide();
 	
 	fl('Papier 0.4.3', 'xl');
