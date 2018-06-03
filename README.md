@@ -70,6 +70,7 @@ _touch devices are not fully supported yet, they will be soon_
 
 ## License
 Code is licenced under the termes of the <a href="LICENSE.md">GNU GPL v3</a>
+
 Graphic contents are licenced under the termes of <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
 
  
