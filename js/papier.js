@@ -43,7 +43,7 @@ $(window).on("load",  init());
 
 function init() {
 	
-	loadWavefrontExample();
+	loadWavefrontExample('wavefronts/knight.obj');
 	
 	$('#startapp').hide();
 	

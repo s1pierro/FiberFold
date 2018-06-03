@@ -353,11 +353,23 @@ blankscene ();
 		alert("Failed to load file");
 	}
 }
-function loadWavefrontExample() {
+function loadWavefrontExample(file) {
 	
-jQuery.get('wavefronts/knight.obj', function(data) {
-    fl(data);
-});
+	jQuery.get(file, function(data) {
+
+		var obj = parsewavefront(data, 0);
+		pobj = $.extend(true, {}, obj);
+		//l(wavefront);
+		patterns = new Patterns(pobj);
+		blankscene ();
+		feedscene();
+		$('#settings').fadeOut(); 
+		$('#credits').fadeIn();
+		activeshape1 = -1;
+		controls.enabled = true;
+		renderer.render( scene, camera );
+
+	});
 }/*
 	fl(file);
 	var f = file;
