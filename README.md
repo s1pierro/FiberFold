@@ -78,5 +78,5 @@ If you got interset in such kind of app and want more or if you want to contribu
 ## Feedback
 Feel free to [open an issue](https://github.com/s1pierro/Papier/issues).
 
-#### You should also know that I am currently looking for a way to earn a living by coding. Any proposal in this context is welcome.
+
 	 
