@@ -64,13 +64,13 @@ _touch devices are not fully supported yet, they will be soon_
  
 ## Authors
 
-* **Thomas Saint Pierre** - *Initial work*
+* **Thomas Saint Pierre** - *Initial work | code engineering* [s1pierro](https://github.com/s1pierro "s1pierro")
 * **Gabriel Garcia** - *Graphic Design | Brand identity* [ggabogarcia](https://github.com/ggabogarcia "ggabogarcia")
 
 
 ## License
-
-This project is licensed under the GNU GPL v3 License - see the [LICENSE.md](LICENSE.md) file for details
+Code is licenced under the termes of the <a href="LICENSE.md">GNU GPL v3</a>
+Graphic contents are licenced under the termes of <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
 
  
 If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@protonmail.com
