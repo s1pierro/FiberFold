@@ -43,7 +43,7 @@ $(window).on("load",  init());
 
 function init() {
 	
-	loadWavefrontExample('wavefronts/knight.obj');
+
 	
 	$('#startapp').hide();
 	
@@ -278,6 +278,11 @@ function render() {
 }
 
 document.getElementById('fileinput').addEventListener('change', readWavefrontFile, false);
+
+$('body').on('click', '#ldex-Knight', function()
+{
+	loadWavefrontExample('wavefronts/knight.obj');
+});
 
 $('body').on('click', '#startapp', function()
 {
