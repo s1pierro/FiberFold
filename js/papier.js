@@ -99,13 +99,14 @@ function init() {
 		renderer.setClearColor( 0x000000, 0 ); // the default
 		renderer.shadowMap.enabled = false;
 		renderer.shadowMap.type = THREE.PCFShadowMap;
-		$('#startapp').fadeIn();
 	}
 	catch (err)
 	{
 		$('#startapp').replaceWith( "<h3 id=\"cantstart\">Oups, something went wrong with three.js, WebGL does not seem to be supported on this browser</h3>" );
+		fl(err);
 		
 	}
+	$('#startapp').fadeIn();
 
 
 
