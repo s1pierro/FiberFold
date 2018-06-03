@@ -65,14 +65,14 @@
 		
 	   <div id="settings">
 		<div class="container">
+<button type="button" class="close" aria-label="Close" id="close-settings">
+			  <span aria-hidden="true">&times;</span>
+			</button>
 			<div class="row">
 			
 
 			<div class="col-sm-12">
-			<button type="button" class="close" aria-label="Close" id="close-settings">
-			  <span aria-hidden="true">&times;</span>
-			</button>
-
+			
 			<!--p>	
 
 				<h4>Save project</h4>
@@ -80,7 +80,7 @@
 
 			</p-->
 
-				<h4 >Upload a wavefront</h4>
+				
 				<div class="alert alert-warning" role="alert">
 					Papier can only read wavefront <strong> (.obj)</strong> witch have triangulated faces. The way a 3D model is triangulated has an important influence on pattern editing, which is why Paper has no automatic triangulation functions. You are therefore invited to use your favorite mesh editor to proceed. I recommend the great Blender.
 				</div>
@@ -91,6 +91,7 @@
 
 				<div class="row">
 					<div class="col-lg-6 col-md-12">
+					<h4 >Upload a wavefront</h4>
 					<p>
 						<div class="custom-file" id="customFile" lang="fr">
 							<input type="file" class="custom-file-input" id="fileinput" aria-describedby="fileHelp">
