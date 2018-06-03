@@ -283,6 +283,14 @@ $('body').on('click', '#ldex-Knight', function()
 {
 	loadWavefrontExample('wavefronts/knight.obj');
 });
+$('body').on('click', '#ldex-ppce-frame', function()
+{
+	loadWavefrontExample('wavefronts/paperace-coque.obj');
+});
+$('body').on('click', '#ldex-ppce-body', function()
+{
+	loadWavefrontExample('wavefronts/paperace-carrosserie.obj');
+});
 
 $('body').on('click', '#startapp', function()
 {
