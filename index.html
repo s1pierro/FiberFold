@@ -24,6 +24,47 @@
 		
 		
 	</head>
+	<style>
+	@media (max-aspect-ratio: 1/1) {
+		#startscreen
+		{		
+			background-color: #fff;
+			background-image: url("img/papier-startscreen-backframe-portrait.svg");
+			background-repeat: horizontal;
+			background-position: right top;
+			/*background-size: cover;    
+			*/background-size: auto 100%; /* width and height, can be %, px or whatever. */
+			color: #000;
+			position: absolute;
+			z-index: 100;
+			width: 100vw;
+			height: 100vh;
+			top: 0px;
+			left: 0px;
+		}  
+	}
+	
+	@media (min-aspect-ratio: 1/1) {
+	
+		#startscreen
+		{		
+			background-color: #fff;
+			background-image: url("img/papier-startscreen-backframe-landscape.svg");
+			background-repeat: vertical;
+			background-position: right top;
+			/*background-size: cover;    
+			*/background-size: 100% auto; /* width and height, can be %, px or whatever. */
+			color: #000;
+			position: absolute;
+			z-index: 100;
+			width: 100vw;
+			height: 100vh;
+			top: 0px;
+			left: 0px;
+		}  
+	}
+	
+	</style>
 	<body>
 	<div id="startscreen">
 	

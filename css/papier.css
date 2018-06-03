@@ -41,28 +41,7 @@ color: rgb(200, 0,0);
 top:66vh;
 
 }
-#startscreen
-{	
-	
-	background-color: #fff;
 
-   background-image: url("../img/papier-startscreen-backframe.svg");
-    background-repeat: vertical;
-    background-position: right top;
-	/*background-size: cover;    
-	*/background-size: 100% auto; /* width and height, can be %, px or whatever. */
-	
-	color: #000;
-
-	position: absolute;
-	z-index: 100;
-	width: 100vw;
-	height: 100vh;
-	top: 0px;
-	left: 0px;
-
-
-}  
 	#thirdpartcode
 	{
 		font-family: monospace, monospace;
@@ -102,13 +81,13 @@ body {
 	{
 		font-family: monospace, monospace;
 		position: relative;
-		top: 85vh;
+		top: 74vh;
 		text-align: center;
 	}
 	#startapp
 	{
 		position: absolute;
-		top: 70vh;
+		top: 56vh;
 		left: 35vw;
 		width: 30vw;
 		height: auto;
@@ -118,7 +97,7 @@ body {
 	}#startlogo
 	{
 		position: absolute;
-		top: 10vh;
+		top: 20vh;
 		left: 30vw;
 		width: 40vw;
 		height: auto;
