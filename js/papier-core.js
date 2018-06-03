@@ -132,6 +132,7 @@ Patterns.prototype.rebuild = function ()
 		  	
  	// At this point Patterns are correctly defined but they have not been flattened yet
   	
+	fl(this.children);
  	for ( var i = 0 ; i < this.children.length ; i++ )
    {
 	   if (!this.children[i].flatten())
@@ -149,8 +150,8 @@ Patterns.prototype.rebuild = function ()
 	{
 		this.children[i].addToFinalDocument(renderplane);
 	}
+	fl(this.children);
 	return true;
-//	fl(this.children);
 }
 Patterns.prototype.findTriangleOwner = function (triangle)
 {
@@ -566,7 +567,7 @@ Pattern.prototype.areFlatTriangleJoined = function (eid, ft1, ft2 )
 	for ( var j = 0 ; j < ft2.length ; j++ )
 		if ( ft1[i].sid == ft2[j].sid )
 		{
-			if ( distance ( ft1[i].c, ft2[j].c) > 0.000001 ) joined = false;
+			if ( distance ( ft1[i].c, ft2[j].c) > 0.0001 ) joined = false;
 		}
 	return joined;
 
