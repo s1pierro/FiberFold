@@ -354,7 +354,7 @@ blankscene ();
 	}
 }
 function loadWavefrontExample() {
-jQuery.get('https://', function(data) {
+jQuery.get('https://github.com/s1pierro/Papier/blob/master/wavefronts/knight.obj', function(data) {
     alert(data);
 });
 }/*
