@@ -338,12 +338,15 @@ Pattern.prototype.addEdge = function (edge)
 	return -1;
 }
 /** @description
-	retrive the index of the specified triangle into menber triangles[]
+	indicate the index of the specified triangle into menber triangles[]
+	@param {number} tid - the id of the wanted triangle
+	@returns {number} the index of the wanted triangle in member "triangles[]"
+	-1 if cannot be founded
  */
-Pattern.prototype.getTriangleIndex = function (t)
+Pattern.prototype.getTriangleIndex = function (tid)
 {
 	for ( var i = 0 ; i < this.triangles.length ; i++ )
-		if ( t == this.triangles[i] ) return i;
+		if ( tid == this.triangles[i] ) return i;
 	return -1;
 }
 /** @description
@@ -355,9 +358,8 @@ Pattern.prototype.updateStats = function ()
 	var nNod, nTri, nEdg, nFro;
 	var maxX, minX, maxY, minY;
 }
-/** @description
-	-
- */
+
+
 Pattern.prototype.ownFrontier = function (f)
 {
 	for( var i = 0 ; i < this.frontier.length ; i++ )	
@@ -365,7 +367,7 @@ Pattern.prototype.ownFrontier = function (f)
 	return -1;
 }
 /** @description
-	-
+	find edges id witch are frontier of the pattern.
  */
 Pattern.prototype.genFrontiers = function () // find fronier from junctions && triangles lists
 {
@@ -383,7 +385,7 @@ Pattern.prototype.genFrontiers = function () // find fronier from junctions && t
 	}
 }
 /** @description
-	-
+	add the finalised pattern to the final document
  */
 Pattern.prototype.addToFinalDocument = function (renderplane)
 {
@@ -472,7 +474,8 @@ Pattern.prototype.flattenTrianglesCoord = function ()
 	}
 }
 /** @description
-	-
+	
+	Assemble the pattern, must not be called until the triangles have been flattened
  */
 
 Pattern.prototype.assembleFlattenedTriangles = function ()
@@ -530,11 +533,16 @@ Pattern.prototype.assembleFlattenedTriangles = function ()
 		}
 		done.add ( this.targetMesh.edges[ this.edges[j] ].tri[k] );
 	}
-	
-	//TODO check if every freezed edge has two flat triangles
-	
-	
 }
+/** @description
+	
+	returns the flattened triangle object that matches the triangle of the mesh
+	of which the id is Mtid
+
+	@param {number} mtid - mesh triangle's id
+	@returns {object} flattened triangle
+
+ */
 Pattern.prototype.getFlatTriangle = function (mtid)
 {
 	
@@ -542,6 +550,7 @@ Pattern.prototype.getFlatTriangle = function (mtid)
 		if (mtid == this.triangles[i] ) return this.trianglesflatcoord[i];
 	return null;
 }
+
 Pattern.prototype.checkFreezedEdges = function ()
 {
 	var ww = 0;
@@ -558,6 +567,7 @@ Pattern.prototype.checkFreezedEdges = function ()
 	test if two triangles are joined, by checking the distance between shared summits.
 		
 */
+
 Pattern.prototype.areFlatTriangleJoined = function (eid, ft1, ft2 )
 {
 	// more test must be needed but, right now, this method only hasnone caller

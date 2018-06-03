@@ -7,17 +7,22 @@
 	feel free to contact me at spierro@free.fr
 	Licenced under the termes of the GNU GPL v3
 */
-.flatshape {
+.logo-text
+{
 	fill: #fff;
 	opacity: 1.0;
-	stroke: #babdb6;
-	stroke-width: 1px;
+}
+.flatshape {
+	fill: #444;
+	opacity: 1.0;
+	stroke: #666;
+	stroke-width: .91px;
 	stroke-linejoin: bevel;
 }
 .nodeshape {
-	fill: #efefef00;
+	fill: #8880;
 	opacity: 1.0;
-	stroke: #000000;
+	stroke: #777;
 	stroke-width: 2px;
 	stroke-linejoin: bevel;
 }
@@ -32,13 +37,7 @@ top:80vh;
 }
 #startscreen
 {	
-	
 	background-color: #fff;
-
-   background-image: url("../img/startground.svg");
-    background-repeat: no-repeat;
-    background-position: right top;
-	background-size: cover;
 	color: #000;
 
 	position: absolute;
@@ -54,7 +53,7 @@ top:80vh;
 	{
 		font-family: monospace, monospace;
 		position: relative;
-		top: 88vh;
+		top: 95vh;
 		text-align: center;
 	}
 #credits p {
@@ -67,9 +66,41 @@ body {
 	color: #eee;
 }
 #settings {
-	background-color: #fffd;
-	color: #222;
+	background-color: #222d;
+	color: #bbb;
 }
+#settings h1, h2, h3, h4
+{
+
+	color: #fff;
+}
+#svg7 {
+		
+		background-color: #222;
+		color: #eee;
+}
+	#renderbox {
+
+		/* Chrome10-25,Safari5.1-6 */
+		background: -webkit-radial-gradient(center, ellipse cover, #333 0%, #000 100%);
+		/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		background: radial-gradient(ellipse at center, #333 0%, #000 100%);
+	}
+.alert-warning
+{
+		
+		background-color: #222;
+		color: #eee;
+		border: 5px solid orange;
+}
+.alert-danger
+	{
+		
+		background-color: #222;
+		color: #eee;
+		border: 5px solid red;
+}
+	
 .noselect {
 	-webkit-touch-callout: none;
 	/* iOS Safari */
@@ -89,7 +120,7 @@ body {
 	{
 		font-family: monospace, monospace;
 		position: relative;
-		top: 85vh;
+		top: 90vh;
 		text-align: center;
 	}
 	#startapp
@@ -145,8 +176,6 @@ body {
 		left: 0px;
 		width: 100vw;
 		height: 70.7vw;
-		background-color: #fff;
-		color: #eee;
 	}
 	#renderbox {
 		position: fixed;
@@ -155,10 +184,6 @@ body {
 		height: calc(100vh - 70.7vw);
 		top: 0px;
 		right: 0px;
-		/* Chrome10-25,Safari5.1-6 */
-		background: -webkit-radial-gradient(center, ellipse cover, #999 0%, #222 100%);
-		/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-		background: radial-gradient(ellipse at center, #999 0%, #222 100%);
 	}
 }
 @media (min-aspect-ratio: 1/1) {
@@ -217,8 +242,6 @@ body {
 		left: 0px;
 		width: 70.7vh;
 		height: 100vh;
-		background-color: #fff;
-		color: #eee;
 	}
 	#renderbox {
 		position: fixed;
@@ -227,10 +250,6 @@ body {
 		height: 100vh;
 		top: 0px;
 		right: 0px;
-		/* Chrome10-25,Safari5.1-6 */
-		background: -webkit-radial-gradient(center, ellipse cover, #999 0%, #222 100%);
-		/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-		background: radial-gradient(ellipse at center, #999 0%, #222 100%);
 	}
 }
 /*
