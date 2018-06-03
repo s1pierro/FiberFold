@@ -44,7 +44,13 @@ top:80vh;
 
 
 }  
-
+	#thirdpartcode
+	{
+		font-family: monospace, monospace;
+		position: relative;
+		top: 95vh;
+		text-align: center;
+	}
 #credits p {
 	font-size: 1em;
 	padding: 0.2em;
@@ -73,10 +79,17 @@ body {
 	/* Non-prefixed version, currently supported by Chrome and Opera */
 }
 @media (max-aspect-ratio: 1/1) {
+	#thirdpartcode
+	{
+		font-family: monospace, monospace;
+		position: relative;
+		top: 90vh;
+		text-align: center;
+	}
 	#startapp
 	{
 		position: absolute;
-		top: 80vh;
+		top: 70vh;
 		left: 40vw;
 		width: 20vw;
 		height: auto;
