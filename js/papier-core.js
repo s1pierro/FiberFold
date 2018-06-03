@@ -200,7 +200,7 @@ Pattern.prototype.genNodes = function ()
 			var duplicate = false;
 			for ( var k = 0 ; k < tmp.length ; k++ )
 			{
-				if ( distance (tmp[k].c, this.trianglesflatcoord[i][j].c ) < 0.0001 &&
+				if ( distance (tmp[k].c, this.trianglesflatcoord[i][j].c ) < tolerance &&
 				 	  tmp[k].sid == this.trianglesflatcoord[i][j].sid )
 				{
 					duplicate = true;
@@ -567,7 +567,7 @@ Pattern.prototype.areFlatTriangleJoined = function (eid, ft1, ft2 )
 	for ( var j = 0 ; j < ft2.length ; j++ )
 		if ( ft1[i].sid == ft2[j].sid )
 		{
-			if ( distance ( ft1[i].c, ft2[j].c) > 0.0001 ) joined = false;
+			if ( distance ( ft1[i].c, ft2[j].c) > tolerance ) joined = false;
 		}
 	return joined;
 

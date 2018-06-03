@@ -31,7 +31,7 @@ var focus;
 var materialVisible, material1, materialSoftEdge, materialHighlighted, materialSolid, materialFrontier;
 var activeshape1 = -1;
 var activeshape1shadoweddstate;
-
+var tolerance = 0.0001;
 
 var patterns = new Patterns(pobj);
 
