@@ -173,6 +173,9 @@ function Pattern (targetmesh)
 	this.frontier = [];
 	this.guid = uuidv4();
 	this.targetMesh = targetmesh;
+	this.height = 0;
+	this.width = 0;
+	this.position = { x:0, y:0 };
 }
 /** @description
   Search for a triangle by it's id into pattern
@@ -250,6 +253,23 @@ Pattern.prototype.genNodes = function ()
 	this.nodes = tmp;
 	
 }
+/** @constructor */
+
+function Bbox (pattern)
+{
+	this.pattern = pattern;
+	this.left = pattern.position.x;
+	this.right = pattern.position.x+pattern.width;
+	
+	this.top = pattern.position.y;
+	this.bottom = pattern.position.y+pattern.height;
+}
+Bbox.prototype.log = function ()
+{
+	console.log('bbox: '+this.left+', '+this.right+', '+this.top+', '+this.bottom);
+} 
+
+
 /** @constructor */
 
 function Node (sid, tid, coordinate )
@@ -352,11 +372,56 @@ Pattern.prototype.getTriangleIndex = function (tid)
 /** @description
 	Update some stats
  */
-Pattern.prototype.updateStats = function ()
+Pattern.prototype.smartPositioning = function ()
 {
 	//TODO
-	var nNod, nTri, nEdg, nFro;
-	var maxX, minX, maxY, minY;
+	var nNod, nTri, nEdg, nFro, maxX, minX, maxY, minY, w, h;
+	var n = this.nodes;
+	fl(n);
+	maxX = minX = maxY = minY = 0;
+	for ( var i = 0 ; i < n.length ; i++ )
+	{
+		if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
+		if ( minX > n[i].c[0] ) minX = n[i].c[0];
+		if ( maxY < n[i].c[1] ) maxY = n[i].c[1];
+		if ( minY > n[i].c[1] ) minY = n[i].c[1];
+	}
+
+	this.translate ((0 - minX), (0 - minY));
+	maxX = minX = maxY = minY = 0;
+	for ( var i = 0 ; i < n.length ; i++ )
+	{
+		if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
+		if ( minX > n[i].c[0] ) minX = n[i].c[0];
+		if ( maxY < n[i].c[1] ) maxY = n[i].c[1];
+		if ( minY > n[i].c[1] ) minY = n[i].c[1];
+	}
+	h = maxY - minY;
+	w = maxX - minX;
+	
+	fl('range : x['+minX.toFixed(2)+' - '+maxX.toFixed(2)+']\n y['+minY.toFixed(2)+' - '+maxY.toFixed(2)+'] ');
+	fl('size (w, h) : '+w+', '+h);
+
+	this.height = h;
+	this.width = w;
+	
+	//TODO smart rotate
+	new Bbox (this).log();
+}
+Pattern.prototype.translate = function (x, y)
+{
+	var n = this.nodes;
+	for ( var i = 0 ; i < n.length ; i++ )
+	{
+		n[i].c[0] = n[i].c[0] + x;
+		n[i].c[1] = n[i].c[1] + y;
+	}
+	for ( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
+		for ( var j = 0 ; j < this.trianglesflatcoord[i].length ; j++)
+	{
+		this.trianglesflatcoord[i][j].c[0] += x;
+		this.trianglesflatcoord[i][j].c[1] += y;
+	}
 }
 
 
@@ -391,7 +456,7 @@ Pattern.prototype.addToFinalDocument = function (renderplane)
 {
 	var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
 	g.setAttribute( 'id', this.guid );
-	
+	g.setAttribute( 'renderplane', 'translate('+this.position.x+', '+this.position.y+')' );
 	
 	for ( var i = 0 ; i < this.triangles.length ; i++ )
 	{
@@ -429,6 +494,7 @@ Pattern.prototype.flatten = function ()
 	this.assembleFlattenedTriangles ();
 	if ( ! this.checkFreezedEdges() ) return false;
 	this.genNodes ();
+	this.smartPositioning();
 	return true;
 	
 }
