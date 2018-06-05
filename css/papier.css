@@ -24,6 +24,13 @@ body
 		font-family: TitilliumWeb;
 }
 
+#renderplane
+{
+
+transform: translate(5px, 5px);
+
+
+}
 .flatshape {
 	fill: #fff;
 	opacity: 1.0;

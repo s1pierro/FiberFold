@@ -176,6 +176,7 @@ function Pattern (targetmesh)
 	this.height = 0;
 	this.width = 0;
 	this.position = { x:0, y:0 };
+	this.boundingbox = new BoundingBox(this);
 }
 /** @description
   Search for a triangle by it's id into pattern
@@ -255,21 +256,29 @@ Pattern.prototype.genNodes = function ()
 }
 /** @constructor */
 
-function Bbox (pattern)
+function BoundingBox (pattern)
 {
-	this.pattern = pattern;
-	this.left = pattern.position.x;
-	this.right = pattern.position.x+pattern.width;
-	
-	this.top = pattern.position.y;
-	this.bottom = pattern.position.y+pattern.height;
+	this.x = 0;
+	this.y = 0;
+	this.w = pattern.width;
+	this.h = pattern.height;
 }
-Bbox.prototype.log = function ()
+
+BoundingBox.prototype.update = function ()
 {
-	console.log('bbox: '+this.left+', '+this.right+', '+this.top+', '+this.bottom);
-} 
+	
+}
+/** @constructor */
+
+function Dispatcher ()
+{
 
 
+}
+Dispatcher.prototype.audit = function (patterns)
+{
+	
+}
 /** @constructor */
 
 function Node (sid, tid, coordinate )
@@ -404,9 +413,9 @@ Pattern.prototype.smartPositioning = function ()
 
 	this.height = h;
 	this.width = w;
+
 	
 	//TODO smart rotate
-	new Bbox (this).log();
 }
 Pattern.prototype.translate = function (x, y)
 {
