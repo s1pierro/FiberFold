@@ -256,16 +256,19 @@ Pattern.prototype.genNodes = function ()
 }
 /** @constructor */
 
-function BoundingBox (pattern)
+function BoundingBox (w, h)
 {
 	this.x = 0;
 	this.y = 0;
-	this.w = pattern.width;
-	this.h = pattern.height;
+	this.w = w;
+	this.h = h;
 }
 
-BoundingBox.prototype.update = function ()
+
+BoundingBox.prototype.move = function (x, y)
 {
+	this.w += x;
+	this.h += y;
 	
 }
 /** @constructor */
