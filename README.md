@@ -32,14 +32,13 @@ A browser that provides webGL.
 
 ### HowTo
 
-#### There is one way to do everything :
-
- - Create pattern
- - Extend pattern.
+####  How to
+#### There's only one way to do it all:
+ - Create a pattern.
+ - Extend a pattern.
  - Merge patterns.
- - Split pattern.
- 
-  **Succiously hit two triangles.**
+ - Splitting patterns.
+**Succiously hit two triangles.**
 
 
 ### Standards and technologies :
