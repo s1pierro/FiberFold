@@ -25,6 +25,21 @@ _FreakPOC_ - **\[Reasonably Secure Proof Of Concept.\]** - Release Candidate
 
  - texturing.
  - mesh editing.
+ 
+###  Requirements
+
+A browser that provides webGL.
+
+### HowTo
+
+####There is one way to do everything :
+
+ - Create pattern
+ - Extend pattern.
+ - Merge patterns.
+ - Split pattern.
+ 
+  **Succiously hit two triangles.**
 
 
 ### Standards and technologies :
