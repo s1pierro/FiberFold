@@ -37,7 +37,7 @@ A browser that provides webGL.
  - Merge patterns.
  - Splitting patterns.
  
-**Succiously hit two triangles.**
+#### Succiously hit two joined triangles.**
 
 
 ### Standards and technologies :
