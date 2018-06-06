@@ -49,7 +49,7 @@ When two joined triangles are struck successively, the edge they share is called
 
  - _Step by step_ :
  
-   Before processing, (rebuilding every pattern) after every user edge freezing attempt, a copy of pattern is done freezing 
+   _Before processing, (rebuilding every pattern) after every user edge freezing attempt, a copy of patterns is done._
     
    - **Flatten triangles**
       Before processing, (rebuilding every pattern)  did after a edge freeze attempt, a copy of patterns is done. to restore app state if freeze attempt fails.
