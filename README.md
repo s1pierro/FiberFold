@@ -41,9 +41,16 @@ A browser that provides webGL.
 
 When two joined triangles are struck successively, the edge they share is called frozen. if it already is, it will be unfrozen.
 
-internal work :
+**internal work :**
 
- - Frozen edges are the main components of patterns. They connect the triangles you want to assemble to create one.  From what Paper does its work, it first calculates the coordinates of each triangles in order to move them in a same plane. then he assembles the patterns, looking for frozen edges connected by triangles. Edges that are adjacent to triangles belonging to a pattern but that are not frozen can now be considered as pattern borders. From these data, it is now possible to represent the borders of flattened patterns in the form of a chain of ordered nodes. 
+ - _global_
+ 
+ Frozen edges are the main components of patterns. They connect the triangles you want to assemble to create one.  From what Paper does its work, it first calculates the coordinates of each triangles in order to move them in a same plane. then he assembles the patterns, looking for frozen edges connected by triangles. Edges that are adjacent to triangles belonging to a pattern but that are not frozen can now be considered as pattern borders. From these data, it is now possible to represent the borders of flattened patterns in the form of a chain of ordered nodes. 
+
+ - _Step by step_ :
+    
+    - Flatten triangles
+        jhgnbv 
 
 
 
