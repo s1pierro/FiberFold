@@ -48,7 +48,7 @@ When two joined triangles are struck successively, the edge they share is called
  
     Frozen edges are the main components of patterns. They connect the triangles you want to assemble to create one.  From what Papier does its work, it first calculates the coordinates of each triangles in order to move them in a same plane. then he assembles the patterns, looking for frozen edges connected by triangles. Edges that are adjacent to triangles belonging to a pattern but that are not frozen can now be considered as pattern borders. From these data, it is now possible to represent the borders of flattened patterns in the form of a chain of ordered nodes. 
 
- - _Step by step_ :
+ - _Step by step internal work_ :
  
       _Before processing did after an edge freeze attempt, the rebuilding of every pattern, a copy of patterns is done. to restore app state if freeze attempt fails._
     
