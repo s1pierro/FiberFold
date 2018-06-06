@@ -30,12 +30,13 @@ _FreakPOC_ - **\[Reasonably Secure Proof Of Concept.\]** - Release Candidate
 
 A browser that provides webGL.
 
-###  How to
+###  How to proceed
 #### There's only one way to do it all:
  - Create a pattern.
  - Extend a pattern.
  - Merge patterns.
  - Splitting patterns.
+ 
 **Succiously hit two triangles.**
 
 
