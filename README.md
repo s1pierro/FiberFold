@@ -30,8 +30,6 @@ _FreakPOC_ - **\[Reasonably Secure Proof Of Concept.\]** - Release Candidate
 
 A browser that provides webGL.
 
-### HowTo
-
 ####  How to
 #### There's only one way to do it all:
  - Create a pattern.
