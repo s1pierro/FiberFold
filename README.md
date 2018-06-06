@@ -13,7 +13,7 @@ _touch devices are not fully supported yet, they will be soon_
 
 ### State
 
-_FreakPOC_ - **\[Reasonably Secure Proof Of Concept.\]** - Release Candide
+_FreakPOC_ - **\[Reasonably Secure Proof Of Concept.\]** - Release Candidate
 
 
 ### Goals :
