@@ -39,7 +39,7 @@ A browser that provides webGL.
  
 #### Succiously hit two joined triangles.
 
-When two joined triangles are struck successively, the edge they share is called frozen.
+When two joined triangles are struck successively, the edge they share is called frozen. if it already is, it will be unfrozen.
 
 internal work :
 
