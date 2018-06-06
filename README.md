@@ -37,8 +37,18 @@ A browser that provides webGL.
  - Merge patterns.
  - Splitting patterns.
  
-#### Succiously hit two joined triangles.**
+#### Succiously hit two joined triangles.
 
+When two joined triangles are struck successively, the edge they share is called frozen.
+
+internal work :
+
+Frozen edges are the main components of patterns. They connect the triangles you want to assemble to create one. 
+Then Paper does its work, it first calculates the coordinates of each triangles in order to move them in the same plane. then he assembles the patterns, looking for frozen edges connected by triangles.
+Edges that are adjacent to triangles belonging to a pattern but that are not frozen can now be considered as pattern borders.
+From these data, it is now possible to represent the borders of flattened patterns in the form of a chain of ordered nodes. 
+
+Translated with www.DeepL.com/Translator
 
 ### Standards and technologies :
 
