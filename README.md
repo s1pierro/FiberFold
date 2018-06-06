@@ -49,9 +49,11 @@ When two joined triangles are struck successively, the edge they share is called
 
  - _Step by step_ :
     
-    - Flatten triangles
+   - **Flatten triangles**
+      The reason Paper exists! This single step could be sufficient to perform 3D printing from a desktop printer. This step also complicates things a little, code side. A "Wavefront", like most meshes, first describe the vertices of a 3d model, then the triangles are described using these vertices. But to be properly flattened, triangles must now store their own vertex coordinates. meaning is that a mesh summit could be representated by several flatened triangles summits. These vertices will then store the identifier (actually the index) of the vertex of the mesh to which it corresponds. 
 
-        jhgnbv 
+$
+       
 
 
 
