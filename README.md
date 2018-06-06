@@ -48,11 +48,13 @@ When two joined triangles are struck successively, the edge they share is called
     Frozen edges are the main components of patterns. They connect the triangles you want to assemble to create one.  From what Paper does its work, it first calculates the coordinates of each triangles in order to move them in a same plane. then he assembles the patterns, looking for frozen edges connected by triangles. Edges that are adjacent to triangles belonging to a pattern but that are not frozen can now be considered as pattern borders. From these data, it is now possible to represent the borders of flattened patterns in the form of a chain of ordered nodes. 
 
  - _Step by step_ :
+ 
+   Before processing, (rebuilding every pattern) after every user edge freezing attempt, a copy of pattern is done freezing 
     
    - **Flatten triangles**
-      The reason Paper exists! This single step could be sufficient to perform 3D printing from a desktop printer. This step also complicates things a little, code side. A "Wavefront", like most meshes, first describe the vertices of a 3d model, then the triangles are described using these vertices. But to be properly flattened, triangles must now store their own vertex coordinates. meaning is that a mesh summit could be representated by several flatened triangles summits. These vertices will then store the identifier (actually the index) of the vertex of the mesh to which it corresponds. 
+      Before processing, (rebuilding every pattern)  did after a edge freeze attempt, a copy of patterns is done. to restore app state if freeze attempt fails.
 
-$
+      Flatten the triangles. The reason Papier exists! This single step could be sufficient to perform 3D printing from a desktop printer. This step also complicates things a little, code side. A "Wavefront", like most meshes, first describe the vertices of a 3d model, then the triangles are described using these vertices. But to be properly flattened, triangles must now store their own vertex coordinates. meaning is that a mesh summit could be representated by several flatened triangles summits. These vertices will then store the identifier (actually the index) of the vertex of the mesh to which they correspond. 
        
 
 
