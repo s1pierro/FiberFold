@@ -11,6 +11,10 @@ _This project is a (js) rewritting of my old [eMesh](https://www.youtube.com/wat
 #### Here is the begining of something functional. [try it !](https://s1pierro.github.io/Papier/)
 _touch devices are not fully supported yet, they will be soon_
 
+### State
+
+_FreakPOC_ - **\[Reasonably Secure Proof Of Concept.\]** - Release Candide
+
 
 ### Goals :
 

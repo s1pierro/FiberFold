@@ -54,17 +54,19 @@ function getwavefrontproperties (o)
 	suitable to the app
 */
 function parsewavefront(objText, id) {
-
+	var frzlist = false;
 	var nv = 0;
 	var nt = 0;
 	var ng = 0;
 	var obj = {};
+	var freeze;
 	var vertexMatches = objText.match(/^v( -?\d+(\.\d+)?){3}$/gm);
 //	var triMatches = objText.match(/^f( \d+){3}$/gm);
 	var triMatches = objText.match(/^f( \d+){3,4}$/gm);
 	var gMatches = objText.match(/^f( \d+){3,4}$|^usemtl (.+)$/gm);
 
 	var positionMatches = objText.match(/^position( -?\d+(\.\d+)?){3}$/gm);
+	var frzMatches = objText.match(/^#frz( \d+){1,}$/gm);
 	
 	if (vertexMatches) {
 		obj.vertices = vertexMatches.map(function(vertex) {
@@ -78,12 +80,22 @@ function parsewavefront(objText, id) {
 
 		console.log (positionMatches );
 	}
+	if (frzMatches) {
+		fl(frzMatches);
+			var freezed = frzMatches[0];//.map(function(frz) {
+
+				freeze = freezed.split(" ");
+				freeze.shift();	
+			var freeze = Uint16Array.from(freeze);
+	//	});
+	}
+	fl(freeze);
 
 	if (triMatches) {
-		obj.triangles = triMatches.map(function(tri) {
-			nt++;
-			var triangle = tri.split(" ");
-			triangle.shift();
+			obj.triangles = triMatches.map(function(tri) {
+				nt++;
+				var triangle = tri.split(" ");
+				triangle.shift();
 //			l(triangles);
 			var t = Uint16Array.from(triangle);
 			t[0] = t[0]-1;
@@ -167,7 +179,16 @@ function parsewavefront(objText, id) {
 	$('#sizeX').text((obj.sx/10).toFixed(2));
 	$('#sizeY').text((obj.sy/10).toFixed(2));
 	$('#sizeZ').text((obj.sz/10).toFixed(2));
-	//fl(obj);
+	//
+	if (frzlist)
+	{
+		for ( var i = 0 ; i < freeze.length ; i++)
+		{
+			
+			setedgestate (obj, freeze[i], 'freeze');
+		}
+	}
+	fl(obj);
 	return obj;
 }
 window['parsewavefront'] = parsewavefront;

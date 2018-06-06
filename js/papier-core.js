@@ -55,7 +55,17 @@ Patterns.prototype.addPattern = function (pattern)
 {
 	this.children.push(pattern);
 }
-/**
+
+Patterns.prototype.flFreezed = function ()
+{
+	var tmp = '\nfreezed :';
+	for ( var i = 0 ; i < this.targetMesh.edges.length ; i++ )
+		if (edgestate(this.targetMesh, i) == "freeze" ) tmp+=' '+i;
+		fl(tmp);
+
+}
+
+/*
  * @description
  *	try to rebuild patterns. 
  * this method build pattern using freezd edges
@@ -73,7 +83,7 @@ Patterns.prototype.addPattern = function (pattern)
  */
 Patterns.prototype.rebuild = function ()
 {
-
+	this.flFreezed();
 	// back up patterns in case of fail
 	var pbu = $.extend(true, [], this.children);
 
