@@ -73,6 +73,7 @@ Patterns.prototype.addPattern = function (pattern)
  */
 Patterns.prototype.rebuild = function ()
 {
+
 	// back up patterns in case of fail
 	var pbu = $.extend(true, [], this.children);
 
@@ -139,6 +140,10 @@ Patterns.prototype.rebuild = function ()
 	   {
 		   
 		   this.children = $.extend(true, [], pbu);
+		   
+		   $('#processing-indicator').fadeOut(200);
+			$('#processing-fail-indicator').fadeIn( 1 ).delay( 3600 ).fadeOut( 400 );
+							
 		   return false;
 	   }
    }
@@ -151,6 +156,9 @@ Patterns.prototype.rebuild = function ()
 		this.children[i].addToFinalDocument(renderplane);
 	}
 	fl(this.children);
+	$('#processing-indicator').fadeOut(200);
+	$('#processing-success-indicator').fadeIn( 100 ).delay( 200 ).fadeOut( 400 );
+
 	return true;
 }
 Patterns.prototype.findTriangleOwner = function (triangle)
@@ -267,18 +275,55 @@ function BoundingBox (w, h)
 
 BoundingBox.prototype.move = function (x, y)
 {
-	this.w += x;
-	this.h += y;
+	this.x += x;
+	this.y += y;
 	
+}
+BoundingBox.prototype.colisionTest = function (bbox)
+{
+	var x = false;
+	var y = false;
+	if ( this.x < bbox.x+bbox.w && this.x+this.w > bbox.x ) x = true;
+	if ( this.y < bbox.y+bbox.h && this.y+this.h > bbox.y ) y = true;
+	if ( this.x > bbox.x && this.x+this.w < bbox.x+bbox.w ) x = true;
+	if ( this.y > bbox.y && this.y+this.h < bbox.y+bbox.h ) y = true;
+	
+	if ( x && y ) 	return true;
+	else return false;
 }
 /** @constructor */
 
-function Dispatcher ()
+function Page (patterns, x, y)
+{
+	this.patterns = [];
+	this.size = "a4";
+	this.offset = { x : x, y: y };
+	this.height = 297;
+	this.width = 210;
+	//1,414285714
+//	840 1188
+}
+/** @constructor */
+
+function Dispatcher (patterns)
+{
+	this.pages = [];
+	this.p = patterns;
+	
+}
+Dispatcher.prototype.addPage = function ( x, y, size )
+{
+	
+}
+
+
+Dispatcher.prototype.dispatch = function (patterns)
 {
 
-
+	
 }
-Dispatcher.prototype.audit = function (patterns)
+/** @constructor */
+Dispatcher.prototype.sortChildren = function ()
 {
 	
 }
@@ -507,8 +552,8 @@ Pattern.prototype.flatten = function ()
 	if ( ! this.checkFreezedEdges() ) return false;
 	this.genNodes ();
 	this.smartPositioning();
+	//dispatcher.updateChildren();
 	return true;
-	
 }
 /** @description
 	 calculate the flat coord of each triangle.

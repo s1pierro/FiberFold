@@ -34,7 +34,7 @@ var activeshape1shadoweddstate;
 var tolerance = 0.0001;
 
 var patterns = new Patterns(pobj);
-
+var dispatcher = new Dispatcher (patterns)
 var verbose = false;
 var BUILDmode = "safe";
 var scaleconst = 1;
@@ -43,7 +43,12 @@ $(window).on("load",  init());
 
 function init() {
 	
+	
+	$('#processing-fail-indicator').fadeOut( 1 );
 
+	$('#processing-success-indicator').fadeOut( 1 );
+
+	$('#processing-indicator').fadeOut(200);
 	
 	$('#startapp').hide();
 	
@@ -197,6 +202,7 @@ document.addEventListener( 'mousedown', mousedown, false );
 function mousedown ( event ) { mouserayid = mouse.x*mouse.y; }
 function mouseup ( event )
 {
+				
 	if ( controls.enabled == false ) return;
 	if (mouse.x*mouse.y == mouserayid && focus != undefined ) // SHAPE TAPPED
 	{
@@ -208,7 +214,8 @@ function mouseup ( event )
 			setshapestate(pobj, activeshape1, activeshape1shadoweddstate);
 			var e = sharededge (pobj, activeshape1, tappedshapeid);
 			if ( e > -1 )
-			{
+			{			
+						$('#processing-indicator').fadeIn(1);
 					setshapestate(pobj, activeshape1, "solid" );	
 					setshapestate(pobj, tappedshapeid, "solid" );
 					activeshape1 = -1 ;
@@ -217,9 +224,13 @@ function mouseup ( event )
 					else
 						setedgestate (pobj, e, "hide");
 					//buildpatterns(pobj) ;
-					if (!patterns.rebuild())
+					var test = patterns.rebuild();
+					if (!test)
+					{
 						setedgestate (pobj, e, "visible");
-					
+					}
+
+				
 					if ( BUILDmode == "fast" )
 					{
 						activeshape1 = tappedshapeid;
