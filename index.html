@@ -205,6 +205,9 @@
 	<div class="col-sm-12">
 	<br>
 	<h3>About Papier</h3>
+	
+	
+	
 
 
 <p>Papier is a webapp to perform 3d print from desktop printer. It is a rewritting of my old <a href="https://www.youtube.com/watch?v=Rcpjqd3NSTE" title="eMesh">eMesh</a> desktop application (SDL, openGL2, C++)</p>
@@ -226,7 +229,35 @@
 <li class=".ui.item">mesh editing.</li>
 </ul>
 </div>
+<div class="col-lg-12">
+<h3>State</h3>
+<p><em>FreakPOC</em> - <strong>[Reasonably Secure Proof Of Concept.]</strong> - Release Candidate</p>
 
+<h3>Requirements</h3>
+<p>A browser that provides webGL.</p>
+<h3>How to proceed</h3>
+<h4>There's only one way to do it all:</h4>
+<ul class=".ui.list">
+<li class=".ui.item">Create a pattern.</li>
+<li class=".ui.item">Extend a pattern.</li>
+<li class=".ui.item">Merge patterns.</li>
+<li class=".ui.item">Splitting patterns.</li>
+</ul>
+<h4>Hit successively two joined triangles.</h4>
+<p>When two joined triangles are struck successively, the edge they share is called frozen. if it already is, it will be unfrozen.</p>
+<p><strong>internal work :</strong></p>
+<ul class=".ui.list">
+<li class=".ui.item"><p><em>global (user step)</em></p>
+<p>Frozen edges are the main components of patterns. They connect the triangles you want to assemble to create one.  From what Papier does its work, it first calculates the coordinates of each triangles in order to move them in a same plane. then he assembles the patterns, looking for frozen edges connected by triangles. Edges that are adjacent to triangles belonging to a pattern but that are not frozen can now be considered as pattern borders. From these data, it is now possible to represent the borders of flattened patterns in the form of a chain of ordered nodes. </p></li>
+<li class=".ui.item"><p><em>Step by step</em> :</p>
+<p><em>Before processing did after an edge freeze attempt, the rebuilding of every pattern, a copy of patterns is done. to restore app state if freeze attempt fails.</em></p>
+<ul class=".ui.list">
+<li class=".ui.item"><p><strong>Flatten triangles</strong>
+Before processing, (rebuilding every pattern)  did after a edge freeze attempt, a copy of patterns is done. to restore app state if freeze attempt fails.</p>
+<p>Flatten the triangles. The reason Papier exists! This single step could be sufficient to perform 3D printing from a desktop printer. This step also complicates things a little, code side. A "Wavefront", like most meshes, first describe the vertices of a 3d model, then the triangles are described using these vertices. But to be properly flattened, triangles must now store their own vertex coordinates. meaning is that a mesh summit could be representated by several flatened triangles summits. These vertices will then store the identifier (actually the index) of the vertex of the mesh to which they correspond.</p></li>
+<li class=".ui.item"><p><strong>Flatten triangles</strong></p></li></ul></li>
+</ul>
+</div>
 <div class="col-lg-6">
 <h3>Standards and technologies :</h3>
 <ul class=".ui.list">
