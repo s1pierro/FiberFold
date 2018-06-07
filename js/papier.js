@@ -276,10 +276,22 @@ function mouseup ( event )
 }
 function onDocumentMouseMove( event ) {
 
-	
-			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	if ( window.innerWidth > window.innerHeight)
+	{
+		if ( event.clientX > 0.16*window.innerWidth )
+		{
+			mouse.x = ( (event.clientX-0.16*window.innerWidth) / (window.innerWidth-0.16*window.innerWidth )) * 2 - 1;
 			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
+		}
+	}
+	else
+	{
+		if ( event.clientY < 0.707*window.innerHeight )
+		{
+			mouse.x =  ( event.clientX / window.innerWidth ) * 2 - 1;
+			mouse.y = - ( event.clientY / (window.innerHeight - window.innerWidth*0.707) ) * 2 + 1;
+		}
+	}
 			
 	controls.update();
 	raycaster.setFromCamera( mouse, camera );
