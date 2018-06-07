@@ -83,7 +83,7 @@ Patterns.prototype.flFreezed = function ()
  */
 Patterns.prototype.rebuild = function ()
 {
-	this.flFreezed();
+	//this.flFreezed();
 	// back up patterns in case of fail
 	var pbu = $.extend(true, [], this.children);
 
@@ -143,7 +143,7 @@ Patterns.prototype.rebuild = function ()
 		  	
  	// At this point Patterns are correctly defined but they have not been flattened yet
   	
-	fl(this.children);
+//	fl(this.children);
  	for ( var i = 0 ; i < this.children.length ; i++ )
    {
 	   if (!this.children[i].flatten())
@@ -165,7 +165,7 @@ Patterns.prototype.rebuild = function ()
 	{
 		this.children[i].addToFinalDocument(renderplane);
 	}
-	fl(this.children);
+//	fl(this.children);
 	$('#processing-indicator').fadeOut(200);
 	$('#processing-success-indicator').fadeIn( 100 ).delay( 200 ).fadeOut( 400 );
 
@@ -460,7 +460,7 @@ Pattern.prototype.smartPositioning = function ()
 	//TODO
 	var nNod, nTri, nEdg, nFro, maxX, minX, maxY, minY, w, h;
 	var n = this.nodes;
-	fl(n);
+//	fl(n);
 	maxX = minX = maxY = minY = 0;
 	for ( var i = 0 ; i < n.length ; i++ )
 	{
@@ -482,13 +482,13 @@ Pattern.prototype.smartPositioning = function ()
 	h = maxY - minY;
 	w = maxX - minX;
 	
-	fl('range : x['+minX.toFixed(2)+' - '+maxX.toFixed(2)+']\n y['+minY.toFixed(2)+' - '+maxY.toFixed(2)+'] ');
-	fl('size (w, h) : '+w+', '+h);
+//	fl('range : x['+minX.toFixed(2)+' - '+maxX.toFixed(2)+']\n y['+minY.toFixed(2)+' - '+maxY.toFixed(2)+'] ');
+//	fl('size (w, h) : '+w+', '+h);
 
 	this.height = h;
 	this.width = w;
 	var rr = w / h;
-	fl('rr: '+rr);
+//	fl('rr: '+rr);
 	if ( rr > 0.7070 )
 	{
 		
@@ -509,7 +509,7 @@ Pattern.prototype.smartPositioning = function ()
 		if ( h > 840) this.papersizereq = {s: "A0", w : 840, h :1188 };
 
 	}
-	fl('\n # requierements : '+this.papersizereq.s+' '+this.papersizereq.w+' x '+this.papersizereq.h);
+	//fl('\n # requierements : '+this.papersizereq.s+' '+this.papersizereq.w+' x '+this.papersizereq.h);
 	//this.rotate(11);
 	//TODO smart rotate
 }
