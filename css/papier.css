@@ -184,7 +184,7 @@ body {
 	#startapp
 	{
 		position: absolute;
-		top: 56vh;
+		top: 65vh;
 		left: 35vw;
 		width: 30vw;
 		height: auto;
@@ -194,9 +194,9 @@ body {
 	}#startlogo
 	{
 		position: absolute;
-		top: 20vh;
-		left: 30vw;
-		width: 40vw;
+		top: 10vh;
+		left: 20vw;
+		width: 60vw;
 		height: auto;
 	}
 	#settings {
@@ -325,7 +325,7 @@ body {
 	{
 		font-family: TitilliumWeb-Light;
 		position: relative;
-		top: 86vh;
+		top: 84vh;
 		color: #ff9f4a;
 		text-align: center;
 	}
