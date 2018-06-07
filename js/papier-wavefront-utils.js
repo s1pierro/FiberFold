@@ -403,7 +403,13 @@ blankscene ();
 		
 			patterns.rebuild();
 			printWavefront (pobj);
-		}
+		}		
+		
+		$('#renderbox').removeClass('minimized');
+			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+			camera.updateProjectionMatrix();
+			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+
 		$('#settings').fadeOut(); 
 		$('#credits').fadeIn();
 		activeshape1 = -1;

@@ -312,16 +312,23 @@ BoundingBox.prototype.colisionTest = function (bbox)
 }
 /** @constructor */
 
-function Page (patterns, x, y)
+function Page (pattern)
 {
-	this.patterns = [];
-	this.size = "a4";
-	this.offset = { x : x, y: y };
-	this.height = 297;
-	this.width = 210;
+	this.patterns = [pattern];
+
+	this.size = pattern.papersizereq.s;
+	//this.offset = { x : x, y: y };
+	this.height = pattern.papersizereq.h;
+	this.width =pattern.papersizereq.w;
 	//1,414285714
 //	840 1188
 }
+Page.prototype.out = function ( dest_container )
+{
+	
+	
+}
+
 /** @constructor */
 
 function Dispatcher (patterns)
@@ -480,7 +487,29 @@ Pattern.prototype.smartPositioning = function ()
 
 	this.height = h;
 	this.width = w;
+	var rr = w / h;
+	fl('rr: '+rr);
+	if ( rr > 0.7070 )
+	{
+		
 
+		this.papersizereq = {s: "A4", w : 210, h : 297};
+		if ( w > 210) this.papersizereq = {s: "A3", w : 297, h : 420};
+		if ( w > 297) this.papersizereq = {s: "A2", w : 420, h : 594};
+		if ( w > 420) this.papersizereq = {s: "A1", w : 594, h : 840};
+		if ( w > 594) this.papersizereq = {s: "A0", w : 840, h :1188 };
+
+	}
+	else
+	{
+		this.papersizereq = {s: "A4", w : 210, h : 297};
+		if ( h > 297) this.papersizereq = {s: "A3", w : 297, h : 420};
+		if ( h > 420) this.papersizereq = {s: "A2", w : 420, h : 594};
+		if ( h > 594) this.papersizereq = {s: "A1", w : 594, h : 840};
+		if ( h > 840) this.papersizereq = {s: "A0", w : 840, h :1188 };
+
+	}
+	fl('\n # requierements : '+this.papersizereq.s+' '+this.papersizereq.w+' x '+this.papersizereq.h);
 	//this.rotate(11);
 	//TODO smart rotate
 }

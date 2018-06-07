@@ -141,8 +141,8 @@ body {
 	color: #eee;
 }
 #settings {
-	background-color: #fffd;
-	color: #222;
+	background-color: #0000;
+	color: #ddd;
 }
 .noselect {
 	-webkit-touch-callout: none;
@@ -284,7 +284,7 @@ body {
 		;
 		position: absolute;
 		z-index: 15;
-		width: 100vw;
+		width: 80vw;
 		height: 100vh;
 		top: 0px;
 		right: 0px;
@@ -338,6 +338,16 @@ bottom: 7vh;
 		/* Chrome10-25,Safari5.1-6 */
 		background: #0000;
 	}
+	#renderbox.minimized{
+		position: fixed;
+		z-index: 1;
+		width: 40vh;
+		height:26vh;
+		top: 13vh;
+		left: 0px;
+		/* Chrome10-25,Safari5.1-6 */
+		background: #0000;
+	}
 	#p-title p
 	{
 			padding: 0em;
@@ -349,6 +359,7 @@ bottom: 7vh;
 		position: absolute;
 		top: 2vh;
 		left: 2vw;
+		max-width: 15vw; 
 		color: #fff;
 		z-index: 4;
 		padding: 0em;

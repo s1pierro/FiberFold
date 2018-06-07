@@ -315,11 +315,9 @@ function mouseup ( event )
 	}
 	render();
 }
-function onDocumentTouchMove( event ) {
-	fl(event);
-}
+
 function onDocumentMouseMove( event ) {
-	fl(event);
+
 
 	if ( window.innerWidth > window.innerHeight)
 	{
@@ -384,10 +382,28 @@ $('body').on('click', '#close-settings', function()
 {
 	$('#settings').fadeOut(); 
 	$('#credits').fadeIn();
+		$('#renderbox').removeClass('minimized');
+			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+			camera.updateProjectionMatrix();
+			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+
+		
+		render();
+		
+
 		controls.enabled = true;
 });
 $('body').on('click', '#toggle-settings', function()
 {
+		$('#renderbox').addClass('minimized');
+		
+		
+			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+			camera.updateProjectionMatrix();
+			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+
+		
+		render();
 		$('#settings').fadeIn();
 		$('#credits').fadeOut();
 		controls.enabled = false;
