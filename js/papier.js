@@ -329,10 +329,10 @@ function onDocumentMouseMove( event ) {
 	}
 	else
 	{
-		if ( event.clientY < 0.707*window.innerHeight )
+		if ( event.clientY < 0.70*window.innerHeight )
 		{
 			mouse.x =  ( event.clientX / window.innerWidth ) * 2 - 1;
-			mouse.y = - ( event.clientY / (window.innerHeight - window.innerWidth*0.707) ) * 2 + 1;
+			mouse.y = - ( event.clientY / (window.innerHeight*0.70 ) ) * 2 + 1;
 		}
 	}
 			
