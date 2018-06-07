@@ -30,7 +30,7 @@
 	@media (max-aspect-ratio: 1/1) {
 		#startscreen
 		{		
-			background-color: #fff;
+			background-color: #444;
 			/*background-image: url("img/papier-startscreen-backframe-portrait.svg");
 			background-repeat: horizontal;
 			background-position: right top;
@@ -50,7 +50,7 @@
 	
 		#startscreen
 		{		
-			background-color: #fff;
+			background-color: #444;
 			/*
 			background-image: url("img/papier-startscreen-backframe-landscape.svg");
 			background-repeat: vertical;
@@ -198,14 +198,23 @@ f 14 2 15
 	<p class="px-2 py-1">A4</p>
 	</div>
  	<div id="p-title">
-	<p class="px-2 py-1" id="p-title-content">objet</p>
+
+
+<div id="p-title-content"> obj </div>
+
+				<span class="desc">
+					<span class="sizeX"> 0 </span> x 
+					<span class="sizeY"> 0 </span> x  
+					<span class="sizeZ"> 0 </span> cm</span>
+
+	
 	</div>
 	<div id="startscreen">
 	
 		
 		<img id="startlogo" class="" src="img/papier-logo-big.svg" alt="Papier's logo">
 
-		<button type="button" id="startapp" class="btn btn-outline-dark btn-lg">Start</button>
+		<button type="button" id="startapp" class="btn btn-outline-light btn-lg">Start</button>
 	<div id="thirdpartcode">
 		Powered by : <a href="https://threejs.org/">Three.js</a> | <a href="https://jquery.com/"> jQuery</a> | <a href="https://hammerjs.github.io/">Hammer.js</a>
 	</div>
@@ -288,9 +297,9 @@ f 14 2 15
 				<div class="col-lg-6">
 				<h5>Object size (cm)</h5>
 					
-					X <span id="sizeX"> 0 </span>, 
-					Y <span id="sizeY"> 0 </span>,  
-					Z <span id="sizeZ"> 0 </span>
+					X <span class="sizeX"> 0 </span>, 
+					Y <span class="sizeY"> 0 </span>,  
+					Z <span class="sizeZ"> 0 </span>
 				
 				<div class="input-group-btn">
 					<input id="user-scale-factor" type="number" placeholder="scaling factor">
@@ -492,9 +501,11 @@ f 14 2 15
 	<div id="credits">
  
 
-				<i class="icon-menu text-light mx-2 my-3" id="toggle-settings" ></i>
+				<i class="icon-menu text-light" id="toggle-settings" ></i>
 
-				<i class="icon-download text-light mx-1 my-3" id="download" ></i>
+				<i class="icon-download text-light" id="download" ></i>
+
+
 				<i class="icon-spin1 text-primary" id="processing-indicator" ></i>
 				<i class="icon-spin1 text-danger" id="processing-fail-indicator" ></i>
 				<i class="icon-spin1 text-success" id="processing-success-indicator" ></i>

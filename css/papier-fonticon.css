@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'papier-fonticon';
-  src: url('../font/papier-fonticon.eot?67933249');
-  src: url('../font/papier-fonticon.eot?67933249#iefix') format('embedded-opentype'),
-       url('../font/papier-fonticon.woff2?67933249') format('woff2'),
-       url('../font/papier-fonticon.woff?67933249') format('woff'),
-       url('../font/papier-fonticon.ttf?67933249') format('truetype'),
-       url('../font/papier-fonticon.svg?67933249#papier-fonticon') format('svg');
+  src: url('../font/papier-fonticon.eot?70217235');
+  src: url('../font/papier-fonticon.eot?70217235#iefix') format('embedded-opentype'),
+       url('../font/papier-fonticon.woff2?70217235') format('woff2'),
+       url('../font/papier-fonticon.woff?70217235') format('woff'),
+       url('../font/papier-fonticon.ttf?70217235') format('truetype'),
+       url('../font/papier-fonticon.svg?70217235#papier-fonticon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'papier-fonticon';
-    src: url('../font/papier-fonticon.svg?67933249#papier-fonticon') format('svg');
+    src: url('../font/papier-fonticon.svg?70217235#papier-fonticon') format('svg');
   }
 }
 */
@@ -63,4 +63,5 @@
 .icon-spin1:before { content: '\e830'; } /* '' */
 .icon-github-circled:before { content: '\f09b'; } /* '' */
 .icon-menu:before { content: '\f0c9'; } /* '' */
+.icon-folder-open-empty:before { content: '\f115'; } /* '' */
 .icon-help:before { content: '\f128'; } /* '' */

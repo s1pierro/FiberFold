@@ -90,7 +90,7 @@ function init() {
 
 
 	materialVisible = new THREE.MeshStandardMaterial(  { color: 0xcccccc, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
-	materialHighlighted = new THREE.MeshStandardMaterial(  { color: 0x009075, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
+	materialHighlighted = new THREE.MeshStandardMaterial(  { color: 0xff7f2a, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
 	materialSolid = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 
 	materialSoftEdge = new THREE.LineBasicMaterial( { color: 0x666666, linewidth: 1} );

@@ -211,9 +211,9 @@ if (vertexMatches) {
 	obj.sx = xmax-xmin;
 	obj.sy = ymax-ymin;
 	obj.sz = zmax-zmin;
-	$('#sizeX').text((obj.sx/10).toFixed(2));
-	$('#sizeY').text((obj.sy/10).toFixed(2));
-	$('#sizeZ').text((obj.sz/10).toFixed(2));
+	$('.sizeX').text((obj.sx/10).toFixed(2));
+	$('.sizeY').text((obj.sy/10).toFixed(2));
+	$('.sizeZ').text((obj.sz/10).toFixed(2));
 	fl(obj);
 	$('#p-title-content').text(obj.nme);
 
@@ -359,9 +359,9 @@ function scaleWavefront (wavefront, scale)
 	wavefront.sx = xmax-xmin;
 	wavefront.sy = ymax-ymin;
 	wavefront.sz = zmax-zmin;
-	$('#sizeX').text((wavefront.sx/10).toFixed(2));
-	$('#sizeY').text((wavefront.sy/10).toFixed(2));
-	$('#sizeZ').text((wavefront.sz/10).toFixed(2));
+	$('.sizeX').text((wavefront.sx/10).toFixed(2));
+	$('.sizeY').text((wavefront.sy/10).toFixed(2));
+	$('.sizeZ').text((wavefront.sz/10).toFixed(2));
 
 
 	

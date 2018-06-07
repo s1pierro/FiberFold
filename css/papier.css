@@ -23,6 +23,17 @@ body
 {
 		font-family: TitilliumWeb;
 }
+.btn-outline-light
+{
+	border-color: #ccc;
+	color: #ccc;
+	background: none;
+}.btn-outline-light:hover
+{
+	border-color: #fff;
+	color: #fff;
+	background: none;
+}
 #download
 {
 	width:2em;
@@ -107,20 +118,16 @@ top:66vh;
 		font-family: TitilliumWeb-ExtraLight;
 		position: relative;
 		top: 88vh;
+		color: #ddd;
 		text-align: center;
 	}
 	#thirdpartcode a
 	{
 		padding: 0.3em;
-		color: #000;
+		color: #ddd;
 		text-decoration: none;
 	}
-#credits p {
-	position: relative;
-	font-size: 1em;
-	padding: 0.2em;
-	margin: 0px
-}
+
 body {
 	background-color: #444;
 	color: #eee;
@@ -275,11 +282,17 @@ body {
 		right: 0px;
 	}
 	#credits {
+		font-size: 3vh;
+
 		position: absolute;
-		top: 91.9vh;
+		bottom: 0vh;
 		left: 2vw;
 		color: #222;
 		z-index: 4;
+
+	padding: 1vh;
+	margin: 0px;
+
 
 	}
 	
@@ -299,7 +312,7 @@ body {
 	opacity: 1.0;
 		position: fixed;
 		z-index: 2;
-		top: 40vh;
+bottom: 7vh;
 		left: 2vw;
 		width: 35.35vh;
 		height: 50vh;
@@ -317,6 +330,11 @@ body {
 		/* Chrome10-25,Safari5.1-6 */
 		background: #0000;
 	}
+	#p-title p
+	{
+			padding: 0em;
+			margin: 0em;
+	}
 	#p-title
 	{
 		font-size: 5vh;
@@ -325,9 +343,26 @@ body {
 		left: 2vw;
 		color: #fff;
 		z-index: 4;
-
+		padding: 0em;
+					margin: 0em;
+		line-height: 1em;
+	}
+	.desc
+	{
+		font-size: 0.5em;	
+	}
+	#p-title-content
+	{
+		font-size: 5vh;
+		padding: 0em;
+					margin: 0em;
 		
-		
+	}
+	#p-info
+	{
+		font-size: 3vh;
+		padding : 0em;
+		margin: 0em;
 	}
 	
 
