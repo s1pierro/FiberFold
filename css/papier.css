@@ -19,6 +19,14 @@
     font-family: TitilliumWeb-Light;
     src: url(../font/TitilliumWeb-Light.ttf);
 }
+@font-face {
+    font-family: TitilliumWeb-Bold;
+    src: url(../font/TitilliumWeb-Bold.ttf);
+}
+@font-face {
+    font-family: TitilliumWeb-Black;
+    src: url(../font/TitilliumWeb-Black.ttf);
+}
 body
 {
 		font-family: TitilliumWeb;
@@ -364,7 +372,31 @@ bottom: 7vh;
 		padding : 0em;
 		margin: 0em;
 	}
-	
+	#thirdpartcode
+		{
+		padding: 0.3em;
+
+		text-decoration: none;
+	font-family: TitilliumWeb-ExtraLight;
+		position: relative;
+		top: 86vh;
+		color: #ddd;
+		text-align: center;
+	}
+	#propulsedby a
+	{
+			color: #ff7f2a;
+		text-decoration: none;
+	}
+	#propulsedby
+	{
+		font-family: TitilliumWeb-Light;
+		position: relative;
+		top: 86vh;
+		color: #ff9f4a;
+		text-align: center;
+	}
+
 
 }
 /*
