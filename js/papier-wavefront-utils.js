@@ -53,13 +53,37 @@ function getwavefrontproperties (o)
 	@returns {object} an object that store mesh define in a format
 	suitable to the app
 */
+function printWavefront (o)
+{
+	var po = '# o '+o.nme;
+	
+
+	
+	var tmp = '\n#frz';
+	for ( var i = 0 ; i < o.edges.length ; i++ )
+		if (edgestate(o, i) == "freeze" ) tmp+=' '+i;
+		
+	po = po+tmp;
+	tmp = '';
+	for ( var i = 0 ; i < o.vertices.length ; i++ )
+		tmp+='\nv '+o.vertices[i][0]+' '+o.vertices[i][1]+' '+o.vertices[i][2];
+		
+	po = po+tmp;
+	tmp = '';
+	
+	for ( var i = 0 ; i < o.triangles.length ; i++ )
+		tmp+='\nf '+(o.triangles[i][0]+1)+' '+(o.triangles[i][1]+1)+' '+(o.triangles[i][2]+1);
+	po = po+tmp;
+	return po;
+
+}
 function parsewavefront(objText, id) {
-	var frzlist = false;
+	console.clear();
 	var nv = 0;
 	var nt = 0;
 	var ng = 0;
 	var obj = {};
-	var freeze;
+
 	var vertexMatches = objText.match(/^v( -?\d+(\.\d+)?){3}$/gm);
 //	var triMatches = objText.match(/^f( \d+){3}$/gm);
 	var triMatches = objText.match(/^f( \d+){3,4}$/gm);
@@ -67,8 +91,19 @@ function parsewavefront(objText, id) {
 
 	var positionMatches = objText.match(/^position( -?\d+(\.\d+)?){3}$/gm);
 	var frzMatches = objText.match(/^#frz( \d+){1,}$/gm);
+	var nameMatches = objText.match(/^# o( .+){1,}/gm);
 	
-	if (vertexMatches) {
+	if (nameMatches) {
+		fl(nameMatches)
+		var name = nameMatches[0].split(" ");
+		name.shift(); 
+		var tmpname = "";
+		for ( var g = 1 ; g < name.length ; g++ )
+			tmpname+=' '+name[g];
+		obj.nme = tmpname;
+	}
+	else obj.nme ='unnamed';
+if (vertexMatches) {
 		obj.vertices = vertexMatches.map(function(vertex) {
 			nv++;
 			var vertices = vertex.split(" ");
@@ -82,14 +117,14 @@ function parsewavefront(objText, id) {
 	}
 	if (frzMatches) {
 		fl(frzMatches);
-			var freezed = frzMatches[0];//.map(function(frz) {
+			var frozen = frzMatches[0];//.map(function(frz) {
 
-				freeze = freezed.split(" ");
-				freeze.shift();	
-			var freeze = Uint16Array.from(freeze);
+				frozen = frozen.split(" ");
+				frozen.shift();	
+				obj.prefreeze = Uint16Array.from(frozen);
 	//	});
 	}
-	fl(freeze);
+	fl(obj.prefreeze);
 
 	if (triMatches) {
 			obj.triangles = triMatches.map(function(tri) {
@@ -179,16 +214,9 @@ function parsewavefront(objText, id) {
 	$('#sizeX').text((obj.sx/10).toFixed(2));
 	$('#sizeY').text((obj.sy/10).toFixed(2));
 	$('#sizeZ').text((obj.sz/10).toFixed(2));
-	//
-	if (frzlist)
-	{
-		for ( var i = 0 ; i < freeze.length ; i++)
-		{
-			
-			setedgestate (obj, freeze[i], 'freeze');
-		}
-	}
 	fl(obj);
+	$('#p-title-content').text(obj.nme);
+
 	return obj;
 }
 window['parsewavefront'] = parsewavefront;
@@ -363,6 +391,19 @@ blankscene ();
 			//l(wavefront);
 			patterns = new Patterns(pobj);
 			feedscene();
+		if (pobj.prefreeze != undefined )
+		{
+		
+			fl('prefreeze');
+			for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
+			{
+				
+				setedgestate (pobj, pobj.prefreeze[i], "freeze");
+			}
+		
+			patterns.rebuild();
+			printWavefront (pobj);
+		}
 		$('#settings').fadeOut(); 
 		$('#credits').fadeIn();
 		activeshape1 = -1;
@@ -384,6 +425,18 @@ function loadWavefrontExample(file) {
 		patterns = new Patterns(pobj);
 		blankscene ();
 		feedscene();
+		if (pobj.prefreeze != undefined )
+		{
+		
+			fl('prefreeze');
+			for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
+			{
+				
+				setedgestate (pobj, pobj.prefreeze[i], "freeze");
+			}
+		
+			patterns.rebuild();
+		}
 		$('#settings').fadeOut(); 
 		$('#credits').fadeIn();
 		activeshape1 = -1;
@@ -601,6 +654,18 @@ function setshapestate (o, t, s)
 		scene.children[(2+t+o.ne)].visible = true;
 		scene.children[(2+t+o.ne)].material = materialHighlighted;
 	}
+}
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
 }
 /*
 	this file is a part of 

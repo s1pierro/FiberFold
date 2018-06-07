@@ -23,6 +23,12 @@ body
 {
 		font-family: TitilliumWeb;
 }
+#download
+{
+	width:2em;
+	height: 2em;
+	overflow: hidden;
+}
 #processing-indicator
 {
 	color: #00d;
@@ -138,6 +144,14 @@ body {
 	/* Non-prefixed version, currently supported by Chrome and Opera */
 }
 @media (max-aspect-ratio: 1/1) {
+	#scratch-message {
+		position: fixed;
+		top: calc(100vh - 70.7vw);
+		left: 0px;
+		color: #222;
+		z-index: 4;
+		width: 100vw;
+	}
 	#thirdpartcode
 	{
 		font-family: monospace, monospace;
@@ -173,48 +187,61 @@ body {
 		width: 100vw;
 		height: 100vh;
 		top: 0px;
-		left: 0px;
+		right: 0px;
 	}
 	#credits {
-		position: fixed;
-		top: 0px;
-		left: 0px;
-		color: #222;
-		z-index: 10;
-		width: 100vw;
-	}
-	#scratch-message {
-		position: fixed;
-		top: calc(100vh - 70.7vw);
-		left: 0px;
+		position: absolute;
+		top: 91.9vh;
+		left: 2vw;
 		color: #222;
 		z-index: 4;
-		width: 100vw;
+
+	}
+	
+	#dispatcher-dialog
+	{
+		position: fixed;
+		z-index: 6;
+		top: 33vh;
+		left: 2vw;
+		width: 35.35vh;
+		height: 2em;
+		background-color: #0000;
+		color: #fff;
+	
 	}
 	#svg7 {
+	opacity: 1.0;
 		position: fixed;
 		z-index: 2;
-		bottom: 0px;
-		left: 0px;
-		width: 100vw;
-		height: 70.7vw;
-		background-color: #fff;
+		bottom: 2vw;
+		left: 2vw;
+		width: 45.35vw;
+		height: 63.65vw;
+		background-color: #0000;
 		color: #eee;
+		border: 0.5mm solid;
 	}
 	#renderbox {
 		position: fixed;
 		z-index: 1;
 		width: 100vw;
-		height: calc(100vh - 70.7vw);
+		height: 70vh;
 		top: 0px;
 		right: 0px;
 		/* Chrome10-25,Safari5.1-6 */
-		background: -webkit-radial-gradient(center, ellipse cover, #999 0%, #222 100%);
-		/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-		background: radial-gradient(ellipse at center, #999 0%, #222 100%);
+		background: #0000;
 	}
 }
 @media (min-aspect-ratio: 1/1) {
+#scratch-message {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		color: #222;
+		z-index: 4;
+		width: 70.7vh;
+	}
 	#startapp
 	{
 		position: absolute;
@@ -242,49 +269,68 @@ body {
 		;
 		position: absolute;
 		z-index: 15;
-		width: calc(100vw - 70.7vh);
+		width: 100vw;
 		height: 100vh;
 		top: 0px;
 		right: 0px;
 	}
 	#credits {
-		position: fixed;
-		top: 0px;
-		right: 0px;
+		position: absolute;
+		top: 91.9vh;
+		left: 2vw;
 		color: #222;
 		z-index: 4;
-		width: calc(100vw - 70.7vh);
+
 	}
-	#scratch-message {
+	
+	#dispatcher-dialog
+	{
 		position: fixed;
-		top: 0px;
-		left: 0px;
-		color: #222;
-		z-index: 4;
-		width: 70.7vh;
+		z-index: 6;
+		top: 33vh;
+		left: 2vw;
+		width: 35.35vh;
+		height: 2em;
+		background-color: #0000;
+		color: #fff;
+	
 	}
 	#svg7 {
+	opacity: 1.0;
 		position: fixed;
 		z-index: 2;
-		top: 0px;
-		left: 0px;
-		width: 70.7vh;
-		height: 100vh;
-		background-color: #fff;
+		top: 40vh;
+		left: 2vw;
+		width: 35.35vh;
+		height: 50vh;
+		background-color: #0000;
 		color: #eee;
+		border: 0.5mm solid;
 	}
 	#renderbox {
 		position: fixed;
 		z-index: 1;
-		width: calc(100vw - 70.7vh);
+		width: 84vw;
 		height: 100vh;
 		top: 0px;
 		right: 0px;
 		/* Chrome10-25,Safari5.1-6 */
-		background: -webkit-radial-gradient(center, ellipse cover, #999 0%, #222 100%);
-		/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-		background: radial-gradient(ellipse at center, #999 0%, #222 100%);
+		background: #0000;
 	}
+	#p-title
+	{
+		font-size: 5vh;
+		position: absolute;
+		top: 2vh;
+		left: 2vw;
+		color: #fff;
+		z-index: 4;
+
+		
+		
+	}
+	
+
 }
 /*
 	this file is a part of 

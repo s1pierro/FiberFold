@@ -76,6 +76,8 @@ function init() {
 	controls.staticMoving = true;
 	controls.dynamicDampingFactor = 0.3;
 
+	console.log(controls);
+
 	scene = new THREE.Scene();
 
 	scene.add( new THREE.AmbientLight( 0xffffff ) );
@@ -95,7 +97,20 @@ function init() {
 	materialFrontier = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 3} );
 	
 	feedscene ();
-
+	if (pobj.prefreeze != undefined )
+	{
+		
+		fl('prefreeze');
+		for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
+		{
+			
+			setedgestate (pobj, pobj.prefreeze[i], "freeze");
+		}
+		patterns.rebuild();
+	}
+	
+	else fl('no prefreeze');
+	printWavefront (pobj);
 	raycaster = new THREE.Raycaster();		
 	fl(' Create Renderer :')
 	try {
@@ -260,22 +275,12 @@ function mouseup ( event )
 	render();
 }
 function onDocumentMouseMove( event ) {
-	if ( window.innerWidth > window.innerHeight)
-	{
-		if ( event.clientX > 0.707*window.innerHeight )
-		{
-			mouse.x = ( (event.clientX-0.707*window.innerHeight) / (window.innerWidth-0.707*window.innerHeight )) * 2 - 1;
+
+	
+			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-		}
-	}
-	else
-	{
-		if ( event.clientY < 0.707*window.innerHeight )
-		{
-			mouse.x =  ( event.clientX / window.innerWidth ) * 2 - 1;
-			mouse.y = - ( event.clientY / (window.innerHeight - window.innerWidth*0.707) ) * 2 + 1;
-		}
-	}
+
+			
 	controls.update();
 	raycaster.setFromCamera( mouse, camera );
 	var intersects = raycaster.intersectObjects( objects , true);
@@ -301,6 +306,15 @@ $('body').on('click', '#ldex-ppce-frame', function()
 $('body').on('click', '#ldex-ppce-body', function()
 {
 	loadWavefrontExample('wavefronts/paperace-carrosserie.obj');
+});
+
+$('body').on('click', '#ldfex-ppce-body', function()
+{
+	loadWavefrontExample('wavefronts/paperAce body flat.obj');
+});
+$('body').on('click', '#ldfex-ico-2', function()
+{
+	loadWavefrontExample('wavefronts/ico sphere flat-a.obj');
 });
 
 $('body').on('click', '#startapp', function()
@@ -339,6 +353,18 @@ $('body').on('click', '#apply-scale', function()
 	patterns.rebuild();
 
 });
+$('body').on('click', '#download', function()
+{	
+	//TODO gen & enrich wavefront text format.
+	var w = "";
+	
+	var d = new Date();
+    var n = d.getFullYear()+''+d.getMonth()+''+d.getDate()+'-'+d.getHours()+d.getMinutes()+d.getSeconds();
+
+	var saveas = pobj.nme+'-flat-'+n+'.obj'
+	download(saveas, printWavefront (pobj));
+});
+
 /*	$('body').on('click', '#', function() {
 
 	});

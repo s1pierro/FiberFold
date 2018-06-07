@@ -196,6 +196,15 @@ function Pattern (targetmesh)
 	this.position = { x:0, y:0 };
 	this.boundingbox = new BoundingBox(this);
 }
+Pattern.prototype.tryToReachRatio = function ( r )
+{
+	var tmp = this;
+	
+	var diff = 1000;
+	var trystep =$.extend(true, {}, tmp);
+	
+	
+}
 /** @description
   Search for a triangle by it's id into pattern
   @param {number} t - The id of the triangle to look for
@@ -472,23 +481,27 @@ Pattern.prototype.smartPositioning = function ()
 	this.height = h;
 	this.width = w;
 
-	
+	//this.rotate(11);
 	//TODO smart rotate
 }
 Pattern.prototype.translate = function (x, y)
 {
-	var n = this.nodes;
-	for ( var i = 0 ; i < n.length ; i++ )
-	{
-		n[i].c[0] = n[i].c[0] + x;
-		n[i].c[1] = n[i].c[1] + y;
-	}
+	var tmptxymat = gentmat( x, y, 0.0 );
+	for ( var i = 0 ; i < this.nodes.length ; i++ )
+		this.nodes[i].c = applymat(tmptxymat, this.nodes[i].c);
 	for ( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
 		for ( var j = 0 ; j < this.trianglesflatcoord[i].length ; j++)
-	{
-		this.trianglesflatcoord[i][j].c[0] += x;
-		this.trianglesflatcoord[i][j].c[1] += y;
-	}
+			this.trianglesflatcoord[i][j].c = applymat(tmptxymat, this.trianglesflatcoord[i][j].c);
+
+}
+Pattern.prototype.rotate = function (rz)
+{
+	var tmprzmat = genrmat(0.0, 0.0, rz );
+	for ( var i = 0 ; i < this.nodes.length ; i++ )
+		this.nodes[i].c = applymat(tmprzmat, this.nodes[i].c);
+	for ( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
+		for ( var j = 0 ; j < this.trianglesflatcoord[i].length ; j++)
+			this.trianglesflatcoord[i][j].c = applymat(tmprzmat, this.trianglesflatcoord[i][j].c);
 }
 
 
