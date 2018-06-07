@@ -22,7 +22,7 @@ $('#settings').hide();
 $('#startapp').hide();
 
 var pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
-
+var camarm = [0, 0, pobj.height / 2 / Math.tan(Math.PI * 70 / 360)];
 var mouse = new THREE.Vector2(), mouserayid;
 var container;
 var camera, controls, scene, raycaster, renderer;
@@ -65,7 +65,10 @@ function init() {
 	document.body.appendChild( container );
 	
 	camera = new THREE.PerspectiveCamera( 70, $('#renderbox').width() / $('#renderbox').height(), 0.1, 5000 );
-	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
+
+	camera.position.x = camarm[0];
+	camera.position.y = camarm[1];
+	camera.position.z = camarm[2];
 
 	controls = new THREE.TrackballControls( camera );
 	controls.rotateSpeed = 3.5;
@@ -76,7 +79,8 @@ function init() {
 	controls.staticMoving = true;
 	controls.dynamicDampingFactor = 0.3;
 
-	console.log(controls);
+	console.log(camera);
+	var tmpa = new THREE.Vector3( 0, 0, 0 );
 
 	scene = new THREE.Scene();
 
@@ -139,10 +143,46 @@ function init() {
 	container.appendChild( renderer.domElement );
 
 	window.addEventListener( 'resize', onWindowResize, false );
+	document.addEventListener( 'touchmove', onDocumentMouseMove, false );
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'wheel', onDocumentMouseMove, false );
 	controls.addEventListener( 'change', light_update );
 	controls.update();
+	
+	
+/*
+var frmat = genimat();
+var hammertime = new Hammer(container);
+hammertime.on('pan', function(ev) {
+var r = genrmat(ev.velocityX*16, ev.velocityY*16, 0);
+/*
+	var r = genrmat(ev.velocityX*16, ev.velocityY*16, 0);
+	var tmp = $.extend(true, [], scene.matrix.elements );
+	fl(r);
+	fl(tmp);
+	var tmp2 = multiplymatrix (r, tmp)
+	fl(tmp2);
+	scene.matrix.elements = $.extend(true, [], tmp2 );
+	scene.updateMatrix();
+		fl(scene.matrix.elements);
+		
+	var tmpcam = [0, 0, pobj.height / 2 / Math.tan(Math.PI * 70 / 360)];
+	
+	var r = genrmat(ev.velocityX*16, ev.velocityY*16, 0);
+	frmat = multiplymatrix ( frmat, r);
+	
+	camarm = applymat(frmat, tmpcam);
+	camera.position.x = camarm[0];
+	camera.position.y = camarm[1];
+	camera.position.z = camarm[2];
+	logMatrix(r);
+	render();
+	camera.target = 
+});
+hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+*/
+console.log(scene);
 
 	function light_update()
 	{
@@ -212,6 +252,7 @@ function onWindowResize() {
 	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
 	render();
 }
+
 document.addEventListener( 'mouseup', mouseup, false );
 document.addEventListener( 'mousedown', mousedown, false );
 function mousedown ( event ) { mouserayid = mouse.x*mouse.y; }
@@ -274,7 +315,11 @@ function mouseup ( event )
 	}
 	render();
 }
+function onDocumentTouchMove( event ) {
+	fl(event);
+}
 function onDocumentMouseMove( event ) {
+	fl(event);
 
 	if ( window.innerWidth > window.innerHeight)
 	{
