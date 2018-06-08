@@ -195,9 +195,9 @@ body {
 	{
 		position: absolute;
 		top: 10vh;
-		left: 20vw;
-		width: 60vw;
-		height: auto;
+		left: calc( calc(100vw - calc( 0.8605 * 40vh )) / 2 );
+		width: auto;
+		height: 40vh;
 	}
 	#settings {
 		overflow-x: hide;
@@ -207,7 +207,7 @@ body {
 		position: relative;
 		z-index: 15;
 		width: 93vw;
-		height: 70vh;
+		height: calc( 100vh - 44vw );
 		top: 0px;
 		left: 0vw;
 	}
@@ -263,7 +263,7 @@ body {
 	#renderbox.minimized{
 	position: fixed;
 		z-index: 1;
-		width: 40vh;
+		width: 70vw;
 		height:26vh;
 		top: 70vh;
 		left: 30vw;
@@ -366,12 +366,12 @@ body {
 		overflow-y: scroll;
 		padding-top: 1em;
 		;
-		position: relative;
+		position: absolute;
 		z-index: 15;
-		width: 80vw;
+		width: calc(96vw - calc(35.35vh ));
 		height: 100vh;
 		top: 0px;
-		left: 20vw;
+		right: 2vw;
 	}
 	#credits {
 		font-size: 3vh;
@@ -444,7 +444,7 @@ body {
 		position: absolute;
 		top: 2vh;
 		left: 2vw;
-		max-width: 15vw; 
+		max-width: 35.35vh; 
 		color: #fff;
 		z-index: 4;
 		padding: 0em;
