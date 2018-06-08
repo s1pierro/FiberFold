@@ -29,7 +29,12 @@
 }
 body
 {
-		font-family: TitilliumWeb;
+		font-family: sans;
+}
+.btn-danger
+{	
+	color: #000;
+	background-color: #ff9f4a;
 }
 .btn-outline-light
 {
