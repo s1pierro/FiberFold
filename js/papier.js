@@ -51,12 +51,16 @@ function init() {
 	$('#processing-indicator').fadeOut(200);
 	
 	$('#startapp').hide();
+	var g = '';
+	g +='\nPapier 0.4.3', 'xl';
 	
-	fl('Papier 0.4.3', 'xl');
-	
-	fl('\n Copyright (C) 2018  Saint Pierre Thomas ( s1pierro@protonmail.fr )\n\n')
+	g +='\n Copyright (C) 2018  Saint Pierre Thomas ( s1pierro@protonmail.fr )\n\n';
+	g +='feel free to contact me at s1pierro@protonmail.com to contribute, in any way';
 
-	fl('feel free to contact me at s1pierro@protonmail.com to contribute, in any way');
+	
+	fl(g);
+
+
 	
 
 
@@ -79,7 +83,7 @@ function init() {
 	controls.staticMoving = true;
 	controls.dynamicDampingFactor = 0.3;
 
-	console.log(camera);
+
 	var tmpa = new THREE.Vector3( 0, 0, 0 );
 
 	scene = new THREE.Scene();
@@ -150,39 +154,6 @@ function init() {
 	controls.update();
 	
 	
-/*
-var frmat = genimat();
-var hammertime = new Hammer(container);
-hammertime.on('pan', function(ev) {
-var r = genrmat(ev.velocityX*16, ev.velocityY*16, 0);
-/*
-	var r = genrmat(ev.velocityX*16, ev.velocityY*16, 0);
-	var tmp = $.extend(true, [], scene.matrix.elements );
-	fl(r);
-	fl(tmp);
-	var tmp2 = multiplymatrix (r, tmp)
-	fl(tmp2);
-	scene.matrix.elements = $.extend(true, [], tmp2 );
-	scene.updateMatrix();
-		fl(scene.matrix.elements);
-		
-	var tmpcam = [0, 0, pobj.height / 2 / Math.tan(Math.PI * 70 / 360)];
-	
-	var r = genrmat(ev.velocityX*16, ev.velocityY*16, 0);
-	frmat = multiplymatrix ( frmat, r);
-	
-	camarm = applymat(frmat, tmpcam);
-	camera.position.x = camarm[0];
-	camera.position.y = camarm[1];
-	camera.position.z = camarm[2];
-	logMatrix(r);
-	render();
-	camera.target = 
-});
-hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-hammertime.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
-*/
-console.log(scene);
 
 	function light_update()
 	{

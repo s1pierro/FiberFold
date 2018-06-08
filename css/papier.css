@@ -368,10 +368,10 @@ body {
 		;
 		position: absolute;
 		z-index: 15;
-		width: calc(96vw - calc(35.35vh ));
+		width: calc(98vw - calc(35.35vh ));
 		height: 100vh;
 		top: 0px;
-		right: 2vw;
+		right: 0vw;
 	}
 	#credits {
 		font-size: 3vh;

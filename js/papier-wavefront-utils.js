@@ -94,7 +94,7 @@ function parsewavefront(objText, id) {
 	var nameMatches = objText.match(/^# o( .+){1,}/gm);
 	
 	if (nameMatches) {
-		fl(nameMatches)
+
 		var name = nameMatches[0].split(" ");
 		name.shift(); 
 		var tmpname = "";
@@ -124,7 +124,7 @@ if (vertexMatches) {
 				obj.prefreeze = Uint16Array.from(frozen);
 	//	});
 	}
-	fl(obj.prefreeze);
+
 
 	if (triMatches) {
 			obj.triangles = triMatches.map(function(tri) {
@@ -214,7 +214,7 @@ if (vertexMatches) {
 	$('.sizeX').text((obj.sx/10).toFixed(2));
 	$('.sizeY').text((obj.sy/10).toFixed(2));
 	$('.sizeZ').text((obj.sz/10).toFixed(2));
-	fl(obj);
+
 	$('#p-title-content').text(obj.nme);
 
 	return obj;
