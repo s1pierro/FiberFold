@@ -130,26 +130,69 @@ font-size: large;
 top:66vh;
 
 }
-	#startapp
-	{
+#startapp
+{
 		font-family: TitilliumWeb-Light;
 		font-size: 1.5em;
 		font-weight: 400;
-}
-	#thirdpartcode
-	{
-		font-family: TitilliumWeb-ExtraLight;
 		position: relative;
-		top: 88vh;
-		color: #ddd;
+		z-index: 300;
+		width: 35.35vh;
+		margin: auto;
+		margin-top: 2em;
+		
+			display: block;
+
+}
+#startlogo
+{
+		position: relative;
+		z-index: 300;
+		width: 35.35vh;
+		margin: auto;
+		margin-top: 2em;
+		
+		display: block;
+
+}
+#propulsedby
+{
+		position: relative;
+		z-index: 300;
+		width: 35.35vh;
+		margin: auto;
+		margin-top: 2em;
+		display: block;
+		font-family: TitilliumWeb-Light;
+		font-size: 1.2em;
+		color: #f94;
 		text-align: center;
-	}
-	#thirdpartcode a
-	{
-		padding: 0.3em;
-		color: #ddd;
+}
+#propulsedby a
+{
+		color: #f94;
 		text-decoration: none;
-	}
+		font-weight: 400;
+}
+#thirdpartcode
+{
+		position: relative;
+		z-index: 300;
+		width: 35.35vh;
+		margin: auto;
+		margin-top: 2em;
+		display: block;
+		font-family: TitilliumWeb-Light;
+		font-size: 1em;
+		color: #bbb;
+		text-align: center;
+}
+#thirdpartcode a
+{
+	padding: 0.3em;
+	color: #ddd;
+	text-decoration: none;
+}
 
 body {
 	background-color: #444;
