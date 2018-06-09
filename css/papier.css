@@ -246,13 +246,7 @@ body {
 	{
 		font-size: 0.5em;	
 	}
-	#p-title-content.d-view
-	{
-		font-size: 1em;
-		padding: 0em;
-					margin: 0em;
-		
-	}
+
 		#settings.d-view, #settings.pages-view {
 			display: none;
 	}
@@ -429,16 +423,6 @@ body {
 	{
 		font-size: 0.5em;	
 	}
-	#p-title-content.d-view
-	{
-		font-size: 1em;
-		padding: 0em;
-					margin: 0em;
-		
-	}
-		#settings.d-view, #settings.pages-view {
-			display: none;
-	}
 
 	#settings.settings-view {
 		display: block;
@@ -613,13 +597,7 @@ body {
 	{
 		font-size: 0.5em;	
 	}
-	#p-title-content.d-view
-	{
-		font-size: 1em;
-		padding: 0em;
-					margin: 0em;
-		
-	}
+
 		#settings.d-view, #settings.pages-view {
 			display: none;
 	}
