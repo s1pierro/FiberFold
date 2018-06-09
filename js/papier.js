@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 'use strict';
 
-$('#settings').hide();
+
 $('#startapp').hide();
 
 var pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
@@ -66,7 +66,9 @@ function init() {
 
 	container = document.createElement( 'div' );
 	container.id = 'renderbox';
+
 	document.body.appendChild( container );
+	$('#renderbox').addClass('app-component');
 	
 	camera = new THREE.PerspectiveCamera( 70, $('#renderbox').width() / $('#renderbox').height(), 0.1, 5000 );
 
@@ -97,7 +99,7 @@ function init() {
 	scene.add( light );
 
 
-	materialVisible = new THREE.MeshStandardMaterial(  { color: 0xcccccc, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
+	materialVisible = new THREE.MeshStandardMaterial(  { color: 0x999999, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 	materialHighlighted = new THREE.MeshStandardMaterial(  { color: 0xff7f2a, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
 	materialSolid = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 
@@ -161,6 +163,7 @@ function init() {
 	}
 	light.position.copy( camera.position );
 	renderer.render( scene, camera );
+	toggleDview ();
 }
 
 function blankscene ()
@@ -233,16 +236,20 @@ function mouseup ( event )
 	if ( controls.enabled == false ) return;
 	if (mouse.x*mouse.y == mouserayid && focus != undefined ) // SHAPE TAPPED
 	{
-
 		var tappedshapeid = focus.tid;
 		
 		if ( activeshape1 != -1 )
 		{
+
 			setshapestate(pobj, activeshape1, activeshape1shadoweddstate);
 			var e = sharededge (pobj, activeshape1, tappedshapeid);
 			if ( e > -1 )
 			{			
-						$('#processing-indicator').fadeIn(1);
+				document.getElementById("main-app-dialog-title").innerHTML = "Working ...";
+				document.getElementById('main-app-dialog').style.display = 'none';
+				document.getElementById('main-app-dialog').style.display = 'block';
+
+
 					setshapestate(pobj, activeshape1, "solid" );	
 					setshapestate(pobj, tappedshapeid, "solid" );
 					activeshape1 = -1 ;
@@ -348,35 +355,57 @@ $('body').on('click', '#startapp', function()
 	$("#startscreen").fadeOut();
 
 });
-
-$('body').on('click', '#close-settings', function()
+function toggleSettingsView ()
 {
-	$('#settings').fadeOut(); 
-	$('#credits').fadeIn();
-		$('#renderbox').removeClass('minimized');
+			$(".app-component").removeClass("pages-view");
+			$(".app-component").removeClass("d-view");
+			$(".app-component").addClass("settings-view");
 			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
 			camera.updateProjectionMatrix();
 			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+			render();
+}
+function toggleDview ()
+{
+			$(".app-component").removeClass("pages-view");
+			$(".app-component").removeClass("settings-view");
+			$(".app-component").addClass("d-view");
+			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+			camera.updateProjectionMatrix();
+			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+			render();
+}
+function togglePagesView ()
+{
+			$(".app-component").removeClass("d-view");
+			$(".app-component").removeClass("settings-view");
+			$(".app-component").addClass("pages-view");
+			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+			camera.updateProjectionMatrix();
+			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+			render();
 
-		
-		render();
-		
+}
 
+$('body').on('click', '#svg7', function()
+{
+	togglePagesView ();
+
+});$('body').on('click', '#renderbox', function()
+{
+	toggleDview ();
+
+});
+$('body').on('click', '#close-settings', function()
+{
+	toggleDview ();
+		
 		controls.enabled = true;
 });
 $('body').on('click', '#toggle-settings', function()
 {
-		$('#renderbox').addClass('minimized');
-		
-		
-			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-			camera.updateProjectionMatrix();
-			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
 
-		
-		render();
-		$('#settings').fadeIn();
-		$('#credits').fadeOut();
+		toggleSettingsView ();
 		controls.enabled = false;
 });
 $('body').on('click', '#patterns-safe-edit-mode', function()

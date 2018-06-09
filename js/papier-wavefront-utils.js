@@ -380,6 +380,7 @@ function rotateWavefront (wavefront, x, y, z)
 }
 window['rotateWavefront'] = rotateWavefront;
 function readWavefrontFile(evt) {
+	$('#p-title-content').text("Loading");
 blankscene ();
 	var f = evt.target.files[0];
 	if (f) {
@@ -405,13 +406,7 @@ blankscene ();
 			printWavefront (pobj);
 		}		
 		
-		$('#renderbox').removeClass('minimized');
-			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-			camera.updateProjectionMatrix();
-			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
-
-		$('#settings').fadeOut(); 
-		$('#credits').fadeIn();
+		toggleDview ();
 		activeshape1 = -1;
 		controls.enabled = true;
 			renderer.render( scene, camera );
@@ -423,6 +418,9 @@ blankscene ();
 }
 function loadWavefrontExample(file) {
 	
+	document.getElementById("p-title-content").innerHTML = "Loading";
+
+	console.log('Loading ...')
 	jQuery.get(file, function(data) {
 
 		var obj = parsewavefront(data, 0);
@@ -443,13 +441,7 @@ function loadWavefrontExample(file) {
 		
 			patterns.rebuild();
 		}
-		$('#renderbox').removeClass('minimized');
-			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-			camera.updateProjectionMatrix();
-			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
-
-		$('#settings').fadeOut(); 
-		$('#credits').fadeIn();
+		toggleDview ();
 		activeshape1 = -1;
 		controls.enabled = true;
 		renderer.render( scene, camera );

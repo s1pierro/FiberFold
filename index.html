@@ -1,118 +1,104 @@
 <!--
-	this file is a part of 
-	papier 0.4.1
-		
-	Author : Saint Pierre Thomas
-	If you got interest in such kind of app
-	feel free to contact me at spierro@free.fr
-	Licenced under the termes of the GNU GPL v3
+    this file is a part of 
+    papier 0.4.1
+        
+    Author : Saint Pierre Thomas
+    If you got interest in such kind of app
+    feel free to contact me at spierro@free.fr
+    Licenced under the termes of the GNU GPL v3
 -->
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Papier </title>
-		<meta charset="utf-8">
-		<link rel="icon" type="image/png" href="img/papier-logo-flat-circle.png">
-		<meta name="description" content="">
-		<meta name="author" content="s1pierro@free.fr">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-
-		<!-- Custom styles for this template -->
-		<link href="css/animation.css" rel="stylesheet">
-		<link href="css/papier-fonticon.css" rel="stylesheet">
-		
-		<link href="css/papier.css" rel="stylesheet">
-		
-		
-	</head>
+<head>
+	<title>Papier</title>
+	<meta charset="utf-8">
+	<link href="img/papier-logo-nav.png" rel="icon" type="image/png">
+	<meta content="" name="description">
+	<meta content="s1pierro@free.fr" name="author">
+	<meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+	<link href="css/bootstrap.min.css" rel="stylesheet"><!-- Custom styles for this template -->
+	<link href="css/animation.css" rel="stylesheet">
+	<link href="css/papier-fonticon.css" rel="stylesheet">
+	<link href="css/papier.css" rel="stylesheet">
 	<style>
-	@media (max-aspect-ratio: 1/1) {
-		#startscreen
-		{		
-			background-color: #444;
-			/*background-image: url("img/papier-startscreen-backframe-portrait.svg");
-			background-repeat: horizontal;
-			background-position: right top;
-			background-size: auto 100%; 
-			*/
-			color: #000;
-			position: absolute;
-			z-index: 100;
-			width: 100vw;
-			height: 100vh;
-			top: 0px;
-			left: 0px;
-		}  
-	}
-	
-	@media (min-aspect-ratio: 1/1) {
-	
-		#startscreen
-		{		
-			background-color: #444;
-			/*
-			background-image: url("img/papier-startscreen-backframe-landscape.svg");
-			background-repeat: vertical;
-			background-position: right top;
-			background-size: 100% auto; /* width and height, can be %, px or whatever. */
-			color: #000;
-			position: absolute;
-			z-index: 100;
-			width: 100vw;
-			height: 100vh;
-			top: 0px;
-			left: 0px;
-		}  
-	}
-	
+	   @media (max-aspect-ratio: 1/1) {
+	       #startscreen
+	       {       
+	           background-color: #444;
+	           color: #000;
+	           position: absolute;
+	           z-index: 100;
+	           width: 100vw;
+	           height: 100vh;
+	           top: 0px;
+	           left: 0px;
+	       }  
+	   }
+	   
+	   @media (min-aspect-ratio: 1/1) {
+	   
+	       #startscreen
+	       {       
+	           background-color: #444;
+	           color: #000;
+	           position: absolute;
+	           z-index: 100;
+	           width: 100vw;
+	           height: 100vh;
+	           top: 0px;
+	           left: 0px;
+	       }  
+	   }
+	   
 	</style>
-	<body>
-<div id="example" hidden >
+</head>
+<body>
+	<div hidden="" id="example">
+	
 # o IcoSphere 2
-#frz 0 1 3 4 5 7 9 10 11 13 14 15 17 19 20 21 25 26 27 29 30 32 34 35 37 38 41 42 43 44 45 50 52 53 54 57 58 59 61 63 64 66 68 69 70 71 72 73 75 77 78 80 82 84 85 86 87 90 91 92 94 96 97 98 101 102 105 106 107 108 110 111 113 115 119
-v 0.000000 -75.000000 0.000000
-v 54.270542 -33.541462 39.429398
-v -20.729097 -33.541485 63.798687
-v -67.081963 -33.541172 0.000000
-v -20.729097 -33.541485 -63.798687
-v 54.270542 -33.541462 -39.429398
-v 20.729097 33.541485 63.798687
-v -54.270542 33.541462 39.429398
-v -54.270542 33.541462 -39.429398
-v 20.729097 33.541485 -63.798687
-v 67.081963 33.541172 0.000000
-v 0.000000 75.000000 0.000000
-v -12.184166 -63.799076 37.499645
-v 31.899202 -63.799065 23.175856
-v 19.715164 -39.430321 60.675869
-v 63.798588 -39.430191 0.000000
-v 31.899202 -63.799065 -23.175856
-v -39.429733 -63.798870 0.000000
-v -51.614197 -39.430214 37.499767
-v -12.184166 -63.799076 -37.499645
-v -51.614197 -39.430214 -37.499767
-v 19.715160 -39.430325 -60.675877
-v 71.329346 0.000000 23.175949
-v 71.329346 0.000000 -23.175949
-v 0.000000 0.000000 75.000000
-v 44.083920 0.000000 60.676258
-v -71.329346 0.000000 23.175949
-v -44.083920 0.000000 60.676258
-v -44.083920 0.000000 -60.676258
-v -71.329346 0.000000 -23.175949
-v 44.083920 0.000000 -60.676258
-v 0.000000 0.000000 -75.000000
-v 51.614197 39.430214 37.499767
-v -19.715160 39.430325 60.675877
-v -63.798588 39.430191 0.000000
-v -19.715164 39.430321 -60.675869
-v 51.614197 39.430214 -37.499767
-v 12.184166 63.799076 37.499645
-v 39.429733 63.798870 0.000000
-v -31.899202 63.799065 23.175856
-v -31.899202 63.799065 -23.175856
-v 12.184166 63.799076 -37.499645
+#frz 14 16 28 29 98 99 114 115 118
+v 49.979571797871394 -45.25278642087999 32.851601544637624
+v 11.1860133858817 10.100426655287398 73.4700844876719
+v -27.466269467755087 -52.76675880590935 45.675730404759335
+v 2.728384156947463 -70.68002825384511 -24.937712505254492
+v 60.04235140678334 -18.88360999331748 -40.783874908218635
+v 65.26882297243768 31.041173602397954 20.03559626993909
+v -60.04235140678334 18.88360999331748 40.783874908218635
+v -65.26882297243768 -31.041173602397954 -20.03559626993909
+v -11.1860133858817 -10.100426655287398 -73.4700844876719
+v 27.466269467755087 52.76675880590935 -45.675730404759335
+v -2.728384156947463 70.68002825384511 24.937712505254492
+v -49.979571797871394 45.25278642087999 -32.851601544637624
+v 13.233202061400462 -57.614294422310486 46.15706680581886
+v 35.95227171324846 -20.6621591668697 62.494075092471455
+v -9.569273029118804 -25.078594692302914 70.03207898219553
+v 44.93884086365853 24.182328039171697 54.9610351569809
+v 67.74112649245257 -8.353583322554911 31.086291378201402
+v 30.980955333598963 -68.1435387520128 4.651686865929761
+v -14.540486671105334 -72.56028238004755 12.189310948124245
+v 64.6690915999231 -37.69842919526645 -4.662231498498716
+v 36.89557020709542 -52.644352359441925 -38.63015268987564
+v 73.65598303293311 7.146038525027743 -12.195507779565563
+v 4.971242880105802 47.48178159788786 57.84260863200925
+v 36.76022522152354 59.79040683401598 26.43469888468629
+v -51.43637646955322 -19.916053765686353 50.819779398229215
+v -28.71717024612431 17.03647744829395 67.15715045069919
+v -36.76022522152354 -59.79040683401598 -26.43469888468629
+v -54.50861240058876 -49.26132055839146 15.07095744983522
+v 28.71717024612431 -17.03647744829395 -67.15715045069919
+v -4.971242880105802 -47.48178159788786 -57.84260863200925
+v 54.50861240058876 49.26132055839146 -15.07095744983522
+v 51.43637646955322 19.916053765686353 -50.819779398229215
+v -36.89557020709542 52.644352359441925 38.63015268987564
+v -73.65598303293311 -7.146038525027743 12.195507779565563
+v -44.93884086365853 -24.182328039171697 -54.9610351569809
+v 9.569273029118804 25.078594692302914 -70.03207898219553
+v 14.540486671105334 72.56028238004755 -12.189310948124245
+v -64.6690915999231 37.69842919526645 4.662231498498716
+v -30.980955333598963 68.1435387520128 -4.651686865929761
+v -67.74112649245257 8.353583322554911 -31.086291378201402
+v -35.95227171324846 20.6621591668697 -62.494075092471455
+v -13.233202061400462 57.614294422310486 -46.15706680581886
 f 1 14 13
 f 2 14 16
 f 1 13 18
@@ -193,357 +179,258 @@ f 14 1 17
 f 13 15 3
 f 13 14 15
 f 14 2 15
-</div>	
- 	<div id="dispatcher-dialog">
-	<p class="px-2 py-1">A4</p>
 	</div>
- 	<div id="p-title">
-
-
-<div id="p-title-content"> obj </div>
-
-				<span class="desc">
-					<span class="sizeX"> 0 </span> x 
-					<span class="sizeY"> 0 </span> x  
-					<span class="sizeZ"> 0 </span> cm</span>
-
-	
+	<div id="dispatcher-dialog">
+		<p class="px-2 py-1">A4</p>
 	</div>
-	<div id="startscreen">
-	
-		
-		<img id="startlogo" class="" src="img/papier-logo-big.svg" alt="Papier's logo">
-
-		<button type="button" id="startapp" class="btn btn-outline-light btn-lg">Start</button>
-	<div id="propulsedby">
-		Propulsed by <a href="https://github.com/s1pierro">s1pierro</a> 
-	</div>
-	<div id="thirdpartcode">
-		Powered by <a href="https://threejs.org/">Three.js</a> | <a href="https://jquery.com/"> jQuery</a>
-	</div>
+	<div id="main-app-dialog" class="app-component">
+		<div id="main-app-dialog-title">
+			obj
+		</div>
+		<span class="desc"><span class="sizeX">0</span> x <span class="sizeY">0</span> x <span class="sizeZ">0</span> cm</span>
+		<div id="main-app-dialog-info">
 
 
-	</div>
-	<svg
-			xmlns:dc="http://purl.org/dc/elements/1.1/"
-			xmlns:cc="http://creativecommons.org/ns#"
-			xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-			xmlns:svg="http://www.w3.org/2000/svg"
-			xmlns="http://www.w3.org/2000/svg"
-			id="svg7"
-			version="1.1"
-			viewBox="0 0 210 297"
-			height="297mm"
-			width="210mm">
-		  <defs
-			  id="defs2" />
-			<metadata id="metadata5">
-				<rdf:RDF>
-					<cc:Work
-						rdf:about="">
-						<dc:format>image/svg+xml</dc:format>
-						<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-						<dc:title></dc:title>
-					</cc:Work>
-				</rdf:RDF>
-			</metadata>
-			<g id="renderplane" >
-			</g>
-		</svg>
-		
+		</div>
+		<div id="scratch-message">
 
-	   <div id="settings">
-
-	   <button type="button" class="btn btn-sm btn-danger" id="close-settings"><i class="icon-close"></i></button>
-		
-
-		<div class="container">		
-
-			<div class="row">
-			
-
-			<div class="col-sm-12">
-
-				<div class="row">
-					<div class="col-lg-12 col-md-12">
-					<h4 >Upload a wavefront</h4>
-					<p>
-						<div class="custom-file" id="customFile" lang="fr">
-							<input type="file" class="custom-file-input" id="fileinput" aria-describedby="fileHelp">
-							<label class="custom-file-label" for="exampleInputFile">
-								Select file...
-							</label>
-						</div>
-						</p>
-					</div>
-					<div class="col-lg-12 col-md-12">
-					<h4>Load a wavefront example</h4>
-					<button type="button" id="ldex-Knight" class="btn btn-outline-light btn-sm mx-1 my-1">Chess knight</button>		
-					<button type="button" id="ldex-ppce-body" class="btn btn-outline-light btn-sm mx-1 my-1">paperAce Body</button>		
-					<button type="button" id="ldex-ppce-frame" class="btn btn-outline-light btn-sm mx-1 my-1">paperAce Frame</button>		
-
-					</div>
-				<div class="col-lg-12 col-md-12">
-					<h4>Load a ready to print example</h4>
-					<button type="button" id="ldfex-ppce-body" class="btn btn-outline-light btn-sm mx-1 my-1">papaerAce body</button>		
-					<button type="button" id="ldfex-ico-2" class="btn btn-outline-light btn-sm mx-1 my-1">Icosphere 2</button>		
-			
-
-
-					</div>
-				</div>
-
-					</div>
-						<br>						
-
-				<div class="col-sm-12">
-				<h3>Global settings</h3>
-				</div>
-				<div class="col-lg-6">
-				<h5>Object size (cm)</h5>
-					
-					X <span class="sizeX"> 0 </span>, 
-					Y <span class="sizeY"> 0 </span>,  
-					Z <span class="sizeZ"> 0 </span>
-				
-				<div class="input-group-btn">
-					<input id="user-scale-factor" type="number" placeholder="scaling factor">
-
-
-						<button id="apply-scale" class="btn btn-primary" type="button">apply</button>
-				</div>
-
-
-
-				<br>			
-			</div>					
-				
-
-
-
-     
-	<div class="col-lg-6">
-	    <h5>Pattern edit mode :</h5>
-<div class="form-check">
-  <label class="form-check-label">
-    <input class="form-check-input" type="radio" name="patterns-edit-mode" id="patterns-safe-edit-mode" value="safe-edit" checked>
-    safe
-  </label>
-</div>
-<div class="form-check">
-  <label class="form-check-label">
-    <input class="form-check-input" type="radio" name="patterns-edit-mode" id="patterns-fast-edit-mode" value="fast-edit">
-    fast
-  </label>
-</div>
-</div>	
-
-
-
-
-	<div class="col-sm-12">
-	<br>
-	<h3>About Papier</h3>
-	
-	
-	
-
-
-<p>Papier is a webapp to perform 3d print from desktop printer. It is a rewritting of my old <a href="https://www.youtube.com/watch?v=Rcpjqd3NSTE" title="eMesh">eMesh</a> desktop application (SDL, openGL2, C++)</p>
-<p><em>touch devices are not fully supported yet, they will be soon</em></p>
-</div>
-
-<div class="col-lg-6">
-<h3>Goals :</h3>
-<ul class=".ui.list">
-<li class=".ui.item">Provide an enought advanced paper-crafting tool to be used as an alternative prototyping tool ( as <a href="https://plus.google.com/photos/118368888481050824788/album/6366533843773096817/6366533840814789570?authkey=CIr985KLmqXwTA" title="paperAce">paperAce</a> does ).</li>
-<li class=".ui.item">Be as simple as possible to use.</li>
-</ul>
-</div>
-
-<div class="col-lg-6">
-<h3>Non-goals :</h3>
-<ul class=".ui.list">
-<li class=".ui.item">texturing.</li>
-<li class=".ui.item">mesh editing.</li>
-</ul>
-</div>
-<div class="col-lg-12">
-<h3>State</h3>
-<p><em>FreakPOC</em> - <strong>[Reasonably Secure Proof Of Concept.]</strong> - Release Candidate</p>
-<p>where reasonably means that, if only a few mesh requirements are met, the model can be safely flattened.</p>
-<h3>How to proceed</h3>
-<h4>There's only one way to do it all:</h4>
-<ul class=".ui.list">
-<li class=".ui.item">Create a pattern.</li>
-<li class=".ui.item">Extend a pattern.</li>
-<li class=".ui.item">Merge patterns.</li>
-<li class=".ui.item">Splitting patterns.</li>
-</ul>
-<h4>Hit successively two joined triangles.</h4>
-<p>When two joined triangles are struck successively, the edge they share is called frozen. if it already is, it will be unfrozen.</p>
-<p><strong>internal work :</strong></p>
-<ul class=".ui.list">
-<li class=".ui.item"><p><em>global (user step)</em></p>
-<p>Frozen edges are the main components of patterns. They connect the triangles you want to assemble to create one.  From what Papier does its work, it first calculates the coordinates of each triangles in order to move them in a same plane. then he assembles the patterns, looking for frozen edges connected by triangles. Edges that are adjacent to triangles belonging to a pattern but that are not frozen can now be considered as pattern borders. From these data, it is now possible to represent the borders of flattened patterns in the form of a chain of ordered nodes. </p></li>
-<li class=".ui.item"><p><em>Step by step internal work</em> :</p>
-<p><em>Before processing did after an edge freeze attempt, the rebuilding of every pattern, a copy of patterns is done. to restore app state if freeze attempt fails.</em></p>
-<ul class=".ui.list">
-<li class=".ui.item"><p><strong>Flatten triangles</strong>
-<p>Flatten the triangles. The reason Papier exists! This single step could be sufficient to perform 3D printing from a desktop printer. This step also complicates things a little, code side. A "Wavefront", like most meshes, first describe the vertices of a 3d model, then the triangles are described using these vertices. But to be properly flattened, triangles must now store their own vertex coordinates. meaning is that a mesh summit could be representated by several flatened triangles summits. These vertices will then store the identifier (actually the index) of the vertex of the mesh to which they correspond.</p></li>
-<li class=".ui.item"><p><strong>Flatten triangles</strong></p></li></ul></li>
-</ul>
-</div>
-<div class="col-lg-6">
-<h3>Standards and technologies :</h3>
-<ul class=".ui.list">
-<li class=".ui.item">Javascript</li>
-<li class=".ui.item">WebGL ( throught three.js )</li>
-<li class=".ui.item">SVG</li>
-<li class=".ui.item">HTML</li>
-<li class=".ui.item">CSS</li>
-</ul>
-</div>
-
-<div class="col-lg-6">
-<h3>Third party code libraries :</h3>
-<ul class=".ui.list">
-<li class=".ui.item">Three.js</li>
-<li class=".ui.item">Hammer.js ( comming soon to provide touch devices compatibility )</li>
-<li class=".ui.item">jQuery</li>
-</ul>
-</div>
-
-<div class="col-lg-6">
-<h3>Todo :</h3>
-<ul class=".ui.list">
-<li class=".ui.item">automate patterns final layout.</li>
-<li class=".ui.item">clean, beautify and clarify code design.</li>
-<li class=".ui.item">obtain funding to continue.</li>
-<li class=".ui.item">make it able to generate autoclave tabs.</li>
-<li class=".ui.item">make it able to generate assembly marks.</li>
-<li class=".ui.item">make it able to generate laser-cut compatible documents.</li>
-<li class=".ui.item">automate pattern selection.</li>
-<li class=".ui.item">enrich configuration options.</li>
-</ul>
-</div>
-
-<div class="col-lg-6">
-<h3>Done:</h3>
-<ul class=".ui.list">
-<li class=".ui.item">full mobile devices support.</li>
-<li class=".ui.item">application layout.</li>
-<li class=".ui.item">loading 3D user models.</li>
-<li class=".ui.item">manual pattern editing.</li>
-<li class=".ui.item">added an alternative pattern editing mode (fast way).</li>
-<li class=".ui.item">pattern flattening.</li>
-<li class=".ui.item">scaling capability.</li>
-</ul>
-</div>
-
-<div class="col-lg-12">
-
-<h2 class=".ui.medium.headeeeer">Authors</h2>
-<ul class=".ui.list">
-<li class=".ui.item"><strong><i class="icon-s1p""></i>Thomas Saint Pierre</strong> - <em>Initial work | code engineering | 
-					
-<a href="https://github.com/s1perro" title="s1pierro" class="text-info"><i class="icon-github-circled""></i>s1pierro</a></em></li>
-<li class=".ui.item"><strong><i class="icon-gg""></i>Gabriel Garcia</strong> - <em>Graphic Design | Brand identity | </em>
-
- <a href="https://github.com/ggabogarcia" title="ggabogarcia" class="text-info"><i class="icon-github-circled""></i>ggabogarcia</a></li>
-</ul>
-
-
-<p>If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@protonmail.com</p>
-
-
-
-
-    </div>
-    
-    
-    	<div class="col-sm-12">
-					
-					<img style="width: 7em; height: auto; float:left;" src="img/papier-logo-mono.svg" alt="banner">
-					<p style="margin-left:8em;" id="topset">
-						<span id="topset-title">PAPIER 0.5.2</span>
-						<br>
-						Copyright (C) 2018  Saint Pierre Thomas - Gabriel Garcia
-						<br>
-						Code is licenced under the termes of the <a href="LICENSE.md">GNU GPL v3</a>
-						<br>
-						Graphic contents are licenced under the termes of <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
-					</p>
-					
-					
-					<!--img style="width: 100%; height: auto" src="img/papier-banner.svg" alt="banner"-->
-
-				</div>
-    </div>
-
-      <!-- /.container -->
-    </div>
-    </div>
-
-<div id="scratch-message" hide>	
-	<div class="alert alert-info" role="alert">
-					<!--button type="button" class="close mx-2" aria-label="Close" id="close-settings">
-					  <span aria-hidden="true">&times;</span>
-					</button-->
+			<!--button type="button" class="close mx-2" aria-label="Close" id="close-settings">
+						    <span aria-hidden="true">&times;</span>
+						  </button-->
 			There's no pattern yet. The way to do everything :
 			<ul>
-				<li> create pattern</li>
-				<li> extend pattern</li>
-				<li> merge patterns</li>
-				<li> split patterns</li>
-				
-			</ul>
-			<strong>Hit two joined triangles</strong>
+				<li>create pattern</li>
+				<li>extend pattern</li>
+				<li>merge patterns</li>
+				<li>split patterns</li>
+			</ul><strong>Hit two joined triangles</strong>
+
+		</div>
 	</div>
-</div>
+	
+	
+	<div id="startscreen">
+		<img alt="Papier's logo" class="" id="startlogo" src="img/papier-logo-big.svg"> <button class="btn btn-outline-light btn-lg" id="startapp" type="button">Start</button>
+		<div id="propulsedby">
+			Propulsed by <a href="https://github.com/s1pierro">s1pierro</a>
+		</div>
+		<div id="thirdpartcode">
+			Powered by <a href="https://threejs.org/">Three.js</a> | <a href="https://jquery.com/">jQuery</a>
+		</div>
+	</div><svg height="297mm" id="svg7" class="app-component d-view" version="1.1" viewbox="0 0 210 297" width="210mm" xmlns="http://www.w3.org/2000/svg">
+	<defs id="defs2"></defs>
+	<metadata id="metadata5">
+		<rdf:rdf>
+			<cc:work rdf:about>
+				<dc:format>
+					image/svg+xml
+				</dc:format>
+				<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"></dc:type>
+				<dc:title></dc:title>
+			</cc:work>
+		</rdf:rdf>
+	</metadata>
+	<g id="renderplane"></g></svg>
+	<div id="settings" class="app-component d-view" >
+		<button class="btn btn-sm btn-danger" id="close-settings" type="button"><i class="icon-close"></i></button>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-lg-12 col-md-12">
+					<div id="p-title-info">
+			
+		</div>
+				<h4>Upload a wavefront</h4>
+							<p></p>
+							<div class="custom-file" id="customFile" lang="fr">
+								<input aria-describedby="fileHelp" class="custom-file-input" id="fileinput" type="file"> <label class="custom-file-label" for="exampleInputFile">Select file...</label>
+							</div>
+							<p></p>
+						</div>
+						<div class="col-lg-12 col-md-12">
+							<h4>Load a wavefront example</h4><button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldex-Knight" type="button">Chess knight</button> <button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldex-ppce-body" type="button">paperAce Body</button> <button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldex-ppce-frame" type="button">paperAce Frame</button>
+						</div>
+						<div class="col-lg-12 col-md-12">
+							<h4>Load a ready to print example</h4><button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldfex-ppce-body" type="button">papaerAce body</button> <button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldfex-ico-2" type="button">Icosphere 2</button>
+						</div>
+					</div>
+				</div><br>
+				<div class="col-sm-12">
+					<h3>Global settings</h3>
+				</div>
+				<div class="col-lg-6">
+					<h5>Object size (cm)</h5>X <span class="sizeX">0</span> , Y <span class="sizeY">0</span> , Z <span class="sizeZ">0</span>
+					<div class="input-group-btn">
+						<input id="user-scale-factor" placeholder="scaling factor" type="number"> <button class="btn btn-primary" id="apply-scale" type="button">apply</button>
+					</div><br>
+				</div>
+				<div class="col-lg-6">
+					<h5>Pattern edit mode :</h5>
+					<div class="form-check">
+						<label class="form-check-label"><input checked class="form-check-input" id="patterns-safe-edit-mode" name="patterns-edit-mode" type="radio" value="safe-edit"> safe</label>
+					</div>
+					<div class="form-check">
+						<label class="form-check-label"><input class="form-check-input" id="patterns-fast-edit-mode" name="patterns-edit-mode" type="radio" value="fast-edit"> fast</label>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<br>
+					<h3>About Papier</h3>
+					<p>Papier is a webapp to perform 3d print from desktop printer. It is a rewritting of my old <a href="https://www.youtube.com/watch?v=Rcpjqd3NSTE" title="eMesh">eMesh</a> desktop application (SDL, openGL2, C++)</p>
+					<p><em>touch devices are not fully supported yet, they will be soon</em></p>
+				</div>
+				<div class="col-lg-6">
+					<h3>Goals :</h3>
+					<ul class=".ui.list">
+						<li class=".ui.item">Provide an enought advanced paper-crafting tool to be used as an alternative prototyping tool ( as <a href="https://plus.google.com/photos/118368888481050824788/album/6366533843773096817/6366533840814789570?authkey=CIr985KLmqXwTA" title="paperAce">paperAce</a> does ).
+						</li>
+						<li class=".ui.item">Be as simple as possible to use.</li>
+					</ul>
+				</div>
+				<div class="col-lg-6">
+					<h3>Non-goals :</h3>
+					<ul class=".ui.list">
+						<li class=".ui.item">texturing.</li>
+						<li class=".ui.item">mesh editing.</li>
+					</ul>
+				</div>
+				<div class="col-lg-12">
+					<h3>State</h3>
+					<p><em>FreakPOC</em> - <strong>[Reasonably Secure Proof Of Concept.]</strong> - Release Candidate</p>
+					<p>where reasonably means that, if only a few mesh requirements are met, the model can be safely flattened.</p>
+					<h3>How to proceed</h3>
+					<h4>There's only one way to do it all:</h4>
+					<ul class=".ui.list">
+						<li class=".ui.item">Create a pattern.</li>
+						<li class=".ui.item">Extend a pattern.</li>
+						<li class=".ui.item">Merge patterns.</li>
+						<li class=".ui.item">Splitting patterns.</li>
+					</ul>
+					<h4>Hit successively two joined triangles.</h4>
+					<p>When two joined triangles are struck successively, the edge they share is called frozen. if it already is, it will be unfrozen.</p>
+					<p><strong>internal work :</strong></p>
+					<ul class=".ui.list">
+						<li class=".ui.item">
+							<p><em>global (user step)</em></p>
+							<p>Frozen edges are the main components of patterns. They connect the triangles you want to assemble to create one. From what Papier does its work, it first calculates the coordinates of each triangles in order to move them in a same plane. then he assembles the patterns, looking for frozen edges connected by triangles. Edges that are adjacent to triangles belonging to a pattern but that are not frozen can now be considered as pattern borders. From these data, it is now possible to represent the borders of flattened patterns in the form of a chain of ordered nodes.</p>
+						</li>
+						<li class=".ui.item">
+							<p><em>Step by step internal work</em> :</p>
+							<p><em>Before processing did after an edge freeze attempt, the rebuilding of every pattern, a copy of patterns is done. to restore app state if freeze attempt fails.</em></p>
+							<ul class=".ui.list">
+								<li class=".ui.item">
+									<p><strong>Flatten triangles</strong></p>
+									<p>Flatten the triangles. The reason Papier exists! This single step could be sufficient to perform 3D printing from a desktop printer. This step also complicates things a little, code side. A "Wavefront", like most meshes, first describe the vertices of a 3d model, then the triangles are described using these vertices. But to be properly flattened, triangles must now store their own vertex coordinates. meaning is that a mesh summit could be representated by several flatened triangles summits. These vertices will then store the identifier (actually the index) of the vertex of the mesh to which they correspond.</p>
+								</li>
+								<li class=".ui.item">
+									<p><strong>Flatten triangles</strong></p>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="col-lg-6">
+					<h3>Standards and technologies :</h3>
+					<ul class=".ui.list">
+						<li class=".ui.item">Javascript</li>
+						<li class=".ui.item">WebGL ( throught three.js )</li>
+						<li class=".ui.item">SVG</li>
+						<li class=".ui.item">HTML</li>
+						<li class=".ui.item">CSS</li>
+					</ul>
+				</div>
+				<div class="col-lg-6">
+					<h3>Third party code libraries :</h3>
+					<ul class=".ui.list">
+						<li class=".ui.item">Three.js</li>
+						<li class=".ui.item">Hammer.js ( comming soon to provide touch devices compatibility )</li>
+						<li class=".ui.item">jQuery</li>
+					</ul>
+				</div>
+				<div class="col-lg-6">
+					<h3>Todo :</h3>
+					<ul class=".ui.list">
+						<li class=".ui.item">automate patterns final layout.</li>
+						<li class=".ui.item">clean, beautify and clarify code design.</li>
+						<li class=".ui.item">obtain funding to continue.</li>
+						<li class=".ui.item">make it able to generate autoclave tabs.</li>
+						<li class=".ui.item">make it able to generate assembly marks.</li>
+						<li class=".ui.item">make it able to generate laser-cut compatible documents.</li>
+						<li class=".ui.item">automate pattern selection.</li>
+						<li class=".ui.item">enrich configuration options.</li>
+					</ul>
+				</div>
+				<div class="col-lg-6">
+					<h3>Done:</h3>
+					<ul class=".ui.list">
+						<li class=".ui.item">full mobile devices support.</li>
+						<li class=".ui.item">application layout.</li>
+						<li class=".ui.item">loading 3D user models.</li>
+						<li class=".ui.item">manual pattern editing.</li>
+						<li class=".ui.item">added an alternative pattern editing mode (fast way).</li>
+						<li class=".ui.item">pattern flattening.</li>
+						<li class=".ui.item">scaling capability.</li>
+					</ul>
+				</div>
+				<div class="col-lg-12">
+					<h2 class=".ui.medium.headeeeer">Authors</h2>
+					<ul class=".ui.list">
+						<li class=".ui.item"><strong><i class="icon-s1p"></i>Thomas Saint Pierre</strong> - <em>Initial work | code engineering | <a class="text-info" href="https://github.com/s1perro" title="s1pierro"><i class="icon-github-circled"></i>s1pierro</a></em></li>
+						<li class=".ui.item">
+							<strong><i class="icon-gg"></i>Gabriel Garcia</strong> - <em>Graphic Design | Brand identity |</em> <a class="text-info" href="https://github.com/ggabogarcia" title="ggabogarcia"><i class="icon-github-circled"></i>ggabogarcia</a>
+						</li>
+					</ul>
+					<p>If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@protonmail.com</p>
+				</div>
+				<div class="col-sm-12">
+					<img alt="banner" src="img/papier-logo-mono.svg" style="width: 7em; height: auto; float:left;">
+					<p id="topset" style="margin-left:8em;"><span id="topset-title">PAPIER 0.5.2</span><br>
+					Copyright (C) 2018 Saint Pierre Thomas - Gabriel Garcia<br>
+					Code is licenced under the termes of the <a href="LICENSE.md">GNU GPL v3</a><br>
+					Graphic contents are licenced under the termes of <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></p><!--img style="width: 100%; height: auto" src="img/papier-banner.svg" alt="banner"-->
+				</div>
+			</div><!-- /.container -->
+		</div>
+	</div>
+		<i class="icon-spin1 text-primary" id="processing-indicator"></i>
+		<i class="icon-spin1 text-danger" id="processing-fail-indicator"></i>
+		<i class="icon-spin1 text-success" id="processing-success-indicator"></i>
 
-    
-	<div id="credits">
- 
-
-				<i class="icon-menu text-light" id="toggle-settings" ></i>
-
-				<i class="icon-download text-light" id="download" ></i>
-
-
-				<i class="icon-spin1 text-primary" id="processing-indicator" ></i>
-				<i class="icon-spin1 text-danger" id="processing-fail-indicator" ></i>
-				<i class="icon-spin1 text-success" id="processing-success-indicator" ></i>
-
-</div>
-
-
- 			<!-- Button trigger modal -->
-
-
-
-  <script src="js/jquery.min.js"></script>
-		<script src="js/three.js"></script>
-		<script src="js/DragControls.js"></script>
-		<script src="js/TrackballControls.js"></script>
-		<script src="js/stats.min.js"></script>
-		<script src="js/hammer.js"></script>
-		<!--script src="js/earcut.js"></script-->
-
-		<script src="js/papier-console-utils.js"></script>
-		<script src="js/papier-matrix-utils.js"></script>
-		<script src="js/papier-wavefront-utils.js"></script>
-		<script src="js/papier-core.js"></script>
-		<script src="js/papier.js"></script>
-
-	</body>
-</html>
-<!--
-	this file is a part of 
-	papier 0.4.1
-		
-	Author : Saint Pierre Thomas
-	If you got interest in such kind of app
-	feel free to contact me at spierro@protonmail.fr
-	Licenced under the termes of the GNU GPL v3
+	<div id="credits" class="app-component d-view" >
+		<i class="icon-download text-light" id="download"></i>
+		<i class="icon-menu text-light" id="toggle-settings"></i>
+	</div><!-- Button trigger modal -->
+	<script src="js/jquery.min.js">
+	</script> 
+	<script src="js/three.js">
+	</script> 
+	<script src="js/DragControls.js">
+	</script> 
+	<script src="js/TrackballControls.js">
+	</script> 
+	<script src="js/stats.min.js">
+	</script> 
+	<script src="js/hammer.js">
+	</script> <!--script src="js/earcut.js"></script-->
+	 
+	<script src="js/papier-console-utils.js">
+	</script> 
+	<script src="js/papier-matrix-utils.js">
+	</script> 
+	<script src="js/papier-wavefront-utils.js">
+	</script> 
+	<script src="js/papier-core.js">
+	</script> 
+	<script src="js/papier.js">
+	</script><!--
+    this file is a part of 
+    papier 0.4.1
+        
+    Author : Saint Pierre Thomas
+    If you got interest in such kind of app
+    feel free to contact me at spierro@protonmail.fr
+    Licenced under the termes of the GNU GPL v3
 -->
+</body>
+</html>

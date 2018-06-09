@@ -82,7 +82,8 @@ Patterns.prototype.flFreezed = function ()
  *
  */
 Patterns.prototype.rebuild = function ()
-{
+{		
+	$('#main-app-dialog-title').text("Rebuild patterns");
 	//this.flFreezed();
 	// back up patterns in case of fail
 	var pbu = $.extend(true, [], this.children);
@@ -140,9 +141,9 @@ Patterns.prototype.rebuild = function ()
 		$('#scratch-message').fadeOut();
 	else
 		$('#scratch-message').fadeIn();
-		  	
+		
  	// At this point Patterns are correctly defined but they have not been flattened yet
-  	
+  		$('#main-app-dialog-title').text(pobj.nme);
 //	fl(this.children);
  	for ( var i = 0 ; i < this.children.length ; i++ )
    {
