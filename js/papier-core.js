@@ -18,13 +18,322 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 'use strict';
 
+/** @constructor */
+
+function BoundingBox (w, h)
+{
+	this.x = 0;
+	this.y = 0;
+	this.w = w;
+	this.h = h;
+}
+
+
+BoundingBox.prototype.move = function (x, y)
+{
+	this.x += x;
+	this.y += y;
+
+}
+BoundingBox.prototype.colisionTest = function (bbox)
+{
+	var x = false;
+	var y = false;
+	if ( this.x < bbox.x+bbox.w && this.x+this.w > bbox.x ) x = true;
+	if ( this.y < bbox.y+bbox.h && this.y+this.h > bbox.y ) y = true;
+	if ( this.x > bbox.x && this.x+this.w < bbox.x+bbox.w ) x = true;
+	if ( this.y > bbox.y && this.y+this.h < bbox.y+bbox.h ) y = true;
+	
+	if ( x && y ) 	return true;
+	else return false;
+}
+/** @constructor */
+
+function Page (pattern)
+{
+	this.patterns = [pattern];
+
+	this.size = pattern.papersizereq.s;
+	//this.offset = { x : x, y: y };
+	this.height = pattern.papersizereq.h;
+	this.width = pattern.papersizereq.w;
+	//1,414285714
+//	840 1188
+}
+Page.prototype.out = function ( dest_container )
+{ 
+	
+	$('#dispatcher-dialog').text('');		
+	fl('attr '+$('#svg7').attr('viewBox') );
+
+	if ( this.size == 'A4' )
+	{
+		$('#svg7').attr('viewBox', '0 0 210 297');	
+		$('#dispatcher-dialog').text('A4');		
+	}
+	
+	if ( this.size == 'A3' )
+	{
+		$('#svg7').attr('viewBox', '0 0 297 420');
+		$('#dispatcher-dialog').text('A3');		
+	}
+	if ( this.size == 'A2' ) 
+	{
+		$('#svg7').attr('viewBox', '0 0 420 594');
+		$('#dispatcher-dialog').text('A2');		
+	}
+	if ( this.size == 'A1' ) 
+	{
+		$('#svg7').attr('viewBox', '0 0 594 840');
+		$('#dispatcher-dialog').text('A1');		
+	}
+	if ( this.size == 'A0' ) 
+	{
+		$('#svg7').attr('viewBox', '0 0 840 1188');
+		$('#dispatcher-dialog').text('A0');		
+	}
+
+	for ( var ig = 0 ; ig < this.patterns.length ; ig++)
+	{
+		var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
+		g.setAttribute( 'id', this.patterns[ig].guid );
+		g.setAttribute( 'transform', 'translate('+this.patterns[ig].position.x+', '+this.patterns[ig].position.y+')' );
+		
+		for ( var i = 0 ; i < this.patterns[ig].triangles.length ; i++ )
+		{
+			var tmptri = this.patterns[ig].trianglesflatcoord[i];
+			var svgtrigon =  tmptri[0].c[0]+', '+tmptri[0].c[1]+
+							 ' '+tmptri[1].c[0]+', '+tmptri[1].c[1]+
+							 ' '+tmptri[2].c[0]+', '+tmptri[2].c[1];
+			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
+			svg.setAttribute('points', svgtrigon);
+			svg.setAttribute('class', 'flatshape' );
+			g.appendChild(svg);
+		}
+		var pp = this.patterns[ig];
+		var svgpolygon = pp.nodes[pp.nodes.length-1].c[0]+', '+pp.nodes[pp.nodes.length-1].c[1];
+		for ( var i = 0 ; i < pp.nodes.length ; i++ )
+			svgpolygon +=  " "+pp.nodes[i].c[0]+', '+pp.nodes[i].c[1];
+							
+			var svg2 = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
+			svg2.setAttribute('points', svgpolygon);
+			svg2.setAttribute('class', 'nodeshape' );
+			g.appendChild(svg2);
+		
+		
+		
+		renderplane.appendChild(g);
+		
+			
+		
+	}
+
+	
+	
+}
+Page.prototype.collisionTest = function ( pattern )
+{
+	var x = pattern.position.x;
+	var y = pattern.position.y;
+	var w = pattern.width;
+	var h = pattern.height;
+	
+	for ( var i = 0 ; i < this.patterns.length ; i++ )
+	{
+		var x1 = this.patterns[i].position.x;
+		var y1 = this.patterns[i].position.y;
+		var w1 = this.patterns[i].width;
+		var h1 = this.patterns[i].height;
+		fl(x+' '+y+' | '+w+' '+h+' - '+x1+' '+y1+' | '+w1+' '+h1)
+		
+		var cx = false;
+		var cy = false;
+		if ( x < ( x1 + w1 ) && ( x + w ) > x1 ) cx = true;
+		if ( y < ( y1 + h1 ) && ( y + h ) > y1 ) cy = true;
+
+		if ( cx && cy ) return true;
+		if (x < 5 | y < 5 ) return true;
+	}
+	return false;
+	
+}
+
+Page.prototype.addPattern = function ( pattern )
+{
+	pattern.position.x = this.width - pattern.width;
+	pattern.position.y = this.height - pattern.height;
+
+	var c = this.collisionTest ( pattern );
+
+	fl(pattern.position+' c : '+c);
+	var add = false;
+	while ( c == false ) 
+	{	
+		add = true;
+		
+
+			pattern.position.x -= 0;
+			pattern.position.y -= 10;
+			
+			c = this.collisionTest ( pattern );
+			if (c)
+				pattern.position.y += 10;
+			fl(c);
+		
+	}
+			c = this.collisionTest ( pattern );
+	while ( c == false ) 
+	{	
+		add = true;
+		
+
+			pattern.position.x -= 10;
+
+			
+			c = this.collisionTest ( pattern );
+			if (c)
+				pattern.position.x += 10;
+			fl(c);
+		
+	}
+		if ( add == true )
+		{
+			fl('adddd')
+			this.patterns.push(pattern);
+			return 0;
+		}
+	return -1;
+}
+
+/** @constructor */
+
+function Dispatcher (patterns)
+{
+	this.pages = [];
+	this.p = patterns;
+}
+Dispatcher.prototype.queryPages = function ( size )
+{
+	var tmp = [];
+	for ( var i = 0 ; i < this.pages.length ; i++ )
+	{
+		if ( this.pages[i].size = size ) tmp.push( this.pages[i] );
+	}
+	return tmp;
+}
+Dispatcher.prototype.outPage = function ( pid, container )
+{
+	this.pages[0].out(container)
+}
+
+Dispatcher.prototype.fullDispatch = function ( p )
+{
+
+console.clear();
+	this.pages.splice( 0, this.pages.length );
+
+	 for ( var i = 0 ; i < this.p.children.length ; i++ )
+	 {
+
+		 dispatcher.dispatch(this.p.children[i]);
+	 }
+	 fl(this.pages);
+}
+Dispatcher.prototype.dispatch = function ( p )
+{
+
+		var pgs = this.queryPages (p.papersizereq.s);
+
+		if ( pgs.length < 1 )
+		{
+			this.pages.push( new Page (p) );
+			fl('\n'+'# new Page');
+			return 0;
+		}	
+		pgs = this.queryPages (p.papersizereq.s);
+
+		
+		
+			
+		for ( var i = 0 ; i < pgs.length ; i++ )
+			if ( pgs[i].addPattern (p) != -1 )
+			{
+				return 0;
+			}
+
+		this.pages.push( new Page (p) );
+		fl('\n'+' --- > new Page');
+		return 0;
+			
+
+			
+			
+
+	//this.addPattern (this.patterns[0]);
+//	pgs[0].addPatttern (p);
+}
+
+/*
+Dispacher.prototype. = function ( x, y, size )
+{
+	
+}
+*/
+/** @constructor */
+Dispatcher.prototype.sortChildren = function ()
+{
+	
+}
+/** @constructor */
+
+function Node (sid, tid, coordinate )
+{
+	this.sid = sid;
+	this.tid = [tid];
+	
+	this.c = coordinate;
+	this.guid = uuidv4();
+}
+/** @description
+	Indicates if the node and the one passed in parameter are located on the same
+	flat triangle.
+	
+	@param {object} nde
+	@returns {boolean=} true If they are.
+	@returns {boolean=} false If they are not.
+ */
+
+Node.prototype.shareFlatTriangleWith = function (nde)
+{
+	for ( var i = 0 ; i < nde.tid.length ; i++ )
+	{
+		for( var j = 0 ; j < this.tid.length ; j++ )
+			if (this.tid[j] == nde.tid[i] ) return true;
+	}
+	return false;
+}
+/** @constructor */
+function Pattern (targetmesh)
+{
+	this.triangles = [];
+	this.trianglesflatcoord = [];
+	this.edges = [];
+	this.nodes = [];
+	this.frontier = [];
+	this.guid = uuidv4();
+	this.targetMesh = targetmesh;
+	this.height = 0;
+	this.width = 0;
+	this.position = { x:0, y:0 };
+	this.boundingbox = new BoundingBox(this);
+}
 /** @constructor 
  * @param {object}                   targetmesh - The mesh to flatten.
  * @property {Array.Pattern}           children - The array tht contain patterns.
  * @property {object}                targetMesh - The mesh to flatten.
  * @property {string}             		    guid - A global identifier.
  
- */ 
+ */
 function Patterns (targetmesh)
 {
 	this.targetMesh = targetmesh;
@@ -137,13 +446,8 @@ Patterns.prototype.rebuild = function ()
 			this.addPattern(tmp);
 		}
 	// show some help to the user if no pattern has been created yet					
-	if ( this.children.length > 0 )
-		$('#scratch-message').fadeOut();
-	else
-		$('#scratch-message').fadeIn();
-		
- 	// At this point Patterns are correctly defined but they have not been flattened yet
-  		$('#main-app-dialog-title').text(pobj.nme);
+
+			
 //	fl(this.children);
  	for ( var i = 0 ; i < this.children.length ; i++ )
    {
@@ -160,15 +464,31 @@ Patterns.prototype.rebuild = function ()
    }
 	// Let's finally blank and refill the final document with our new computed
 	// patterns
-	
   	renderplane.innerHTML = "";
+	dispatcher.fullDispatch();
+   dispatcher.outPage(0, renderplane);
+ 	$('#main-app-dialog-info').text('no pattern');		
+  
+   /*
 	for ( var i = 0 ; i < this.children.length ; i++ )
 	{
 		this.children[i].addToFinalDocument(renderplane);
-	}
+	}*/
 //	fl(this.children);
 	$('#processing-indicator').fadeOut(200);
 	$('#processing-success-indicator').fadeIn( 100 ).delay( 200 ).fadeOut( 400 );
+	if ( this.children.length > 0 )
+	{
+		$('#main-app-dialog-info').text(this.children.length+' pattern(s) \n '+
+													dispatcher.pages.length+'page(s)');		
+		//$('#scratch-mess').fadeOut();
+	}	
+	else
+	{
+		$('#main-app-dialog-info').text('no pattern');		
+	}	
+ 	// At this point Patterns are correctly defined but they have not been flattened yet
+  		$('#main-app-dialog-title').text(pobj.nme);
 
 	return true;
 }
@@ -181,22 +501,6 @@ Patterns.prototype.findTriangleOwner = function (triangle)
 	return -1;
 }
 
-
-/** @constructor */
-function Pattern (targetmesh)
-{
-	this.triangles = [];
-	this.trianglesflatcoord = [];
-	this.edges = [];
-	this.nodes = [];
-	this.frontier = [];
-	this.guid = uuidv4();
-	this.targetMesh = targetmesh;
-	this.height = 0;
-	this.width = 0;
-	this.position = { x:0, y:0 };
-	this.boundingbox = new BoundingBox(this);
-}
 Pattern.prototype.tryToReachRatio = function ( r )
 {
 	var tmp = this;
@@ -281,106 +585,6 @@ Pattern.prototype.genNodes = function ()
 	}
 	this.nodes = tmp;
 	
-}
-/** @constructor */
-
-function BoundingBox (w, h)
-{
-	this.x = 0;
-	this.y = 0;
-	this.w = w;
-	this.h = h;
-}
-
-
-BoundingBox.prototype.move = function (x, y)
-{
-	this.x += x;
-	this.y += y;
-	
-}
-BoundingBox.prototype.colisionTest = function (bbox)
-{
-	var x = false;
-	var y = false;
-	if ( this.x < bbox.x+bbox.w && this.x+this.w > bbox.x ) x = true;
-	if ( this.y < bbox.y+bbox.h && this.y+this.h > bbox.y ) y = true;
-	if ( this.x > bbox.x && this.x+this.w < bbox.x+bbox.w ) x = true;
-	if ( this.y > bbox.y && this.y+this.h < bbox.y+bbox.h ) y = true;
-	
-	if ( x && y ) 	return true;
-	else return false;
-}
-/** @constructor */
-
-function Page (pattern)
-{
-	this.patterns = [pattern];
-
-	this.size = pattern.papersizereq.s;
-	//this.offset = { x : x, y: y };
-	this.height = pattern.papersizereq.h;
-	this.width =pattern.papersizereq.w;
-	//1,414285714
-//	840 1188
-}
-Page.prototype.out = function ( dest_container )
-{
-	
-	
-}
-
-/** @constructor */
-
-function Dispatcher (patterns)
-{
-	this.pages = [];
-	this.p = patterns;
-	
-}
-Dispatcher.prototype.addPage = function ( x, y, size )
-{
-	
-}
-
-
-Dispatcher.prototype.dispatch = function (patterns)
-{
-
-	
-}
-/** @constructor */
-Dispatcher.prototype.sortChildren = function ()
-{
-	
-}
-/** @constructor */
-
-function Node (sid, tid, coordinate )
-{
-	this.sid = sid;
-	this.tid = [tid];
-	
-	this.c = coordinate;
-	this.guid = uuidv4();
-}
-/** @description
-	Indicates if the node and the one passed in parameter are located on the same
-	flat triangle.
-	
-	@param {object} nde
-	@returns {boolean=} true If they are.
-	@returns {boolean=} false If they are not.
- */
-
-Node.prototype.shareFlatTriangleWith = function (nde)
-{
-	for ( var i = 0 ; i < nde.tid.length ; i++ )
-	{
-		for( var j = 0 ; j < this.tid.length ; j++ )
-			if (this.tid[j] == nde.tid[i] ) return true;
-	}
-	return false;
 }
 /** @description
 	Find the pattern triangles using pattern edges
@@ -559,40 +763,7 @@ Pattern.prototype.genFrontiers = function () // find fronier from junctions && t
 			}
 	}
 }
-/** @description
-	add the finalised pattern to the final document
- */
-Pattern.prototype.addToFinalDocument = function (renderplane)
-{
-	var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
-	g.setAttribute( 'id', this.guid );
-	g.setAttribute( 'renderplane', 'translate('+this.position.x+', '+this.position.y+')' );
-	
-	for ( var i = 0 ; i < this.triangles.length ; i++ )
-	{
-		var tmptri = this.trianglesflatcoord[i];
-		var svgtrigon =  tmptri[0].c[0]+', '+tmptri[0].c[1]+
-						 ' '+tmptri[1].c[0]+', '+tmptri[1].c[1]+
-						 ' '+tmptri[2].c[0]+', '+tmptri[2].c[1];
-		var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
-		svg.setAttribute('points', svgtrigon);
-		svg.setAttribute('class', 'flatshape' );
-		g.appendChild(svg);
-	}
-	
-	var svgpolygon = this.nodes[this.nodes.length-1].c[0]+', '+this.nodes[this.nodes.length-1].c[1];
-	for ( var i = 0 ; i < this.nodes.length ; i++ )
-		svgpolygon +=  " "+this.nodes[i].c[0]+', '+this.nodes[i].c[1];
-						
-		var svg2 = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
-		svg2.setAttribute('points', svgpolygon);
-		svg2.setAttribute('class', 'nodeshape' );
-		g.appendChild(svg2);
-	
-	
-	
-	renderplane.appendChild(g);
-}
+
 /** @description
 	symply call flattenTrianglesCoord (), assembleFlattenedTriangles ()
 	and genNodes (). In this order.

@@ -130,7 +130,17 @@ font-size: large;
 top:66vh;
 
 }
-#startapp
+@keyframes start-fadein {
+  from {
+		display: none;
+  }
+
+  to {
+		display: block;
+ 
+  }
+}
+#startapp.startable
 {
 		font-family: TitilliumWeb-Light;
 		font-size: 1.5em;
@@ -140,9 +150,14 @@ top:66vh;
 		width: 35.35vh;
 		margin: auto;
 		margin-top: 2em;
+		display: block;
 		
-			display: block;
-
+		animation-name: start-fadein;
+		animation-duration: 1s;
+}
+#startapp	
+{
+		display: none;
 }
 #startlogo
 {
@@ -217,7 +232,7 @@ body {
 	/* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-@media (min-aspect-ratio: 3/4) {
+@media (min-aspect-ratio: 3/5) {
 
 	body { background-color: #444; }
 
@@ -235,19 +250,20 @@ body {
 
 	@media screen and (max-width: 650px) {
 */	
-	#dispatcher-dialog
+	#dispatcher-dialog.d-view
 	{
 		position: fixed;
 		z-index: 6;
-		bottom: 7vh;
-		left: 2vw;
+		bottom: 0.4em;
+		left: 1em;
 		width: 35.35vh;
 		height: 2em;
 		background-color: #0000;
 		color: #f94;
-		font-family: TitilliumWeb;
+		font-family: TitilliumWeb-Bold;
 
 	}
+
 	#main-app-dialog.pages-view
 	{
 		font-size: 1.5em;
@@ -275,7 +291,7 @@ body {
 		padding: 0em;
 					margin: 0em;
 		line-height: 1em;
-		text-align: right;
+		text-align: l;
 	}
 
 	#main-app-dialog.settings-view
@@ -283,6 +299,12 @@ body {
 			display: none;
 			z-index: 0;
 			opacity: 0.0;
+	}
+
+	#main-app-dialog-info
+	{
+		font-size: 0.5em;	
+		width: 13em;
 	}
 
 	.desc
@@ -399,19 +421,6 @@ body {
 
 
 	}
-	#dispatcher-dialog.d-view
-	{
-		position: fixed;
-		z-index: 6;
-		bottom: 0.5em;
-		left: 0.5em;
-		width: 35.35vh;
-		height: 2em;
-		background-color: #0000;
-		color: #f94;
-		font-family: TitilliumWeb;
-
-	}
 }
 @media (max-aspect-ratio: 4/3) {
 
@@ -428,17 +437,17 @@ body {
 			|____________|
 			\____________/
 */
-	#dispatcher-dialog
+	#dispatcher-dialog.d-view
 	{
 		position: fixed;
 		z-index: 6;
-		bottom: 7vh;
-		left: 2vw;
+		bottom: 0.4em;
+		left: 1em;
 		width: 35.35vh;
 		height: 2em;
 		background-color: #0000;
 		color: #f94;
-		font-family: TitilliumWeb;
+		font-family: TitilliumWeb-Bold;
 
 	}
 	#main-app-dialog.d-view, #main-app-dialog.pages-view
@@ -572,19 +581,6 @@ body {
 
 
 	}
-	#dispatcher-dialog.d-view
-	{
-		position: fixed;
-		z-index: 6;
-		bottom: 0.5em;
-		left: 0.5em;
-		width: 35.35vh;
-		height: 2em;
-		background-color: #0000;
-		color: #f94;
-		font-family: TitilliumWeb;
-
-	}
 }
 
 @media (max-aspect-ratio: 3/4) {
@@ -602,17 +598,18 @@ body {
 			|_________|
 			\_________/
 */
-	#dispatcher-dialog
+	
+	#dispatcher-dialog.d-view
 	{
 		position: fixed;
 		z-index: 6;
-		bottom: 7vh;
-		left: 2vw;
+		bottom: 0.4em;
+		left: 1em;
 		width: 35.35vh;
 		height: 2em;
 		background-color: #0000;
 		color: #f94;
-		font-family: TitilliumWeb;
+		font-family: TitilliumWeb-Bold;
 
 	}
 	#main-app-dialog.d-view, #main-app-dialog.pages-view
@@ -685,6 +682,7 @@ body {
 		height: auto;
 		border: 0.5mm solid;
 	}
+	
 	#svg7.settings-view {
 		display: none;
 		z-index: 0;
@@ -750,18 +748,9 @@ body {
 
 
 	}
-	#dispatcher-dialog.d-view
+	#scratch-mess
 	{
-		position: fixed;
-		z-index: 6;
-		bottom: 0.5em;
-		left: 0.5em;
-		width: 35.35vh;
-		height: 2em;
-		background-color: #0000;
-		color: #f94;
-		font-family: TitilliumWeb;
-
+		font-size:1em;
 	}
 }
 

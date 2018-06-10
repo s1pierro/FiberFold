@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-$('#startapp').hide();
+
 
 var pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
 var camarm = [0, 0, pobj.height / 2 / Math.tan(Math.PI * 70 / 360)];
@@ -50,7 +50,7 @@ function init() {
 
 	$('#processing-indicator').fadeOut(200);
 	
-	$('#startapp').hide();
+
 	var g = '';
 	g +='\nPapier 0.4.3', 'xl';
 	
@@ -138,7 +138,7 @@ function init() {
 		fl(err);
 		
 	}
-	$('#startapp').fadeIn();
+	$('#startapp').addClass("startable");
 
 
 

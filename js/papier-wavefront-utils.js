@@ -405,7 +405,8 @@ blankscene ();
 			patterns.rebuild();
 			printWavefront (pobj);
 		}		
-		
+				$('#main-app-dialog-info').text('no pattern');		
+				$('#scratch-mess').fadeIn();
 		toggleDview ();
 		activeshape1 = -1;
 		controls.enabled = true;
@@ -417,7 +418,7 @@ blankscene ();
 	}
 }
 function loadWavefrontExample(file) {
-	
+			$('#scratch-mess').fadeIn();
 	document.getElementById("p-title-content").innerHTML = "Loading";
 
 	console.log('Loading ...')
