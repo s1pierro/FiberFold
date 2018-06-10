@@ -144,7 +144,7 @@ Page.prototype.collisionTest = function ( pattern )
 		var y1 = this.patterns[i].position.y;
 		var w1 = this.patterns[i].width;
 		var h1 = this.patterns[i].height;
-		fl(x+' '+y+' | '+w+' '+h+' - '+x1+' '+y1+' | '+w1+' '+h1)
+		//fl(x+' '+y+' | '+w+' '+h+' - '+x1+' '+y1+' | '+w1+' '+h1)
 		
 		var cx = false;
 		var cy = false;
@@ -260,7 +260,8 @@ Dispatcher.prototype.dispatch = function ( p )
 			{
 				return 0;
 			}
-
+		p.position.x = 0;
+		p.position.y = 0;
 		this.pages.push( new Page (p) );
 		fl('\n'+' --- > new Page');
 		return 0;
