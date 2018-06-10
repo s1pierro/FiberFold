@@ -405,8 +405,6 @@ blankscene ();
 			patterns.rebuild();
 			printWavefront (pobj);
 		}		
-				$('#main-app-dialog-info').text('no pattern');		
-				$('#scratch-mess').fadeIn();
 		toggleDview ();
 		activeshape1 = -1;
 		controls.enabled = true;

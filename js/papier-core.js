@@ -161,6 +161,15 @@ function Dispatcher (patterns)
 	this.pages = [];
 	this.p = patterns;
 }
+Dispatcher.prototype.nSize = function ( size )
+{
+	var tmp = 0;
+	for ( var i = 0 ; i < this.pages.length ; i++ )
+	{
+		if ( this.pages[i].size == size ) tmp++;
+	}
+	return tmp;
+}
 Dispatcher.prototype.updatePatterns = function ( patterns )
 {
 	this.p = patterns;
@@ -420,7 +429,7 @@ Patterns.prototype.rebuild = function ()
 		   
 		   $('#processing-indicator').fadeOut(200);
 			$('#processing-fail-indicator').fadeIn( 1 ).delay( 3600 ).fadeOut( 400 );
-							
+			fl('############### rebuil error ##################')
 		   return false;
 	   }
    }
@@ -429,7 +438,7 @@ Patterns.prototype.rebuild = function ()
    dispatcher.updatePatterns (this);
 	dispatcher.fullDispatch();
 
- 	$('#main-app-dialog-info').text('no pattern');		
+ 	//$('#main-app-dialog-info').text('no pattern');		
   
    /*
 	for ( var i = 0 ; i < this.children.length ; i++ )
@@ -441,13 +450,44 @@ Patterns.prototype.rebuild = function ()
 	$('#processing-success-indicator').fadeIn( 100 ).delay( 200 ).fadeOut( 400 );
 	if ( this.children.length > 0 )
 	{
-		$('#main-app-dialog-info').text(this.children.length+' pattern(s) \n '+
-													dispatcher.pages.length+'page(s)');		
+		var total = 0;
+		var infos = this.children.length+' pattern(s), ';
+		infos += dispatcher.pages.length+' page(s). ';
+		if ( dispatcher.nSize('A0') > 0 ) 
+		{
+			total += dispatcher.nSize('A0')*16;
+			infos += dispatcher.nSize('A0')+' x A0, ';
+		}
+		if ( dispatcher.nSize('A1') > 0 ) 
+		{
+			total += dispatcher.nSize('A1')*8;
+			 infos += dispatcher.nSize('A1')+' x A1, ';
+		}
+		if ( dispatcher.nSize('A2') > 0 ) 
+		{
+			total += dispatcher.nSize('A2')*4;
+			 infos += dispatcher.nSize('A2')+' x A2, ';
+		}
+		if ( dispatcher.nSize('A3') > 0 ) 
+		{
+			total += dispatcher.nSize('A3')*2;
+			 infos += dispatcher.nSize('A3')+' x A3, ';
+		}
+		if ( dispatcher.nSize('A4') > 0 ) 
+		{
+			total += dispatcher.nSize('A4')*1;
+			 infos += dispatcher.nSize('A4')+' x A4. ';
+		}
+		if ( total > 1 )
+			infos += 'Print total : '+total+' pages. ';
+		else	
+			infos += 'Print total : '+total+' page. ';
+		$('#main-app-dialog-info').text(infos);		
 		//$('#scratch-mess').fadeOut();
 	}	
 	else
 	{
-		$('#main-app-dialog-info').text('no pattern');		
+		//$('#main-app-dialog-info').text('no pattern');		
 	}	
  	// At this point Patterns are correctly defined but they have not been flattened yet
   		$('#main-app-dialog-title').text(pobj.nme);
