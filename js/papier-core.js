@@ -24,9 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 function Page (pattern)
 {
 	this.patterns = [pattern];
+	fl('\n'+' ctr Page : '+pattern.papersizereq.s);
 
 	this.size = pattern.papersizereq.s;
 	//this.offset = { x : x, y: y };
+	fl('\n'+this.size);
 	this.height = pattern.papersizereq.h;
 	this.width = pattern.papersizereq.w;
 	//1,414285714
@@ -36,35 +38,9 @@ Page.prototype.out = function ( dest_container )
 { 
 	
 	$('#dispatcher-dialog').text('');		
-	fl('attr '+$('#svg7').attr('viewBox') );
 		$('#svg7').attr('viewBox', '0 0 '+this.width+' '+this.height);
-		$('#dispatcher-dialog').text(this.size);
-/*	if ( this.size == 'A4' )
-	{
-		$('#svg7').attr('viewBox', '0 0 210 297');	
-		$('#dispatcher-dialog').text('A4');		
-	}
-	
-	if ( this.size == 'A3' )
-	{
-		$('#svg7').attr('viewBox', '0 0 297 420');
-		$('#dispatcher-dialog').text('A3');		
-	}
-	if ( this.size == 'A2' ) 
-	{
-		$('#svg7').attr('viewBox', '0 0 420 594');
-		$('#dispatcher-dialog').text('A2');		
-	}
-	if ( this.size == 'A1' ) 
-	{
-		$('#svg7').attr('viewBox', '0 0 594 840');
-		$('#dispatcher-dialog').text('A1');		
-	}
-	if ( this.size == 'A0' ) 
-	{
-		$('#svg7').attr('viewBox', '0 0 840 1188');
-		$('#dispatcher-dialog').text('A0');		
-	}*/
+		$('#dispatcher-dialog').text(this.size );
+
 	renderplane.innerHTML = "";
 
 
@@ -140,7 +116,7 @@ Page.prototype.addPattern = function ( pattern )
 
 	var c = this.collisionTest ( pattern );
 
-	fl(pattern.position+' c : '+c);
+
 	var add = false;
 	while ( c == false ) 
 	{	
@@ -153,7 +129,7 @@ Page.prototype.addPattern = function ( pattern )
 			c = this.collisionTest ( pattern );
 			if (c)
 				pattern.position.y += 10;
-			fl(c);
+
 		
 	}
 			c = this.collisionTest ( pattern );
@@ -168,12 +144,10 @@ Page.prototype.addPattern = function ( pattern )
 			c = this.collisionTest ( pattern );
 			if (c)
 				pattern.position.x += 10;
-			fl(c);
-		
+
 	}
 		if ( add == true )
 		{
-			fl('adddd')
 			this.patterns.push(pattern);
 			return 0;
 		}
@@ -196,15 +170,10 @@ Dispatcher.prototype.queryPages = function ( size )
 	var tmp = [];
 	for ( var i = 0 ; i < this.pages.length ; i++ )
 	{
-		if ( this.pages[i].size = size ) tmp.push( this.pages[i] );
+		if ( this.pages[i].size == size ) tmp.push( this.pages[i] );
 	}
 	return tmp;
 }
-Dispatcher.prototype.outPage = function ( pid, container )
-{
-	this.pages[0].out(container)
-}
-
 
 Dispatcher.prototype.outPageTriangle = function ( tid, container )
 {
@@ -220,12 +189,10 @@ Dispatcher.prototype.outPageTriangle = function ( tid, container )
 Dispatcher.prototype.fullDispatch = function (  )
 {
 
-console.clear();
+	console.clear();
 	this.pages.splice( 0, this.pages.length );
-
 	 for ( var i = 0 ; i < this.p.children.length ; i++ )
 	 {
-
 		 dispatcher.dispatch(this.p.children[i]);
 	 }
 	 fl(this.pages);
@@ -238,7 +205,9 @@ Dispatcher.prototype.dispatch = function ( p )
 		if ( pgs.length < 1 )
 		{
 			this.pages.push( new Page (p) );
-			fl('\n'+'# new Page');
+			fl('\n'+'# new Page : '+p.papersizereq.s);
+			fl('\n'+' new Page : '+this.pages[this.pages.length - 1].size);
+			
 			return 0;
 		}	
 		pgs = this.queryPages (p.papersizereq.s);
@@ -254,7 +223,8 @@ Dispatcher.prototype.dispatch = function ( p )
 		p.position.x = 0;
 		p.position.y = 0;
 		this.pages.push( new Page (p) );
-		fl('\n'+' --- > new Page');
+		fl('\n'+' > new Page : '+p.papersizereq.s);
+		fl('\n'+' new Page : '+this.pages[this.pages.length - 1].size);
 		return 0;
 			
 
@@ -686,24 +656,30 @@ Pattern.prototype.smartPositioning = function ()
 	this.width = w;
 	var rr = w / h;
 //	fl('rr: '+rr);
+	var a4 = 'A4';
+	var a3 = 'A3';
+	var a2 = 'A2';
+	var a1 = 'A1';
+	var a0 = 'A0';
+	
 	if ( rr > 0.7070 )
 	{
 		
 
-		this.papersizereq = {s: "A4", w : 210, h : 297};
-		if ( w > 210) this.papersizereq = {s: "A3", w : 297, h : 420};
-		if ( w > 297) this.papersizereq = {s: "A2", w : 420, h : 594};
-		if ( w > 420) this.papersizereq = {s: "A1", w : 594, h : 840};
-		if ( w > 594) this.papersizereq = {s: "A0", w : 840, h :1188 };
+		this.papersizereq = { s: a4, w : 210, h : 297};
+		if ( w > 210) this.papersizereq = {s: a3, w : 297, h : 420};
+		if ( w > 297) this.papersizereq = {s: a2, w : 420, h : 594};
+		if ( w > 420) this.papersizereq = {s: a1, w : 594, h : 840};
+		if ( w > 594) this.papersizereq = {s: a0, w : 840, h :1188 };
 
 	}
 	else
 	{
-		this.papersizereq = {s: "A4", w : 210, h : 297};
-		if ( h > 297) this.papersizereq = {s: "A3", w : 297, h : 420};
-		if ( h > 420) this.papersizereq = {s: "A2", w : 420, h : 594};
-		if ( h > 594) this.papersizereq = {s: "A1", w : 594, h : 840};
-		if ( h > 840) this.papersizereq = {s: "A0", w : 840, h :1188 };
+		this.papersizereq = {s: a4, w : 210, h : 297};
+		if ( h > 297) this.papersizereq = {s: a3, w : 297, h : 420};
+		if ( h > 420) this.papersizereq = {s: a2, w : 420, h : 594};
+		if ( h > 594) this.papersizereq = {s: a1, w : 594, h : 840};
+		if ( h > 840) this.papersizereq = {s: a0, w : 840, h :1188 };
 
 	}
 	//fl('\n # requierements : '+this.papersizereq.s+' '+this.papersizereq.w+' x '+this.papersizereq.h);
