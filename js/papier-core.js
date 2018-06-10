@@ -37,8 +37,9 @@ Page.prototype.out = function ( dest_container )
 	
 	$('#dispatcher-dialog').text('');		
 	fl('attr '+$('#svg7').attr('viewBox') );
-
-	if ( this.size == 'A4' )
+		$('#svg7').attr('viewBox', '0 0 '+this.width+' '+this.height);
+		$('#dispatcher-dialog').text(this.size);
+/*	if ( this.size == 'A4' )
 	{
 		$('#svg7').attr('viewBox', '0 0 210 297');	
 		$('#dispatcher-dialog').text('A4');		
@@ -63,7 +64,7 @@ Page.prototype.out = function ( dest_container )
 	{
 		$('#svg7').attr('viewBox', '0 0 840 1188');
 		$('#dispatcher-dialog').text('A0');		
-	}
+	}*/
 	renderplane.innerHTML = "";
 
 
