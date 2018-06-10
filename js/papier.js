@@ -237,6 +237,7 @@ function mouseup ( event )
 	if (mouse.x*mouse.y == mouserayid && focus != undefined ) // SHAPE TAPPED
 	{
 		var tappedshapeid = focus.tid;
+
 		
 		if ( activeshape1 != -1 )
 		{
@@ -291,6 +292,8 @@ function mouseup ( event )
 			setshapestate(pobj, tappedshapeid, "highlight" );		
 		}
 	}
+		dispatcher.outPageTriangle (tappedshapeid);
+
 	render();
 }
 

@@ -18,35 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 'use strict';
 
-/** @constructor */
 
-function BoundingBox (w, h)
-{
-	this.x = 0;
-	this.y = 0;
-	this.w = w;
-	this.h = h;
-}
-
-
-BoundingBox.prototype.move = function (x, y)
-{
-	this.x += x;
-	this.y += y;
-
-}
-BoundingBox.prototype.colisionTest = function (bbox)
-{
-	var x = false;
-	var y = false;
-	if ( this.x < bbox.x+bbox.w && this.x+this.w > bbox.x ) x = true;
-	if ( this.y < bbox.y+bbox.h && this.y+this.h > bbox.y ) y = true;
-	if ( this.x > bbox.x && this.x+this.w < bbox.x+bbox.w ) x = true;
-	if ( this.y > bbox.y && this.y+this.h < bbox.y+bbox.h ) y = true;
-	
-	if ( x && y ) 	return true;
-	else return false;
-}
 /** @constructor */
 
 function Page (pattern)
@@ -92,6 +64,8 @@ Page.prototype.out = function ( dest_container )
 		$('#svg7').attr('viewBox', '0 0 840 1188');
 		$('#dispatcher-dialog').text('A0');		
 	}
+	renderplane.innerHTML = "";
+
 
 	for ( var ig = 0 ; ig < this.patterns.length ; ig++)
 	{
@@ -212,6 +186,10 @@ function Dispatcher (patterns)
 	this.pages = [];
 	this.p = patterns;
 }
+Dispatcher.prototype.updatePatterns = function ( patterns )
+{
+	this.p = patterns;
+}
 Dispatcher.prototype.queryPages = function ( size )
 {
 	var tmp = [];
@@ -226,7 +204,19 @@ Dispatcher.prototype.outPage = function ( pid, container )
 	this.pages[0].out(container)
 }
 
-Dispatcher.prototype.fullDispatch = function ( p )
+
+Dispatcher.prototype.outPageTriangle = function ( tid, container )
+{
+	for ( var i = 0 ; i < this.pages.length ; i++ )
+		for ( var j = 0 ; j < this.pages[i].patterns.length ; j++ )
+			for ( var k = 0 ; k < this.pages[i].patterns[j].triangles.length ; k++ )
+			if ( this.pages[i].patterns[j].triangles[k] == tid )
+				this.pages[i].out(container)
+				
+
+}
+
+Dispatcher.prototype.fullDispatch = function (  )
 {
 
 console.clear();
@@ -326,7 +316,7 @@ function Pattern (targetmesh)
 	this.height = 0;
 	this.width = 0;
 	this.position = { x:0, y:0 };
-	this.boundingbox = new BoundingBox(this);
+
 }
 /** @constructor 
  * @param {object}                   targetmesh - The mesh to flatten.
@@ -465,9 +455,9 @@ Patterns.prototype.rebuild = function ()
    }
 	// Let's finally blank and refill the final document with our new computed
 	// patterns
-  	renderplane.innerHTML = "";
+   dispatcher.updatePatterns (this);
 	dispatcher.fullDispatch();
-   dispatcher.outPage(0, renderplane);
+
  	$('#main-app-dialog-info').text('no pattern');		
   
    /*
