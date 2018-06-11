@@ -39,6 +39,13 @@ var verbose = false;
 var BUILDmode = "safe";
 var scaleconst = 1;
 
+var ledge = -1;
+var ltriangle = -1;
+var lpage = -1;
+var lpattern = -1;
+var rendererOffset = { x: 0, y : 0 }
+var rendererSize = { w: 0, h : 0 }
+
 $(window).on("load",  init());
 
 function init() {
@@ -155,15 +162,21 @@ function init() {
 	controls.addEventListener( 'change', light_update );
 	controls.update();
 	
-	
 
 	function light_update()
 	{
 		 light.position.copy( camera.position );
 	}
 	light.position.copy( camera.position );
+	
+	
 	renderer.render( scene, camera );
+	
 	toggleDview ();
+	rendererOffset.x = $('#renderbox').position().left;
+	rendererOffset.y = $('#renderbox').position().top;
+	rendererSize.w = $('#renderbox').width();
+	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
 }
 
 function blankscene ()
@@ -221,6 +234,11 @@ function feedscene ()
 }
 function onWindowResize() {
 
+	rendererOffset.x = $('#renderbox').position().left;
+	rendererOffset.y = $('#renderbox').position().top;
+	rendererSize.w = $('#renderbox').width();
+	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
+
 	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
 	camera.updateProjectionMatrix();
 	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
@@ -238,6 +256,7 @@ function mouseup ( event )
 	{
 		var tappedshapeid = focus.tid;
 
+		ltriangle = tappedshapeid;
 		
 		if ( activeshape1 != -1 )
 		{
@@ -258,6 +277,8 @@ function mouseup ( event )
 						setedgestate (pobj, e, "freeze");
 					else
 						setedgestate (pobj, e, "hide");
+					ledge = e;
+					
 					//buildpatterns(pobj) ;
 					var test = patterns.rebuild();
 					if (!test)
@@ -299,24 +320,11 @@ function mouseup ( event )
 
 function onDocumentMouseMove( event ) {
 
+	mouse.x =   ( ( event.clientX - rendererOffset.x ) / ( rendererSize.w  ) ) * 2 - 1;
+	
+	mouse.y = - ( ( event.clientY - rendererOffset.y ) / ( rendererSize.h ) ) * 2 + 1;
 
-	if ( window.innerWidth > window.innerHeight)
-	{
-		if ( event.clientX > 0.16*window.innerWidth )
-		{
-			mouse.x = ( (event.clientX-0.16*window.innerWidth) / (window.innerWidth-0.16*window.innerWidth )) * 2 - 1;
-			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-		}
-	}
-	else
-	{
-		if ( event.clientY < 0.70*window.innerHeight )
-		{
-			mouse.x =  ( event.clientX / window.innerWidth ) * 2 - 1;
-			mouse.y = - ( event.clientY / (window.innerHeight*0.70 ) ) * 2 + 1;
-		}
-	}
-			
+		
 	controls.update();
 	raycaster.setFromCamera( mouse, camera );
 	var intersects = raycaster.intersectObjects( objects , true);
@@ -326,6 +334,52 @@ function onDocumentMouseMove( event ) {
 	render();
 }
 function render() {
+	
+	if ( patterns.children.length > 0 )
+	{
+		var total = 0;
+		var infos = '<span class="desc">'+patterns.children.length+' pattern(s), ';
+		infos += dispatcher.pages.length+' page(s). ';
+		if ( dispatcher.nSize('A0') > 0 ) 
+		{
+			total += dispatcher.nSize('A0')*16;
+			infos += dispatcher.nSize('A0')+' x A0, ';
+		}
+		if ( dispatcher.nSize('A1') > 0 ) 
+		{
+			total += dispatcher.nSize('A1')*8;
+			 infos += dispatcher.nSize('A1')+' x A1, ';
+		}
+		if ( dispatcher.nSize('A2') > 0 ) 
+		{
+			total += dispatcher.nSize('A2')*4;
+			 infos += dispatcher.nSize('A2')+' x A2, ';
+		}
+		if ( dispatcher.nSize('A3') > 0 ) 
+		{
+			total += dispatcher.nSize('A3')*2;
+			 infos += dispatcher.nSize('A3')+' x A3, ';
+		}
+		if ( dispatcher.nSize('A4') > 0 ) 
+		{
+			total += dispatcher.nSize('A4')*1;
+			 infos += dispatcher.nSize('A4')+' x A4.</span> </p>';
+		}
+		if ( total > 1 )
+			infos = '<p>'+'<span><i class="icon-print" ></i> '+total+'</span>   '+infos;
+		else	
+			infos = '<p>'+'<span><i class="icon-print" ></i> '+total+'</span>   '+infos;
+		$('#main-app-dialog-info').html(infos);		
+		//$('#scratch-mess').fadeOut();
+	}	
+	else
+	{
+		//$('#main-app-dialog-info').text('no pattern');		
+	}	
+ 	// At this point Patterns are correctly defined but they have not been flattened yet
+	$('#main-app-dialog-title').text( pobj.nme);//+' body : '+$( window ).width()+' '+$( window ).height() );
+ 
+
 	renderer.render( scene, camera );
 }
 
@@ -355,7 +409,7 @@ $('body').on('click', '#ldfex-ico-2', function()
 
 $('body').on('click', '#startapp', function()
 {
-	$("#startscreen").fadeOut();
+	$("#startcontainer").fadeOut();
 
 });
 function toggleSettingsView ()

@@ -416,7 +416,7 @@ blankscene ();
 	}
 }
 function loadWavefrontExample(file) {
-			$('#scratch-mess').fadeIn();
+	$('#scratch-mess').fadeIn();
 	document.getElementById("p-title-content").innerHTML = "Loading";
 
 	console.log('Loading ...')
@@ -446,31 +446,7 @@ function loadWavefrontExample(file) {
 		renderer.render( scene, camera );
 
 	});
-}/*
-	fl(file);
-	var f = file;
-	if (f) {
-		var r = new FileReader();
-		r.onload = function(e) {
-			var contents = e.target.result;
-			fl('contents')
-			var obj = parsewavefront(e.target.result, 0);
-			pobj = $.extend(true, {}, obj);
-			//l(wavefront);
-			patterns = new Patterns(pobj);
-			blankscene ();
-			feedscene();
-		$('#settings').fadeOut(); 
-		$('#credits').fadeIn();
-		activeshape1 = -1;
-		controls.enabled = true;
-			renderer.render( scene, camera );
-		}
-		r.readAsText(f);
-	} else {
-		alert("Failed to load file");
-	}
-}*/
+}
 function getEdgeId (o, s1, s2)
 {
 	if ( s1 == s2 ) return -2;

@@ -24,11 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 function Page (pattern)
 {
 	this.patterns = [pattern];
-	fl('\n'+' ctr Page : '+pattern.papersizereq.s);
+
 
 	this.size = pattern.papersizereq.s;
 	//this.offset = { x : x, y: y };
-	fl('\n'+this.size);
+
 	this.height = pattern.papersizereq.h;
 	this.width = pattern.papersizereq.w;
 	//1,414285714
@@ -176,6 +176,7 @@ Dispatcher.prototype.updatePatterns = function ( patterns )
 }
 Dispatcher.prototype.queryPages = function ( size )
 {
+	//TODO return bigger sized
 	var tmp = [];
 	for ( var i = 0 ; i < this.pages.length ; i++ )
 	{
@@ -214,9 +215,6 @@ Dispatcher.prototype.dispatch = function ( p )
 		if ( pgs.length < 1 )
 		{
 			this.pages.push( new Page (p) );
-			fl('\n'+'# new Page : '+p.papersizereq.s);
-			fl('\n'+' new Page : '+this.pages[this.pages.length - 1].size);
-			
 			return 0;
 		}	
 		pgs = this.queryPages (p.papersizereq.s);
@@ -232,8 +230,6 @@ Dispatcher.prototype.dispatch = function ( p )
 		p.position.x = 0;
 		p.position.y = 0;
 		this.pages.push( new Page (p) );
-		fl('\n'+' > new Page : '+p.papersizereq.s);
-		fl('\n'+' new Page : '+this.pages[this.pages.length - 1].size);
 		return 0;
 			
 
@@ -448,49 +444,6 @@ Patterns.prototype.rebuild = function ()
 //	fl(this.children);
 	$('#processing-indicator').fadeOut(200);
 	$('#processing-success-indicator').fadeIn( 100 ).delay( 200 ).fadeOut( 400 );
-	if ( this.children.length > 0 )
-	{
-		var total = 0;
-		var infos = this.children.length+' pattern(s), ';
-		infos += dispatcher.pages.length+' page(s). ';
-		if ( dispatcher.nSize('A0') > 0 ) 
-		{
-			total += dispatcher.nSize('A0')*16;
-			infos += dispatcher.nSize('A0')+' x A0, ';
-		}
-		if ( dispatcher.nSize('A1') > 0 ) 
-		{
-			total += dispatcher.nSize('A1')*8;
-			 infos += dispatcher.nSize('A1')+' x A1, ';
-		}
-		if ( dispatcher.nSize('A2') > 0 ) 
-		{
-			total += dispatcher.nSize('A2')*4;
-			 infos += dispatcher.nSize('A2')+' x A2, ';
-		}
-		if ( dispatcher.nSize('A3') > 0 ) 
-		{
-			total += dispatcher.nSize('A3')*2;
-			 infos += dispatcher.nSize('A3')+' x A3, ';
-		}
-		if ( dispatcher.nSize('A4') > 0 ) 
-		{
-			total += dispatcher.nSize('A4')*1;
-			 infos += dispatcher.nSize('A4')+' x A4. ';
-		}
-		if ( total > 1 )
-			infos += 'Print total : '+total+' pages. ';
-		else	
-			infos += 'Print total : '+total+' page. ';
-		$('#main-app-dialog-info').text(infos);		
-		//$('#scratch-mess').fadeOut();
-	}	
-	else
-	{
-		//$('#main-app-dialog-info').text('no pattern');		
-	}	
- 	// At this point Patterns are correctly defined but they have not been flattened yet
-  		$('#main-app-dialog-title').text(pobj.nme);
 
 	return true;
 }

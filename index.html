@@ -16,15 +16,36 @@
 	<meta content="" name="description">
 	<meta content="s1pierro@free.fr" name="author">
 	<meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
-	<link href="css/bootstrap.min.css" rel="stylesheet"><!-- Custom styles for this template -->
+
 	<link href="css/animation.css" rel="stylesheet">
 	<link href="css/papier-fonticon.css" rel="stylesheet">
 	<link href="css/papier.css" rel="stylesheet">
 	<style>
-	   @media (max-aspect-ratio: 1/1) {
-	       #startscreen
-	       {       
-	           background-color: #444;
+
+
+#startapp.startable
+{
+		font-family: TitilliumWeb-Light;
+		font-size: 1.5em;
+		font-weight: 400;
+		position: relative;
+		z-index: 300;
+		width: 35.35vh;
+		margin: auto;
+		margin-top: 2em;
+		display: block;
+		
+		animation-name: start-fadein;
+		animation-duration: 1s;
+}
+#startapp	
+{
+		position: relative;
+		display: none;
+}
+#startcontainer
+{
+	           background-color: #333;
 	           color: #000;
 	           position: absolute;
 	           z-index: 100;
@@ -32,27 +53,72 @@
 	           height: 100vh;
 	           top: 0px;
 	           left: 0px;
-	       }  
-	   }
-	   
-	   @media (min-aspect-ratio: 1/1) {
-	   
-	       #startscreen
-	       {       
-	           background-color: #444;
-	           color: #000;
-	           position: absolute;
-	           z-index: 100;
-	           width: 100vw;
-	           height: 100vh;
-	           top: 0px;
-	           left: 0px;
-	       }  
-	   }
+
+
+}
+#startscreen
+{
+	background-color: #333;
+  margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
+  transform: translateY(-50%); /* tiré de la moitié de sa propre hauteur */
+
+}
+#startlogo
+{
+		position: relative;
+		z-index: 300;
+		width: 35.35vh;
+		margin: auto;
+		margin-top: 2em;
+		
+		display: block;
+
+}
+#propulsedby
+{
+		position: relative;
+		z-index: 300;
+		width: 35.35vh;
+		margin: auto;
+		margin-top: 2em;
+		display: block;
+		font-family: TitilliumWeb-Light;
+		font-size: 1.2em;
+		color: #f94;
+		text-align: center;
+}
+#propulsedby a
+{
+		position: relative;
+		color: #f94;
+		text-decoration: none;
+		font-weight: 400;
+}
+#thirdpartcode
+{
+		position: relative;
+		position: relative;
+		z-index: 300;
+		width: 35.35vh;
+		margin: auto;
+		margin-top: 2em;
+		display: block;
+		font-family: TitilliumWeb-Light;
+		font-size: 1em;
+		color: #bbb;
+		text-align: center;
+}
+#thirdpartcode a
+{
+		position: relative;
+	padding: 0.3em;
+	color: #ddd;
+	text-decoration: none;
+}
 	   
 	</style>
 </head>
-<body>
+<body class="app-component">
 <script>
 var eh = 0;
 
@@ -192,17 +258,14 @@ f 14 2 15
 		A4
 	</div>
 	<div id="main-app-dialog" class="app-component">
-		<div id="main-app-dialog-title">
-			obj
+	
+		<div id="main-app-dialog-title" class="app-component">
 		</div>
-		<span class="desc"><span class="sizeX">0</span> x <span class="sizeY">0</span> x <span class="sizeZ">0</span> cm</span>
-		<div id="main-app-dialog-info">
-
-
 		
-		4 patterns, 3 pages. 1xA3, 2xA4. 
-		<br>
-		Print total: 4 pages.
+		<span class="desc"><span class="sizeX">0</span> x <span class="sizeY">0</span> x <span class="sizeZ">0</span> cm</span>
+		
+		<div id="main-app-dialog-info" class="app-component">
+
 		<div id="scratch-mess">
 
 			<!--button type="button" class="close mx-2" aria-label="Close" id="close-settings">
@@ -220,16 +283,21 @@ f 14 2 15
 		</div>
 	</div>
 	
+	<div id="startcontainer">
+		<div id="startscreen">
+			<img alt="Papier's logo" class="" id="startlogo" src="img/papier-logo-big.svg">
+			<button class="btn btn-outline-light btn-lg" id="startapp" type="button">Start</button>
+			<div id="propulsedby">
+				Propulsed by <a href="https://github.com/s1pierro">s1pierro</a>
+			</div>
+			<div id="thirdpartcode">
+				Powered by <a href="https://threejs.org/">Three.js</a> | <a href="https://jquery.com/">jQuery</a>
+			</div>
+		</div>
+	</div>
 	
-	<div id="startscreen">
-		<img alt="Papier's logo" class="" id="startlogo" src="img/papier-logo-big.svg"> <button class="btn btn-outline-light btn-lg" id="startapp" type="button">Start</button>
-		<div id="propulsedby">
-			Propulsed by <a href="https://github.com/s1pierro">s1pierro</a>
-		</div>
-		<div id="thirdpartcode">
-			Powered by <a href="https://threejs.org/">Three.js</a> | <a href="https://jquery.com/">jQuery</a>
-		</div>
-	</div><svg height="297mm" id="svg7" class="app-component d-view" version="1.1" viewbox="0 0 210 297" width="210mm" xmlns="http://www.w3.org/2000/svg">
+	
+	<svg height="297mm" id="svg7" class="app-component d-view" version="1.1" viewbox="0 0 210 297" width="210mm" xmlns="http://www.w3.org/2000/svg">
 	<defs id="defs2"></defs>
 	<metadata id="metadata5">
 		<rdf:rdf>
@@ -409,7 +477,7 @@ f 14 2 15
 		<i class="icon-spin1 text-danger" id="processing-fail-indicator"></i>
 		<i class="icon-spin1 text-success" id="processing-success-indicator"></i>
 
-	<div id="credits" class="app-component d-view" >
+	<div id="menu" class="app-component d-view" >
 		<i class="icon-download text-light" id="download"></i>
 		<i class="icon-menu text-light" id="toggle-settings"></i>
 	</div><!-- Button trigger modal -->
