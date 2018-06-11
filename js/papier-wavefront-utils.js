@@ -416,8 +416,8 @@ blankscene ();
 	}
 }
 function loadWavefrontExample(file) {
-	$('#scratch-mess').fadeIn();
-	document.getElementById("p-title-content").innerHTML = "Loading";
+
+
 
 	console.log('Loading ...')
 	jQuery.get(file, function(data) {
