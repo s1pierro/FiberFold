@@ -50,7 +50,10 @@ $(window).on("load",  init());
 
 function init() {
 	
-	
+	var tmp = "A4";
+	var nn = tmp.replace(/A/i, '');
+	fl(parseInt(nn));	
+
 	$('#processing-fail-indicator').fadeOut( 1 );
 
 	$('#processing-success-indicator').fadeOut( 1 );
@@ -338,7 +341,7 @@ function render() {
 	if ( patterns.children.length > 0 )
 	{
 		var total = 0;
-		var infos = '<span class="desc">'+patterns.children.length+' pattern(s), ';
+		var infos = '<span class="desc"> ( '+patterns.children.length+' pattern(s), ';
 		infos += dispatcher.pages.length+' page(s). ';
 		if ( dispatcher.nSize('A0') > 0 ) 
 		{
@@ -363,12 +366,12 @@ function render() {
 		if ( dispatcher.nSize('A4') > 0 ) 
 		{
 			total += dispatcher.nSize('A4')*1;
-			 infos += dispatcher.nSize('A4')+' x A4.</span> </p>';
+			 infos += dispatcher.nSize('A4')+' x A4. )</span>';
 		}
 		if ( total > 1 )
-			infos = '<p>'+'<span><i class="icon-print" ></i> '+total+'</span>   '+infos;
+			infos = '<p>'+'<span><i class="icon-print" ></i> '+total+'</span>  '+infos+'</p>';
 		else	
-			infos = '<p>'+'<span><i class="icon-print" ></i> '+total+'</span>   '+infos;
+			infos = '<p>'+'<span><i class="icon-print" ></i> '+total+'</span>  '+infos+'</p>';
 		$('#main-app-dialog-info').html(infos);		
 		//$('#scratch-mess').fadeOut();
 	}	

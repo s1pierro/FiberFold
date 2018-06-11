@@ -180,7 +180,10 @@ Dispatcher.prototype.queryPages = function ( size )
 	var tmp = [];
 	for ( var i = 0 ; i < this.pages.length ; i++ )
 	{
-		if ( this.pages[i].size == size ) tmp.push( this.pages[i] );
+		var nn = size.replace(/A/i, '');
+
+		var tn = this.pages[i].size.replace(/A/i, '');
+		if ( nn >= tn ) tmp.push( this.pages[i] );
 	}
 	return tmp;
 }
@@ -199,7 +202,7 @@ Dispatcher.prototype.outPageTriangle = function ( tid, container )
 Dispatcher.prototype.fullDispatch = function (  )
 {
 
-	console.clear();
+	//console.clear();
 	this.pages.splice( 0, this.pages.length );
 	 for ( var i = 0 ; i < this.p.children.length ; i++ )
 	 {

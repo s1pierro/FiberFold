@@ -417,7 +417,8 @@ blankscene ();
 }
 function loadWavefrontExample(file) {
 
-
+		toggleDview ();
+	$('#main-app-dialog-title').text( 'loading');//+' body : '+$( window ).width()+' '+$( window ).height() );
 
 	console.log('Loading ...')
 	jQuery.get(file, function(data) {
@@ -430,8 +431,6 @@ function loadWavefrontExample(file) {
 		feedscene();
 		if (pobj.prefreeze != undefined )
 		{
-		
-			fl('prefreeze');
 			for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
 			{
 				
@@ -440,7 +439,6 @@ function loadWavefrontExample(file) {
 		
 			patterns.rebuild();
 		}
-		toggleDview ();
 		activeshape1 = -1;
 		controls.enabled = true;
 		renderer.render( scene, camera );
