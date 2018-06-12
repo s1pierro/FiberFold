@@ -312,7 +312,8 @@ function mouseup ( event )
 			setshapestate(pobj, tappedshapeid, "highlight" );		
 		}
 	}
-		dispatcher.outPattern (tappedshapeid);
+			dispatcher.outPageTriangle (tappedshapeid);
+	//	dispatcher.outPattern (tappedshapeid);
 
 	render();
 }

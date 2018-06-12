@@ -726,7 +726,10 @@ Pattern.prototype.smartPositioning = function ()
 	var nNod, nTri, nEdg, nFro, maxX, minX, maxY, minY, w, h;
 	var n = this.nodes;
 //	fl(n);
-	maxX = minX = maxY = minY = 0;
+	maxX = -1000;
+	minX = 1000;
+	maxY = -1000;
+	minY = 1000;
 	for ( var i = 0 ; i < n.length ; i++ )
 	{
 		if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
@@ -736,7 +739,10 @@ Pattern.prototype.smartPositioning = function ()
 	}
 
 	this.translate ((0 - minX), (0 - minY));
-	maxX = minX = maxY = minY = 0;
+	maxX = -1000;
+	minX = 1000;
+	maxY = -1000;
+	minY = 1000;
 	for ( var i = 0 ; i < n.length ; i++ )
 	{
 		if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
@@ -765,13 +771,19 @@ Pattern.prototype.smartPositioning = function ()
 	
 	var _this = $.extend( true, {}, this);
 	var r = w/h;
+	var scrs = [];
 	var score = r;
 	
-	var inc = 10;
-	for ( var a = 0 ; a < 50 ; a++ )
+	var inc = 1;
+	var range = 360;
+	for ( var a = 0 ; a < range ; a++ )
 	{
 		this.rotate (inc);
-		maxX = minX = maxY = minY = 0;
+		
+	maxX = -1000;
+	minX = 1000;
+	maxY = -1000;
+	minY = 1000;
 		for ( var i = 0 ; i < n.length ; i++ )
 		{
 			if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
@@ -781,20 +793,45 @@ Pattern.prototype.smartPositioning = function ()
 		}
 		h = maxY - minY;
 		w = maxX - minX;
+		
 		r = w/h;
-		if (r < score )
-		{
-			true;
-		
-		}
-		else
-		{
-			inc = -inc/2;
-		}
-		score = r;
-		
-
+		scrs.push(r);
 	}
+	fl('scrs : '+scrs.length);
+	fl(scrs);
+	var sc = 10000;
+	var iscr = -1;
+	for (var i = 0 ; i < scrs.length ; i++ )
+	{
+		if ( scrs[i] < sc )
+		{
+			iscr = i;
+			sc =scrs[i];
+		} 
+		
+	}
+	fl('iscr '+iscr);
+	var srot = (iscr+1) * inc;
+	fl('\n # srot '+srot);
+			fl(srot);
+	//this.rotate (270);
+		this.rotate (srot);	
+
+	maxX = -1000;
+	minX = 1000;
+	maxY = -1000;
+	minY = 1000;
+	for ( var i = 0 ; i < n.length ; i++ )
+	{
+		if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
+		if ( minX > n[i].c[0] ) minX = n[i].c[0];
+		if ( maxY < n[i].c[1] ) maxY = n[i].c[1];
+		if ( minY > n[i].c[1] ) minY = n[i].c[1];
+	}
+	h = maxY - minY;
+	w = maxX - minX;
+		
+	
 	this.height = h;
 	this.width = w;
 	this.translate ((0 - minX), (0 - minY));
