@@ -268,11 +268,7 @@ function mouseup ( event )
 			var e = sharededge (pobj, activeshape1, tappedshapeid);
 			if ( e > -1 )
 			{			
-				document.getElementById("main-app-dialog-title").innerHTML = "Working ...";
-				document.getElementById('main-app-dialog').style.display = 'none';
-				document.getElementById('main-app-dialog').style.display = 'block';
-
-
+	
 					setshapestate(pobj, activeshape1, "solid" );	
 					setshapestate(pobj, tappedshapeid, "solid" );
 					activeshape1 = -1 ;
@@ -283,7 +279,7 @@ function mouseup ( event )
 					ledge = e;
 					
 					//buildpatterns(pobj) ;
-					var test = patterns.rebuild();
+					var test = patterns.rebuild(e);
 					if (!test)
 					{
 						setedgestate (pobj, e, "visible");
@@ -316,7 +312,7 @@ function mouseup ( event )
 			setshapestate(pobj, tappedshapeid, "highlight" );		
 		}
 	}
-		dispatcher.outPageTriangle (tappedshapeid);
+		dispatcher.outPattern (tappedshapeid);
 
 	render();
 }
@@ -341,8 +337,8 @@ function render() {
 	if ( patterns.children.length > 0 )
 	{
 		var total = 0;
-		var infos = '<span class="desc"> ( '+patterns.children.length+' pattern(s), ';
-		infos += dispatcher.pages.length+' page(s). ';
+		var infos = '<span class="desc"> ( '+patterns.children.length+' pattern(s). ';
+
 		if ( dispatcher.nSize('A0') > 0 ) 
 		{
 			total += dispatcher.nSize('A0')*16;

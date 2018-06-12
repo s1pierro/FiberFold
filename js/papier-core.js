@@ -198,6 +198,61 @@ Dispatcher.prototype.outPageTriangle = function ( tid, container )
 				
 
 }
+Dispatcher.prototype.outPattern = function ( tid, container )
+{
+	var idx = patterns.findTriangleOwner (tid);
+	fl('index : '+idx);
+	if ( idx > -1 )
+	{
+	var pat =  patterns.children[idx];
+				
+		$('#dispatcher-dialog').text(pat.papersizereq.s);		
+		$('#svg7').attr('viewBox', '0 0 '+(pat.width+10)+' '+(pat.height+10));
+
+	
+	renderplane.innerHTML = "";
+
+
+
+		var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
+		g.setAttribute( 'id', pat.guid );
+		g.setAttribute( 'transform', 'translate(0, 0)' );
+		
+		for ( var i = 0 ; i < pat.triangles.length ; i++ )
+		{
+			var tmptri = pat.trianglesflatcoord[i];
+			var svgtrigon =  tmptri[0].c[0]+', '+tmptri[0].c[1]+
+							 ' '+tmptri[1].c[0]+', '+tmptri[1].c[1]+
+							 ' '+tmptri[2].c[0]+', '+tmptri[2].c[1];
+			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
+			svg.setAttribute('points', svgtrigon);
+			svg.setAttribute('class', 'flatshape' );
+			g.appendChild(svg);
+		}
+		var pp = pat;
+		var svgpolygon = pp.nodes[pp.nodes.length-1].c[0]+', '+pp.nodes[pp.nodes.length-1].c[1];
+		for ( var i = 0 ; i < pp.nodes.length ; i++ )
+			svgpolygon +=  " "+pp.nodes[i].c[0]+', '+pp.nodes[i].c[1];
+							
+			var svg2 = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
+			svg2.setAttribute('points', svgpolygon);
+			svg2.setAttribute('class', 'nodeshape' );
+			g.appendChild(svg2);
+		
+		
+		
+		renderplane.appendChild(g);
+		
+			
+		
+			
+				
+				
+				
+	}
+				
+			
+}
 
 Dispatcher.prototype.fullDispatch = function (  )
 {
@@ -208,7 +263,7 @@ Dispatcher.prototype.fullDispatch = function (  )
 	 {
 		 dispatcher.dispatch(this.p.children[i]);
 	 }
-	 fl(this.pages);
+	// fl(this.pages);
 }
 Dispatcher.prototype.dispatch = function ( p )
 {
@@ -360,25 +415,59 @@ Patterns.prototype.flFreezed = function ()
  *	@return {boolean=} false  If something goes wrong.
  *
  */
-Patterns.prototype.rebuild = function ()
+Patterns.prototype.rebuild = function (feid)
 {		
 	$('#main-app-dialog-title').text("Rebuild patterns");
-	//this.flFreezed();
 	// back up patterns in case of fail
 	var pbu = $.extend(true, [], this.children);
 
-	// first of all, we erase patterns
-	this.children.splice (0, this.children.length);
-	//console.clear();
 	// we need to create and fill freezed edges list
 	var freezedlist = [];
-	for ( var i = 0 ; i < this.targetMesh.edges.length ; i++ )
-		if (edgestate(this.targetMesh, i) == "freeze" ) freezedlist.push(i);
+/*/
+	if ( feid != undefined )
+	{
+		fl('feid : '+feid);
+		
+		var tpp = this.getFrontierOwnerChildren(feid);
+		fl(tpp);
+		if (tpp.length = 1 )
+		{
+		for ( var i = 0 ; i < tpp[0].edges.length ; i++ )
+			freezedlist.push (tpp[0].edges[i]);
+			
+		}
+		if (tpp.length = 2 )
+		{
+			
+			
+		}
+		
+	}
+	else
+	{
+		// first of all, we erase patterns
+		this.children.splice (0, this.children.length);
+		for ( var i = 0 ; i < this.targetMesh.edges.length ; i++ )
+			if (edgestate(this.targetMesh, i) == "freeze" ) freezedlist.push(i);
+	
+	}
+	
+	/*/
+
+			// first of all, we erase patterns
+		this.children.splice (0, this.children.length);
+		for ( var i = 0 ; i < this.targetMesh.edges.length ; i++ )
+			if (edgestate(this.targetMesh, i) == "freeze" ) freezedlist.push(i);
+	
+	/**/
+
+	
+	
 
 	// Let's now dispatch those freezed edges into different patterns
 	
 	while ( freezedlist.length > 0 )
-	{
+	{		
 		var add = -1;
 		var i = 0 ;
 		while ( add == -1 && i < freezedlist.length )
@@ -389,9 +478,9 @@ Patterns.prototype.rebuild = function ()
 				add = this.children[j].addEdge (freezedlist[i] );
 				if ( add != -1 )
 					freezedlist.splice(i, 1);
-				j++;	
-			}	
-			i++;		
+				j++;
+			}
+			i++;
 		}
 		if ( add == -1 )
 		{	
@@ -417,7 +506,7 @@ Patterns.prototype.rebuild = function ()
 		}
 	// show some help to the user if no pattern has been created yet					
 
-			
+	//fl('dispatch freezed edge ok');
 //	fl(this.children);
  	for ( var i = 0 ; i < this.children.length ; i++ )
    {
@@ -432,10 +521,14 @@ Patterns.prototype.rebuild = function ()
 		   return false;
 	   }
    }
+	//fl('flattening ok');
 	// Let's finally blank and refill the final document with our new computed
 	// patterns
    dispatcher.updatePatterns (this);
 	dispatcher.fullDispatch();
+	
+	//fl('dispatch patterns ok');
+
 
  	//$('#main-app-dialog-info').text('no pattern');		
   
@@ -457,6 +550,15 @@ Patterns.prototype.findTriangleOwner = function (triangle)
 			if ( this.children[i].triangles[j] == triangle )
 				return i;
 	return -1;
+}
+Patterns.prototype.getFrontierOwnerChildren = function (feid)
+{
+	var tmp = [];
+	for (var i = 0 ; i < this.children.length ; i++ )
+		for ( var j = 0 ; j < this.children[i].frontier.length ; j ++ )	
+			if ( this.children[i].frontier[j] == feid )
+				tmp.push( this.children[i] );
+	return tmp;
 }
 
 Pattern.prototype.tryToReachRatio = function ( r )
@@ -650,7 +752,6 @@ Pattern.prototype.smartPositioning = function ()
 
 	this.height = h;
 	this.width = w;
-	var rr = w / h;
 //	fl('rr: '+rr);
 	var a4 = 'A4';
 	var a3 = 'A3';
@@ -658,16 +759,53 @@ Pattern.prototype.smartPositioning = function ()
 	var a1 = 'A1';
 	var a0 = 'A0';
 	
-	if ( rr > 0.7070 )
+	//fl('\n # requierements : '+this.papersizereq.s+' '+this.papersizereq.w+' x '+this.papersizereq.h);
+	//this.rotate(11);
+	//TODO smart rotate
+	
+	var _this = $.extend( true, {}, this);
+	var r = w/h;
+	var score = r;
+	
+	var inc = 10;
+	for ( var a = 0 ; a < 50 ; a++ )
 	{
+		this.rotate (inc);
+		maxX = minX = maxY = minY = 0;
+		for ( var i = 0 ; i < n.length ; i++ )
+		{
+			if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
+			if ( minX > n[i].c[0] ) minX = n[i].c[0];
+			if ( maxY < n[i].c[1] ) maxY = n[i].c[1];
+			if ( minY > n[i].c[1] ) minY = n[i].c[1];
+		}
+		h = maxY - minY;
+		w = maxX - minX;
+		r = w/h;
+		if (r < score )
+		{
+			true;
+		
+		}
+		else
+		{
+			inc = -inc/2;
+		}
+		score = r;
 		
 
+	}
+	this.height = h;
+	this.width = w;
+	this.translate ((0 - minX), (0 - minY));
+		var rr = w / h;
+	if ( rr > 0.7070 )
+	{
 		this.papersizereq = { s: a4, w : 210, h : 297};
 		if ( w > 210) this.papersizereq = {s: a3, w : 297, h : 420};
 		if ( w > 297) this.papersizereq = {s: a2, w : 420, h : 594};
 		if ( w > 420) this.papersizereq = {s: a1, w : 594, h : 840};
 		if ( w > 594) this.papersizereq = {s: a0, w : 840, h :1188 };
-
 	}
 	else
 	{
@@ -676,11 +814,9 @@ Pattern.prototype.smartPositioning = function ()
 		if ( h > 420) this.papersizereq = {s: a2, w : 420, h : 594};
 		if ( h > 594) this.papersizereq = {s: a1, w : 594, h : 840};
 		if ( h > 840) this.papersizereq = {s: a0, w : 840, h :1188 };
-
 	}
-	//fl('\n # requierements : '+this.papersizereq.s+' '+this.papersizereq.w+' x '+this.papersizereq.h);
-	//this.rotate(11);
-	//TODO smart rotate
+
+	
 }
 Pattern.prototype.translate = function (x, y)
 {
@@ -700,8 +836,8 @@ Pattern.prototype.rotate = function (rz)
 	for ( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
 		for ( var j = 0 ; j < this.trianglesflatcoord[i].length ; j++)
 			this.trianglesflatcoord[i][j].c = applymat(tmprzmat, this.trianglesflatcoord[i][j].c);
-}
 
+}
 
 Pattern.prototype.ownFrontier = function (f)
 {
@@ -709,6 +845,10 @@ Pattern.prototype.ownFrontier = function (f)
 		if ( this.frontier[i] == f ) return i;
 	return -1;
 }
+
+
+
+
 /** @description
 	find edges id witch are frontier of the pattern.
  */
@@ -734,11 +874,15 @@ Pattern.prototype.genFrontiers = function () // find fronier from junctions && t
  */
 Pattern.prototype.flatten = function ()
 {
-
+	//fl(' # flatten triangle '+this.guid);
 	this.flattenTrianglesCoord ();
+	//fl(' # asm triangle');
 	this.assembleFlattenedTriangles ();
+	//fl(' # check freezed edges');
 	if ( ! this.checkFreezedEdges() ) return false;
+	//fl(' # gen nodes');
 	this.genNodes ();
+	//fl(' # smart positioning');
 	this.smartPositioning();
 	//dispatcher.updateChildren();
 	return true;
@@ -750,11 +894,8 @@ Pattern.prototype.flatten = function ()
  	 dont wand to rewrite this now, so flat coordinates will be store in a separate array
  	 of array - SO - P.triangles[x] & P.trianlesflatcoord[x] refer to the same triangle
  	 and will always be.
- 	 the other reason why is that full OOP rewrite is planed
-
-	 
+ 	 the other reason why is that full OOP rewrite is planed 
  */
-
 Pattern.prototype.flattenTrianglesCoord = function ()
 {
 	for ( var j = 0 ; j < this.triangles.length ; j++ )
@@ -787,8 +928,7 @@ Pattern.prototype.flattenTrianglesCoord = function ()
 /** @description
 	
 	Assemble the pattern, must not be called until the triangles have been flattened
- */
-
+*/
 Pattern.prototype.assembleFlattenedTriangles = function ()
 {
 
