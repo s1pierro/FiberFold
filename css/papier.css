@@ -294,20 +294,6 @@ body {
 		width: 100%;
 		padding:0.3em;	
 	}
-	#menu.d-view {
-		font-size: 1.5em;
-
-		position: absolute;
-		top: 0vh;
-		right: 2vw;
-		color: #222;
-		z-index: 4;
-
-		padding: 1vh;
-		margin: 0px;
-
-
-	}
 	#svg7.d-view {
 
 		display: block;
@@ -362,7 +348,7 @@ body {
 		==========
 */
 
-*/
+
 	
 	#dispatcher-dialog.pages-view
 	{
@@ -446,12 +432,6 @@ body {
 		background: #0000;
 	}
 	#renderbox.settings-view{
-		display: none;
-		z-index: 0;
-		opacity: 0.0;
-	}
-	#menu.settings-view
-	{
 		display: none;
 		z-index: 0;
 		opacity: 0.0;
@@ -777,20 +757,8 @@ body {
 		width: 100%;
 		padding:0.3em;	
 	}
-	#menu.d-view {
-		font-size: 1.5em;
 
-		position: absolute;
-		top: 0vh;
-		right: 2vw;
-		color: #222;
-		z-index: 4;
-
-		padding: 1vh;
-		margin: 0px;
-
-
-	}
+}
 
 	
 /*
@@ -830,15 +798,6 @@ body {
 		left:0px;
 	}	
 
-
-
-	#menu.settings-view
-	{
-		display: none;
-		z-index: 0;
-		opacity: 0.0;
-	}
-}
 
 @media (min-width: 1024px) {
 /*
@@ -932,20 +891,6 @@ body {
 		left: 0px;
 		width: 100%;
 		padding:0.3em;	
-	}
-	#menu.d-view {
-		font-size: 1.5em;
-
-		position: absolute;
-		top: 0vh;
-		right: 2vw;
-		color: #222;
-		z-index: 4;
-
-		padding: 1vh;
-		margin: 0px;
-
-
 	}
 	#svg7.d-view {
 
@@ -1102,6 +1047,27 @@ body {
 	color: #aaa;
 }
 
+
+	#menu{
+		font-size: 1.3em;
+
+		position: absolute;
+		top: 0.3em;
+		right: 0.3em;
+		color: #222;
+		z-index: 4;
+
+		padding: 1vh;
+		margin: 0px;
+	
+	}
+	#menu.settings-view
+	{
+		display: none;
+		z-index: 0;
+		opacity: 0.0;
+	}
+
 /*
 		print view
 		############
@@ -1162,20 +1128,6 @@ body {
 		z-index: 0;
 		opacity: 0.0;
 	}
-	#menu.print-view {
-		font-size: 1.5em;
-
-		position: absolute;
-		top: 0vh;
-		right: 2vw;
-		color: #222;
-		z-index: 4;
-
-		padding: 1vh;
-		margin: 0px;
-
-
-	}
 	#svg7.print-view {
 		background-color: #fff;
 		height: 95vh;
@@ -1183,18 +1135,6 @@ body {
 		left: 1vw;
 	}
 	#settings.d-view, #settings.pages-view, #settings.print-view { display: none; }
-	#menu.pages-view {
-		font-size: 1.5em;
-
-		position: absolute;
-		top: 0vh;
-		right: 2vw;
-		color: #222;
-		z-index: 4;
-
-		padding: 1vh;
-		margin: 0px;
-}
 /*
 	this file is a part of 
 	papier 0.4.1
