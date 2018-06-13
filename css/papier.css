@@ -1048,6 +1048,28 @@ body {
 }
 
 
+	#logput{
+	font-family: monospace, monospace;
+		background-color: #000;
+		color: #fff;
+		font-size: 0.9em;
+
+		position: fixed;
+		right: 0em;
+		bottom: 0em;
+		height: auto;
+		width: auto;
+		z-index: 400;
+
+		padding: 1vh;
+		margin: 0px;
+	
+	}
+	#logput p{
+		padding: 0px;
+		margin: 0px;
+	
+	}
 	#menu{
 		font-size: 1.3em;
 

@@ -17,11 +17,23 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 'use strict';
+function dl (s)
+{
+	s = '<p>'+s+'</p>'
+	$('#logput').append(s);
+}
 
 
+try
+{
+	var pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
+}
+catch (err) 
+{ 
+	dl(' * load wavefront ex ERROR'+err);
+}
+dl(' - load wavefront ex OK')
 
-
-var pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
 var camarm = [0, 0, pobj.height / 2 / Math.tan(Math.PI * 70 / 360)];
 var mouse = new THREE.Vector2(), mouserayid;
 var container;
@@ -33,8 +45,25 @@ var activeshape1 = -1;
 var activeshape1shadoweddstate;
 var tolerance = 0.0001;
 
-var patterns = new Patterns(pobj);
-var dispatcher = new Dispatcher (patterns)
+try
+{
+	var patterns = new Patterns(pobj);
+}
+catch (err) 
+{ 
+	dl(' * create Pattern ERROR')
+}
+dl(' - create Patterns OK')
+try
+{
+	var dispatcher = new Dispatcher (patterns)
+}
+catch (err) 
+{ 
+	dl(' * create Dispatcher ERROR')
+}
+dl(' - create Dispatcher OK')
+
 var verbose = false;
 var BUILDmode = "safe";
 var scaleconst = 1;
@@ -46,10 +75,12 @@ var lpattern = -1;
 var rendererOffset = { x: 0, y : 0 };
 var rendererSize = { w: 0, h : 0 };
 var view = 'd-view';
+
 $(window).on("load",  init());
 
 function init() {
-	
+	dl(' # stuff loaded');
+
 	var tmp = "A4";
 	var nn = tmp.replace(/A/i, '');
 	fl(parseInt(nn));	
@@ -60,14 +91,10 @@ function init() {
 
 	$('#processing-indicator').fadeOut(200);
 	
-
 	var g = '';
 	g +='\nPapier 0.4.3', 'xl';
-	
 	g +='\n Copyright (C) 2018  Saint Pierre Thomas ( s1pierro@protonmail.fr )\n\n';
 	g +='feel free to contact me at s1pierro@protonmail.com to contribute, in any way';
-
-	
 	fl(g);
 
 
@@ -80,55 +107,92 @@ function init() {
 	document.body.appendChild( container );
 	$('#renderbox').addClass('app-component');
 	
-	camera = new THREE.PerspectiveCamera( 70, $('#renderbox').width() / $('#renderbox').height(), 0.1, 5000 );
+	try
+	{
+		camera = new THREE.PerspectiveCamera( 70, $('#renderbox').width() / $('#renderbox').height(), 0.1, 5000 );
+		camera.position.x = camarm[0];
+		camera.position.y = camarm[1];
+		camera.position.z = camarm[2];
+	}
+	catch (err) 
+	{ 
+		dl(' * create camera ERROR')
+	}
+	dl(' - create camera OK')
+	try
+	{
+		controls = new THREE.TrackballControls( camera );
+		controls.rotateSpeed = 3.5;
+		controls.zoomSpeed = 1.2;
+		controls.panSpeed = 0.8;
+		controls.noZoom = false;
+		controls.noPan = false;
+		controls.staticMoving = true;
+		controls.dynamicDampingFactor = 0.3;
+	}
+	catch (err) 
+	{ 
+		dl(' * create controls ERROR')
+	}
+	dl(' - create controls OK')
 
-	camera.position.x = camarm[0];
-	camera.position.y = camarm[1];
-	camera.position.z = camarm[2];
 
-	controls = new THREE.TrackballControls( camera );
-	controls.rotateSpeed = 3.5;
-	controls.zoomSpeed = 1.2;
-	controls.panSpeed = 0.8;
-	controls.noZoom = false;
-	controls.noPan = false;
-	controls.staticMoving = true;
-	controls.dynamicDampingFactor = 0.3;
+	try
+	{
+		scene = new THREE.Scene();
+	}
+	catch (err) 
+	{ 
+		dl(' * create scene ERROR')
+	}
+	dl(' - create scene OK')
+	try
+	{
+		scene.add( new THREE.AmbientLight( 0xffffff ) );
+		var light = new THREE.SpotLight( 0xffffff, 0.9 );
+		light.position.copy( camera.position );
+		light.angle = Math.PI / 3;
+		light.castShadow = false;
+		scene.add( light );
+	}
+	catch (err) 
+	{ 
+		dl(' * create lights ERROR')
+	}
+	dl(' - create lights OK')
 
+	try
+	{
+		materialVisible = new THREE.MeshStandardMaterial(  { color: 0x999999, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
+		materialHighlighted = new THREE.MeshStandardMaterial(  { color: 0xff7f2a, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
+		materialSolid = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 
-	var tmpa = new THREE.Vector3( 0, 0, 0 );
-
-	scene = new THREE.Scene();
-
-	scene.add( new THREE.AmbientLight( 0xffffff ) );
-
-	var light = new THREE.SpotLight( 0xffffff, 0.9 );
-	light.position.copy( camera.position );
-	light.angle = Math.PI / 3;
-	light.castShadow = false;
-	scene.add( light );
-
-
-	materialVisible = new THREE.MeshStandardMaterial(  { color: 0x999999, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
-	materialHighlighted = new THREE.MeshStandardMaterial(  { color: 0xff7f2a, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
-	materialSolid = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
-
-	materialSoftEdge = new THREE.LineBasicMaterial( { color: 0x666666, linewidth: 1} );
-	materialFrontier = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 3} );
+		materialSoftEdge = new THREE.LineBasicMaterial( { color: 0x666666, linewidth: 1} );
+		materialFrontier = new THREE.LineBasicMaterial( { color: 0x000000, linewidth: 3} );
+	}
+	catch (err) 
+	{ 
+		dl(' * create materials ERROR')
+	}
+	dl(' - create materials OK')
 	
-	feedscene ();
+	try
+	{
+		feedscene ();
+	}
+	catch (err) 
+	{ 
+		dl(' * feedscene () ERROR')
+	}
+	dl(' - feedscene () OK')
+		
 	if (pobj.prefreeze != undefined )
 	{
-		
-		fl('prefreeze');
+		dl(' # saved patterns founded');
 		for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
-		{
-			
 			setedgestate (pobj, pobj.prefreeze[i], "freeze");
-		}
 		patterns.rebuild();
 	}
-	
 	else fl('no prefreeze');
 	printWavefront (pobj);
 	raycaster = new THREE.Raycaster();		
@@ -144,10 +208,13 @@ function init() {
 	}
 	catch (err)
 	{
+		dl(' * create renderer ERROR')
 		$('#startapp').replaceWith( "<h3 id=\"cantstart\">Oups, something went wrong with three.js, WebGL does not seem to be supported on this browser</h3>" );
 		fl(err);
 		
 	}
+	dl(' * create renderer OK');
+		$('#logput').fadeOut();
 	$('#startapp').addClass("startable");
 
 
