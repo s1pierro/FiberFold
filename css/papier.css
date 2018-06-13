@@ -424,7 +424,7 @@ body {
 		z-index: 0;
 		opacity: 0.0;
 	}
-	#menu.pages-view, #menu.settings-view
+	#menu.settings-view
 	{
 		display: none;
 		z-index: 0;
@@ -775,7 +775,7 @@ body {
 
 
 
-	#menu.pages-view, #menu.settings-view
+	#menu.settings-view
 	{
 		display: none;
 		z-index: 0;
@@ -1001,12 +1001,6 @@ body {
 		left: 25em;
 		background: #0000;
 	}
-	#menu.pages-view
-	{
-		display: none;
-		z-index: 0;
-		opacity: 0.0;
-	}
 
 }
 .btn
@@ -1104,9 +1098,21 @@ body {
 		background-color: #fff;
 		height: 95vh;
 		width: auto;
+		left: 1vw;
 	}
 	#settings.d-view, #settings.pages-view, #settings.print-view { display: none; }
+	#menu.pages-view {
+		font-size: 1.5em;
 
+		position: absolute;
+		top: 0vh;
+		right: 2vw;
+		color: #222;
+		z-index: 4;
+
+		padding: 1vh;
+		margin: 0px;
+}
 /*
 	this file is a part of 
 	papier 0.4.1

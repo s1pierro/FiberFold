@@ -4,10 +4,13 @@
 .icon-print:before { content: '\e802'; } /* '' */
 .icon-s1p:before { content: '\e803'; } /* '' */
 .icon-gg:before { content: '\e804'; } /* '' */
+.icon-mesh:before { content: '\e805'; } /* '' */
 .icon-close:before { content: '\e806'; } /* '' */
+.icon-scale:before { content: '\e808'; } /* '' */
 .icon-spin1:before { content: '\e830'; } /* '' */
 .icon-github-circled:before { content: '\f09b'; } /* '' */
 .icon-menu:before { content: '\f0c9'; } /* '' */
 .icon-folder-empty:before { content: '\f114'; } /* '' */
 .icon-folder-open-empty:before { content: '\f115'; } /* '' */
 .icon-help:before { content: '\f128'; } /* '' */
+.icon-brush:before { content: '\f1fc'; } /* '' */

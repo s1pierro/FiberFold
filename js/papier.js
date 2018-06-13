@@ -493,9 +493,14 @@ $('body').on('click', '#print-total', function()
 	togglePrintView ();
 
 });
-$('body').on('click', '#renderbox', function()
+$('body').on('click', '#toggle-d-view', function()
 {
 	toggleDview ();
+
+});
+$('body').on('click', '#renderbox', function()
+{
+//	toggleDview ();
 
 });
 $('body').on('click', '#close-settings', function()
