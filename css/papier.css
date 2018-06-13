@@ -180,7 +180,7 @@ body {
 	body { background-color: #044; }
 
 	/*     ____________
-	 		/____________\       Talette view 768 x 1024
+	 		/____________\       Tabs view 768 x 1024
 	 		|            |       =====================
 	 		|            |
 	 		|            |
@@ -431,22 +431,26 @@ body {
 		opacity: 0.0;
 	}
 }
-/*     _________
- 		/_________\       Mobile view 480 x 640
- 		|         |       =====================
- 		|         |
- 		|         |
- 		|         |
- 		|         |
- 		|         |
-		|_________|
-		\_________/
-*/
+
 
 
 @media screen and (max-width: 760px) {
 @media screen and (max-aspect-ratio: 1/1) {
-
+/*
+      Smartphone portrait
+      ===================
+      
+       _________
+ 		|_________|      
+ 		|         |     
+ 		|         |    
+ 		|         | 
+ 		|         |
+ 		|         |
+ 		|         |
+		|_________|
+		|_________|
+*/
 	#renderbox.d-view {
 		display: block;
 		position: fixed;
@@ -476,12 +480,137 @@ body {
 		height: auto;
 		border: 1px solid;
 	}
+	body.pages-view { background-color: #333; }
+/*
+		Pages view
+		==========
+*/
+	
+	#dispatcher-dialog.pages-view
+	{
+		position: fixed;
+		z-index: 6;
+		bottom: 0.4em;
+		left: 1em;
+		width: 35.35vh;
+		height: 2em;
+		background-color: #0000;
+		color: #f94;
+		font-family: TitilliumWeb-Bold;
 
+	}
+
+	#main-app-dialog.pages-view
+	{
+		font-size: 1.5em;
+		position: fixed;
+		top: 0.5em;
+		right: 0.5em;
+		max-width: 80%; 
+		color: #fff;
+		z-index: 4;
+		padding: 0em;
+					margin: 0em;
+		line-height: 1em;
+		text-align: right;
+	}
+	#svg7.pages-view {
+		display: block;
+		opacity: 1.0;
+		background-color: #0000;
+		color: #eee;
+		position: fixed;
+		z-index: 2;
+		bottom: 0.5em;
+		left: 7.5%;
+		width: 85%;
+		height: auto;
+		border: 0.5mm solid;
+	}
+	#renderbox.pages-view {
+		display: block;
+		position: fixed;
+		z-index: 1;
+		width: 30%;
+		height: 20%;
+		top: 1%;
+		left: 70%;
+		/* Chrome10-25,Safari5.1-6 */
+		background: #0000;
+	}
 }
 
 @media screen and (min-aspect-ratio: 1/1) {
+/*
+	 Smartphone landscape
+	 ====================
+	 ______________________
+	| |                  | |
+	| |                  | |
+	| |                  | |
+	| |                  | |
+	| |                  | |
+	|_|__________________|_|
+*/
 
+	body.pages-view { background-color: #333; }
+/*
+		Pages view
+		==========
+*/
+	
+	#dispatcher-dialog.pages-view
+	{
+		position: fixed;
+		z-index: 6;
+		bottom: 0.4em;
+		left: 1em;
+		width: 35.35vh;
+		height: 2em;
+		background-color: #0000;
+		color: #f94;
+		font-family: TitilliumWeb-Bold;
 
+	}
+
+	#main-app-dialog.pages-view
+	{
+		font-size: 1.5em;
+		position: fixed;
+		top: 0.5em;
+		right: 0.5em;
+		max-width: 80%; 
+		color: #fff;
+		z-index: 4;
+		padding: 0em;
+					margin: 0em;
+		line-height: 1em;
+		text-align: right;
+	}
+	#svg7.pages-view {
+		display: block;
+		opacity: 1.0;
+		background-color: #0000;
+		color: #eee;
+		position: fixed;
+		z-index: 2;
+		bottom: 2.5%;
+		left: 2.5%;
+		width: auto;
+		height: 95%;
+		border: 0.5mm solid;
+	}
+	#renderbox.pages-view {
+		display: block;
+		position: fixed;
+		z-index: 1;
+		width: 30%;
+		height: 20%;
+		top: 1%;
+		left: 70%;
+		/* Chrome10-25,Safari5.1-6 */
+		background: #0000;
+	}
 	#renderbox.d-view {
 		display: block;
 		position: fixed;
@@ -510,6 +639,17 @@ body {
 
 
 }
+/*     _________
+ 		|_________|       Smartphone both
+ 		|         |       ===============
+ 		|         |       ______________________
+ 		|         |      | |                  | |
+ 		|         |      | |                  | |
+ 		|         |      | |                  | |
+ 		|         |      | |                  | |
+		|_________|      | |                  | |
+		|_________|      |_|__________________|_|
+*/
 
 /*
 		d-view
@@ -610,6 +750,11 @@ body {
 		opacity: 0.0;
 
 	}
+	#renderbox.settings-view{
+		display: none;
+		z-index: 0;
+		opacity: 0.0;
+	}
 
 	
 	#settings.d-view, #settings.pages-view { display: none; }
@@ -629,75 +774,7 @@ body {
 	}	
 
 
-	body.pages-view { background-color: #333; }
-/*
-		Pages view
-		==========
-*/
-	
-	#dispatcher-dialog.pages-view
-	{
-		position: fixed;
-		z-index: 6;
-		bottom: 0.4em;
-		left: 1em;
-		width: 35.35vh;
-		height: 2em;
-		background-color: #0000;
-		color: #f94;
-		font-family: TitilliumWeb-Bold;
 
-	}
-
-	#main-app-dialog.pages-view
-	{
-		font-size: 1.5em;
-		position: fixed;
-		top: 0.5em;
-		right: 0.5em;
-		max-width: 80%; 
-		color: #fff;
-		z-index: 4;
-		padding: 0em;
-					margin: 0em;
-		line-height: 1em;
-		text-align: right;
-	}
-
-
-
-
-
-
-	#svg7.pages-view {
-		display: block;
-		opacity: 1.0;
-		background-color: #0000;
-		color: #eee;
-		position: fixed;
-		z-index: 2;
-		bottom: 0.5em;
-		left: 5%;
-		width: 90%;
-		height: auto;
-		border: 0.5mm solid;
-	}
-	#renderbox.pages-view {
-		display: block;
-		position: fixed;
-		z-index: 1;
-		width: 30%;
-		height: 20%;
-		top: 1%;
-		left: 70%;
-		/* Chrome10-25,Safari5.1-6 */
-		background: #0000;
-	}
-	#renderbox.settings-view{
-		display: none;
-		z-index: 0;
-		opacity: 0.0;
-	}
 	#menu.pages-view, #menu.settings-view
 	{
 		display: none;
