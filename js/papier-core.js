@@ -34,7 +34,7 @@ function Page (pattern)
 	//1,414285714
 //	840 1188
 }
-Page.prototype.out = function ( dest_container )
+Page.prototype.out = function ( dest_container, pguid )
 { 
 	
 	$('#dispatcher-dialog').text('');		
@@ -49,16 +49,20 @@ Page.prototype.out = function ( dest_container )
 		var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
 		g.setAttribute( 'id', this.patterns[ig].guid );
 		g.setAttribute( 'transform', 'translate('+this.patterns[ig].position.x+', '+this.patterns[ig].position.y+')' );
-		
+		var style = 'fill: #777; stroke: #aaa;';
 		for ( var i = 0 ; i < this.patterns[ig].triangles.length ; i++ )
 		{
+			if ( this.patterns[ig].guid == pguid ) style = 'fill: #ddd; stroke: #aaa;';
 			var tmptri = this.patterns[ig].trianglesflatcoord[i];
 			var svgtrigon =  tmptri[0].c[0]+', '+tmptri[0].c[1]+
 							 ' '+tmptri[1].c[0]+', '+tmptri[1].c[1]+
 							 ' '+tmptri[2].c[0]+', '+tmptri[2].c[1];
 			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
 			svg.setAttribute('points', svgtrigon);
-			svg.setAttribute('class', 'flatshape' );
+			//svg.setAttribute('class', 'flatshape' );
+			svg.setAttribute('style', style );
+
+			g.appendChild(svg);
 			g.appendChild(svg);
 		}
 		var pp = this.patterns[ig];
@@ -194,7 +198,7 @@ Dispatcher.prototype.outPageTriangle = function ( tid, container )
 		for ( var j = 0 ; j < this.pages[i].patterns.length ; j++ )
 			for ( var k = 0 ; k < this.pages[i].patterns[j].triangles.length ; k++ )
 			if ( this.pages[i].patterns[j].triangles[k] == tid )
-				this.pages[i].out(container)
+				this.pages[i].out(container, this.pages[i].patterns[j].guid )
 				
 
 }
@@ -220,13 +224,18 @@ Dispatcher.prototype.outPattern = function ( tid, container )
 		
 		for ( var i = 0 ; i < pat.triangles.length ; i++ )
 		{
+			
 			var tmptri = pat.trianglesflatcoord[i];
 			var svgtrigon =  tmptri[0].c[0]+', '+tmptri[0].c[1]+
 							 ' '+tmptri[1].c[0]+', '+tmptri[1].c[1]+
 							 ' '+tmptri[2].c[0]+', '+tmptri[2].c[1];
 			var svg = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
 			svg.setAttribute('points', svgtrigon);
-			svg.setAttribute('class', 'flatshape' );
+			//svg.setAttribute('class', 'flatshape' );
+			if ( pat.triangles[i] == tid )
+				svg.setAttribute('style', 'fill: #f94; stroke: #aaa;' );
+			else
+				svg.setAttribute('style', 'fill: #ddd; stroke: #aaa;' );
 			g.appendChild(svg);
 		}
 		var pp = pat;
@@ -236,7 +245,8 @@ Dispatcher.prototype.outPattern = function ( tid, container )
 							
 			var svg2 = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
 			svg2.setAttribute('points', svgpolygon);
-			svg2.setAttribute('class', 'nodeshape' );
+		//	svg2.setAttribute('class', 'nodeshape' );
+			svg2.setAttribute('style', 'fill: #ccc0; stroke: #000; stroke-width: 2px;' );		
 			g.appendChild(svg2);
 		
 		

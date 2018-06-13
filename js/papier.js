@@ -506,6 +506,7 @@ $('body').on('click', '#download', function()
             var width = parseFloat(mySVG.getAttribute("width"));
             var height = parseFloat(mySVG.getAttribute("height"));
             var printWindow = window.open('doc', 'PrintMap', 'width=' + width + ',height=' + height);
+            
             printWindow.document.writeln($(cont).html());
             printWindow.document.close();
             printWindow.print();
