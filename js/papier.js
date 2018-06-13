@@ -43,9 +43,9 @@ var ledge = -1;
 var ltriangle = -1;
 var lpage = -1;
 var lpattern = -1;
-var rendererOffset = { x: 0, y : 0 }
-var rendererSize = { w: 0, h : 0 }
-
+var rendererOffset = { x: 0, y : 0 };
+var rendererSize = { w: 0, h : 0 };
+var view = 'd-view';
 $(window).on("load",  init());
 
 function init() {
@@ -312,8 +312,7 @@ function mouseup ( event )
 			setshapestate(pobj, tappedshapeid, "highlight" );		
 		}
 	}
-			dispatcher.outPageTriangle (tappedshapeid);
-	//	dispatcher.outPattern (tappedshapeid);
+	//		
 
 	render();
 }
@@ -377,8 +376,10 @@ function render() {
 		//$('#main-app-dialog-info').text('no pattern');		
 	}	
  	// At this point Patterns are correctly defined but they have not been flattened yet
-	$('#main-app-dialog-title').text( pobj.nme);//+' body : '+$( window ).width()+' '+$( window ).height() );
+	$('#main-app-dialog-title').text( pobj.nme + ' ' + view);//+' body : '+$( window ).width()+' '+$( window ).height() );
  
+	if ( view == 'pages-view' && ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
+	if ( view == 'd-view' && ltriangle > -1 ) dispatcher.outPattern (ltriangle);
 
 	renderer.render( scene, camera );
 }
@@ -414,40 +415,43 @@ $('body').on('click', '#startapp', function()
 });
 function toggleSettingsView ()
 {
-			$(".app-component").removeClass("pages-view");
-			$(".app-component").removeClass("d-view");
-			$(".app-component").addClass("settings-view");
-			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-			camera.updateProjectionMatrix();
-			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
-			render();
+	view = 'settings-view';
+	$(".app-component").removeClass("pages-view");
+	$(".app-component").removeClass("d-view");
+	$(".app-component").addClass("settings-view");
+	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+	camera.updateProjectionMatrix();
+	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+	render();
 }
 function toggleDview ()
-{
-			$(".app-component").removeClass("pages-view");
-			$(".app-component").removeClass("settings-view");
-			$(".app-component").addClass("d-view");
-			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-			camera.updateProjectionMatrix();
-			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
-			render();
+{		
+	view = 'd-view';
+	$(".app-component").removeClass("pages-view");
+	$(".app-component").removeClass("settings-view");
+	$(".app-component").addClass("d-view");
+	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+	camera.updateProjectionMatrix();
+	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+	render();
 }
 function togglePagesView ()
 {
-			$(".app-component").removeClass("d-view");
-			$(".app-component").removeClass("settings-view");
-			$(".app-component").addClass("pages-view");
-			camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-			camera.updateProjectionMatrix();
-			renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
-			render();
+	view = 'pages-view';
+	$(".app-component").removeClass("d-view");
+	$(".app-component").removeClass("settings-view");
+	$(".app-component").addClass("pages-view");
+	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+	camera.updateProjectionMatrix();
+	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+	render();
 
 }
 
 $('body').on('click', '#svg7', function()
 {
 	togglePagesView ();
-
+printSVG();
 });$('body').on('click', '#renderbox', function()
 {
 	toggleDview ();
@@ -494,7 +498,21 @@ $('body').on('click', '#download', function()
 	var saveas = pobj.nme+'-flat-'+n+'.obj'
 	download(saveas, printWavefront (pobj));
 });
-
+  var printSVG = function()
+    {
+        var popUpAndPrint = function()
+        {
+            var cont = $('#svg7');
+            var width = parseFloat(mySVG.getAttribute("width"));
+            var height = parseFloat(mySVG.getAttribute("height"));
+            var printWindow = window.open('doc', 'PrintMap', 'width=' + width + ',height=' + height);
+            printWindow.document.writeln($(cont).html());
+            printWindow.document.close();
+            printWindow.print();
+            printWindow.close();
+        }
+        setTimeout(popUpAndPrint, 500);
+    }
 /*	$('body').on('click', '#', function() {
 
 	});
