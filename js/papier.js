@@ -170,6 +170,7 @@ function init() {
 
 	try
 	{
+
 		materialVisible = new THREE.MeshStandardMaterial(  { color: 0x999999, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 		materialHighlighted = new THREE.MeshStandardMaterial(  { color: 0xff7f2a, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
 		materialSolid = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
@@ -218,7 +219,7 @@ function init() {
 	catch (err)
 	{
 	noError = false;
-		dl(' * create renderer ERROR')
+		dl(' * create renderer ERROR'+err)
 		$('#startapp').replaceWith( "<h3 id=\"cantstart\">Oups, something went wrong with three.js, WebGL does not seem to be supported on this browser</h3>" );
 		fl(err);
 		
