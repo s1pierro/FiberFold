@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 function Page (pattern)
 {
 	this.patterns = [pattern];
+	this.desc = 'page '+dispatcher.pages.length;
 
 
 	this.size = pattern.papersizereq.s;
@@ -37,9 +38,9 @@ function Page (pattern)
 Page.prototype.out = function ( dest_container, pguid )
 { 
 	
-	$('#dispatcher-dialog').text('');		
+
 		$('#svg7').attr('viewBox', '0 0 '+this.width+' '+this.height);
-		$('#dispatcher-dialog').text(this.size );
+
 
 	renderplane.innerHTML = "";
 
@@ -202,6 +203,15 @@ Dispatcher.prototype.outPageTriangle = function ( tid, container )
 				
 
 }
+Dispatcher.prototype.getPagepattern = function ( pid )
+{
+	for ( var i = 0 ; i < this.pages.length ; i++ )
+		for ( var j = 0 ; j < this.pages[i].patterns.length ; j++ )
+			if ( this.pages[i].patterns[j].guid == patterns.children[pid].guid )
+				return  this.pages[i];
+				
+
+}
 Dispatcher.prototype.outPattern = function ( tid, container )
 {
 	var idx = patterns.findTriangleOwner (tid);
@@ -210,7 +220,7 @@ Dispatcher.prototype.outPattern = function ( tid, container )
 	{
 	var pat =  patterns.children[idx];
 				
-		$('#dispatcher-dialog').text(pat.papersizereq.s);		
+
 		$('#svg7').attr('viewBox', '0 0 '+(pat.width+10)+' '+(pat.height+10));
 
 	

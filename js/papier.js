@@ -260,7 +260,7 @@ function mouseup ( event )
 		var tappedshapeid = focus.tid;
 
 		ltriangle = tappedshapeid;
-		
+		fl(lpattern);
 		if ( activeshape1 != -1 )
 		{
 
@@ -313,6 +313,7 @@ function mouseup ( event )
 		}
 	}
 	//		
+		lpattern = patterns.findTriangleOwner (tappedshapeid);
 
 	render();
 }
@@ -379,7 +380,13 @@ function render() {
 	}	
  	// At this point Patterns are correctly defined but they have not been flattened yet
 	$('#main-app-dialog-title').text( pobj.nme );//+' body : '+$( window ).width()+' '+$( window ).height() );
- 
+ 	if( lpattern > -1 && view == 'd-view') $('#dispatcher-dialog').html(patterns.children[lpattern].papersizereq.s );
+ 	if( lpattern > -1 && view == 'pages-view')
+   {
+	   var tmp_p = dispatcher.getPagepattern ( lpattern );
+	   $('#dispatcher-dialog').html( tmp_p.size +' '+tmp_p.desc);
+	//	fl(dispatcher.getPagepattern ( lpattern ));
+   }
 	if ( view == 'print-view' && ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
 	if ( view == 'pages-view' && ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
 	if ( view == 'd-view' && ltriangle > -1 ) dispatcher.outPattern (ltriangle);
@@ -409,6 +416,10 @@ $('body').on('click', '#ldfex-ppce-body', function()
 $('body').on('click', '#ldfex-ico-2', function()
 {
 	loadWavefrontExample('wavefronts/ico sphere flat-a.obj');
+});
+$('body').on('click', '#ldfex-kgm', function()
+{
+	loadWavefrontExample('wavefronts/KongorillaMaskFlat.obj');
 });
 
 $('body').on('click', '#startapp', function()
@@ -485,7 +496,6 @@ function togglePagesView ()
 $('body').on('click', '#svg7', function()
 {
 	togglePagesView ();
-printSVG();
 });
 $('body').on('click', '#print-total', function()
 {
@@ -547,7 +557,7 @@ $('body').on('click', '#download', function()
     {
         var popUpAndPrint = function()
         {
-            var cont = $('#svg7');
+            var mySVG = $('#svg7');
             var width = parseFloat(mySVG.getAttribute("width"));
             var height = parseFloat(mySVG.getAttribute("height"));
             var printWindow = window.open('doc', 'PrintMap', 'width=' + width + ',height=' + height);
