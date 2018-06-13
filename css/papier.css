@@ -1026,6 +1026,86 @@ body {
 	color: #aaa;
 }
 
+/*
+		print view
+		############
+		 _________
+		|         | 
+		|         | 
+		|         | 
+		|         | 
+		|         | 
+		| A4      | 
+      |_________|
+*/
+	body.print-view { background-color: #444; }
+/*    
+		# d-view
+		
+		This is the main view
+		it's focused on the 3d model.
+
+*/
+	#renderbox.print-view {
+			display: none;
+		z-index: 0;
+		opacity: 0.0;
+	}
+	#dispatcher-dialog.print-view
+	{
+		display: none;
+		z-index: 0;
+		opacity: 0.0;
+	}
+	#main-app-dialog-info.print-view p
+	{
+		display: none;
+		z-index: 0;
+		opacity: 0.0;
+	}
+	#main-app-dialog-info.print-view
+	{
+		display: none;
+		z-index: 0;
+		opacity: 0.0;
+	}
+	#main-app-dialog.print-view
+	{
+		display: none;
+		z-index: 0;
+		opacity: 0.0;
+	}
+	#main-app-dialog-title.print-view
+	{
+		display: none;
+		z-index: 0;
+		opacity: 0.0;
+	}
+	#scratch-message.print-view {
+		display: none;
+		z-index: 0;
+		opacity: 0.0;
+	}
+	#menu.print-view {
+		font-size: 1.5em;
+
+		position: absolute;
+		top: 0vh;
+		right: 2vw;
+		color: #222;
+		z-index: 4;
+
+		padding: 1vh;
+		margin: 0px;
+
+
+	}
+	#svg7.print-view {
+		background-color: #fff;
+		height: 95vh;
+		width: auto;
+	}
+	#settings.d-view, #settings.pages-view, #settings.print-view { display: none; }
 
 /*
 	this file is a part of 

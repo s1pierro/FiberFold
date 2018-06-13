@@ -17,6 +17,8 @@
 	<meta content="s1pierro@free.fr" name="author">
 	<meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
 
+	<link rel="stylesheet" href="css/impression.css" type="text/css" media="print">
+
 	<link href="css/animation.css" rel="stylesheet">
 	<link href="css/papier-fonticon.css" rel="stylesheet">
 	<link href="css/papier.css" rel="stylesheet">
@@ -311,6 +313,11 @@ f 14 2 15
 		</rdf:rdf>
 	</metadata>
 	<g id="renderplane"></g></svg>
+	<div id="printing" class="app-component d-view" >
+	
+	
+	
+	</div>
 	<div id="settings" class="app-component d-view" >
 		<button class="btn btn-sm btn-danger" id="close-settings" type="button"><i class="icon-close"></i></button>
 		<div class="container">
@@ -478,6 +485,7 @@ f 14 2 15
 		<i class="icon-spin1 text-success" id="processing-success-indicator"></i>
 
 	<div id="menu" class="app-component d-view" >
+		<i class="icon-print text-light" id="print-total"></i>
 		<i class="icon-download text-light" id="download"></i>
 		<i class="icon-menu text-light" id="toggle-settings"></i>
 	</div><!-- Button trigger modal -->

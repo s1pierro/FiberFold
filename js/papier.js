@@ -364,6 +364,9 @@ function render() {
 			total += dispatcher.nSize('A4')*1;
 			 infos += dispatcher.nSize('A4')+' x A4. )</span>';
 		}
+		if ( total > 0 )
+			$('#print-total').text(total);	
+		
 		if ( total > 1 )
 			infos = '<p>'+'<span><i class="icon-print" ></i> '+total+'</span>  '+infos+'</p>';
 		else	
@@ -378,6 +381,7 @@ function render() {
  	// At this point Patterns are correctly defined but they have not been flattened yet
 	$('#main-app-dialog-title').text( pobj.nme + ' ' + view);//+' body : '+$( window ).width()+' '+$( window ).height() );
  
+	if ( view == 'print-view' && ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
 	if ( view == 'pages-view' && ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
 	if ( view == 'd-view' && ltriangle > -1 ) dispatcher.outPattern (ltriangle);
 
@@ -416,33 +420,64 @@ $('body').on('click', '#startapp', function()
 function toggleSettingsView ()
 {
 	view = 'settings-view';
+	$(".app-component").removeClass("print-view");
 	$(".app-component").removeClass("pages-view");
 	$(".app-component").removeClass("d-view");
 	$(".app-component").addClass("settings-view");
 	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
 	camera.updateProjectionMatrix();
 	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+	rendererOffset.x = $('#renderbox').position().left;
+	rendererOffset.y = $('#renderbox').position().top;
+	rendererSize.w = $('#renderbox').width();
+	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
+	render();
+}
+function togglePrintView ()
+{
+	view = 'print-view';
+	$(".app-component").removeClass("settings-view");
+	$(".app-component").removeClass("pages-view");
+	$(".app-component").removeClass("d-view");
+	$(".app-component").addClass("print-view");
+	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
+	camera.updateProjectionMatrix();
+	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+	rendererOffset.x = $('#renderbox').position().left;
+	rendererOffset.y = $('#renderbox').position().top;
+	rendererSize.w = $('#renderbox').width();
+	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
 	render();
 }
 function toggleDview ()
 {		
 	view = 'd-view';
+	$(".app-component").removeClass("print-view");
 	$(".app-component").removeClass("pages-view");
 	$(".app-component").removeClass("settings-view");
 	$(".app-component").addClass("d-view");
 	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
 	camera.updateProjectionMatrix();
 	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+	rendererOffset.x = $('#renderbox').position().left;
+	rendererOffset.y = $('#renderbox').position().top;
+	rendererSize.w = $('#renderbox').width();
+	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
 	render();
 }
 function togglePagesView ()
 {
 	view = 'pages-view';
+	$(".app-component").removeClass("print-view");
 	$(".app-component").removeClass("d-view");
 	$(".app-component").removeClass("settings-view");
 	$(".app-component").addClass("pages-view");
 	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
 	camera.updateProjectionMatrix();
+	rendererOffset.x = $('#renderbox').position().left;
+	rendererOffset.y = $('#renderbox').position().top;
+	rendererSize.w = $('#renderbox').width();
+	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
 	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
 	render();
 
@@ -452,7 +487,13 @@ $('body').on('click', '#svg7', function()
 {
 	togglePagesView ();
 printSVG();
-});$('body').on('click', '#renderbox', function()
+});
+$('body').on('click', '#print-total', function()
+{
+	togglePrintView ();
+
+});
+$('body').on('click', '#renderbox', function()
 {
 	toggleDview ();
 
