@@ -985,10 +985,10 @@ body {
 		color: #eee;
 		position: fixed;
 		z-index: 2;
-		bottom: 3.5em;
+		bottom: 3%;
 		left: 0.5em;
 		width: auto;
-		height: 70%;
+		height: 94%;
 		border: 0.5mm solid;
 	}
 	#renderbox.pages-view {
