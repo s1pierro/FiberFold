@@ -337,7 +337,7 @@ function render() {
 	if ( patterns.children.length > 0 )
 	{
 		var total = 0;
-		var infos = '<span class="desc"> ( '+patterns.children.length+' pattern(s). ';
+		var infos = '<span class="desc">  '+patterns.children.length+' pattern(s). ';
 
 		if ( dispatcher.nSize('A0') > 0 ) 
 		{
@@ -362,16 +362,15 @@ function render() {
 		if ( dispatcher.nSize('A4') > 0 ) 
 		{
 			total += dispatcher.nSize('A4')*1;
-			 infos += dispatcher.nSize('A4')+' x A4. )</span>';
+			 infos += dispatcher.nSize('A4')+' x A4. </span>';
 		}
 		if ( total > 0 )
 			$('#print-total').text(total);	
 		
-		if ( total > 1 )
-			infos = '<p>'+'<span><i class="icon-print" ></i> '+total+'</span>  '+infos+'</p>';
-		else	
-			infos = '<p>'+'<span><i class="icon-print" ></i> '+total+'</span>  '+infos+'</p>';
-		$('#main-app-dialog-info').html(infos);		
+
+			infos = '<p>'+infos+'</p>';
+
+			$('#main-app-dialog-info').html(infos);		
 		//$('#scratch-mess').fadeOut();
 	}	
 	else
@@ -379,7 +378,7 @@ function render() {
 		//$('#main-app-dialog-info').text('no pattern');		
 	}	
  	// At this point Patterns are correctly defined but they have not been flattened yet
-	$('#main-app-dialog-title').text( pobj.nme + ' ' + view);//+' body : '+$( window ).width()+' '+$( window ).height() );
+	$('#main-app-dialog-title').text( pobj.nme );//+' body : '+$( window ).width()+' '+$( window ).height() );
  
 	if ( view == 'print-view' && ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
 	if ( view == 'pages-view' && ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
