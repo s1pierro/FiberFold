@@ -22,7 +22,7 @@ function dl (s)
 	s = '<p>'+s+'</p>'
 	$('#logput').append(s);
 }
-
+var noError = true;
 
 try
 {
@@ -30,6 +30,7 @@ try
 }
 catch (err) 
 { 
+	noError = false;
 	dl(' * load wavefront ex ERROR'+err);
 }
 dl(' - load wavefront ex OK')
@@ -51,6 +52,7 @@ try
 }
 catch (err) 
 { 
+	noError = false;
 	dl(' * create Pattern ERROR')
 }
 dl(' - create Patterns OK')
@@ -60,6 +62,7 @@ try
 }
 catch (err) 
 { 
+	noError = false;
 	dl(' * create Dispatcher ERROR')
 }
 dl(' - create Dispatcher OK')
@@ -75,7 +78,7 @@ var lpattern = -1;
 var rendererOffset = { x: 0, y : 0 };
 var rendererSize = { w: 0, h : 0 };
 var view = 'd-view';
-
+var noError = true;
 $(window).on("load",  init());
 
 function init() {
@@ -116,6 +119,7 @@ function init() {
 	}
 	catch (err) 
 	{ 
+	noError = false;
 		dl(' * create camera ERROR')
 	}
 	dl(' - create camera OK')
@@ -132,6 +136,7 @@ function init() {
 	}
 	catch (err) 
 	{ 
+	noError = false;
 		dl(' * create controls ERROR')
 	}
 	dl(' - create controls OK')
@@ -143,6 +148,7 @@ function init() {
 	}
 	catch (err) 
 	{ 
+	noError = false;
 		dl(' * create scene ERROR')
 	}
 	dl(' - create scene OK')
@@ -157,6 +163,7 @@ function init() {
 	}
 	catch (err) 
 	{ 
+	noError = false;
 		dl(' * create lights ERROR')
 	}
 	dl(' - create lights OK')
@@ -172,6 +179,7 @@ function init() {
 	}
 	catch (err) 
 	{ 
+	noError = false;
 		dl(' * create materials ERROR')
 	}
 	dl(' - create materials OK')
@@ -182,6 +190,7 @@ function init() {
 	}
 	catch (err) 
 	{ 
+	noError = false;
 		dl(' * feedscene () ERROR')
 	}
 	dl(' - feedscene () OK')
@@ -199,7 +208,7 @@ function init() {
 	fl(' Create Renderer :')
 	try {
 		renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true } );
-	
+		//var rrr = renderer.fghrtlk();
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize(  $('#renderbox').width(), $('#renderbox').height() );
 		renderer.setClearColor( 0x000000, 0 ); // the default
@@ -208,13 +217,14 @@ function init() {
 	}
 	catch (err)
 	{
+	noError = false;
 		dl(' * create renderer ERROR')
 		$('#startapp').replaceWith( "<h3 id=\"cantstart\">Oups, something went wrong with three.js, WebGL does not seem to be supported on this browser</h3>" );
 		fl(err);
 		
 	}
 	dl(' * create renderer OK');
-		$('#logput').fadeOut();
+	if (noError)	$('#logput').fadeOut();
 	$('#startapp').addClass("startable");
 
 
