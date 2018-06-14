@@ -35,7 +35,7 @@ catch (err)
 }
 dl(' - load wavefront ex OK')
 
-var camarm = [0, 0, pobj.height / 2 / Math.tan(Math.PI * 70 / 360)];
+var camarm = [0, 0, 9999];//pobj.height*2 /2/ Math.tan(Math.PI * 50 / 360)];
 var mouse = new THREE.Vector2(), mouserayid;
 var container;
 var camera, controls, scene, raycaster, renderer;
@@ -112,7 +112,7 @@ function init() {
 	
 	try
 	{
-		camera = new THREE.PerspectiveCamera( 70, $('#renderbox').width() / $('#renderbox').height(), 0.1, 5000 );
+		camera = new THREE.PerspectiveCamera( 40, $('#renderbox').width() / $('#renderbox').height(), 0.1, 5000 );
 		camera.position.x = camarm[0];
 		camera.position.y = camarm[1];
 		camera.position.z = camarm[2];
@@ -311,7 +311,7 @@ function feedscene ()
 		objects.push( object );
 
 	}
-	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 70 / 360);
+	camera.position.z = pobj.height / 2 / Math.tan(Math.PI * 40 / 360);
 }
 function onWindowResize() {
 
@@ -462,7 +462,7 @@ function render() {
  	if( lpattern > -1 && view == 'pages-view')
    {
 	   var tmp_p = dispatcher.getPagepattern ( lpattern );
-	   $('#dispatcher-dialog').html( tmp_p.size +' '+tmp_p.desc);
+	   $('#dispatcher-dialog').html( tmp_p.size +' <span class="text-light">'+tmp_p.desc+'</span>');
 	//	fl(dispatcher.getPagepattern ( lpattern ));
    }
 	if ( view == 'print-view' && ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
