@@ -265,7 +265,7 @@ function blankscene ()
 
    if ( patterns != undefined )
 		for (let i = patterns.children.length - 1; i >= 2; i--) 
-			patterns.childr.splice(i, 1);
+			patterns.children.splice(i, 1);
 	ledge = -1;
 	ltriangle = -1;
 	lpage = -1;
