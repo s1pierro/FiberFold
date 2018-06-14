@@ -800,7 +800,7 @@ body {
 	}	
 
 
-@media (min-width: 1024px) {
+@media (min-width: 1020px) {
 /*
 		Desktop view
 		############
@@ -916,13 +916,34 @@ body {
 */
 	body.settings-view { background-color: #333; }
 
-	#dispatcher-dialog.settings-view, #svg7.settings-view,
-	#main-app-dialog.settings-view
+	#dispatcher-dialog.settings-view
 	{
 		display: none;
 		z-index: 0;
 		opacity: 0.0;
-
+	
+	}
+	#svg7.settings-view
+	{
+		display: none;
+		z-index: 0;
+		opacity: 0.0;
+	}	
+	#main-app-dialog.settings-view
+	{
+		display: block;
+		position: fixed;
+		z-index: 4;
+		opacity: 1.0;
+		top: 1em;
+		left: 1em;
+		max-width: 80%; 
+		text-align: left;
+		font-size: 1em;
+		color: #fff;
+		padding: 0em;
+		margin: 0em;
+		line-height: 1em;
 	}
 
 	
@@ -936,18 +957,60 @@ body {
 		;
 		position: fixed;
 		z-index: 15;
-		width: 100%;
+		width: auto;
 		height: 100vh;
 		top: 0px;
-		left:0px;
+		left:18em;
 	}	
+	#renderbox.settings-view {
+		display: block;
+		position: fixed;
+		z-index: 1;
+		width: 16vw;
+		height: 9vw;
+		top: 3.5em;
+		left: 2vw;
+		background: #0000;
+		opacity: 1.0;
+	}
+
+	#main-app-dialog-title.settings-view
+	{
+		display: block;
+		font-size: 1.6em;	
+		width: 20em;
+		position: relative;
+		top: 0em;
+		left: 0em;
+		max-width: 80%; 
+		margin-bottom: 0.4em;
+		opacity: 1.0;
+	}
+	#main-app-dialog-info.settings-view
+	{
+		display: block;
+		font-size: 1em;
+		position: fixed;
+		top: 11em;
+		left: 1em;
+		width: 16em; 
+		color: #fff;
+		z-index: 4;
+		padding: 0em;
+					margin: 0em;
+		line-height: 1em;
+		text-align: left;
+		opacity: 1.0;
+	}
 
 
-	body.pages-view { background-color: #444; }
+
+
 /*
 		# Pages view
 
 */
+	body.pages-view { background-color: #444; }
 	
 	#dispatcher-dialog.pages-view
 	{

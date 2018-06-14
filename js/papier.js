@@ -68,7 +68,7 @@ catch (err)
 dl(' - create Dispatcher OK')
 
 var verbose = false;
-var BUILDmode = "safe";
+var BUILDmode = "fast";
 var scaleconst = 1;
 
 var ledge = -1;
@@ -373,11 +373,13 @@ function mouseup ( event )
 						activeshape1 = tappedshapeid;
 						activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
 						setshapestate(pobj, tappedshapeid, "highlight" );
+						ltriangle = activeshape1;
 					}
 					else if ( BUILDmode == "safe" )
 					{
 						activeshape1 = -1 ;
 						activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
+						ltriangle = -1;
 					}
 			}
 			else
@@ -385,6 +387,8 @@ function mouseup ( event )
 				activeshape1 = tappedshapeid;
 				activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
 				setshapestate(pobj, tappedshapeid, "highlight" );
+				ltriangle = activeshape1;
+				
 			}
 		}
 		else
@@ -392,12 +396,13 @@ function mouseup ( event )
 			activeshape1 = tappedshapeid;
 			activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
 			setshapestate(pobj, tappedshapeid, "highlight" );		
+			ltriangle = activeshape1;
 		}
 	}
 			
 
-		if ( tappedshapeid > -1)
-			lpattern = patterns.findTriangleOwner (tappedshapeid);
+		if ( ltriangle > -1)
+			lpattern = patterns.findTriangleOwner (ltriangle);
 
 	render();
 }
@@ -486,7 +491,7 @@ function render() {
 			$('#dispatcher-dialog').html('');
 		dispatcher.outPattern (ltriangle);
 	}
-	if ( patterns.children.length == 0 )
+	if ( patterns.children.length == 0 && view != "settings-view" )
 	{
 			infos = 'There\'s no pattern yet. The way to do everything :'+
 			'<ul><li class="text-light">create pattern</li>'+
