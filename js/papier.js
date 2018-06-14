@@ -84,10 +84,6 @@ $(window).on("load",  init());
 function init() {
 	dl(' # stuff loaded');
 
-	var tmp = "A4";
-	var nn = tmp.replace(/A/i, '');
-	fl(parseInt(nn));	
-
 	$('#processing-fail-indicator').fadeOut( 1 );
 
 	$('#processing-success-indicator').fadeOut( 1 );
@@ -203,10 +199,9 @@ function init() {
 			setedgestate (pobj, pobj.prefreeze[i], "freeze");
 		patterns.rebuild();
 	}
-	else fl('no prefreeze');
-	printWavefront (pobj);
+	else dl(' - no saved patterns founded');
+	//printWavefront (pobj);
 	raycaster = new THREE.Raycaster();		
-	fl(' Create Renderer :')
 	try {
 		renderer = new THREE.WebGLRenderer( { antialias: false, alpha: true } );
 		//var rrr = renderer.fghrtlk();
@@ -267,6 +262,10 @@ function blankscene ()
 	for (let i = objects.length - 1; i >= 0; i--) 
 		objects.splice(i, 1);
   	renderplane.innerHTML = "";
+   patterns
+   if ( patterns != undefined )
+		for (let i = patterns.children.length - 1; i >= 2; i--) 
+			patterns.childr.splice(i, 1);
 }
 function feedscene ()
 {
@@ -338,7 +337,7 @@ function mouseup ( event )
 		var tappedshapeid = focus.tid;
 
 		ltriangle = tappedshapeid;
-		fl(lpattern);
+
 		if ( activeshape1 != -1 )
 		{
 
@@ -390,8 +389,10 @@ function mouseup ( event )
 			setshapestate(pobj, tappedshapeid, "highlight" );		
 		}
 	}
-	//		
-		lpattern = patterns.findTriangleOwner (tappedshapeid);
+			
+
+		if ( tappedshapeid > -1)
+			lpattern = patterns.findTriangleOwner (tappedshapeid);
 
 	render();
 }
@@ -452,22 +453,49 @@ function render() {
 			$('#main-app-dialog-info').html(infos);		
 		//$('#scratch-mess').fadeOut();
 	}	
-	else
-	{
-		//$('#main-app-dialog-info').text('no pattern');		
-	}	
- 	// At this point Patterns are correctly defined but they have not been flattened yet
+	
 	$('#main-app-dialog-title').text( pobj.nme );//+' body : '+$( window ).width()+' '+$( window ).height() );
  	if( lpattern > -1 && view == 'd-view') $('#dispatcher-dialog').html(patterns.children[lpattern].papersizereq.s );
- 	if( lpattern > -1 && view == 'pages-view')
+ 	if( view == 'pages-view')
    {
-	   var tmp_p = dispatcher.getPagepattern ( lpattern );
-	   $('#dispatcher-dialog').html( tmp_p.size +' <span class="text-light">'+tmp_p.desc+'</span>');
-	//	fl(dispatcher.getPagepattern ( lpattern ));
+	   if ( lpattern > -1 )
+	   {
+			var tmp_p = dispatcher.getPagepattern ( lpattern );
+			$('#dispatcher-dialog').html( tmp_p.size +' <i class="icon-left-dir text-light" id="go-prev-page"></i>'+
+																		'<span class="text-light">'+tmp_p.desc+'</span>'+
+																		' <i class="icon-right-dir text-light" id="go-next-page"></i>'
+																		);
+	   }
+		if ( ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
+		
+		
+//	fl(dispatcher.getPagepattern ( lpattern ));
    }
 	if ( view == 'print-view' && ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
-	if ( view == 'pages-view' && ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
-	if ( view == 'd-view' && ltriangle > -1 ) dispatcher.outPattern (ltriangle);
+	if ( view == 'd-view')
+	{		
+		var tmp_p = dispatcher.getPagepattern ( lpattern );
+		if ( lpattern > -1 )
+			$('#dispatcher-dialog').html(patterns.children[lpattern].papersizereq.s);
+		else
+			$('#dispatcher-dialog').html('');
+		dispatcher.outPattern (ltriangle);
+	}
+	if ( patterns.children.length == 0 )
+	{
+			infos = 'There\'s no pattern yet. The way to do everything :'+
+			'<ul><li class="text-light">create pattern</li>'+
+				'<li class="text-light">extend pattern</li>'+
+				'<li class="text-light">merge patterns</li>'+
+				'<li class="text-light">split patterns</li>'+
+			'</ul><strong>Hit two joined triangles</strong>';
+
+			infos = '<p>'+infos+'</p>';
+
+			$('#dispatcher-dialog').html(infos);		
+		//$('#main-app-dialog-info').text('no pattern');		
+	}	
+	
 
 	renderer.render( scene, camera );
 }
@@ -505,13 +533,8 @@ $('body').on('click', '#startapp', function()
 	$("#startcontainer").fadeOut();
 
 });
-function toggleSettingsView ()
+function updateRendererOffset ()
 {
-	view = 'settings-view';
-	$(".app-component").removeClass("print-view");
-	$(".app-component").removeClass("pages-view");
-	$(".app-component").removeClass("d-view");
-	$(".app-component").addClass("settings-view");
 	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
 	camera.updateProjectionMatrix();
 	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
@@ -519,54 +542,45 @@ function toggleSettingsView ()
 	rendererOffset.y = $('#renderbox').position().top;
 	rendererSize.w = $('#renderbox').width();
 	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
+}
+function toggleSettingsView ()
+{
+	controls.enabled = false;
+	view = 'settings-view';
+	$(".app-component")
+		.removeClass("print-view pages-view settings-view d-view")
+			.addClass(view);
+	updateRendererOffset ();
 	render();
 }
 function togglePrintView ()
 {
+	controls.enabled = false;
 	view = 'print-view';
-	$(".app-component").removeClass("settings-view");
-	$(".app-component").removeClass("pages-view");
-	$(".app-component").removeClass("d-view");
-	$(".app-component").addClass("print-view");
-	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-	camera.updateProjectionMatrix();
-	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
-	rendererOffset.x = $('#renderbox').position().left;
-	rendererOffset.y = $('#renderbox').position().top;
-	rendererSize.w = $('#renderbox').width();
-	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
+	$(".app-component")
+		.removeClass("print-view pages-view settings-view d-view")
+			.addClass(view);
+	updateRendererOffset ();
 	render();
 }
 function toggleDview ()
-{		
+{				
+	controls.enabled = true;
 	view = 'd-view';
-	$(".app-component").removeClass("print-view");
-	$(".app-component").removeClass("pages-view");
-	$(".app-component").removeClass("settings-view");
-	$(".app-component").addClass("d-view");
-	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-	camera.updateProjectionMatrix();
-	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
-	rendererOffset.x = $('#renderbox').position().left;
-	rendererOffset.y = $('#renderbox').position().top;
-	rendererSize.w = $('#renderbox').width();
-	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
+	$(".app-component")
+		.removeClass("print-view pages-view settings-view d-view")
+			.addClass(view);
+	updateRendererOffset ();
 	render();
 }
 function togglePagesView ()
 {
+	controls.enabled = true;
 	view = 'pages-view';
-	$(".app-component").removeClass("print-view");
-	$(".app-component").removeClass("d-view");
-	$(".app-component").removeClass("settings-view");
-	$(".app-component").addClass("pages-view");
-	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-	camera.updateProjectionMatrix();
-	rendererOffset.x = $('#renderbox').position().left;
-	rendererOffset.y = $('#renderbox').position().top;
-	rendererSize.w = $('#renderbox').width();
-	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
-	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+	$(".app-component")
+		.removeClass("print-view pages-view settings-view d-view")
+			.addClass(view);
+	updateRendererOffset ();
 	render();
 
 }

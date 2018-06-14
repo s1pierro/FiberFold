@@ -572,9 +572,9 @@ body {
 		font-size: 1.1em;
 		position: fixed;
 		z-index: 6;
-		bottom: 2.4em;
-		left: 70.7vh;
-		width: 35.35vh;
+		bottom: 2em;
+		left: 73vh;
+		width: auto;
 		height: 2em;
 		background-color: #0000;
 		color: #f94;
@@ -587,18 +587,18 @@ body {
 		font-size: 1em;
 		position: fixed;
 		top: 1.1em;
-		left: 70.7vh;
+		left: 73vh;
 		max-width: 80%; 
 		color: #fff;
 		z-index: 4;
 		padding: 0em;
-					margin: 0em;
+		margin: 0em;
 		line-height: 1em;
 		text-align: left;
 	}
 	#main-app-dialog-title.pages-view
 	{
-		font-size: 1.6em;	
+		font-size: 1.3em;	
 		width: 80%;
 		position: relative;
 		top: 0em;
@@ -610,13 +610,13 @@ body {
 	{
 		font-size: 1em;
 		position: fixed;
-		bottom: 0.5em;
-		left: 70.7vh;
+		bottom: 0em;
+		left: 72vh;
 		max-width: 80%; 
 		color: #fff;
 		z-index: 4;
 		padding: 0em;
-					margin: 0em;
+		margin: 0em;
 		line-height: 1em;
 		text-align: left;
 	}
@@ -632,11 +632,11 @@ body {
 		color: #eee;
 		position: fixed;
 		z-index: 2;
-		bottom: 3%;
-		left: 0.5em;
+		bottom: 0;
+		left: 0;
 		width: auto;
-		height: 94%;
-		border: 0.5mm solid;
+		height: 100vh;
+
 	}
 	#renderbox.pages-view {
 		display: block;
@@ -698,19 +698,20 @@ body {
 */
 	#dispatcher-dialog.d-view
 	{
-		position: fixed;
+		position: absolute;
 		z-index: 6;
-		bottom: 2.3em;
+		bottom: 3.3em;
 		left: 1em;
-		width:0.7070em;
-		height:1em;
+		margin-right: 1em;
 		background-color: #0000;
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
+		height: auto;
+		width: auto;
 		padding-top:1.1em;
 		padding-bottom:0.5em;
-		padding-left:0.3em;
-		padding-right:1em;
+		padding-left:0.5em;
+		padding-right: 0.5em;
 		border: 1px solid;
 	}
 	#main-app-dialog-info.d-view p
@@ -832,19 +833,20 @@ body {
 	}
 	#dispatcher-dialog.d-view
 	{
-		position: fixed;
+		position: absolute;
 		z-index: 6;
 		bottom: 3.3em;
 		left: 1em;
-		width:0.7070em;
-		height:1em;
 		background-color: #0000;
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
+		height: auto;
+		width: auto;
 		padding-top:1.1em;
 		padding-bottom:0.5em;
-		padding-left:0.3em;
-		padding-right:1em;
+		padding-left:0.5em;
+		padding-right: 0.5em;
+		margin-right: 1em;
 		border: 1px solid;
 	}
 	#main-app-dialog-info.d-view p

@@ -24,17 +24,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 function Page (pattern)
 {
 	this.patterns = [pattern];
-	this.desc = 'page '+dispatcher.pages.length;
-
-
+	this.desc = 'page '+(parseInt(dispatcher.pages.length)+1);
 	this.size = pattern.papersizereq.s;
-	//this.offset = { x : x, y: y };
-
 	this.height = pattern.papersizereq.h;
 	this.width = pattern.papersizereq.w;
-	//1,414285714
-//	840 1188
 }
+/** @description
+
+	print page to dest_container;
+	@param {object} dest_container
+	@param {text} guid the guid of the pattern to highlight
+
+ */
 Page.prototype.out = function ( dest_container, pguid )
 { 
 	
@@ -83,10 +84,11 @@ Page.prototype.out = function ( dest_container, pguid )
 			
 		
 	}
-
-	
-	
 }
+/** @description
+
+	check collision between pattern and stuff already on the page
+*/
 Page.prototype.collisionTest = function ( pattern )
 {
 	var x = pattern.position.x;
@@ -111,11 +113,18 @@ Page.prototype.collisionTest = function ( pattern )
 		if (x < 5 | y < 5 ) return true;
 	}
 	return false;
-	
 }
+/** @description
+
+	add pattern to the page
+*/
 
 Page.prototype.addPattern = function ( pattern )
-{
+{/** @description
+
+	add pattern to the page
+*/
+
 	pattern.position.x = this.width - pattern.width;
 	pattern.position.y = this.height - pattern.height;
 
@@ -166,6 +175,11 @@ function Dispatcher (patterns)
 	this.pages = [];
 	this.p = patterns;
 }
+/** @description
+
+	indicate the number of specified page size
+*/
+
 Dispatcher.prototype.nSize = function ( size )
 {
 	var tmp = 0;
@@ -175,10 +189,18 @@ Dispatcher.prototype.nSize = function ( size )
 	}
 	return tmp;
 }
+/** @description
+
+	update patternn ref
+*/
 Dispatcher.prototype.updatePatterns = function ( patterns )
 {
 	this.p = patterns;
 }
+/** @description
+
+	-
+*/
 Dispatcher.prototype.queryPages = function ( size )
 {
 	//TODO return bigger sized
@@ -192,6 +214,10 @@ Dispatcher.prototype.queryPages = function ( size )
 	}
 	return tmp;
 }
+/** @description
+
+	-
+*/
 
 Dispatcher.prototype.outPageTriangle = function ( tid, container )
 {
@@ -203,8 +229,13 @@ Dispatcher.prototype.outPageTriangle = function ( tid, container )
 				
 
 }
+/** @description
+
+	-
+*/
 Dispatcher.prototype.getPagepattern = function ( pid )
 {
+	if ( pid == -1 ) return undefined;
 	for ( var i = 0 ; i < this.pages.length ; i++ )
 		for ( var j = 0 ; j < this.pages[i].patterns.length ; j++ )
 			if ( this.pages[i].patterns[j].guid == patterns.children[pid].guid )
@@ -212,10 +243,15 @@ Dispatcher.prototype.getPagepattern = function ( pid )
 				
 
 }
+/** @description
+
+	-
+*/
 Dispatcher.prototype.outPattern = function ( tid, container )
 {
+	renderplane.innerHTML = "";
+	if ( tid == -1 ) return;
 	var idx = patterns.findTriangleOwner (tid);
-	fl('index : '+idx);
 	if ( idx > -1 )
 	{
 	var pat =  patterns.children[idx];
@@ -224,7 +260,6 @@ Dispatcher.prototype.outPattern = function ( tid, container )
 		$('#svg7').attr('viewBox', '0 0 '+(pat.width+10)+' '+(pat.height+10));
 
 	
-	renderplane.innerHTML = "";
 
 
 
@@ -273,6 +308,10 @@ Dispatcher.prototype.outPattern = function ( tid, container )
 				
 			
 }
+/** @description
+
+	-
+*/
 
 Dispatcher.prototype.fullDispatch = function (  )
 {
@@ -285,6 +324,10 @@ Dispatcher.prototype.fullDispatch = function (  )
 	 }
 	// fl(this.pages);
 }
+/** @description
+
+	-
+*/
 Dispatcher.prototype.dispatch = function ( p )
 {
 
@@ -309,25 +352,15 @@ Dispatcher.prototype.dispatch = function ( p )
 		p.position.y = 0;
 		this.pages.push( new Page (p) );
 		return 0;
-			
-
-			
-			
-
-	//this.addPattern (this.patterns[0]);
-//	pgs[0].addPatttern (p);
 }
+/** @description
 
-/*
-Dispacher.prototype. = function ( x, y, size )
-{
-	
-}
+	-
 */
-/** @constructor */
 Dispatcher.prototype.sortChildren = function ()
 {
-	
+	var a = 0;
+	return a;
 }
 /** @constructor */
 
@@ -480,9 +513,6 @@ Patterns.prototype.rebuild = function (feid)
 			if (edgestate(this.targetMesh, i) == "freeze" ) freezedlist.push(i);
 	
 	/**/
-
-	
-	
 
 	// Let's now dispatch those freezed edges into different patterns
 	
@@ -817,8 +847,6 @@ Pattern.prototype.smartPositioning = function ()
 		r = w/h;
 		scrs.push(r);
 	}
-	fl('scrs : '+scrs.length);
-	fl(scrs);
 	var sc = 10000;
 	var iscr = -1;
 	for (var i = 0 ; i < scrs.length ; i++ )
@@ -830,12 +858,9 @@ Pattern.prototype.smartPositioning = function ()
 		} 
 		
 	}
-	fl('iscr '+iscr);
+
 	var srot = (iscr+1) * inc;
-	fl('\n # srot '+srot);
-			fl(srot);
-	//this.rotate (270);
-		this.rotate (srot);	
+	this.rotate (srot);	
 
 	maxX = -1000;
 	minX = 1000;
@@ -992,30 +1017,31 @@ Pattern.prototype.assembleFlattenedTriangles = function ()
 	var done = new processedelements(); 		
 	done.add ( this.triangles[0] );
 	var k;
+	var mesh = this.targetMesh;
 	for ( var j = 0 ; j < this.edges.length ; j++ )
 	{
 		// pattern cannot own single triangle edges, so we're safe with
 		// fallowing code
 		var vt1s, vt1e, vt2s, vt2e;
-		var vs = this.targetMesh.edges[this.edges[j]].som[0];
-		var ve = this.targetMesh.edges[this.edges[j]].som[1];
+		var vs = mesh.edges[this.edges[j]].som[0];
+		var ve = mesh.edges[this.edges[j]].som[1];
 
-		for ( var m = 0 ; m < this.targetMesh.triangles[this.targetMesh.edges[this.edges[j]].tri[0] ].length ; m++)
+		for ( var m = 0 ; m < mesh.triangles[mesh.edges[this.edges[j]].tri[0] ].length ; m++)
 		{
-			if ( this.targetMesh.triangles[this.targetMesh.edges[this.edges[j]].tri[0] ][m] == vs )
+			if ( mesh.triangles[mesh.edges[this.edges[j]].tri[0] ][m] == vs )
 				vt1s = m;
-			if ( this.targetMesh.triangles[this.targetMesh.edges[this.edges[j]].tri[0] ][m] == ve )
+			if ( mesh.triangles[mesh.edges[this.edges[j]].tri[0] ][m] == ve )
 				vt1e = m;
 		}
-		for ( var m = 0 ; m < this.targetMesh.triangles[this.targetMesh.edges[this.edges[j]].tri[1] ].length ; m++)
+		for ( var m = 0 ; m < mesh.triangles[mesh.edges[this.edges[j]].tri[1] ].length ; m++)
 		{
-			if ( this.targetMesh.triangles[this.targetMesh.edges[this.edges[j]].tri[1] ][m] == vs )
+			if ( mesh.triangles[mesh.edges[this.edges[j]].tri[1] ][m] == vs )
 				vt2s = m;
-			if ( this.targetMesh.triangles[this.targetMesh.edges[this.edges[j]].tri[1] ][m] == ve )
+			if ( mesh.triangles[mesh.edges[this.edges[j]].tri[1] ][m] == ve )
 				vt2e = m;
 		}
-		var t = this.getTriangleIndex ( this.targetMesh.edges[this.edges[j]].tri[0] );
-		var t2 = this.getTriangleIndex( this.targetMesh.edges[this.edges[j]].tri[1] );
+		var t = this.getTriangleIndex ( mesh.edges[this.edges[j]].tri[0] );
+		var t2 = this.getTriangleIndex( mesh.edges[this.edges[j]].tri[1] );
 
 		var target = vectfromvertices (this.trianglesflatcoord[t][vt1s].c,
 												 this.trianglesflatcoord[t][vt1e].c);
@@ -1023,7 +1049,7 @@ Pattern.prototype.assembleFlattenedTriangles = function ()
 		var bullet = vectfromvertices (this.trianglesflatcoord[t2][vt2s].c,
 												 this.trianglesflatcoord[t2][vt2e].c);
 
-		if ( done.is ( this.targetMesh.edges[this.edges[j]].tri[0] ) )
+		if ( done.is ( mesh.edges[this.edges[j]].tri[0] ) )
 		{
 			var itpmat = geninterpmat (bullet, target);
 		   var pp = $.extend( true, [], this.trianglesflatcoord[t2]);
@@ -1039,7 +1065,7 @@ Pattern.prototype.assembleFlattenedTriangles = function ()
 				this.trianglesflatcoord[t][ii].c = applymat(itpmat, pp[ii].c);
 			k = 0;			
 		}
-		done.add ( this.targetMesh.edges[ this.edges[j] ].tri[k] );
+		done.add ( mesh.edges[ this.edges[j] ].tri[k] );
 	}
 }
 /** @description

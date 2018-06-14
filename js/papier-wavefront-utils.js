@@ -116,7 +116,6 @@ if (vertexMatches) {
 		console.log (positionMatches );
 	}
 	if (frzMatches) {
-		fl(frzMatches);
 			var frozen = frzMatches[0];//.map(function(frz) {
 
 				frozen = frozen.split(" ");
@@ -361,12 +360,7 @@ function scaleWavefront (wavefront, scale)
 	wavefront.sz = zmax-zmin;
 	$('.sizeX').text((wavefront.sx/10).toFixed(2));
 	$('.sizeY').text((wavefront.sy/10).toFixed(2));
-	$('.sizeZ').text((wavefront.sz/10).toFixed(2));
-
-
-	
-	
-	
+	$('.sizeZ').text((wavefront.sz/10).toFixed(2));	
 }
 
 function rotateWavefront (wavefront, x, y, z)
@@ -380,35 +374,30 @@ function rotateWavefront (wavefront, x, y, z)
 }
 window['rotateWavefront'] = rotateWavefront;
 function readWavefrontFile(evt) {
-	$('#p-title-content').text("Loading");
-blankscene ();
+	
+	toggleDview ();
+	$('#main-app-dialog-title').text( 'loading ...');//+' body : '+$( window ).width()+' '+$( window ).height() );
+
+	blankscene ();
 	var f = evt.target.files[0];
-	if (f) {
+	if (f)
+	{
 		var r = new FileReader();
-		r.onload = function(e) {
+		r.onload = function(e)
+		{
 			var contents = e.target.result;
 			var obj = parsewavefront(e.target.result, 0);
 			pobj = $.extend(true, {}, obj);
-			//l(wavefront);
 			patterns = new Patterns(pobj);
 			feedscene();
-		if (pobj.prefreeze != undefined )
-		{
-		
-			fl('prefreeze');
-			for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
+			if (pobj.prefreeze != undefined )
 			{
-				
-				setedgestate (pobj, pobj.prefreeze[i], "freeze");
-			}
-		
-			patterns.rebuild();
-			printWavefront (pobj);
-		}		
-		toggleDview ();
-		activeshape1 = -1;
-		controls.enabled = true;
-			renderer.render( scene, camera );
+				for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
+					setedgestate (pobj, pobj.prefreeze[i], "freeze");
+				patterns.rebuild();
+			}		
+			activeshape1 = -1;
+			toggleDview ();
 		}
 		r.readAsText(f);
 	} else {
@@ -417,12 +406,12 @@ blankscene ();
 }
 function loadWavefrontExample(file) {
 
-		toggleDview ();
+	toggleDview ();
 	$('#main-app-dialog-title').text( 'loading');//+' body : '+$( window ).width()+' '+$( window ).height() );
 
 	console.log('Loading ...')
-	jQuery.get(file, function(data) {
-
+	jQuery.get(file, function(data)
+	{
 		var obj = parsewavefront(data, 0);
 		pobj = $.extend(true, {}, obj);
 		//l(wavefront);
@@ -432,17 +421,11 @@ function loadWavefrontExample(file) {
 		if (pobj.prefreeze != undefined )
 		{
 			for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
-			{
-				
 				setedgestate (pobj, pobj.prefreeze[i], "freeze");
-			}
-		
 			patterns.rebuild();
 		}
 		activeshape1 = -1;
-		controls.enabled = true;
-		renderer.render( scene, camera );
-
+		toggleDview ();
 	});
 }
 function getEdgeId (o, s1, s2)

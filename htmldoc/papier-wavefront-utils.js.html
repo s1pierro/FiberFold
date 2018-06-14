@@ -81,20 +81,57 @@ function getwavefrontproperties (o)
 	@returns {object} an object that store mesh define in a format
 	suitable to the app
 */
-function parsewavefront(objText, id) {
+function printWavefront (o)
+{
+	var po = '# o '+o.nme;
+	
 
+	
+	var tmp = '\n#frz';
+	for ( var i = 0 ; i &lt; o.edges.length ; i++ )
+		if (edgestate(o, i) == "freeze" ) tmp+=' '+i;
+		
+	po = po+tmp;
+	tmp = '';
+	for ( var i = 0 ; i &lt; o.vertices.length ; i++ )
+		tmp+='\nv '+o.vertices[i][0]+' '+o.vertices[i][1]+' '+o.vertices[i][2];
+		
+	po = po+tmp;
+	tmp = '';
+	
+	for ( var i = 0 ; i &lt; o.triangles.length ; i++ )
+		tmp+='\nf '+(o.triangles[i][0]+1)+' '+(o.triangles[i][1]+1)+' '+(o.triangles[i][2]+1);
+	po = po+tmp;
+	return po;
+
+}
+function parsewavefront(objText, id) {
+	console.clear();
 	var nv = 0;
 	var nt = 0;
 	var ng = 0;
 	var obj = {};
+
 	var vertexMatches = objText.match(/^v( -?\d+(\.\d+)?){3}$/gm);
 //	var triMatches = objText.match(/^f( \d+){3}$/gm);
 	var triMatches = objText.match(/^f( \d+){3,4}$/gm);
 	var gMatches = objText.match(/^f( \d+){3,4}$|^usemtl (.+)$/gm);
 
 	var positionMatches = objText.match(/^position( -?\d+(\.\d+)?){3}$/gm);
+	var frzMatches = objText.match(/^#frz( \d+){1,}$/gm);
+	var nameMatches = objText.match(/^# o( .+){1,}/gm);
 	
-	if (vertexMatches) {
+	if (nameMatches) {
+
+		var name = nameMatches[0].split(" ");
+		name.shift(); 
+		var tmpname = "";
+		for ( var g = 1 ; g &lt; name.length ; g++ )
+			tmpname+=' '+name[g];
+		obj.nme = tmpname;
+	}
+	else obj.nme ='unnamed';
+if (vertexMatches) {
 		obj.vertices = vertexMatches.map(function(vertex) {
 			nv++;
 			var vertices = vertex.split(" ");
@@ -106,12 +143,21 @@ function parsewavefront(objText, id) {
 
 		console.log (positionMatches );
 	}
+	if (frzMatches) {
+			var frozen = frzMatches[0];//.map(function(frz) {
+
+				frozen = frozen.split(" ");
+				frozen.shift();	
+				obj.prefreeze = Uint16Array.from(frozen);
+	//	});
+	}
+
 
 	if (triMatches) {
-		obj.triangles = triMatches.map(function(tri) {
-			nt++;
-			var triangle = tri.split(" ");
-			triangle.shift();
+			obj.triangles = triMatches.map(function(tri) {
+				nt++;
+				var triangle = tri.split(" ");
+				triangle.shift();
 //			l(triangles);
 			var t = Uint16Array.from(triangle);
 			t[0] = t[0]-1;
@@ -192,10 +238,12 @@ function parsewavefront(objText, id) {
 	obj.sx = xmax-xmin;
 	obj.sy = ymax-ymin;
 	obj.sz = zmax-zmin;
-	$('#sizeX').text((obj.sx/10).toFixed(2));
-	$('#sizeY').text((obj.sy/10).toFixed(2));
-	$('#sizeZ').text((obj.sz/10).toFixed(2));
-	//fl(obj);
+	$('.sizeX').text((obj.sx/10).toFixed(2));
+	$('.sizeY').text((obj.sy/10).toFixed(2));
+	$('.sizeZ').text((obj.sz/10).toFixed(2));
+
+	$('#p-title-content').text(obj.nme);
+
 	return obj;
 }
 window['parsewavefront'] = parsewavefront;
@@ -338,14 +386,9 @@ function scaleWavefront (wavefront, scale)
 	wavefront.sx = xmax-xmin;
 	wavefront.sy = ymax-ymin;
 	wavefront.sz = zmax-zmin;
-	$('#sizeX').text((wavefront.sx/10).toFixed(2));
-	$('#sizeY').text((wavefront.sy/10).toFixed(2));
-	$('#sizeZ').text((wavefront.sz/10).toFixed(2));
-
-
-	
-	
-	
+	$('.sizeX').text((wavefront.sx/10).toFixed(2));
+	$('.sizeY').text((wavefront.sy/10).toFixed(2));
+	$('.sizeZ').text((wavefront.sz/10).toFixed(2));	
 }
 
 function rotateWavefront (wavefront, x, y, z)
@@ -359,27 +402,60 @@ function rotateWavefront (wavefront, x, y, z)
 }
 window['rotateWavefront'] = rotateWavefront;
 function readWavefrontFile(evt) {
-blankscene ();
+	
+	toggleDview ();
+	$('#main-app-dialog-title').text( 'loading ...');//+' body : '+$( window ).width()+' '+$( window ).height() );
+	$('#main-app-dialog-info').text( 'please wait');//+' body : '+$( window ).width()+' '+$( window ).height() );
+
+	blankscene ();
 	var f = evt.target.files[0];
-	if (f) {
+	if (f)
+	{
 		var r = new FileReader();
-		r.onload = function(e) {
+		r.onload = function(e)
+		{
 			var contents = e.target.result;
 			var obj = parsewavefront(e.target.result, 0);
 			pobj = $.extend(true, {}, obj);
-			//l(wavefront);
 			patterns = new Patterns(pobj);
 			feedscene();
-		$('#settings').fadeOut(); 
-		$('#credits').fadeIn();
-		activeshape1 = -1;
-		controls.enabled = true;
-			renderer.render( scene, camera );
+			if (pobj.prefreeze != undefined )
+			{
+				for ( var i = 0 ; i &lt; pobj.prefreeze.length ; i++)
+					setedgestate (pobj, pobj.prefreeze[i], "freeze");
+				patterns.rebuild();
+			}		
+			activeshape1 = -1;
+			toggleDview ();
 		}
 		r.readAsText(f);
 	} else {
 		alert("Failed to load file");
 	}
+}
+function loadWavefrontExample(file) {
+
+	toggleDview ();
+	$('#main-app-dialog-title').text( 'loading');//+' body : '+$( window ).width()+' '+$( window ).height() );
+
+	console.log('Loading ...')
+	jQuery.get(file, function(data)
+	{
+		var obj = parsewavefront(data, 0);
+		pobj = $.extend(true, {}, obj);
+		//l(wavefront);
+		patterns = new Patterns(pobj);
+		blankscene ();
+		feedscene();
+		if (pobj.prefreeze != undefined )
+		{
+			for ( var i = 0 ; i &lt; pobj.prefreeze.length ; i++)
+				setedgestate (pobj, pobj.prefreeze[i], "freeze");
+			patterns.rebuild();
+		}
+		activeshape1 = -1;
+		toggleDview ();
+	});
 }
 function getEdgeId (o, s1, s2)
 {
@@ -567,6 +643,18 @@ function setshapestate (o, t, s)
 		scene.children[(2+t+o.ne)].material = materialHighlighted;
 	}
 }
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
 /*
 	this file is a part of 
 	papier 0.4.1
@@ -586,13 +674,13 @@ function setshapestate (o, t, s)
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Node.html">Node</a></li><li><a href="Pattern.html">Pattern</a></li><li><a href="Patterns.html">Patterns</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getwavefrontproperties">getwavefrontproperties</a></li><li><a href="global.html#parsewavefront">parsewavefront</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Dispatcher.html">Dispatcher</a></li><li><a href="Node.html">Node</a></li><li><a href="Page.html">Page</a></li><li><a href="Pattern.html">Pattern</a></li><li><a href="Patterns.html">Patterns</a></li><li><a href="Vector.html">Vector</a></li></ul><h3>Global</h3><ul><li><a href="global.html#getwavefrontproperties">getwavefrontproperties</a></li><li><a href="global.html#parsewavefront">parsewavefront</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Jun 03 2018 03:58:02 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Jun 14 2018 07:33:23 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>
