@@ -315,7 +315,7 @@ Dispatcher.prototype.outPattern = function ( tid, container )
 
 Dispatcher.prototype.fullDispatch = function (  )
 {
-
+/*
 	//console.clear();
 	this.pages.splice( 0, this.pages.length );
 	 for ( var i = 0 ; i < this.p.children.length ; i++ )
@@ -323,6 +323,29 @@ Dispatcher.prototype.fullDispatch = function (  )
 		 dispatcher.dispatch(this.p.children[i]);
 	 }
 	// fl(this.pages);
+	*/
+	
+	this.pages.splice( 0, this.pages.length );
+	var cnt = 0;
+	var target = this.p.children.length;
+	var dnl = new processedelements();
+
+	
+	for ( var j = 0 ; j < this.p.children.length ; j++ )
+	{
+		var mx = 0;	
+		var mxidx = 0;	
+		for ( var i = 0 ; i < this.p.children.length ; i++ )
+		{
+			if ( mx < this.p.children[i].height && dnl.is(i) == false )
+			{
+				mx = this.p.children[i].height;
+			 	mxidx = i;
+			}
+		}
+		dispatcher.dispatch(this.p.children[mxidx]);
+		dnl.add(mxidx);
+	}
 }
 /** @description
 
