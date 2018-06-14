@@ -262,7 +262,7 @@ function blankscene ()
 	for (let i = objects.length - 1; i >= 0; i--) 
 		objects.splice(i, 1);
   	renderplane.innerHTML = "";
-   patterns
+
    if ( patterns != undefined )
 		for (let i = patterns.children.length - 1; i >= 2; i--) 
 			patterns.childr.splice(i, 1);
