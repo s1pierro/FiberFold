@@ -31,23 +31,6 @@ body
 {
 		font-family: sans;
 }
-.btn-danger
-{	
-	color: #000;
-	background-color: #ff9f4a;
-}
-.btn-outline-light
-{
-	border-color: #ccc;
-	color: #ccc;
-	background: none;
-}
-.btn-outline-light:hover
-{
-	border-color: #fff;
-	color: #fff;
-	background: none;
-}
 
 .text-light
 {
@@ -897,17 +880,40 @@ body {
 	}
 
 }
+
 .btn
 {
 	border-radius: 3px;
 	padding: 6px;
-	border: 1px solid #fff;
+	border: 1px solid #eee;
+	background-color: #eee;
+	color:#333;
 }
 .btn:hover
 {
 	border-radius: 6px;
 	border: 1px solid #f94;
+	background-color: #ff9f4a;
+	color:#fff;
 }
+.btn-danger
+{	
+	color: #000;
+	background-color: #ff9f4a;
+}
+.btn-outline-light
+{
+	border-color: #ccc;
+	color: #ccc;
+	background: none;
+}
+.btn-outline-light:hover
+{
+	border-color: #fff;
+	color: #fff;
+	background: none;
+}
+
 .desc
 {
 	font-size: 0.9em;	
