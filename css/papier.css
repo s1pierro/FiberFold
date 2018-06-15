@@ -619,7 +619,7 @@ body {
 	{
 		position: absolute;
 		z-index: 6;
-		bottom: 3.3em;
+		bottom: 1.3em;
 		left: 1em;
 		background-color: #0000;
 		color: #f94;
@@ -644,7 +644,7 @@ body {
 		width: auto;
 		position: fixed;
 		bottom: 1em;
-		left: 0.5em;
+		left: 4.5em;
 		max-width: 80%; 
 		color: #ccc;
 	}
