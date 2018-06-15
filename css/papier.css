@@ -1021,6 +1021,16 @@ body {
 		width: auto;
 		left: 1vw;
 	}
+	.alert
+	{
+		padding: 1em;
+		background-color: #f94;
+		color: #000;
+		min-width:1em;
+		max-width: auto;
+		font: TitilliumWeb-Bold;
+	
+	}
 	#settings.d-view, #settings.pages-view, #settings.print-view, #page-nav.d-view, #page-nav.settings-view, #page-nav.print-view
 	{ display: none; }
 /*

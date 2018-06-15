@@ -331,25 +331,29 @@ f 14 2 15
 				<div class="col-sm-12">
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
-					<div id="p-title-info">
+							<div id="p-title-info">
 			
-		</div>
-				<h4>Upload a wavefront</h4>
+							</div>
+							<div>
+								<h4>Load a ready to print example</h4>
+								<button class="btn" id="ldfex-ppce-body" type="button">papaerAce body</button>
+								 <button class="btn" id="ldfex-ico-2" type="button">Icosphere 2</button>
+								 <button class="btn" id="ldfex-kgm" type="button">Kongorilla mask</button>
+							</div>
+							<h4>Load a wavefront example</h4><button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldex-Knight" type="button">Chess knight</button> <button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldex-ppce-body" type="button">paperAce Body</button> <button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldex-ppce-frame" type="button">paperAce Frame</button>
+
+							<h4>Upload a wavefront</h4>
+							<p class="alert">
+								supported files : Wavefront (.obj). Triangulated faces are required.
+								 
+							</p>
 							<p></p>
 							<div class="custom-file" id="customFile" lang="fr">
 								<input aria-describedby="fileHelp" class="custom-file-input" id="fileinput" type="file"> 
 							</div>
-							<p></p>
+						
 						</div>
-						<div class="col-lg-12 col-md-12">
-							<h4>Load a wavefront example</h4><button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldex-Knight" type="button">Chess knight</button> <button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldex-ppce-body" type="button">paperAce Body</button> <button class="btn btn-outline-light btn-sm mx-1 my-1" id="ldex-ppce-frame" type="button">paperAce Frame</button>
-						</div>
-						<div class="col-lg-12 col-md-12">
-							<h4>Load a ready to print example</h4>
-							<button class="btn" id="ldfex-ppce-body" type="button">papaerAce body</button>
-							 <button class="btn" id="ldfex-ico-2" type="button">Icosphere 2</button>
-							 <button class="btn" id="ldfex-kgm" type="button">Kongorilla mask</button>
-						</div>
+
 					</div>
 				</div><br>
 				<div class="col-sm-12">
@@ -369,32 +373,6 @@ f 14 2 15
 					<div class="form-check">
 						<label class="form-check-label"><input class="form-check-input" id="patterns-fast-edit-mode" name="patterns-edit-mode" type="radio" value="fast-edit"> fast</label>
 					</div>
-				</div>
-				<div class="col-sm-12">
-					<br>
-					<h3>About Papier</h3>
-					<p>Papier is a webapp to perform 3d print from desktop printer. It is a rewritting of my old <a href="https://www.youtube.com/watch?v=Rcpjqd3NSTE" title="eMesh">eMesh</a> desktop application (SDL, openGL2, C++)</p>
-					<p><em>touch devices are not fully supported yet, they will be soon</em></p>
-				</div>
-				<div class="col-lg-6">
-					<h3>Goals :</h3>
-					<ul class=".ui.list">
-						<li class=".ui.item">Provide an enought advanced paper-crafting tool to be used as an alternative prototyping tool ( as <a href="https://plus.google.com/photos/118368888481050824788/album/6366533843773096817/6366533840814789570?authkey=CIr985KLmqXwTA" title="paperAce">paperAce</a> does ).
-						</li>
-						<li class=".ui.item">Be as simple as possible to use.</li>
-					</ul>
-				</div>
-				<div class="col-lg-6">
-					<h3>Non-goals :</h3>
-					<ul class=".ui.list">
-						<li class=".ui.item">texturing.</li>
-						<li class=".ui.item">mesh editing.</li>
-					</ul>
-				</div>
-				<div class="col-lg-12">
-					<h3>State</h3>
-					<p><em>FreakPOC</em> - <strong>[Reasonably Secure Proof Of Concept.]</strong> - Release Candidate</p>
-					<p>where reasonably means that, if only a few mesh requirements are met, the model can be safely flattened.</p>
 					<h3>How to proceed</h3>
 					<h4>There's only one way to do it all:</h4>
 					<ul class=".ui.list">
@@ -425,6 +403,32 @@ f 14 2 15
 							</ul>
 						</li>
 					</ul>
+				</div>
+				<div class="col-sm-12">
+					<br>
+					<h3>About Papier</h3>
+					<p>Papier is a webapp to perform 3d print from desktop printer. It is a rewritting of my old <a href="https://www.youtube.com/watch?v=Rcpjqd3NSTE" title="eMesh">eMesh</a> desktop application (SDL, openGL2, C++)</p>
+					<p><em>touch devices are not fully supported yet, they will be soon</em></p>
+				</div>
+				<div class="col-lg-6">
+					<h3>Goals :</h3>
+					<ul class=".ui.list">
+						<li class=".ui.item">Provide an enought advanced paper-crafting tool to be used as an alternative prototyping tool ( as <a href="https://plus.google.com/photos/118368888481050824788/album/6366533843773096817/6366533840814789570?authkey=CIr985KLmqXwTA" title="paperAce">paperAce</a> does ).
+						</li>
+						<li class=".ui.item">Be as simple as possible to use.</li>
+					</ul>
+				</div>
+				<div class="col-lg-6">
+					<h3>Non-goals :</h3>
+					<ul class=".ui.list">
+						<li class=".ui.item">texturing.</li>
+						<li class=".ui.item">mesh editing.</li>
+					</ul>
+				</div>
+				<div class="col-lg-12">
+					<h3>State</h3>
+					<p><em>FreakPOC</em> - <strong>[Reasonably Secure Proof Of Concept.]</strong> - Release Candidate</p>
+					<p>where reasonably means that, if only a few mesh requirements are met, the model can be safely flattened.</p>
 				</div>
 				<div class="col-lg-6">
 					<h3>Standards and technologies :</h3>
