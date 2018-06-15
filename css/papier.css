@@ -56,6 +56,7 @@ body
 .container
 {
 	padding: 1em;
+	margin-bottom: 2em;
 }
 
 #download
@@ -95,8 +96,8 @@ body
 #close-settings
 {
 	position: fixed;
-	right: 20px;
-	top: 10px;
+	right: 2em;
+	top: 1em;
 	z-index: 100;
 }
 
@@ -623,6 +624,7 @@ body {
 		background-color: #0000;
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
+		font-size: 1em;
 		height: auto;
 		width: auto;
 		padding-top:1.1em;
@@ -814,10 +816,10 @@ body {
 
 	#dispatcher-dialog.pages-view
 	{
-		font-size: 1.1em;
+		font-size: 1.3em;
 		position: fixed;
 		z-index: 6;
-		bottom: 2.4em;
+		bottom: 1.86em;
 		left: 70.7vh;
 		width: 35.35vh;
 		height: 2em;
@@ -897,7 +899,7 @@ body {
 }
 .btn
 {
-	border-radius: 6px;
+	border-radius: 3px;
 	padding: 6px;
 	border: 1px solid #fff;
 }
@@ -1021,6 +1023,7 @@ body {
 		width: auto;
 		left: 1vw;
 	}
+	
 	.alert
 	{
 		padding: 1em;
@@ -1029,7 +1032,8 @@ body {
 		min-width:1em;
 		max-width: auto;
 		font: TitilliumWeb-Bold;
-	
+		border: 1px solid #f94;
+	border-radius: 3px;	
 	}
 	#settings.d-view, #settings.pages-view, #settings.print-view, #page-nav.d-view, #page-nav.settings-view, #page-nav.print-view
 	{ display: none; }
