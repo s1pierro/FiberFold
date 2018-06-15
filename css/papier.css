@@ -213,7 +213,7 @@ body {
 		Pages view
 		==========
 */
-	#menu.pages-view, #main-app-dialog-info.pages-view
+	 #main-app-dialog-info.pages-view
 
 	{
 		display: none;
@@ -289,20 +289,21 @@ body {
 		color: #eee;
 		position: fixed;
 		z-index: 2;
-		bottom: 2.5em;
-		left: 0;
-		width: 100%;
-		height: auto;
+		bottom: -4vw;
+		right: 15vw;
+		width: 70.7vw;
+		height: 100vw;
 		border: 0.5mm solid;
+		transform: rotate(-90deg);
 	}
 	#renderbox.pages-view {
 		display: block;
 		position: fixed;
 		z-index: 1;
-		width: 60%;
-		height: calc(100vh - 150vw);
+		width: 100vw;
+		height: 60vh;
 		top: 0;
-		left: 40%;
+		left: 0;
 		/* Chrome10-25,Safari5.1-6 */
 		background: #0000;
 	}
@@ -467,8 +468,8 @@ body {
 	{
 		position: absolute;
 		z-index: 6;
-		bottom: 3.3em;
-		left: 1em;
+		bottom: 0.3em;
+		left: 0.3em;
 		margin-right: 1em;
 		background-color: #0000;
 		color: #f94;
@@ -490,8 +491,8 @@ body {
 		font-size: 1em;	
 		width: auto;
 		position: fixed;
-		bottom: 0.5em;
-		left: 0.5em;
+		bottom: 0.3em;
+		left: 3.5em;
 		max-width: 100%; 
 	}
 	#main-app-dialog.d-view
