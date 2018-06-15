@@ -51,10 +51,10 @@ Page.prototype.out = function ( dest_container, pguid )
 		var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
 		g.setAttribute( 'id', this.patterns[ig].guid );
 		g.setAttribute( 'transform', 'translate('+this.patterns[ig].position.x+', '+this.patterns[ig].position.y+')' );
-		var style = 'fill: #777; stroke: #aaa;';
+		var style = 'fill: #ccc; stroke: #ddd; stroke-width: 0.1px;';
 		for ( var i = 0 ; i < this.patterns[ig].triangles.length ; i++ )
 		{
-			if ( this.patterns[ig].guid == pguid ) style = 'fill: #ddd; stroke: #aaa;';
+			if ( this.patterns[ig].guid == pguid ) style = 'fill: #eee; stroke: #aaa; stroke-width: 0.1px;';
 			var tmptri = this.patterns[ig].trianglesflatcoord[i];
 			var svgtrigon =  tmptri[0].c[0]+', '+tmptri[0].c[1]+
 							 ' '+tmptri[1].c[0]+', '+tmptri[1].c[1]+
@@ -67,6 +67,8 @@ Page.prototype.out = function ( dest_container, pguid )
 			g.appendChild(svg);
 			g.appendChild(svg);
 		}
+		var style = 'fill: none; stroke: none;';
+			if ( this.patterns[ig].guid == pguid ) style = 'fill: none; stroke: #000; stroke-width: 0.5px;';
 		var pp = this.patterns[ig];
 		var svgpolygon = pp.nodes[pp.nodes.length-1].c[0]+', '+pp.nodes[pp.nodes.length-1].c[1];
 		for ( var i = 0 ; i < pp.nodes.length ; i++ )
@@ -74,7 +76,7 @@ Page.prototype.out = function ( dest_container, pguid )
 							
 			var svg2 = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
 			svg2.setAttribute('points', svgpolygon);
-			svg2.setAttribute('class', 'nodeshape' );
+			svg2.setAttribute('style', style );
 			g.appendChild(svg2);
 		
 		
