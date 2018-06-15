@@ -247,6 +247,19 @@ Dispatcher.prototype.getPagepattern = function ( pid )
 
 	-
 */
+Dispatcher.prototype.getPageIdxPatternIdx = function ( pidx )
+{
+	if ( pidx == -1 ) return -1;		
+	for ( var i = 0 ; i < this.pages.length ; i++ )
+		for ( var j = 0 ; j < this.pages[i].patterns.length ; j++ )
+			if ( this.pages[i].patterns[j].guid == patterns.children[pidx].guid )
+				return i;
+	return -1;		
+}
+/** @description
+
+	-
+*/
 Dispatcher.prototype.outPattern = function ( tid, container )
 {
 	renderplane.innerHTML = "";

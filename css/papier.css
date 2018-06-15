@@ -175,272 +175,10 @@ body {
 	user-select: none;
 	/* Non-prefixed version, currently supported by Chrome and Opera */
 }
-@media (min-width: 750px) {
-
-	body { background-color: #044; }
-
-	/*     ____________
-	 		/____________\       Tabs view 768 x 1024
-	 		|            |       =====================
-	 		|            |
-	 		|            |
-	 		|            |
-	 		|            |
-	 		|            |
-			|____________|
-			\____________/
-*/
-@media screen and (max-aspect-ratio: 1/1) {
-
-	#renderbox.d-view {
-		display: block;
-		position: fixed;
-		z-index: 1;
-		width: 100%;
-		height: 85%;
-		top: 0px;
-		left: 0px;
-		/* Chrome10-25,Safari5.1-6 */
-		background: #0000;
-	}
-
-
-}
-
-@media screen and (min-aspect-ratio: 1/1) {
-
-	#renderbox.d-view {
-		display: block;
-		position: fixed;
-		z-index: 1;
-		width: 100%;
-		height: 100%;
-		top: 0px;
-		right: 0px;
-		/* Chrome10-25,Safari5.1-6 */
-		background: #0000;
-	}
-
-
-}
-
-/*
-		d-view
-		======
-		
-		This is the main view
-		it's focused on the 3d model.
-
-*/
-	#dispatcher-dialog.d-view
-	{
-		position: fixed;
-		z-index: 6;
-		bottom: 3.3em;
-		left: 1em;
-		width:0.7070em;
-		height:1em;
-		background-color: #0000;
-		color: #f94;
-		font-family: TitilliumWeb-Bold;
-		padding-top:1.1em;
-		padding-bottom:0.5em;
-		padding-left:0.3em;
-		padding-right:1em;
-		border: 1px solid;
-	}
-
-	#main-app-dialog-info.d-view p
-	{
-		margin:0em;
-	}
-	#main-app-dialog-info.d-view
-	{
-		font-size: 1em;	
-		width: auto;
-		position: fixed;
-		bottom: 0.5em;
-		left: 0.5em;
-		max-width: 80%; 
-	}
-	#main-app-dialog.d-view
-	{
-		font-size: 1em;	
-		width: 80%;
-		position: fixed;
-		top: 0.5em;
-		left: 0.5em;
-		max-width: 80%; 
-	}
-	#main-app-dialog-title.d-view
-	{
-		font-size: 2em;	
-		width: 80%;
-		position: relative;
-		top: 0em;
-		left: 0em;
-		max-width: 80%; 
-	}
-	#scratch-message.d-view {
-
-		font-size:0.6em;
-
-		background-color: #ff9f4a;
-		color: #222;
-		position: fixed;
-		z-index: 40;
-		bottom: 0px;
-		left: 0px;
-		width: 100%;
-		padding:0.3em;	
-	}
-	#svg7.d-view {
-
-		display: block;
-		opacity: 1.0;
-		background-color: #0000;
-		color: #444;
-		position: fixed;
-		z-index: 2;
-		bottom: 4.5em;
-		left: 0.5em;
-		width: 9em;
-		height: auto;
-		border: 1px solid;
-	}
-	
-/*
-		Settings view
-		=============
-*/
-	body.settings-view { background-color: #333; }
-
-	#dispatcher-dialog.settings-view, #svg7.settings-view,
-	#main-app-dialog.settings-view
-	{
-		display: none;
-		z-index: 0;
-		opacity: 0.0;
-
-	}
-
-	
-	#settings.d-view, #settings.pages-view { display: none; }
-	#settings.settings-view
-	{
-		display: block;
-		overflow-x: hide;
-		overflow-y: scroll;
-		padding-top: 1em;
-		;
-		position: fixed;
-		z-index: 15;
-		width: 100%;
-		height: 100vh;
-		top: 0px;
-		left:0px;
-	}	
-
-
-	body.pages-view { background-color: #444; }
-/*
-		Pages view
-		==========
-*/
-
-
-	
-	#dispatcher-dialog.pages-view
-	{
-		font-size: 1.1em;
-		position: fixed;
-		z-index: 6;
-		bottom: 2.4em;
-		left: 70.7vh;
-		width: 35.35vh;
-		height: 2em;
-		background-color: #0000;
-		color: #f94;
-		font-family: TitilliumWeb-Bold;
-
-	}
-
-	#main-app-dialog.pages-view
-	{
-		font-size: 1em;
-		position: fixed;
-		top: 1.1em;
-		left: 70.7vh;
-		max-width: 80%; 
-		color: #fff;
-		z-index: 4;
-		padding: 0em;
-					margin: 0em;
-		line-height: 1em;
-		text-align: left;
-	}
-	#main-app-dialog-title.pages-view
-	{
-		font-size: 1.6em;	
-		width: 80%;
-		position: relative;
-		top: 0em;
-		left: 0em;
-		max-width: 80%; 
-		margin-bottom: 0.4em;
-	}
-	#main-app-dialog-info.pages-view
-	{
-		font-size: 1em;
-		position: fixed;
-		bottom: 0.5em;
-		left: 70.7vh;
-		max-width: 80%; 
-		color: #fff;
-		z-index: 4;
-		padding: 0em;
-					margin: 0em;
-		line-height: 1em;
-		text-align: left;
-	}
 
 
 
-
-
-	#svg7.pages-view {
-		display: block;
-		opacity: 1.0;
-		background-color: #fff;
-		color: #eee;
-		position: fixed;
-		z-index: 2;
-		bottom: 3%;
-		left: 0.5em;
-		width: auto;
-		height: 94%;
-		border: 0.5mm solid;
-	}
-	#renderbox.pages-view {
-		display: block;
-		position: fixed;
-		z-index: 1;
-		width: calc(100vw - 70.7vh);
-		height: 100%;
-		top: 0px;
-		left: 70.7vh;
-		background: #0000;
-	}
-	#renderbox.settings-view{
-		display: none;
-		z-index: 0;
-		opacity: 0.0;
-	}
-}
-
-
-
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 1020px) {
 @media screen and (max-aspect-ratio: 1/1) {
 /*
       Smartphone portrait
@@ -564,6 +302,21 @@ body {
 		Pages view
 		==========
 */
+	#page-nav.pages-view
+	{
+		font-size: 1.1em;
+		position: fixed;
+		z-index: 6;
+		bottom: 0em;
+		left: 79vh;
+		width: auto;
+		height: 2em;
+		background-color: #0000;
+		color: #f94;
+		font-family: TitilliumWeb-Bold;
+
+	}
+
 	
 
 	
@@ -572,7 +325,7 @@ body {
 		font-size: 1.1em;
 		position: fixed;
 		z-index: 6;
-		bottom: 2em;
+		bottom: 0em;
 		left: 73vh;
 		width: auto;
 		height: 2em;
@@ -607,18 +360,8 @@ body {
 		margin-bottom: 0.4em;
 	}
 	#main-app-dialog-info.pages-view
-	{
-		font-size: 1em;
-		position: fixed;
-		bottom: 0em;
-		left: 72vh;
-		max-width: 80%; 
-		color: #fff;
-		z-index: 4;
-		padding: 0em;
-		margin: 0em;
-		line-height: 1em;
-		text-align: left;
+	{	
+		display: none;
 	}
 
 
@@ -1012,6 +755,23 @@ body {
 */
 	body.pages-view { background-color: #444; }
 	
+	
+	
+	#page-nav.pages-view
+	{
+		font-size: 1.1em;
+		position: fixed;
+		z-index: 6;
+		bottom: 2.4em;
+		left: 74.7vh;
+		width: 35.35vh;
+		height: 2em;
+		background-color: #0000;
+		color: #f94;
+		font-family: TitilliumWeb-Bold;
+
+	}
+
 	#dispatcher-dialog.pages-view
 	{
 		font-size: 1.1em;
@@ -1221,7 +981,8 @@ body {
 		width: auto;
 		left: 1vw;
 	}
-	#settings.d-view, #settings.pages-view, #settings.print-view { display: none; }
+	#settings.d-view, #settings.pages-view, #settings.print-view, #page-nav.d-view, #page-nav.settings-view, #page-nav.print-view
+	{ display: none; }
 /*
 	this file is a part of 
 	papier 0.4.1

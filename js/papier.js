@@ -398,11 +398,11 @@ function mouseup ( event )
 			setshapestate(pobj, tappedshapeid, "highlight" );		
 			ltriangle = activeshape1;
 		}
-	}
-			
-
 		if ( ltriangle > -1)
 			lpattern = patterns.findTriangleOwner (ltriangle);
+		if ( lpattern > -1 && ltriangle != -1 ) lpage = dispatcher.getPageIdxPatternIdx (lpattern);
+	}
+
 
 	render();
 }
@@ -468,15 +468,17 @@ function render() {
  	if( lpattern > -1 && view == 'd-view') $('#dispatcher-dialog').html(patterns.children[lpattern].papersizereq.s );
  	if( view == 'pages-view')
    {
+	   
+	   $('#page-nav-crt').text('page '+(lpage+1)+'/'+dispatcher.pages.length );
 	   if ( lpattern > -1 )
 	   {
 			var tmp_p = dispatcher.getPagepattern ( lpattern );
-			$('#dispatcher-dialog').html( tmp_p.size +' <i class="icon-left-dir text-light" id="go-prev-page"></i>'+
-																		'<span class="text-light">'+tmp_p.desc+'</span>'+
-																		' <i class="icon-right-dir text-light" id="go-next-page"></i>'
-																		);
+			$('#dispatcher-dialog').html( tmp_p.size );
 	   }
-		if ( ltriangle > -1 ) dispatcher.outPageTriangle (ltriangle);
+	   if (lpattern != -1 )
+			dispatcher.pages[lpage].out (renderplane, patterns.children[lpattern].guid);
+			else
+				dispatcher.pages[lpage].out (renderplane, 0);		
 		
 		
 //	fl(dispatcher.getPagepattern ( lpattern ));
@@ -506,16 +508,29 @@ function render() {
 		//$('#main-app-dialog-info').text('no pattern');		
 	}	
 	
-
+	//$('#main-app-dialog-title').append('  '+lpattern+'|'+lpage+'|'+ltriangle);
 	renderer.render( scene, camera );
 }
 
 document.getElementById('fileinput').addEventListener('change', readWavefrontFile, false);
 
+$('body').on('click', '#go-prev-page', function()
+{
+	fl('page--');
+	if ( lpage > 0 ) lpage --;
+	render();
+});
+$('body').on('click', '#go-next-page', function()
+{
+	if ( lpage < dispatcher.pages.length-1 ) lpage ++;
+	render();
+
+});
 $('body').on('click', '#ldex-Knight', function()
 {
 	loadWavefrontExample('wavefronts/knight.obj');
 });
+
 $('body').on('click', '#ldex-ppce-frame', function()
 {
 	loadWavefrontExample('wavefronts/paperace-coque.obj');
@@ -591,12 +606,14 @@ function togglePagesView ()
 		.removeClass("print-view pages-view settings-view d-view")
 			.addClass(view);
 	updateRendererOffset ();
+	//lpage = dispatcher.getPageIdxPatternIdx (lpattern);
 	render();
 
 }
 
 $('body').on('click', '#svg7', function()
 {
+	lpage = dispatcher.getPageIdxPatternIdx (lpattern);
 	togglePagesView ();
 });
 $('body').on('click', '#print-total', function()
@@ -622,6 +639,7 @@ $('body').on('click', '#close-settings', function()
 });
 $('body').on('click', '#toggle-settings', function()
 {
+	fl('settings');
 
 		toggleSettingsView ();
 		controls.enabled = false;
