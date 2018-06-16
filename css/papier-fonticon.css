@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'papier-fonticon';
-  src: url('../font/papier-fonticon.eot?9953192');
-  src: url('../font/papier-fonticon.eot?9953192#iefix') format('embedded-opentype'),
-       url('../font/papier-fonticon.woff2?9953192') format('woff2'),
-       url('../font/papier-fonticon.woff?9953192') format('woff'),
-       url('../font/papier-fonticon.ttf?9953192') format('truetype'),
-       url('../font/papier-fonticon.svg?9953192#papier-fonticon') format('svg');
+  src: url('../font/papier-fonticon.eot?42420321');
+  src: url('../font/papier-fonticon.eot?42420321#iefix') format('embedded-opentype'),
+       url('../font/papier-fonticon.woff2?42420321') format('woff2'),
+       url('../font/papier-fonticon.woff?42420321') format('woff'),
+       url('../font/papier-fonticon.ttf?42420321') format('truetype'),
+       url('../font/papier-fonticon.svg?42420321#papier-fonticon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'papier-fonticon';
-    src: url('../font/papier-fonticon.svg?9953192#papier-fonticon') format('svg');
+    src: url('../font/papier-fonticon.svg?42420321#papier-fonticon') format('svg');
   }
 }
 */

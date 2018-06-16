@@ -613,6 +613,11 @@ function setshapestate (o, t, s)
 		scene.children[(2+t+o.ne)].visible = true;
 		scene.children[(2+t+o.ne)].material = materialHighlighted;
 	}
+	if( s == "softlight")
+	{
+		scene.children[(2+t+o.ne)].visible = true;
+		scene.children[(2+t+o.ne)].material = materialSoftlighted;
+	}
 }
 function download(filename, text) {
   var element = document.createElement('a');

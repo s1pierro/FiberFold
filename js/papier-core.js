@@ -480,6 +480,13 @@ Patterns.prototype.addPattern = function (pattern)
 {
 	this.children.push(pattern);
 }
+/**
+ * @description
+ *	simply add a new pattern 
+ *
+ *	@param {object} pattern - the pattern to add
+ *
+ */
 Patterns.prototype.removePattern = function (guid)
 {
 	for ( var i = 0 ; i < this.children.length ; i++ )
@@ -524,10 +531,9 @@ Patterns.prototype.rebuild = function (feid)
 
 	if ( feid != undefined )
 	{
-		fl('feid : '+feid);
+		
 		
 		var tpp = this.getFrontierOwnerChildren(feid);
-			fl(tpp);
 		
 		if (tpp[0] != undefined )
 		{
@@ -564,17 +570,10 @@ Patterns.prototype.rebuild = function (feid)
 	
 	}
 	
-	/*/
-
-			// first of all, we erase patterns
-		this.children.splice (0, this.children.length);
-		for ( var i = 0 ; i < this.targetMesh.edges.length ; i++ )
-			if (edgestate(this.targetMesh, i) == "freeze" ) freezedlist.push(i);
-	
-	/**/
 
 	// Let's now dispatch those freezed edges into different patterns
 	var newpatterns = [];
+	
 	while ( freezedlist.length > 0 )
 	{		
 		var add = -1;
@@ -629,7 +628,6 @@ Patterns.prototype.rebuild = function (feid)
 		   return false;
 	   }
    }
-
 	// Let's finally blank and refill the final document with our new computed
 	// patterns
 	
@@ -653,29 +651,29 @@ Patterns.prototype.findTriangleOwner = function (triangle)
 Patterns.prototype.getFrontierOwnerChildren = function (feid)
 {
 	var tmp = [];
-	fl(tmp.length)
 	for (var i = 0 ; i < this.children.length ; i++ )
 		for ( var j = 0 ; j < this.children[i].frontier.length ; j ++ )	
 			if ( this.children[i].frontier[j] == feid )
 				tmp.push( this.children[i] );
-	fl(tmp.length)
 	return tmp;
 }
 Patterns.prototype.getEdgeOwnerChildren = function (eid)
 {
 	var tmp = {};
-	fl(tmp.length)
 	for (var i = 0 ; i < this.children.length ; i++ )
 		for ( var j = 0 ; j < this.children[i].edges.length ; j ++ )	
 			if ( this.children[i].edges[j] == eid )
 				tmp = this.children[i];
 	return tmp;
 }
-
+Patterns.prototype.unHighlight = function ()
+{
+	for( var i = 0 ; i < this.children.length ; i++ )
+		this.children[i].unHighlight ();
+}
 Pattern.prototype.tryToReachRatio = function ( r )
 {
 	var tmp = this;
-	
 	var diff = 1000;
 	var trystep =$.extend(true, {}, tmp);
 	
@@ -692,6 +690,24 @@ Pattern.prototype.owntriangle = function (t)
 	for( var i = 0 ; i < this.triangles.length ; i++ )	
 		if ( this.triangles[i] == t ) return i;
 	return -1;
+}
+/** @description
+ -
+
+ */
+Pattern.prototype.highlight = function ()
+{
+	for( var i = 0 ; i < this.triangles.length ; i++ )
+	{
+		fl('HL: '+ this.triangles[i] )
+		setshapestate (pobj, this.triangles[i], "softlight");
+
+	}
+}
+Pattern.prototype.unHighlight = function ()
+{
+	for( var i = 0 ; i < this.triangles.length ; i++ )
+		setshapestate (pobj, this.triangles[i], "solid" );
 }
 /** @description
 	compute the frontier's nodes of the pattern, using the pattern's flattened triangles summits
@@ -730,12 +746,7 @@ Pattern.prototype.genNodes = function ()
 		var isok = false;
 
 		if ( tmp[k].shareFlatTriangleWith( tmp[k+1] ) )
-		{
-			
-			// good start, nodes are on the same flattened triangle
-			
-			// are they shariing a freezed edge ?
-				
+		{				
 			var frz = false;
 			var edg = getEdgeId (this.targetMesh, tmp[k+1].sid, tmp[k].sid);
 			if ( edg > -1 )
@@ -760,17 +771,24 @@ Pattern.prototype.genNodes = function ()
 /** @description
 	Find the pattern triangles using pattern edges
  */
-Pattern.prototype.gentriangles = function ()
+Pattern.prototype.gentriangles = function (e)
 {
-	
-	for( var i = 0 ; i < this.edges.length ; i++ )
-		for( var j = 0 ; j < this.targetMesh.edges[this.edges[i]].tri.length ; j++ )
-			if ( this.owntriangle ( this.targetMesh.edges[this.edges[i]].tri[j] ) == -1 )
-			{
-				this.addTriangle(this.targetMesh.edges[this.edges[i]].tri[j]);
-				setshapestate(this.targetMesh, this.targetMesh.edges[this.edges[i]].tri[j], "solid");
-			}
-	this.genFrontiers();
+	if ( e != undefined )
+	{			
+		for( var j = 0 ; j < this.targetMesh.edges[e].tri.length ; j++ )
+		this.addTriangle (this.targetMesh.edges[e].tri[j]);
+	}
+	else
+	{
+		for( var i = 0 ; i < this.edges.length ; i++ )
+			for( var j = 0 ; j < this.targetMesh.edges[this.edges[i]].tri.length ; j++ )
+				if ( this.owntriangle ( this.targetMesh.edges[this.edges[i]].tri[j] ) == -1 )
+				{
+					this.addTriangle(this.targetMesh.edges[this.edges[i]].tri[j]);
+					setshapestate(this.targetMesh, this.targetMesh.edges[this.edges[i]].tri[j], "solid");
+				}
+		this.genFrontiers();
+	}
 }
 /**
   Add triangle id to the member triangles[]
@@ -1165,7 +1183,7 @@ Pattern.prototype.checkFreezedEdges = function ()
 
 Pattern.prototype.areFlatTriangleJoined = function (eid, ft1, ft2 )
 {
-	// more test must be needed but, right now, this method only hasnone caller
+	// TODO more test must be needed
 	
 	var joined = true;
 	for ( var i = 0 ; i < ft1.length ; i++ )

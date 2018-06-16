@@ -41,11 +41,11 @@ var container;
 var camera, controls, scene, raycaster, renderer;
 var objects = [];
 var focus;
-var materialVisible, material1, materialSoftEdge, materialHighlighted, materialSolid, materialFrontier;
+var materialVisible, material1, materialSoftEdge, materialHighlighted, materialSoftlighted, materialSolid, materialFrontier;
 var activeshape1 = -1;
 var activeshape1shadoweddstate;
 var tolerance = 0.0001;
-
+var hlpattern = -1;
 try
 {
 	var patterns = new Patterns(pobj);
@@ -168,6 +168,7 @@ function init() {
 	{
 
 		materialVisible = new THREE.MeshStandardMaterial(  { color: 0x999999, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
+		materialSoftlighted = new THREE.MeshStandardMaterial(  { color: 0xffaf5f, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
 		materialHighlighted = new THREE.MeshStandardMaterial(  { color: 0xff7f2a, side: THREE.DoubleSide,  flatShading : true , roughness : 1.0} ) ;
 		materialSolid = new THREE.MeshStandardMaterial(  { color: 0xffffff, side: THREE.DoubleSide,  flatShading : true, roughness : 1.0 } ) ;
 
@@ -337,8 +338,11 @@ function mouseup ( event )
 {
 				
 	if ( controls.enabled == false ) return;
+				
+	
 	if (mouse.x*mouse.y == mouserayid && focus != undefined ) // SHAPE TAPPED
 	{
+		patterns.unHighlight();
 		var tappedshapeid = focus.tid;
 
 		ltriangle = tappedshapeid;
@@ -400,6 +404,18 @@ function mouseup ( event )
 		if ( ltriangle > -1)
 			lpattern = patterns.findTriangleOwner (ltriangle);
 		if ( lpattern > -1 && ltriangle != -1 ) lpage = dispatcher.getPageIdxPatternIdx (lpattern);
+		if ( lpattern > -1 )
+		{
+			fl('Lp'+lpattern);
+			fl('HLp'+hlpattern);
+			if (hlpattern > -1 )
+				patterns.children[lpattern].unHighlight();
+			patterns.children[lpattern].highlight();
+			hlpattern = lpattern;
+			setshapestate(pobj, ltriangle, 'highlight');
+			
+			
+		}
 	}
 
 

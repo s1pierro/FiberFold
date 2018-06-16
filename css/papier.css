@@ -160,7 +160,8 @@ body {
 	/* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-
+#toggle-d-view.d-view
+{display: none;}
 
 @media screen and (max-width: 1020px) {
 @media screen and (max-aspect-ratio: 1/1) {
@@ -1044,6 +1045,9 @@ body {
 	}
 	#settings.d-view, #settings.pages-view, #settings.print-view, #page-nav.d-view, #page-nav.settings-view, #page-nav.print-view
 	{ display: none; }
+	#toggle-d-view.d-view
+{display: none;}
+
 /*
 	this file is a part of 
 	papier 0.4.1
