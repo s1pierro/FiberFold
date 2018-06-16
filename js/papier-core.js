@@ -36,7 +36,7 @@ function Page (pattern)
 	@param {text} guid the guid of the pattern to highlight
 
  */
-Page.prototype.out = function ( dest_container, pguid )
+Page.prototype.out = function ( dest_container, pguid, tid )
 { 
 	
 
@@ -51,10 +51,12 @@ Page.prototype.out = function ( dest_container, pguid )
 		var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
 		g.setAttribute( 'id', this.patterns[ig].guid );
 		g.setAttribute( 'transform', 'translate('+this.patterns[ig].position.x+', '+this.patterns[ig].position.y+')' );
-		var style = 'fill: #ccc; stroke: #ddd; stroke-width: 0.1px;';
+		var style = 'fill: #ccc; stroke: #444; stroke-width: 0.1px;';
 		for ( var i = 0 ; i < this.patterns[ig].triangles.length ; i++ )
 		{
-			if ( this.patterns[ig].guid == pguid ) style = 'fill: #eee; stroke: #aaa; stroke-width: 0.1px;';
+			if ( this.patterns[ig].guid == pguid ) style = 'fill: #fb6; stroke: #aaa; stroke-width: 0.1px;';
+			if ( tid > -1 )
+				if ( this.patterns[ig].triangles[i] == tid ) style = 'fill: #f94; stroke: #aaa; stroke-width: 0.1px;';
 			var tmptri = this.patterns[ig].trianglesflatcoord[i];
 			var svgtrigon =  tmptri[0].c[0]+', '+tmptri[0].c[1]+
 							 ' '+tmptri[1].c[0]+', '+tmptri[1].c[1]+

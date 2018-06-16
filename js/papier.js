@@ -491,7 +491,7 @@ function render() {
 			$('#dispatcher-dialog').html( tmp_p.size );
 	   }
 	   if (lpattern != -1 )
-			dispatcher.pages[lpage].out (renderplane, patterns.children[lpattern].guid);
+			dispatcher.pages[lpage].out (renderplane, patterns.children[lpattern].guid, ltriangle);
 			else
 				dispatcher.pages[lpage].out (renderplane, 0);		
 		

@@ -860,7 +860,7 @@ body {
 	#svg7.pages-view {
 		display: block;
 		opacity: 1.0;
-		background-color: #fff;
+		background-color: #444;
 		color: #eee;
 		position: fixed;
 		z-index: 2;
