@@ -360,7 +360,6 @@ function mouseup ( event )
 						setedgestate (pobj, e, "hide");
 					ledge = e;
 					
-					//buildpatterns(pobj) ;
 					var test = patterns.rebuild(e);
 					if (!test)
 					{

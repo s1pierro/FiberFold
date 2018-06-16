@@ -88,9 +88,9 @@ Page.prototype.out = function ( dest_container, pguid )
 	}
 }
 /** @description
-
 	check collision between pattern and stuff already on the page
 */
+
 Page.prototype.collisionTest = function ( pattern )
 {
 	var x = pattern.position.x;
@@ -480,6 +480,12 @@ Patterns.prototype.addPattern = function (pattern)
 {
 	this.children.push(pattern);
 }
+Patterns.prototype.removePattern = function (guid)
+{
+	for ( var i = 0 ; i < this.children.length ; i++ )
+		if ( this.children[i].guid == guid )
+			this.children.splice(i, 1);
+}
 
 Patterns.prototype.flFreezed = function ()
 {
@@ -507,32 +513,47 @@ Patterns.prototype.flFreezed = function ()
  *
  */
 Patterns.prototype.rebuild = function (feid)
-{		
+{
+	$('#processing-indicator').fadeIn(20);
 	$('#main-app-dialog-title').text("Rebuild patterns");
 	// back up patterns in case of fail
 	var pbu = $.extend(true, [], this.children);
 
 	// we need to create and fill freezed edges list
 	var freezedlist = [];
-/*/
+
 	if ( feid != undefined )
 	{
 		fl('feid : '+feid);
 		
 		var tpp = this.getFrontierOwnerChildren(feid);
-		fl(tpp);
-		if (tpp.length = 1 )
-		{
-		for ( var i = 0 ; i < tpp[0].edges.length ; i++ )
-			freezedlist.push (tpp[0].edges[i]);
-			
-		}
-		if (tpp.length = 2 )
-		{
-			
-			
-		}
+			fl(tpp);
 		
+		if (tpp[0] != undefined )
+		{
+
+				for ( var j = 0 ; j < tpp.length ; j++ )
+				{
+					for ( var i = 0 ; i < tpp[j].edges.length ; i++ )
+						freezedlist.push (tpp[j].edges[i]);
+					this.removePattern(tpp[j].guid);
+				}
+				if ( edgestate(pobj, feid) == "freeze" )
+					freezedlist.push (feid);
+				this.removePattern(tpp[0].guid);
+				
+		}
+		else {
+			var p = this.getEdgeOwnerChildren(feid);
+			if ( p.guid != undefined )
+			{
+					for ( var i = 0 ; i < p.edges.length ; i++ )
+						if ( p.edges[i] != feid )
+							freezedlist.push ( p.edges[i] );
+					this.removePattern(p.guid);
+			}
+			else freezedlist.push (feid);
+		}
 	}
 	else
 	{
@@ -553,7 +574,7 @@ Patterns.prototype.rebuild = function (feid)
 	/**/
 
 	// Let's now dispatch those freezed edges into different patterns
-	
+	var newpatterns = [];
 	while ( freezedlist.length > 0 )
 	{		
 		var add = -1;
@@ -576,7 +597,8 @@ Patterns.prototype.rebuild = function (feid)
 			tmp.addEdge(freezedlist[0]);
 			tmp.gentriangles();
 			this.addPattern(tmp);
-			freezedlist.splice(0, 1);	
+			freezedlist.splice(0, 1);
+			newpatterns.push(tmp);
 		}
 	}
 	
@@ -591,41 +613,29 @@ Patterns.prototype.rebuild = function (feid)
 			tmp.addTriangle(i);
 			tmp.genFrontiers ();
 			this.addPattern(tmp);
+			newpatterns.push(tmp);
 		}
-	// show some help to the user if no pattern has been created yet					
 
-	//fl('dispatch freezed edge ok');
-//	fl(this.children);
- 	for ( var i = 0 ; i < this.children.length ; i++ )
+	
+	for ( var i = 0 ; i < newpatterns.length ; i++ )
    {
-	   if (!this.children[i].flatten())
-	   {
-		   
-		   this.children = $.extend(true, [], pbu);
-		   
+	   //fl( newpatterns[i].guid+'|'+this.children[i].guid )
+	   if (!newpatterns[i].flatten())
+	   {  
+		   this.children = $.extend(true, [], pbu);  
 		   $('#processing-indicator').fadeOut(200);
 			$('#processing-fail-indicator').fadeIn( 1 ).delay( 3600 ).fadeOut( 400 );
-			fl('############### rebuil error ##################')
+			fl('# rebuild error')
 		   return false;
 	   }
    }
-	//fl('flattening ok');
+
 	// Let's finally blank and refill the final document with our new computed
 	// patterns
+	
    dispatcher.updatePatterns (this);
 	dispatcher.fullDispatch();
 	
-	//fl('dispatch patterns ok');
-
-
- 	//$('#main-app-dialog-info').text('no pattern');		
-  
-   /*
-	for ( var i = 0 ; i < this.children.length ; i++ )
-	{
-		this.children[i].addToFinalDocument(renderplane);
-	}*/
-//	fl(this.children);
 	$('#processing-indicator').fadeOut(200);
 	$('#processing-success-indicator').fadeIn( 100 ).delay( 200 ).fadeOut( 400 );
 
@@ -639,13 +649,26 @@ Patterns.prototype.findTriangleOwner = function (triangle)
 				return i;
 	return -1;
 }
+// TOdo need remname
 Patterns.prototype.getFrontierOwnerChildren = function (feid)
 {
 	var tmp = [];
+	fl(tmp.length)
 	for (var i = 0 ; i < this.children.length ; i++ )
 		for ( var j = 0 ; j < this.children[i].frontier.length ; j ++ )	
 			if ( this.children[i].frontier[j] == feid )
 				tmp.push( this.children[i] );
+	fl(tmp.length)
+	return tmp;
+}
+Patterns.prototype.getEdgeOwnerChildren = function (eid)
+{
+	var tmp = {};
+	fl(tmp.length)
+	for (var i = 0 ; i < this.children.length ; i++ )
+		for ( var j = 0 ; j < this.children[i].edges.length ; j ++ )	
+			if ( this.children[i].edges[j] == eid )
+				tmp = this.children[i];
 	return tmp;
 }
 
