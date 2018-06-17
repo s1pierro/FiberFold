@@ -51,28 +51,28 @@ body
 #processing-indicator
 {
 	color: #00d;
-		font-size: 1.5em;
+		font-size: 2em;
 
 	position: absolute;
-	bottom: 0px;
-	right: 0em;
+	bottom: 0.3em;
+	right: 0.3em;
 	z-index: 1000;
 }
 #processing-success-indicator
 {
-		font-size: 1.5em;
+		font-size: 2em;
 	color: #0d0;
 	position: absolute;
-	bottom: 0px;
-	right: 0em;
+	bottom: 0.3em;
+	right: 0.3em;
 	z-index: 100;
 }
 #processing-fail-indicator
 {
-		font-size: 1.5em;
+		font-size: 5em;
 	position: absolute;
-	bottom: 0px;
-	right: 0em;
+	bottom: 0.3em;
+	right: 0.3em;
 	color: #d00;	
 	z-index: 100;
 }

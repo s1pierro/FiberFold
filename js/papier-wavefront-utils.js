@@ -61,7 +61,7 @@ function printWavefront (o)
 	
 	var tmp = '\n#frz';
 	for ( var i = 0 ; i < o.edges.length ; i++ )
-		if (edgestate(o, i) == "freeze" ) tmp+=' '+i;
+		if (edgestate(o, i) == "frozen" ) tmp+=' '+i;
 		
 	po = po+tmp;
 	tmp = '';
@@ -393,7 +393,7 @@ function readWavefrontFile(evt) {
 			if (pobj.prefreeze != undefined )
 			{
 				for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
-					setedgestate (pobj, pobj.prefreeze[i], "freeze");
+					setedgestate (pobj, pobj.prefreeze[i], "frozen");
 				patterns.rebuild();
 			}		
 			activeshape1 = -1;
@@ -421,7 +421,7 @@ function loadWavefrontExample(file) {
 		if (pobj.prefreeze != undefined )
 		{
 			for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
-				setedgestate (pobj, pobj.prefreeze[i], "freeze");
+				setedgestate (pobj, pobj.prefreeze[i], "frozen");
 			patterns.rebuild();
 		}
 		activeshape1 = -1;
@@ -576,7 +576,7 @@ function setedgestate (o, e, s)
 	o.edges[e].state = s;
 	if( s == "visible")
 	scene.children[(2+e)].material = materialFrontier;
-	if( s == "freeze")
+	if( s == "frozen")
 	{
 		scene.children[(2+e)].visible = false;
 	}

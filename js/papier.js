@@ -197,7 +197,7 @@ function init() {
 	{
 		dl(' # saved patterns founded');
 		for ( var i = 0 ; i < pobj.prefreeze.length ; i++)
-			setedgestate (pobj, pobj.prefreeze[i], "freeze");
+			setedgestate (pobj, pobj.prefreeze[i], "frozen");
 		patterns.rebuild();
 	}
 	else dl(' - no saved patterns founded');
@@ -358,8 +358,8 @@ function mouseup ( event )
 					setshapestate(pobj, activeshape1, "solid" );	
 					setshapestate(pobj, tappedshapeid, "solid" );
 					activeshape1 = -1 ;
-					if (edgestate (pobj, e) != "freeze")
-						setedgestate (pobj, e, "freeze");
+					if (edgestate (pobj, e) != "frozen")
+						setedgestate (pobj, e, "frozen");
 					else
 						setedgestate (pobj, e, "hide");
 					ledge = e;
@@ -406,8 +406,6 @@ function mouseup ( event )
 		if ( lpattern > -1 && ltriangle != -1 ) lpage = dispatcher.getPageIdxPatternIdx (lpattern);
 		if ( lpattern > -1 )
 		{
-			fl('Lp'+lpattern);
-			fl('HLp'+hlpattern);
 			if (hlpattern > -1 )
 				patterns.children[lpattern].unHighlight();
 			patterns.children[lpattern].highlight();

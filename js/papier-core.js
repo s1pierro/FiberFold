@@ -29,6 +29,29 @@ function Page (pattern)
 	this.height = pattern.papersizereq.h;
 	this.width = pattern.papersizereq.w;
 }
+/** @constructor */
+
+function Frontiersegment ()
+{
+	this.vidx = [];
+	this.eidx = [];
+	this.ownerguid = '';
+	this.targetguid = '';
+	this.type = '';
+}
+/** @description
+
+
+ */
+Frontiersegment.prototype.set = function ( ownerguid, targetguid )
+{
+	this.vidx = [];
+	this.eidx = [];
+	this.ownerguid = ownerguid;
+	this.targetguid = targetguid;
+	this.type = '';		//	open/close
+	return true;
+}
 /** @description
 
 	print page to dest_container;
@@ -458,6 +481,8 @@ function Patterns (targetmesh)
 	this.children = [];
 	// GUID might always be useless ... or not
 	this.guid = uuidv4();
+	this.freezedEdgeHistory = [];
+	this.history = [];
 }
 /** @description
 	Update the targeted mesh. That is needed when user load a new mesh.
@@ -493,18 +518,29 @@ Patterns.prototype.removePattern = function (guid)
 {
 	for ( var i = 0 ; i < this.children.length ; i++ )
 		if ( this.children[i].guid == guid )
+		{
 			this.children.splice(i, 1);
+		
+			//this.rebuild ();
+		}
 }
 
 Patterns.prototype.flFreezed = function ()
 {
 	var tmp = '\nfreezed :';
 	for ( var i = 0 ; i < this.targetMesh.edges.length ; i++ )
-		if (edgestate(this.targetMesh, i) == "freeze" ) tmp+=' '+i;
+		if (edgestate(this.targetMesh, i) == "frozen" ) tmp+=' '+i;
 		fl(tmp);
 
 }
 
+function roughSizeOfObject( hy ) {
+	
+	var n = 0;
+	for ( var i = 0 ; i < hy.length ; i++ )
+		n += hy[i].length;
+	return 8*n;
+}
 /*
  * @description
  *	try to rebuild patterns. 
@@ -523,13 +559,26 @@ Patterns.prototype.flFreezed = function ()
  */
 Patterns.prototype.rebuild = function (feid)
 {
+	fl(' # rebuild '+feid+' c ');
+	
 	$('#processing-indicator').fadeIn(20);
 	$('#main-app-dialog-title').text("Rebuild patterns");
 	// back up patterns in case of fail
 	var pbu = $.extend(true, [], this.children);
 
-	// we need to create and fill freezed edges list
-	var freezedlist = [];
+
+	if ( feid != undefined  )
+	if ( edgestate(pobj, feid) == "frozen" )
+		this.history.push( { date : t, action : 'freeze', edges : [feid] } );
+			else
+				this.history.push( { date : t, action : 'unfreeze', edges : [feid] } );
+	var t = new Date();
+	
+	this.history.push( { date : t, action : 'freeze', edges : [feid] } );
+
+	
+	// we need to create and fill frozen edges list
+	var frozenlist = [];
 
 	if ( feid != undefined )
 	{
@@ -543,11 +592,11 @@ Patterns.prototype.rebuild = function (feid)
 				for ( var j = 0 ; j < tpp.length ; j++ )
 				{
 					for ( var i = 0 ; i < tpp[j].edges.length ; i++ )
-						freezedlist.push (tpp[j].edges[i]);
+						frozenlist.push (tpp[j].edges[i]);
 					this.removePattern(tpp[j].guid);
 				}
-				if ( edgestate(pobj, feid) == "freeze" )
-					freezedlist.push (feid);
+				if ( edgestate(pobj, feid) == "frozen" )
+					frozenlist.push (feid);
 				this.removePattern(tpp[0].guid);
 				
 		}
@@ -557,10 +606,10 @@ Patterns.prototype.rebuild = function (feid)
 			{
 					for ( var i = 0 ; i < p.edges.length ; i++ )
 						if ( p.edges[i] != feid )
-							freezedlist.push ( p.edges[i] );
+							frozenlist.push ( p.edges[i] );
 					this.removePattern(p.guid);
 			}
-			else freezedlist.push (feid);
+			else frozenlist.push (feid);
 		}
 	}
 	else
@@ -568,7 +617,7 @@ Patterns.prototype.rebuild = function (feid)
 		// first of all, we erase patterns
 		this.children.splice (0, this.children.length);
 		for ( var i = 0 ; i < this.targetMesh.edges.length ; i++ )
-			if (edgestate(this.targetMesh, i) == "freeze" ) freezedlist.push(i);
+			if (edgestate(this.targetMesh, i) == "frozen" ) frozenlist.push(i);
 	
 	}
 	
@@ -576,18 +625,29 @@ Patterns.prototype.rebuild = function (feid)
 	// Let's now dispatch those freezed edges into different patterns
 	var newpatterns = [];
 	
-	while ( freezedlist.length > 0 )
-	{		
+	var freezestate = [];
+	for ( var i = 0 ; i < this.targetMesh.edges.length ; i++ )
+		if (edgestate(this.targetMesh, i) == "frozen" ) freezestate.push(i);
+	this.freezedEdgeHistory.push($.extend(true, [], freezestate));
+	fl('history size : '+roughSizeOfObject(this.freezedEdgeHistory)+' bytes');
+	
+	fl(this.freezedEdgeHistory);
+	
+	
+	var ref = frozenlist.length;
+	while ( frozenlist.length > 0 )
+	{
+		fl('dispatch frozen edges '+(ref + 1 - frozenlist.length)+' / '+ref)
 		var add = -1;
 		var i = 0 ;
-		while ( add == -1 && i < freezedlist.length )
+		while ( add == -1 && i < frozenlist.length )
 		{
 			var j = 0;
 			while ( add == -1 && j < this.children.length )
 			{
-				add = this.children[j].addEdge (freezedlist[i] );
+				add = this.children[j].addEdge (frozenlist[i] );
 				if ( add != -1 )
-					freezedlist.splice(i, 1);
+					frozenlist.splice(i, 1);
 				j++;
 			}
 			i++;
@@ -595,10 +655,10 @@ Patterns.prototype.rebuild = function (feid)
 		if ( add == -1 )
 		{	
 			var tmp = new Pattern (this.targetMesh);
-			tmp.addEdge(freezedlist[0]);
+			tmp.addEdge(frozenlist[0]);
 			tmp.gentriangles();
 			this.addPattern(tmp);
-			freezedlist.splice(0, 1);
+			frozenlist.splice(0, 1);
 			newpatterns.push(tmp);
 		}
 	}
@@ -617,15 +677,18 @@ Patterns.prototype.rebuild = function (feid)
 			newpatterns.push(tmp);
 		}
 
-	
+	ref = newpatterns.length;
+	fl(ref+' island(s) founded');
 	for ( var i = 0 ; i < newpatterns.length ; i++ )
    {
+
+		fl('processing '+(1+i)+' / '+ref)
 	   //fl( newpatterns[i].guid+'|'+this.children[i].guid )
 	   if (!newpatterns[i].flatten())
 	   {  
 		   this.children = $.extend(true, [], pbu);  
 		   $('#processing-indicator').fadeOut(200);
-			$('#processing-fail-indicator').fadeIn( 1 ).delay( 3600 ).fadeOut( 400 );
+			$('#processing-fail-indicator').fadeIn( 1 ).delay( 300 ).fadeOut( 400 );
 			fl('# rebuild error')
 		   return false;
 	   }
@@ -701,7 +764,6 @@ Pattern.prototype.highlight = function ()
 {
 	for( var i = 0 ; i < this.triangles.length ; i++ )
 	{
-		fl('HL: '+ this.triangles[i] )
 		setshapestate (pobj, this.triangles[i], "softlight");
 
 	}
@@ -752,7 +814,7 @@ Pattern.prototype.genNodes = function ()
 			var frz = false;
 			var edg = getEdgeId (this.targetMesh, tmp[k+1].sid, tmp[k].sid);
 			if ( edg > -1 )
-				if ( edgestate (this.targetMesh, edg) == "freeze" ) frz = true;
+				if ( edgestate (this.targetMesh, edg) == "frozen" ) frz = true;
 
 			if ( frz == false )
 			{
@@ -1023,7 +1085,7 @@ Pattern.prototype.genFrontiers = function () // find fronier from junctions && t
 	{
 		var tmp = TRIANGLEgetedges (this.targetMesh, this.triangles[i]);
 		for ( var j = 0 ; j < tmp.length ; j++ )
-			if ( ( this.ownFrontier( tmp[j]) == -1 ) && ( edgestate(this.targetMesh, tmp[j]) != "freeze" ) )
+			if ( ( this.ownFrontier( tmp[j]) == -1 ) && ( edgestate(this.targetMesh, tmp[j]) != "frozen" ) )
 			{
 				this.frontier.push (tmp[j]);
 				setedgestate (this.targetMesh, tmp[j], "visible");
@@ -1032,21 +1094,34 @@ Pattern.prototype.genFrontiers = function () // find fronier from junctions && t
 }
 
 /** @description
-	symply call flattenTrianglesCoord (), assembleFlattenedTriangles ()
+	symply call genFlattenedTrianglesCoordinates (), assembleFlattenedTriangles ()
 	and genNodes (). In this order.
  */
 Pattern.prototype.flatten = function ()
 {
 	//fl(' # flatten triangle '+this.guid);
-	this.flattenTrianglesCoord ();
-	//fl(' # asm triangle');
+	var t0 = new Date();
+	//fl(t0.getTime());
+	this.genFlattenedTrianglesCoordinates ();
+	var t1 = new Date();
+	fl(' * flattening '+(t1.getTime() - t0.getTime())+' ms');
+
 	this.assembleFlattenedTriangles ();
-	//fl(' # check freezed edges');
+	var t2 = new Date();
+	fl(' * assembling '+(t2.getTime() - t1.getTime())+' ms');
+
 	if ( ! this.checkFreezedEdges() ) return false;
-	//fl(' # gen nodes');
+	var t3 = new Date();
+	fl(' * checking'+(t3.getTime() - t2.getTime())+' ms');
+
 	this.genNodes ();
-	//fl(' # smart positioning');
+	var t4 = new Date();
+	fl(' * gen nodes '+(t4.getTime() - t3.getTime())+' ms');
+
 	this.smartPositioning();
+	var t5 = new Date();
+	fl(' * positioning '+(t5.getTime() - t4.getTime())+' ms');
+	fl(' total : '+(t5.getTime() - t0.getTime())+' ms');
 	//dispatcher.updateChildren();
 	return true;
 }
@@ -1059,7 +1134,7 @@ Pattern.prototype.flatten = function ()
  	 and will always be.
  	 the other reason why is that full OOP rewrite is planed 
  */
-Pattern.prototype.flattenTrianglesCoord = function ()
+Pattern.prototype.genFlattenedTrianglesCoordinates = function ()
 {
 	for ( var j = 0 ; j < this.triangles.length ; j++ )
 	{
@@ -1070,21 +1145,19 @@ Pattern.prototype.flattenTrianglesCoord = function ()
 		var bullet = new Vector ([0.0, 0.0, 0.0], n, 1.0);
 		// La,matrice de transformation peut etre construite
 		var itpmat = geninterpmat (bullet, target);
-
-		var w = $.extend( true, {}, this.targetMesh);
-		
-		for ( var i = 0 ; i < w.nv ; i++ )
-			w.vertices[i] = applymatNscale(itpmat, w.vertices[i]);
-		
-		var tmptri = [ {c : [(w.vertices[w.triangles[id][0]][0]), 
-							 (w.vertices[w.triangles[id][0]][1]), 0], sid : this.targetMesh.triangles[id][0] },
-
-							{c : [(w.vertices[w.triangles[id][1]][0]), 
-							 (w.vertices[w.triangles[id][1]][1]), 0], sid : this.targetMesh.triangles[id][1] },
-
-						   {c : [(w.vertices[w.triangles[id][2]][0]), 
-							 (w.vertices[w.triangles[id][2]][1]), 0], sid : this.targetMesh.triangles[id][2] }];
-
+	
+		var tmptri = [ {c : [(applymatNscale(itpmat, pobj.vertices[pobj.triangles[id][0]])[0]),
+									(applymatNscale(itpmat, pobj.vertices[pobj.triangles[id][0]])[1]), 0],
+									sid : this.targetMesh.triangles[id][0] },
+		    
+							{c : [(applymatNscale(itpmat, pobj.vertices[pobj.triangles[id][1]])[0]),
+									(applymatNscale(itpmat, pobj.vertices[pobj.triangles[id][1]])[1]), 0],
+									sid : this.targetMesh.triangles[id][1]  },
+		    
+							{c : [(applymatNscale(itpmat, pobj.vertices[pobj.triangles[id][2]])[0]),
+									(applymatNscale(itpmat, pobj.vertices[pobj.triangles[id][2]])[1]), 0],
+									sid : this.targetMesh.triangles[id][2]  } ];
+									
 		this.trianglesflatcoord.push(tmptri);
 	}
 }
