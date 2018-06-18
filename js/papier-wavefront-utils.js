@@ -18,10 +18,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 'use strict';
 
+
+function Vertice (owner, x, y, z, e, f)
+{
+	this.c = [x, y, z];
+	this.ownerguid = owner;
+	this.guid = uuidv4();
+	this.connectedFaces = f;
+	this.connectedEdges = e;
+}
+function Edge (owner, v, f)
+{
+	this.v = [];
+	this.ownerguid = owner;
+	this.guid = uuidv4();
+	this.connectedVertices = [];
+	this.connectedEdges = [];
+}
+function Face (owner, v, f)
+{
+	this.v = [];
+	this.ownerguid = owner;
+	this.guid = uuidv4();
+	this.connectedVertices = [];
+	this.connectedEdges = [];
+}
 /**
 	@function getwavefrontproperties 
 	@param {Object} o - the mesh to analisys
 */
+
 function getwavefrontproperties (o)
 {
 	var xmax = obj.vertices[0][0];

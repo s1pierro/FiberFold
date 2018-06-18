@@ -91,20 +91,20 @@ transform: translate(5px, 5px);
 
 
 }
-.flatshape {
-	fill: #777;
-	opacity: 1.0;
-	stroke: #888;
-	stroke-width: 1px;
-	stroke-linejoin: bevel;
-}
-.nodeshape {
-	fill: #bbb0;
-	opacity: 1.0;
-	stroke: #000;
-	stroke-width: 2px;
-	stroke-linejoin: bevel;
-}
+/*.flatshape {*/
+/*	fill: #777;*/
+/*	opacity: 1.0;*/
+/*	stroke: #888;*/
+/*	stroke-width: 1px;*/
+/*	stroke-linejoin: bevel;*/
+/*}*/
+/*.nodeshape {*/
+/*	fill: #bbb0;*/
+/*	opacity: 1.0;*/
+/*	stroke: #000;*/
+/*	stroke-width: 2px;*/
+/*	stroke-linejoin: bevel;*/
+/*}*/
 #topset
 {
 		font-family: monospace, monospace;
@@ -142,7 +142,7 @@ body {
 	color: #eee;
 }
 #settings {
-	background-color: #0000;
+	background-color: rgba(0,0,0,0.0);
 	color: #ddd;
 }
 .noselect {
@@ -189,7 +189,7 @@ body {
 		top: 0px;
 		left: 0px;
 		/* Chrome10-25,Safari5.1-6 */
-		background: #0000;
+		background-color: rgba(0,0,0,0.0);
 	}
 
 	#svg7.d-view {
@@ -199,7 +199,7 @@ body {
 		
 		display: block;
 		opacity: 1.0;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #444;
 		position: fixed;
 		z-index: 2;
@@ -229,7 +229,7 @@ body {
 		left: 50%;
 		width: auto;
 		height: 2em;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
 		text-align: center;
@@ -248,7 +248,7 @@ body {
 		left: 1em;
 		width: auto;
 		height: 2em;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
 
@@ -337,7 +337,7 @@ body {
 		left: 79vh;
 		width: auto;
 		height: 2em;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
 
@@ -355,7 +355,7 @@ body {
 		left: 73vh;
 		width: auto;
 		height: 2em;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
 
@@ -432,7 +432,7 @@ body {
 
 		display: block;
 		opacity: 1.0;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #444;
 		position: fixed;
 		z-index: 2;
@@ -472,7 +472,7 @@ body {
 		bottom: 0.3em;
 		left: 0.3em;
 		margin-right: 1em;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
 		height: auto;
@@ -556,7 +556,7 @@ body {
 	#settings.settings-view
 	{
 		display: block;
-		overflow-x: hide;
+		overflow-x: hidden;
 		overflow-y: scroll;
 		padding-top: 1em;
 		
@@ -606,7 +606,7 @@ body {
 		z-index: 6;
 		bottom: 1.3em;
 		left: 1em;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
 		font-size: 1em;
@@ -668,7 +668,7 @@ body {
 
 		display: block;
 		opacity: 1.0;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #444;
 		position: fixed;
 		z-index: 2;
@@ -793,7 +793,7 @@ body {
 		left: 74.7vh;
 		width: 35.35vh;
 		height: 2em;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
 
@@ -808,7 +808,7 @@ body {
 		left: 70.7vh;
 		width: 35.35vh;
 		height: 2em;
-		background-color: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
 		font-family: TitilliumWeb-Bold;
 
