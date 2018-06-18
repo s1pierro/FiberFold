@@ -231,14 +231,10 @@ body {
 		height: 2em;
 		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
-		font-family: TitilliumWeb-Bold;
+		font-family: TitilliumWeb-Bold, sans;
 		text-align: center;
 		transform: translate(-50%);
 	}
-
-	
-
-	
 	#dispatcher-dialog.pages-view
 	{
 		font-size: 1.1em;
@@ -250,7 +246,7 @@ body {
 		height: 2em;
 		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
-		font-family: TitilliumWeb-Bold;
+		font-family: TitilliumWeb-Bold, sans;
 
 	}
 	
@@ -339,7 +335,7 @@ body {
 		height: 2em;
 		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
-		font-family: TitilliumWeb-Bold;
+		font-family: TitilliumWeb-Bold, sans;
 
 	}
 
@@ -357,7 +353,7 @@ body {
 		height: 2em;
 		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
-		font-family: TitilliumWeb-Bold;
+		font-family: TitilliumWeb-Bold, sans;
 
 	}
 
@@ -474,7 +470,7 @@ body {
 		margin-right: 1em;
 		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
-		font-family: TitilliumWeb-Bold;
+		font-family: TitilliumWeb-Bold, sans;
 		height: auto;
 		width: auto;
 		padding-top:1.1em;
@@ -795,7 +791,7 @@ body {
 		height: 2em;
 		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
-		font-family: TitilliumWeb-Bold;
+		font-family: TitilliumWeb-Bold, sans;
 
 	}
 
@@ -810,7 +806,7 @@ body {
 		height: 2em;
 		background-color: rgba(0, 0, 0, 0.0);
 		color: #f94;
-		font-family: TitilliumWeb-Bold;
+		font-family: TitilliumWeb-Bold, sans;
 
 	}
 
@@ -887,14 +883,13 @@ body {
 {
 	border-radius: 3px;
 	padding: 6px;
-	border: 1px solid #eee;
+
 	background-color: #eee;
 	color:#333;
 }
 .btn:hover
 {
 	border-radius: 6px;
-	border: 1px solid #f94;
 	background-color: #ff9f4a;
 	color:#fff;
 }
@@ -1039,7 +1034,7 @@ body {
 		color: #000;
 		min-width:1em;
 		width: auto;
-		font-family: TitilliumWeb-Bold;
+		font-family: TitilliumWeb-Bold, sans;
 		border: 1px solid #f94;
 	border-radius: 3px;	
 	}
