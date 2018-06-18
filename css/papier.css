@@ -1035,8 +1035,7 @@ body {
 		min-width:1em;
 		width: auto;
 		font-family: TitilliumWeb-Bold, sans;
-		border: 1px solid #f94;
-	border-radius: 3px;	
+		border-radius: 3px;	
 	}
 	#settings.d-view, #settings.pages-view, #settings.print-view, #page-nav.d-view, #page-nav.settings-view, #page-nav.print-view
 	{ display: none; }
