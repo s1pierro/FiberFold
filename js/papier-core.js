@@ -572,6 +572,7 @@ function roughSizeOfObject( hy ) {
  */
 Patterns.prototype.rebuild = function (feid)
 {
+	var t0 = new Date();
 	fl(' # rebuild '+feid+' c ');
 	
 	$('#processing-indicator').fadeIn(20);
@@ -714,6 +715,9 @@ Patterns.prototype.rebuild = function (feid)
 	
 	$('#processing-indicator').fadeOut(200);
 	$('#processing-success-indicator').fadeIn( 100 ).delay( 200 ).fadeOut( 400 );
+
+	var t1 = new Date();
+	fl(' total rebuild '+(t1.getTime()-t0.getTime())+'ms');
 
 	return true;
 }

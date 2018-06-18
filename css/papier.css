@@ -889,17 +889,22 @@ body {
 }
 .btn:hover
 {
-	border-radius: 6px;
-	border: 1px solid #eee;
-	background-color: #ff9f4a;
-	color:#fff;
+	border-radius: 3px;
+	border: 1px solid #fff;
+	background-color: #fff;
+	color:#444;
 }
 .btn-danger
 {	
 	color: #000;
-	border: 1px solid #eee;
 	border: 1px solid #ff9f4f;
 	background-color: #ff9f4a;
+}
+.btn-danger:hover
+{	
+	color: #000;
+	border: 1px solid #ff9f4f;
+	background-color: #fa5;
 }
 .btn-outline-light
 {

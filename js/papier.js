@@ -54,10 +54,9 @@ var view = 'd-view';
 var noError = true;
 var mnu;
 $(window).on("load",  init());
-
+/** constructor */
 function Menu ()
 {
-	
 	var tmp =
 	'<div id="menu" class="app-component d-view" >'+
 	'	<i class="icon-mesh text-light app-component" id="toggle-d-view"></i>'+
@@ -68,6 +67,7 @@ function Menu ()
 
 	$('body').append(tmp);
 }
+/** constructor */
 function FlatView ()
 {		
 	var svg = document.createElementNS("http://www.w3.org/2000/svg",'svg');
@@ -81,7 +81,6 @@ function FlatView ()
 
 	svg.appendChild(g);
 	document.body.appendChild(svg);
-
 }
 function application ()
 {
@@ -132,10 +131,6 @@ function init() {
 		dl(' * create Dispatcher ERROR <br>'+err);
 	}
 		
-		
-	
-	
-	
 	
 	
 	var menu = new Menu();
@@ -383,11 +378,11 @@ function mouseup ( event )
 	
 	raycaster.setFromCamera( mouse, camera );
 	var intersects = raycaster.intersectObjects( objects , true);
-	fl(intersects);
+
 	if ( intersects.length > 0 )
 		focus = $.extend(true, {}, intersects[ 0 ].object );
 	else if ( focus != undefined ) focus = undefined;
-	fl(focus);
+
 	
 	if (mouse.x*mouse.y == mouserayid && focus != undefined )
 	{
@@ -415,24 +410,13 @@ function mouseup ( event )
 					
 					var test = patterns.rebuild(e);
 					if (!test)
-					{
 						setedgestate (pobj, e, "visible");
-					}
 
+					activeshape1 = tappedshapeid;
+					activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
+					setshapestate(pobj, tappedshapeid, "highlight" );
+					ltriangle = activeshape1;
 				
-					if ( BUILDmode == "fast" )
-					{
-						activeshape1 = tappedshapeid;
-						activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
-						setshapestate(pobj, tappedshapeid, "highlight" );
-						ltriangle = activeshape1;
-					}
-					else if ( BUILDmode == "safe" )
-					{
-						activeshape1 = -1 ;
-						activeshape1shadoweddstate = shapestate(pobj, tappedshapeid );
-						ltriangle = -1;
-					}
 			}
 			else
 			{
