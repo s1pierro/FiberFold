@@ -306,7 +306,7 @@ body {
 		top: 0;
 		left: 0;
 		/* Chrome10-25,Safari5.1-6 */
-		background: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 	}
 }
 
@@ -415,7 +415,7 @@ body {
 		height: 100%;
 		top: 0px;
 		left: 70.7vh;
-		background: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 	}
 	#renderbox.d-view {
 		display: block;
@@ -426,7 +426,7 @@ body {
 		top: 0px;
 		right: 0px;
 		/* Chrome10-25,Safari5.1-6 */
-		background: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 	}
 	#svg7.d-view {
 
@@ -598,7 +598,7 @@ body {
 		height: 100%;
 		top: 0px;
 		right: 0px;
-		background: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 	}
 	#dispatcher-dialog.d-view
 	{
@@ -721,7 +721,7 @@ body {
 	#settings.settings-view
 	{
 		display: block;
-		overflow-x: hide;
+		overflow-x: hidden;
 		overflow-y: scroll;
 		padding-top: 1em;
 		;
@@ -740,7 +740,7 @@ body {
 		height: 9vw;
 		top: 3.5em;
 		left: 2vw;
-		background: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 		opacity: 1.0;
 	}
 
@@ -878,7 +878,7 @@ body {
 		height: 100%;
 		top: 0px;
 		left: 70.7vh;
-		background: #0000;
+		background-color: rgba(0, 0, 0, 0.0);
 	}
 
 }
@@ -1038,8 +1038,8 @@ body {
 		background-color: #f94;
 		color: #000;
 		min-width:1em;
-		max-width: auto;
-		font: TitilliumWeb-Bold;
+		width: auto;
+		font-family: TitilliumWeb-Bold;
 		border: 1px solid #f94;
 	border-radius: 3px;	
 	}
