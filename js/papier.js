@@ -94,6 +94,20 @@ function Menu ()
 	'</div><!-- Button trigger modal -->';
 
 	$('body').append(tmp);
+}
+function FlatView ()
+{		
+	var svg = document.createElementNS("http://www.w3.org/2000/svg",'svg');
+	svg.setAttribute( 'id', 'svg7' );
+	svg.setAttribute( 'class', 'app-component d-view' );
+	svg.setAttribute( 'width', '210mm' );
+	svg.setAttribute( 'height', '297mm' );
+	svg.setAttribute( 'viewbox', '0 0 210 297' );
+	var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
+	g.setAttribute( 'id', 'renderplane' );
+
+	svg.appendChild(g);
+	document.body.appendChild(svg);
 
 }
 
@@ -115,6 +129,7 @@ function init() {
 
 	
 	var menu = new Menu();
+	var flatview = new FlatView();
 	
 	container = document.createElement( 'div' );
 	container.id = 'renderbox';
