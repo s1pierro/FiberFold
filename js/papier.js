@@ -19,22 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 function dl (s)
 {
+	console.log(s);
 	s = '<p>'+s+'</p>'
 	$('#logput').append(s);
 }
 var noError = true;
 
-try
-{
-	var pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
-}
-catch (err) 
-{ 
-	noError = false;
-	dl(' * load wavefront ex ERROR'+err);
-}
-dl(' - load wavefront ex OK')
-
+var pobj = {};
+var patterns = {};
+var dispatcher = {};
 var camarm = [0, 0, 9999];//pobj.height*2 /2/ Math.tan(Math.PI * 50 / 360)];
 var mouse = new THREE.Vector2(), mouserayid;
 var container;
@@ -46,26 +39,6 @@ var activeshape1 = -1;
 var activeshape1shadoweddstate;
 var tolerance = 0.0001;
 var hlpattern = -1;
-try
-{
-	var patterns = new Patterns(pobj);
-}
-catch (err) 
-{ 
-	noError = false;
-	dl(' * create Pattern ERROR')
-}
-dl(' - create Patterns OK')
-try
-{
-	var dispatcher = new Dispatcher (patterns)
-}
-catch (err) 
-{ 
-	noError = false;
-	dl(' * create Dispatcher ERROR')
-}
-dl(' - create Dispatcher OK')
 
 var verbose = false;
 var BUILDmode = "fast";
@@ -110,7 +83,10 @@ function FlatView ()
 	document.body.appendChild(svg);
 
 }
-
+function application ()
+{
+		var a = true;	
+}
 function init() {
 	dl(' # stuff loaded');
 
@@ -126,7 +102,41 @@ function init() {
 	g +='feel free to contact me at s1pierro@protonmail.com to contribute, in any way';
 	fl(g);
 
-
+	try {
+		pobj = $.extend(true, {}, loadWavefrontFromHTLM('#example', 'example'));
+		dl(' - load wavefront ex OK');
+	}
+	catch (err) 
+	{ 
+		noError = false;
+		dl(' * load wavefront ex ERROR <br>'+err);
+	}
+	try
+	{
+		patterns = new Patterns(pobj);
+		dl(' - create Patterns OK')
+	}
+	catch (err) 
+	{ 
+		noError = false;
+		dl(' * create Pattern ERROR <br>'+err);
+	}
+	try
+	{
+		dispatcher = new Dispatcher (patterns)
+		dl(' - create Dispatcher OK')
+	}
+	catch (err) 
+	{ 
+		noError = false;
+		dl(' * create Dispatcher ERROR <br>'+err);
+	}
+		
+		
+	
+	
+	
+	
 	
 	var menu = new Menu();
 	var flatview = new FlatView();
@@ -147,7 +157,7 @@ function init() {
 	catch (err) 
 	{ 
 	noError = false;
-		dl(' * create camera ERROR')
+		dl(' * create camera ERROR <br>'+err);
 	}
 	dl(' - create camera OK')
 	try
@@ -164,7 +174,7 @@ function init() {
 	catch (err) 
 	{ 
 	noError = false;
-		dl(' * create controls ERROR')
+		dl(' * create controls ERROR <br>'+err);
 	}
 	dl(' - create controls OK')
 
@@ -176,7 +186,7 @@ function init() {
 	catch (err) 
 	{ 
 	noError = false;
-		dl(' * create scene ERROR')
+		dl(' * create scene ERROR <br>'+err);
 	}
 	dl(' - create scene OK')
 	try
@@ -191,7 +201,7 @@ function init() {
 	catch (err) 
 	{ 
 	noError = false;
-		dl(' * create lights ERROR')
+		dl(' * create lights ERROR <br>'+err);
 	}
 	dl(' - create lights OK')
 
@@ -209,7 +219,7 @@ function init() {
 	catch (err) 
 	{ 
 	noError = false;
-		dl(' * create materials ERROR')
+		dl(' * create materials ERROR <br>'+err);
 	}
 	dl(' - create materials OK')
 	
@@ -220,7 +230,7 @@ function init() {
 	catch (err) 
 	{ 
 	noError = false;
-		dl(' * feedscene () ERROR')
+		dl(' * feedscene () ERROR <br>'+err);
 	}
 	dl(' - feedscene () OK')
 		
@@ -285,6 +295,8 @@ function init() {
 	rendererOffset.y = $('#renderbox').position().top;
 	rendererSize.w = $('#renderbox').width();
 	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
+	mouse.x = -1;//  ( ( event.clientX - rendererOffset.x ) / ( rendererSize.w  ) ) * 2 - 1;	
+	mouse.y = -1;// ( ( event.clientY - rendererOffset.y ) / ( rendererSize.h ) ) * 2 + 1;
 }
 
 function blankscene ()
@@ -367,11 +379,17 @@ document.addEventListener( 'mousedown', mousedown, false );
 function mousedown ( event ) { mouserayid = mouse.x*mouse.y; }
 function mouseup ( event )
 {
-				
 	if ( controls.enabled == false ) return;
-				
 	
-	if (mouse.x*mouse.y == mouserayid && focus != undefined ) // SHAPE TAPPED
+	raycaster.setFromCamera( mouse, camera );
+	var intersects = raycaster.intersectObjects( objects , true);
+	fl(intersects);
+	if ( intersects.length > 0 )
+		focus = $.extend(true, {}, intersects[ 0 ].object );
+	else if ( focus != undefined ) focus = undefined;
+	fl(focus);
+	
+	if (mouse.x*mouse.y == mouserayid && focus != undefined )
 	{
 		patterns.unHighlight();
 		var tappedshapeid = focus.tid;
@@ -442,29 +460,19 @@ function mouseup ( event )
 			patterns.children[lpattern].highlight();
 			hlpattern = lpattern;
 			setshapestate(pobj, ltriangle, 'highlight');
-			
-			
 		}
 	}
-
-
 	render();
 }
 
 function onDocumentMouseMove( event ) {
 
-	mouse.x =   ( ( event.clientX - rendererOffset.x ) / ( rendererSize.w  ) ) * 2 - 1;
-	
+	mouse.x =   ( ( event.clientX - rendererOffset.x ) / ( rendererSize.w  ) ) * 2 - 1;	
 	mouse.y = - ( ( event.clientY - rendererOffset.y ) / ( rendererSize.h ) ) * 2 + 1;
-
-		
+	
 	controls.update();
-	raycaster.setFromCamera( mouse, camera );
-	var intersects = raycaster.intersectObjects( objects , true);
-	if ( intersects.length > 0 )
-		focus = $.extend(true, {}, intersects[ 0 ].object );
-	else if ( focus != undefined ) focus = undefined;
 	render();
+
 }
 function render() {
 	

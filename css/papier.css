@@ -883,19 +883,22 @@ body {
 {
 	border-radius: 3px;
 	padding: 6px;
-
+	border: 1px solid #eee;
 	background-color: #eee;
 	color:#333;
 }
 .btn:hover
 {
 	border-radius: 6px;
+	border: 1px solid #eee;
 	background-color: #ff9f4a;
 	color:#fff;
 }
 .btn-danger
 {	
 	color: #000;
+	border: 1px solid #eee;
+	border: 1px solid #ff9f4f;
 	background-color: #ff9f4a;
 }
 .btn-outline-light
