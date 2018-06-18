@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 	@function getwavefrontproperties 
-	@param {object} o - the mesh to analisys
+	@param {Object} o - the mesh to analisys
 */
 function getwavefrontproperties (o)
 {
@@ -48,9 +48,9 @@ function getwavefrontproperties (o)
 }
 /**
 	@function  parsewavefront
-	@param {object} objText - a string containing the mesh defined
+	@param {Object} objText - a string containing the mesh defined
 	@param {text} id - the id to attibute to the created mesh object
-	@returns {object} an object that store mesh define in a format
+	@returns {Object} an object that store mesh define in a format
 	suitable to the app
 */
 function printWavefront (o)

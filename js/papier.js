@@ -79,7 +79,23 @@ var rendererOffset = { x: 0, y : 0 };
 var rendererSize = { w: 0, h : 0 };
 var view = 'd-view';
 var noError = true;
+var mnu;
 $(window).on("load",  init());
+
+function Menu ()
+{
+	
+	var tmp =
+	'<div id="menu" class="app-component d-view" >'+
+	'	<i class="icon-mesh text-light app-component" id="toggle-d-view"></i>'+
+	'	<i class="icon-print text-light" id="print-total"></i>'+
+	'	<i class="icon-download text-light" id="download"></i>'+
+	'	<i class="icon-menu text-light" id="toggle-settings"></i>'+
+	'</div><!-- Button trigger modal -->';
+
+	$('body').append(tmp);
+
+}
 
 function init() {
 	dl(' # stuff loaded');
@@ -98,8 +114,8 @@ function init() {
 
 
 	
-
-
+	var menu = new Menu();
+	
 	container = document.createElement( 'div' );
 	container.id = 'renderbox';
 
@@ -531,11 +547,13 @@ $('body').on('click', '#go-prev-page', function()
 {
 	fl('page--');
 	if ( lpage > 0 ) lpage --;
+	$('#dispatcher-dialog').html(dispatcher.pages[lpage].size);
 	render();
 });
 $('body').on('click', '#go-next-page', function()
 {
 	if ( lpage < dispatcher.pages.length-1 ) lpage ++;
+	$('#dispatcher-dialog').html(dispatcher.pages[lpage].size);
 	render();
 
 });

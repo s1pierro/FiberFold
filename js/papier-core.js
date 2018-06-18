@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 function Page (pattern)
 {
 	this.patterns = [pattern];
-	this.desc = 'page '+(parseInt(dispatcher.pages.length)+1);
+	this.desc = 'page '+(parseInt(((dispatcher.pages.length)+1), 10));
 	this.size = pattern.papersizereq.s;
 	this.height = pattern.papersizereq.h;
 	this.width = pattern.papersizereq.w;
@@ -52,11 +52,9 @@ Frontiersegment.prototype.set = function ( ownerguid, targetguid )
 	this.type = '';		//	open/close
 	return true;
 }
-/** @description
-
-	print page to dest_container;
-	@param {object} dest_container
-	@param {text} guid the guid of the pattern to highlight
+/** @description print page to dest_container;
+	@param {Object} dest_container
+	@param {string} pguid the guid of the pattern to highlight
 
  */
 Page.prototype.out = function ( dest_container, pguid, tid )
@@ -425,8 +423,15 @@ Dispatcher.prototype.sortChildren = function ()
 	var a = 0;
 	return a;
 }
-/** @constructor */
-
+/** @constructor 
+ * @param {number}                   sid - som index
+ * @param {number}                   tid - ti index
+ * @param {Array}            coordinate  - node coordinate
+ * @property {number}         sid - sid
+ * @property {Array}         tid - tid
+ * @property {Array}    coordinate - The array tht contain patterns.
+ * @property {string}       		   guid - A global identifier.
+ */
 function Node (sid, tid, coordinate )
 {
 	this.sid = sid;
@@ -435,13 +440,21 @@ function Node (sid, tid, coordinate )
 	this.c = coordinate;
 	this.guid = uuidv4();
 }
+Node.prototype.set = function (sid, tid, coordinate )
+{
+	this.sid = sid;
+	this.tid = [tid];
+	
+	this.c = coordinate;
+	this.guid = uuidv4();
+}
+
 /** @description
 	Indicates if the node and the one passed in parameter are located on the same
 	flat triangle.
 	
-	@param {object} nde
-	@returns {boolean=} true If they are.
-	@returns {boolean=} false If they are not.
+	@param {Object} nde
+	@returns {boolean}
  */
 
 Node.prototype.shareFlatTriangleWith = function (nde)
@@ -469,9 +482,9 @@ function Pattern (targetmesh)
 
 }
 /** @constructor 
- * @param {object}                   targetmesh - The mesh to flatten.
+ * @param {Object}                   targetmesh - The mesh to flatten.
  * @property {Array.Pattern}           children - The array tht contain patterns.
- * @property {object}                targetMesh - The mesh to flatten.
+ * @property {Object}                targetMesh - The mesh to flatten.
  * @property {string}             		    guid - A global identifier.
  
  */
@@ -487,7 +500,7 @@ function Patterns (targetmesh)
 /** @description
 	Update the targeted mesh. That is needed when user load a new mesh.
 	
-	 @param {object} targetmesh - the new mesh to flatten.
+	 @param {Object} targetmesh - the new mesh to flatten.
  
  */
 
@@ -500,7 +513,7 @@ Patterns.prototype.updateTargetMesh = function (targetmesh)
  * @description
  *	simply add a new pattern 
  *
- *	@param {object} pattern - the pattern to add
+ *	@param {Object} pattern - the pattern to add
  *
  */
 Patterns.prototype.addPattern = function (pattern)
@@ -511,7 +524,7 @@ Patterns.prototype.addPattern = function (pattern)
  * @description
  *	simply add a new pattern 
  *
- *	@param {object} pattern - the pattern to add
+ *	@param {Object} pattern - the pattern to add
  *
  */
 Patterns.prototype.removePattern = function (guid)
@@ -656,7 +669,7 @@ Patterns.prototype.rebuild = function (feid)
 		{	
 			var tmp = new Pattern (this.targetMesh);
 			tmp.addEdge(frozenlist[0]);
-			tmp.gentriangles();
+			tmp.gentriangles(-1);
 			this.addPattern(tmp);
 			frozenlist.splice(0, 1);
 			newpatterns.push(tmp);
@@ -795,10 +808,13 @@ Pattern.prototype.genNodes = function ()
 				}
 			}
 			if ( duplicate == false )
-				tmp.push(new Node ( this.trianglesflatcoord[i][j].sid, this.triangles[i],
-					                 [ this.trianglesflatcoord[i][j].c[0],
-					                   this.trianglesflatcoord[i][j].c[1],
-					                   this.trianglesflatcoord[i][j].c[2] ] ) );
+			{
+				var tmpnode = new Node ( this.trianglesflatcoord[i][j].sid, this.triangles[i],
+					             		    [ this.trianglesflatcoord[i][j].c[0],
+					                		   this.trianglesflatcoord[i][j].c[1],
+					              		      this.trianglesflatcoord[i][j].c[2] ] );
+				tmp.push(tmpnode);
+			}
 			 
 		}
 	}
@@ -837,10 +853,10 @@ Pattern.prototype.genNodes = function ()
  */
 Pattern.prototype.gentriangles = function (e)
 {
-	if ( e != undefined )
+	if ( e > -1 )
 	{			
 		for( var j = 0 ; j < this.targetMesh.edges[e].tri.length ; j++ )
-		this.addTriangle (this.targetMesh.edges[e].tri[j]);
+			this.addTriangle (this.targetMesh.edges[e].tri[j]);
 	}
 	else
 	{
@@ -892,7 +908,7 @@ Pattern.prototype.addEdge = function (edge)
 		if (t1 == this.triangles[i] | t2 == this.triangles[i] )
 		{
 			this.edges.push(edge);
-			this.gentriangles ();
+			this.gentriangles (-1);
 			return 1;
 		}
 	}
@@ -1228,7 +1244,7 @@ Pattern.prototype.assembleFlattenedTriangles = function ()
 	of which the id is Mtid
 
 	@param {number} mtid - mesh triangle's id
-	@returns {object} flattened triangle
+	@returns {Object} flattened triangle
 
  */
 Pattern.prototype.getFlatTriangle = function (mtid)
