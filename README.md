@@ -8,7 +8,7 @@ _This project is a (js) rewritting of my old [eMesh](https://www.youtube.com/wat
 ![screen](https://github.com/s1pierro/Papier/blob/master/img/papier-screen-shadow.png "Papier screenshot")
 
 
-#### Here is the begining of something functional. [try it !](https://s1pierro.github.io/Papier/)
+#### Here is the begining of something functional. [try it !](https://s1pierro.github.io/FiberFold/)
 _touch devices are not fully supported yet, they will be soon_
 
 ### State
@@ -110,7 +110,6 @@ When two joined triangles are struck successively, the edge they share is called
 Code is licenced under the termes of the <a href="LICENSE.md">GNU GPL v3</a>
 
 Graphic contents are licenced under the termes of <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
-
  
 If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@protonmail.com
 

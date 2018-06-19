@@ -104,7 +104,7 @@ function printWavefront (o)
 
 }
 function parsewavefront(objText, id) {
-	console.clear();
+	//console.clear();
 	var nv = 0;
 	var nt = 0;
 	var ng = 0;

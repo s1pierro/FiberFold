@@ -257,7 +257,6 @@ function geninterpmat (vs, ve)
 	}
 	else
 	{
-	
 		var a = vs.s;
 		var b = ve.s;
 		
@@ -282,4 +281,38 @@ function geninterpmat (vs, ve)
 
 }
 window.geninterpmat = geninterpmat;
+
+
+/** @constructor */
+
+function Plot(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+//Barycentric collision checker
+function checkCollision (pa, pb, pc, pt)
+{
+	var v0 = new Plot ( pc.x-pa.x, pc.y-pa.y );
+	var v1 = new Plot ( pb.x-pa.x, pb.y-pa.y );
+	var v2 = new Plot ( pt.x-pa.x, pt.y-pa.y );
+
+	var dp00 = v0.x*v0.x + v0.y*v0.y;
+	var dp11 = v1.x*v1.x + v1.y*v1.y;
+	var dp22 = v2.x*v2.x + v2.y*v2.y;
+	var dp01 = v0.x*v1.x + v0.y*v1.y;
+	var dp02 = v0.x*v2.x + v0.y*v2.y;
+	var dp12 = v1.x*v2.x + v1.y*v2.y;
+	
+	var u = ( dp11 * dp02 - dp01 * dp12 ) / ( dp00 * dp11 - dp01 * dp01 );
+	var v = ( dp00 * dp12 - dp01 * dp02 ) / ( dp00 * dp11 - dp01 * dp01 );
+	
+	console.log ('u = '+u+'\n v = '+v);
+	console.log(' collision : '+(u >= 0) && (v >= 0) && (u + v < 1) );
+	
+	return (u >= 0) && (v >= 0) && (u + v < 1);
+
+}
+
+
 
