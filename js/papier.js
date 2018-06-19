@@ -509,13 +509,13 @@ function render() {
 	   if ( lpattern > -1 )
 	   {
 			var tmp_p = dispatcher.getPagepattern ( lpattern );
-			$('#dispatcher-dialog').html( tmp_p.size );
 	   }
 	   if (lpattern != -1 )
 			dispatcher.pages[lpage].out (renderplane, patterns.children[lpattern].guid, ltriangle);
 			else
 				dispatcher.pages[lpage].out (renderplane, 0);		
 		
+		$('#dispatcher-dialog').html(dispatcher.pages[lpage].size);
 		
 //	fl(dispatcher.getPagepattern ( lpattern ));
    }
