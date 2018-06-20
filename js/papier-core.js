@@ -67,11 +67,25 @@ Page.prototype.out = function ( dest_container, pguid, tid )
 	renderplane.innerHTML = "";
 
 
+
 	for ( var ig = 0 ; ig < this.patterns.length ; ig++)
 	{
 		var g = document.createElementNS("http://www.w3.org/2000/svg",'g');
 		g.setAttribute( 'id', this.patterns[ig].guid );
 		g.setAttribute( 'transform', 'translate('+this.patterns[ig].position.x+', '+this.patterns[ig].position.y+')' );
+
+		var style = 'fill: ccc; stroke: none;';
+		if ( this.patterns[ig].guid == pguid ) style = 'fill: #ccc; stroke: #000; stroke-width: 0.5px;';
+		var pp = this.patterns[ig];
+		var svgpolygon = pp.tabnodes[pp.tabnodes.length-1][0]+', '+pp.tabnodes[pp.tabnodes.length-1][1];
+		for ( var i = 0 ; i < pp.tabnodes.length ; i++ )
+			svgpolygon +=  " "+pp.tabnodes[i][0]+', '+pp.tabnodes[i][1];
+							
+		var svg2 = document.createElementNS("http://www.w3.org/2000/svg",'polygon');
+		svg2.setAttribute('points', svgpolygon);
+		svg2.setAttribute('style', style );
+		g.appendChild(svg2);
+
 		var style = 'fill: #ccc; stroke: #444; stroke-width: 0.1px;';
 		for ( var i = 0 ; i < this.patterns[ig].triangles.length ; i++ )
 		{
@@ -90,8 +104,8 @@ Page.prototype.out = function ( dest_container, pguid, tid )
 			g.appendChild(svg);
 			g.appendChild(svg);
 		}
-		var style = 'fill: none; stroke: none;';
-			if ( this.patterns[ig].guid == pguid ) style = 'fill: none; stroke: #000; stroke-width: 0.5px;';
+/*		var style = 'fill: none; stroke: none;';
+		if ( this.patterns[ig].guid == pguid ) style = 'fill: none; stroke: #000; stroke-width: 0.5px;';
 		var pp = this.patterns[ig];
 		var svgpolygon = pp.nodes[pp.nodes.length-1].c[0]+', '+pp.nodes[pp.nodes.length-1].c[1];
 		for ( var i = 0 ; i < pp.nodes.length ; i++ )
@@ -101,6 +115,7 @@ Page.prototype.out = function ( dest_container, pguid, tid )
 			svg2.setAttribute('points', svgpolygon);
 			svg2.setAttribute('style', style );
 			g.appendChild(svg2);
+	*/	
 		
 		
 		
@@ -473,6 +488,7 @@ function Pattern (targetmesh)
 	this.trianglesflatcoord = [];
 	this.edges = [];
 	this.nodes = [];
+	this.tabnodes = [];
 	this.frontier = [];
 	this.guid = uuidv4();
 	this.targetMesh = targetmesh;
@@ -849,9 +865,116 @@ Pattern.prototype.genNodes = function ()
 			k--;
 		}
 	}
+	var sameorder = false;
+	var tmp2 = 	this.getTrianglesOwners ( tmp[0].sid, tmp[1].sid);
+		for ( var k = 0 ; k < 3 ; k++ )
+			if ( k < 2 )
+			{
+				if (tmp[0].sid == tmp2[k] && tmp[1].sid == tmp2[k+1])	sameorder = true;
+			}
+			else
+			{
+				if (tmp[0].sid == tmp2[k] && tmp[1].sid == tmp2[0])	sameorder = true;	
+			}
+			fl(sameorder);
+	fl(tmp2.length);
+	
+	if ( !sameorder ) tmp.reverse();
+	
 	this.nodes = tmp;
+
 	
 }
+/** @description
+ -
+
+ */
+Pattern.prototype.genTabNodes = function ()
+{		
+	for( var i = 0 ; i < this.nodes.length ; i++ )
+	{
+		var nl = 2
+		var swtc = 1;
+	
+		var j = 0;
+		if ( i == (this.nodes.length - 1) ) j = 0;
+		else j = i + 1;
+
+		var c0 = $.extend( true, [], this.nodes[i].c );
+		var c1 = $.extend( true, [], this.nodes[j].c );
+
+		var v = vectfromvertices (c0, c1);
+		
+		var pas = v.n/2; //TODO
+		
+		for ( var k = 0 ; k < nl ; k++ )
+		if ( swtc == 1 )
+		{
+			this.tabnodes.push(c0);		
+			var v1 = [ c0[0]+(10*v.s[0]) , c0[1]+(10*v.s[1])  , 0  ];
+			
+			var cnt = gentmat ( -c0[0], -c0[1], 0 );
+			var rz = genrmat ( 0.0, 0.0, 90.0 );
+			var ucnt = gentmat ( c0[0], c0[1], 0 );
+
+			
+			var m = multiplymatrix ( cnt, genimat() );
+			var m2 = multiplymatrix ( rz, m );
+			var m3 = multiplymatrix ( ucnt, m2 );
+			
+			var v2 = applymat(m3, v1);
+			this.tabnodes.push(v2);
+
+			
+			var v3 = [ v2[0]+(pas*v.s[0]) , v2[1]+(pas*v.s[1])  , 0  ];
+	
+			this.tabnodes.push(v3);
+			swtc = swtc * -1;
+		
+		}
+		else
+		{
+			
+			var c3 = [ c0[0]+(k*pas*v.s[0]) , c0[1]+(k*pas*v.s[1])  , 0  ];
+			this.tabnodes.push(c3);
+			swtc = swtc * -1;
+			
+			
+			
+		}
+		
+	/*	
+		
+		var v1 = [ c0[0]+(10*v.s[0]) , c0[1]+(10*v.s[1])  , 0  ];
+		
+		var cnt = gentmat ( -c0[0], -c0[1], 0 );
+		var rz = genrmat ( 0.0, 0.0, 90.0 );
+		var ucnt = gentmat ( c0[0], c0[1], 0 );
+
+		
+		var m = multiplymatrix ( cnt, genimat() );
+		var m2 = multiplymatrix ( rz, m );
+		var m3 = multiplymatrix ( ucnt, m2 );
+		
+		var v2 = applymat(m3, v1);
+		
+		var v3 = [ v2[0]+(v.n*v.s[0]) , v2[1]+(v.n*v.s[1])  , 0  ];
+	
+		this.tabnodes.push(c0);
+		this.tabnodes.push(v2);
+		this.tabnodes.push(v3);
+		
+		*/
+	}
+		
+		
+		
+		
+	//fl(this.tabnodes);
+	
+	
+}
+
 /** @description
 	Find the pattern triangles using pattern edges
  */
@@ -1068,6 +1191,8 @@ Pattern.prototype.translate = function (x, y)
 	var tmptxymat = gentmat( x, y, 0.0 );
 	for ( var i = 0 ; i < this.nodes.length ; i++ )
 		this.nodes[i].c = applymat(tmptxymat, this.nodes[i].c);
+	for ( var i = 0 ; i < this.tabnodes.length ; i++ )
+		this.tabnodes[i] = applymat(tmptxymat, this.tabnodes[i]);
 	for ( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
 		for ( var j = 0 ; j < this.trianglesflatcoord[i].length ; j++)
 			this.trianglesflatcoord[i][j].c = applymat(tmptxymat, this.trianglesflatcoord[i][j].c);
@@ -1078,6 +1203,8 @@ Pattern.prototype.rotate = function (rz)
 	var tmprzmat = genrmat(0.0, 0.0, rz );
 	for ( var i = 0 ; i < this.nodes.length ; i++ )
 		this.nodes[i].c = applymat(tmprzmat, this.nodes[i].c);
+	for ( var i = 0 ; i < this.tabnodes.length ; i++ )
+		this.tabnodes[i] = applymat(tmprzmat, this.tabnodes[i]);
 	for ( var i = 0 ; i < this.trianglesflatcoord.length ; i++ )
 		for ( var j = 0 ; j < this.trianglesflatcoord[i].length ; j++)
 			this.trianglesflatcoord[i][j].c = applymat(tmprzmat, this.trianglesflatcoord[i][j].c);
@@ -1137,6 +1264,8 @@ Pattern.prototype.flatten = function ()
 	this.genNodes ();
 	var t4 = new Date();
 	fl(' * gen nodes '+(t4.getTime() - t3.getTime())+' ms');
+	
+	this.genTabNodes ();
 
 	this.smartPositioning();
 	var t5 = new Date();
@@ -1257,6 +1386,34 @@ Pattern.prototype.getFlatTriangle = function (mtid)
 	for (var i = 0 ; i < this.triangles.length ; i++)
 		if (mtid == this.triangles[i] ) return this.trianglesflatcoord[i];
 	return null;
+}
+Pattern.prototype.getTrianglesOwners = function (sid1, sid2)
+{
+	var tmp = [];
+	var mtc = 0;
+	for ( var i = 0 ; i < this.triangles.length ; i++ )
+	{
+		var mtc = 0;
+		
+		for (var j = 0 ; j < 3 ; j++)
+		{
+			if ( sid1 == this.targetMesh.triangles[this.triangles[i]][j] ) mtc++;
+			if ( sid2 == this.targetMesh.triangles[this.triangles[i]][j] ) mtc++;
+		}
+		if ( mtc > 1 ) tmp.push(this.triangles[i]);//this.targetMesh.triangles[i]);
+		
+		fl('mtc '+mtc+' : id '+this.triangles[i]);
+		
+	}
+	fl('tmp:');
+	fl(tmp);
+	for ( var i = 0 ; i < tmp.length ; i++ )
+	{
+		if ( this.owntriangle(tmp[i]) > -1 )
+			return this.targetMesh.triangles[tmp[i]];
+	}
+
+	
 }
 
 Pattern.prototype.checkFreezedEdges = function ()
