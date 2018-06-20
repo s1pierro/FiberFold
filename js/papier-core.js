@@ -889,7 +889,7 @@ Pattern.prototype.genTabNodes = function ()
 {		
 	for( var i = 0 ; i < this.nodes.length ; i++ )
 	{
-		var nl = 6;
+		var nl = 2;
 		var swtc = 1;
 	
 		var j = 0;
@@ -910,23 +910,44 @@ Pattern.prototype.genTabNodes = function ()
 
 			
 			var v1 = [ c9[0]+(tongueheight*v.s[0]) , c9[1]+(tongueheight*v.s[1])  , 0  ];
+			var v11 = [ c9[0]+(tongueheight/3*v.s[0]) , c9[1]+(tongueheight/3*v.s[1])  , 0  ];
 			
 			var cnt = gentmat ( -c9[0], -c9[1], 0 );
 			var rz = genrmat ( 0.0, 0.0, 90.0 );
+			var rz11 = genrmat ( 0.0, 0.0, clip+90.0 );
 			var ucnt = gentmat ( c9[0], c9[1], 0 );
 
 			
 			var m = multiplymatrix ( cnt, genimat() );
 			var m2 = multiplymatrix ( rz, m );
-			var m3 = multiplymatrix ( ucnt, m2 );
-			
+			var m3 = multiplymatrix ( ucnt, m2 );		
 			var v2 = applymat(m3, v1);
-			this.tabnodes.push(v2);
-
 			
+			m = multiplymatrix ( cnt, genimat() );
+			m2 = multiplymatrix ( rz11, m );
+			m3 = multiplymatrix ( ucnt, m2 );		
+			var v22 = applymat(m3, v11);
+			
+			
+			this.tabnodes.push(v22);
+			this.tabnodes.push(v2);
+					
 			var v3 = [ v2[0]+(pas*v.s[0]) , v2[1]+(pas*v.s[1])  , 0  ];
-	
 			this.tabnodes.push(v3);
+			
+			var c7 = [v.o[0]+v.s[0]*pas*(k+1), v.o[1]+v.s[1]*pas*(k+1), 0];
+			var v33 = [ c7[0]+(tongueheight/3*v.s[0]) , c7[1]+(tongueheight/3*v.s[1])  , 0  ];
+			
+			cnt = gentmat ( -c7[0], -c7[1], 0 );
+			ucnt = gentmat ( c7[0], c7[1], 0 );
+			var rz33 = genrmat ( 0.0, 0.0, clip );
+			m = multiplymatrix ( cnt, genimat() );
+			m2 = multiplymatrix ( rz33, m );
+			m3 = multiplymatrix ( ucnt, m2 );		
+			var v44 = applymat(m3, v33);
+			this.tabnodes.push(v44);		
+			
+			
 			swtc = swtc * -1;
 		
 		}

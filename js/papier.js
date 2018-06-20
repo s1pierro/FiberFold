@@ -39,7 +39,8 @@ var activeshape1 = -1;
 var activeshape1shadoweddstate;
 var tolerance = 0.0001;
 var hlpattern = -1;
-var tongueheight = 5.5; // mm
+var tongueheight = 9.5; // mm
+var clip = 40;
 var verbose = false;
 var BUILDmode = "fast";
 var scaleconst = 1;
