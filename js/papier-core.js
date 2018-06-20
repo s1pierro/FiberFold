@@ -120,15 +120,11 @@ Page.prototype.out = function ( dest_container, pguid, tid )
 		
 		
 		renderplane.appendChild(g);
-		
-			
-		
 	}
 }
 /** @description
 	check collision between pattern and stuff already on the page
 */
-
 Page.prototype.collisionTest = function ( pattern )
 {
 	var x = pattern.position.x;
@@ -893,7 +889,7 @@ Pattern.prototype.genTabNodes = function ()
 {		
 	for( var i = 0 ; i < this.nodes.length ; i++ )
 	{
-		var nl = 2
+		var nl = 6;
 		var swtc = 1;
 	
 		var j = 0;
@@ -902,20 +898,22 @@ Pattern.prototype.genTabNodes = function ()
 
 		var c0 = $.extend( true, [], this.nodes[i].c );
 		var c1 = $.extend( true, [], this.nodes[j].c );
-
 		var v = vectfromvertices (c0, c1);
 		
-		var pas = v.n/2; //TODO
+		var pas = v.n/nl; //TODO
 		
 		for ( var k = 0 ; k < nl ; k++ )
 		if ( swtc == 1 )
 		{
-			this.tabnodes.push(c0);		
-			var v1 = [ c0[0]+(10*v.s[0]) , c0[1]+(10*v.s[1])  , 0  ];
+			var c9 = [v.o[0]+v.s[0]*pas*k, v.o[1]+v.s[1]*pas*k, 0];
+			this.tabnodes.push(c9);		
+
 			
-			var cnt = gentmat ( -c0[0], -c0[1], 0 );
+			var v1 = [ c9[0]+(tongueheight*v.s[0]) , c9[1]+(tongueheight*v.s[1])  , 0  ];
+			
+			var cnt = gentmat ( -c9[0], -c9[1], 0 );
 			var rz = genrmat ( 0.0, 0.0, 90.0 );
-			var ucnt = gentmat ( c0[0], c0[1], 0 );
+			var ucnt = gentmat ( c9[0], c9[1], 0 );
 
 			
 			var m = multiplymatrix ( cnt, genimat() );
@@ -934,45 +932,14 @@ Pattern.prototype.genTabNodes = function ()
 		}
 		else
 		{
+			var c9 = [v.o[0]+v.s[0]*pas*k, v.o[1]+v.s[1]*pas*k, 0];
+			this.tabnodes.push(c9);		
 			
-			var c3 = [ c0[0]+(k*pas*v.s[0]) , c0[1]+(k*pas*v.s[1])  , 0  ];
-			this.tabnodes.push(c3);
 			swtc = swtc * -1;
-			
-			
-			
-		}
-		
-	/*	
-		
-		var v1 = [ c0[0]+(10*v.s[0]) , c0[1]+(10*v.s[1])  , 0  ];
-		
-		var cnt = gentmat ( -c0[0], -c0[1], 0 );
-		var rz = genrmat ( 0.0, 0.0, 90.0 );
-		var ucnt = gentmat ( c0[0], c0[1], 0 );
 
-		
-		var m = multiplymatrix ( cnt, genimat() );
-		var m2 = multiplymatrix ( rz, m );
-		var m3 = multiplymatrix ( ucnt, m2 );
-		
-		var v2 = applymat(m3, v1);
-		
-		var v3 = [ v2[0]+(v.n*v.s[0]) , v2[1]+(v.n*v.s[1])  , 0  ];
-	
-		this.tabnodes.push(c0);
-		this.tabnodes.push(v2);
-		this.tabnodes.push(v3);
-		
-		*/
+		}
 	}
-		
-		
-		
-		
-	//fl(this.tabnodes);
-	
-	
+
 }
 
 /** @description
