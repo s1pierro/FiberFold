@@ -61,7 +61,7 @@ Page.prototype.out = function ( dest_container, pguid, tid )
 { 
 	
 
-		$('#svg7').attr('viewBox', '0 0 '+this.width+' '+this.height);
+	$('#svg7').attr('viewBox', '0 0 '+this.width+' '+this.height);
 
 
 	renderplane.innerHTML = "";
@@ -74,7 +74,7 @@ Page.prototype.out = function ( dest_container, pguid, tid )
 		g.setAttribute( 'id', this.patterns[ig].guid );
 		g.setAttribute( 'transform', 'translate('+this.patterns[ig].position.x+', '+this.patterns[ig].position.y+')' );
 
-		var style = 'fill: ccc; stroke: none;';
+		var style = 'fill: #ccc; stroke: none;';
 		if ( this.patterns[ig].guid == pguid ) style = 'fill: #ccc; stroke: #000; stroke-width: 0.5px;';
 		var pp = this.patterns[ig];
 		var svgpolygon = pp.tabnodes[pp.tabnodes.length-1][0]+', '+pp.tabnodes[pp.tabnodes.length-1][1];
@@ -1044,11 +1044,10 @@ Pattern.prototype.getTriangleIndex = function (tid)
 /** @description
 	Update some stats
  */
-Pattern.prototype.smartPositioning = function ()
+Pattern.prototype.updateSizeInfo = function ()
 {
-	//TODO
 	var nNod, nTri, nEdg, nFro, maxX, minX, maxY, minY, w, h;
-	var n = this.nodes;
+	var n = this.tabnodes;
 //	fl(n);
 	maxX = -1000;
 	minX = 1000;
@@ -1056,10 +1055,35 @@ Pattern.prototype.smartPositioning = function ()
 	minY = 1000;
 	for ( var i = 0 ; i < n.length ; i++ )
 	{
-		if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
-		if ( minX > n[i].c[0] ) minX = n[i].c[0];
-		if ( maxY < n[i].c[1] ) maxY = n[i].c[1];
-		if ( minY > n[i].c[1] ) minY = n[i].c[1];
+		if ( maxX < n[i][0] ) maxX = n[i][0];
+		if ( minX > n[i][0] ) minX = n[i][0];
+		if ( maxY < n[i][1] ) maxY = n[i][1];
+		if ( minY > n[i][1] ) minY = n[i][1];
+	}
+	h = maxY - minY;
+	w = maxX - minX;
+	this.height = h;
+	this.width = w;
+}
+/** @description
+	set pattern position on page
+ */
+Pattern.prototype.smartPositioning = function ()
+{
+	//TODO
+	var nNod, nTri, nEdg, nFro, maxX, minX, maxY, minY, w, h;
+	var n = this.tabnodes;
+//	fl(n);
+	maxX = -1000;
+	minX = 1000;
+	maxY = -1000;
+	minY = 1000;
+	for ( var i = 0 ; i < n.length ; i++ )
+	{
+		if ( maxX < n[i][0] ) maxX = n[i][0];
+		if ( minX > n[i][0] ) minX = n[i][0];
+		if ( maxY < n[i][1] ) maxY = n[i][1];
+		if ( minY > n[i][1] ) minY = n[i][1];
 	}
 
 	this.translate ((0 - minX), (0 - minY));
@@ -1069,10 +1093,10 @@ Pattern.prototype.smartPositioning = function ()
 	minY = 1000;
 	for ( var i = 0 ; i < n.length ; i++ )
 	{
-		if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
-		if ( minX > n[i].c[0] ) minX = n[i].c[0];
-		if ( maxY < n[i].c[1] ) maxY = n[i].c[1];
-		if ( minY > n[i].c[1] ) minY = n[i].c[1];
+		if ( maxX < n[i][0] ) maxX = n[i][0];
+		if ( minX > n[i][0] ) minX = n[i][0];
+		if ( maxY < n[i][1] ) maxY = n[i][1];
+		if ( minY > n[i][1] ) minY = n[i][1];
 	}
 	h = maxY - minY;
 	w = maxX - minX;
@@ -1110,10 +1134,10 @@ Pattern.prototype.smartPositioning = function ()
 	minY = 1000;
 		for ( var i = 0 ; i < n.length ; i++ )
 		{
-			if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
-			if ( minX > n[i].c[0] ) minX = n[i].c[0];
-			if ( maxY < n[i].c[1] ) maxY = n[i].c[1];
-			if ( minY > n[i].c[1] ) minY = n[i].c[1];
+			if ( maxX < n[i][0] ) maxX = n[i][0];
+			if ( minX > n[i][0] ) minX = n[i][0];
+			if ( maxY < n[i][1] ) maxY = n[i][1];
+			if ( minY > n[i][1] ) minY = n[i][1];
 		}
 		h = maxY - minY;
 		w = maxX - minX;
@@ -1142,10 +1166,10 @@ Pattern.prototype.smartPositioning = function ()
 	minY = 1000;
 	for ( var i = 0 ; i < n.length ; i++ )
 	{
-		if ( maxX < n[i].c[0] ) maxX = n[i].c[0];
-		if ( minX > n[i].c[0] ) minX = n[i].c[0];
-		if ( maxY < n[i].c[1] ) maxY = n[i].c[1];
-		if ( minY > n[i].c[1] ) minY = n[i].c[1];
+		if ( maxX < n[i][0] ) maxX = n[i][0];
+		if ( minX > n[i][0] ) minX = n[i][0];
+		if ( maxY < n[i][1] ) maxY = n[i][1];
+		if ( minY > n[i][1] ) minY = n[i][1];
 	}
 	h = maxY - minY;
 	w = maxX - minX;
