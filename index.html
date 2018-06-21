@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Papier</title>
+	<title>fiber⨍old</title>
 	<meta charset="utf-8">
 	<link href="img/papier-logo-nav.png" rel="icon" type="image/png">
 	<meta content="" name="description">
@@ -19,7 +19,11 @@
 	<link rel="stylesheet" href="css/impression.css" type="text/css" media="print">
 	<link href="css/papier-fonticon.css" rel="stylesheet">
 	<link href="css/papier.css" rel="stylesheet">
-	<style type="text/css">
+	<link href="css/animate.min.css" rel="stylesheet">
+	<script src="js/jquery.min.js"></script> 
+	<script src="js/lettering.min.js"></script> 
+	<script src="js/jquery.textillate.js"></script>
+	 	<style type="text/css">
 		#startapp.startable
 		{
 				font-family: TitilliumWeb-Light;
@@ -41,14 +45,17 @@
 		}
 		#startcontainer
 		{
-					     background-color: #333;
-					     color: #000;
-					     position: absolute;
-					     z-index: 100;
-					     width: 100vw;
-					     height: 100vh;
-					     top: 0px;
-					     left: 0px;
+			
+			font-family: 'Open Sans';
+
+		     background-color: #333;
+		     color: #000;
+		     position: absolute;
+		     z-index: 100;
+		     width: 100vw;
+		     height: 100vh;
+		     top: 0px;
+		     left: 0px;
 		}
 		#startscreen
 		{
@@ -60,10 +67,35 @@
 		{
 				position: relative;
 				z-index: 300;
-				width: 35.35vh;
+				width: auto;
 				margin: auto;
 				margin-top: 2em;
 				display: block;
+				text-align: center;
+				font-size: 1em;
+				color: #fff;
+		}
+		#startlogo p
+		{
+		 				font-size: 1.5em;
+		}
+		@keyframes growup { from { font-size: 1em; 
+											color: #fff;	
+																}
+									 to { font-size: 1.5em; 
+									 		color: #f94;				}
+								  }
+		#startlogo span
+		{
+		color: #f94;
+		 				font-size: 1.5em;
+  -webkit-animation: 1s linear 0s growup;
+          animation: 1s linear 0s growup;
+  		}
+		
+		#startlogo h1
+		{
+		 				font-size: 3em;
 		}
 		#propulsedby
 		{
@@ -134,7 +166,10 @@
 	
 	<div id="startcontainer">
 		<div id="startscreen">
-			<img alt="Papier's logo" class="" id="startlogo" src="img/papier-logo-big.svg">
+			<!--img alt="Papier's logo" class="" id="startlogo" src="img/papier-logo-big.svg"-->
+			<div id="startlogo"><h1>fiber<span>⨍</span>old</h1>
+			<p >Unfold your mind !</p>
+			</div>
 			<button class="btn btn-outline-light btn-lg" id="startapp" type="button">Start</button>
 			<div id="propulsedby">
 				Propelled  by <a href="https://github.com/s1pierro">s1pierro</a>
@@ -449,7 +484,6 @@ f 13 15 3
 f 13 14 15
 f 14 2 15
 </div>
-	<script src="js/jquery.min.js"></script> 
 	<script src="js/three.js"></script> 
 	<script src="js/DragControls.js"></script> 
 	<script src="js/TrackballControls.js"></script> 
