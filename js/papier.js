@@ -25,6 +25,8 @@ function dl (s)
 }
 var noError = true;
 
+var lescapehit = new Date().getTime();
+
 var pobj = {};
 var patterns = {};
 var dispatcher = {};
@@ -721,20 +723,26 @@ $('body').on('click', '#download', function()
 document.addEventListener('keydown', (event) => {
   if( event.key == 'Escape' ) 
   {
-	  
-	  if ( view == 'd-view' )
+	  if ( view == 'd-view' && lpattern > -1 )
+	  {
+	  lescapehit = new Date().getTime();
 		  togglePagesView();
-		fl('escape');
+		  
+		  
+	  }
+		fl('escape '+lescapehit);
   }
 
 });
 
 document.addEventListener('keyup', (event) => {
+		  fl(' t '+(new Date().getTime() - lescapehit));
  if( event.key == 'Escape' ) 
   {
 	  
-	  if ( view == 'pages-view' )
+	  if ( view == 'pages-view' && ( new Date().getTime() - lescapehit > 400))
 		  toggleDview();
+		
 		  
   }
 
