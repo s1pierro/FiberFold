@@ -494,10 +494,10 @@ function render() {
 		if ( total > 0 )
 			$('#print-total').text(total);	
 		
-
 			infos = '<p>'+infos+'</p>';
 
-			$('#main-app-dialog-info').html(infos);		
+
+
 		//$('#scratch-mess').fadeOut();
 	}	
 	
@@ -505,6 +505,7 @@ function render() {
  	if( lpattern > -1 && view == 'd-view') $('#dispatcher-dialog').html(patterns.children[lpattern].papersizereq.s );
  	if( view == 'pages-view')
    {
+			$('#main-app-dialog-info').html(infos);		
 	   
 	   $('#page-nav-crt').text('page '+(lpage+1)+'/'+dispatcher.pages.length );
 	   if ( lpattern > -1 )
@@ -525,10 +526,14 @@ function render() {
 	{		
 		var tmp_p = dispatcher.getPagepattern ( lpattern );
 		if ( lpattern > -1 )
+		{
+			var 	pinfos = '<p>'+(patterns.children[lpattern].width/10).toFixed(2)+' x '+(patterns.children[lpattern].height/10).toFixed(2)+' cm</p>';
 			$('#dispatcher-dialog').html(patterns.children[lpattern].papersizereq.s);
+			$('#main-app-dialog-info').html(pinfos);		
+		}
 		else
 			$('#dispatcher-dialog').html('');
-		dispatcher.outPattern (ltriangle);
+		dispatcher.outPattern (ltriangle);		
 	}
 	if ( patterns.children.length == 0 && view != "settings-view" )
 	{
@@ -594,6 +599,7 @@ $('body').on('click', '#ldfex-kgm', function()
 
 $('body').on('click', '#startapp', function()
 {
+
 	$("#startcontainer").fadeOut();
 
 });
@@ -712,7 +718,31 @@ $('body').on('click', '#download', function()
 	var saveas = pobj.nme+'-flat-'+n+'.obj'
 	download(saveas, printWavefront (pobj));
 });
-  var printSVG = function()
+document.addEventListener('keydown', (event) => {
+  if( event.key == 'Escape' ) 
+  {
+	  
+	  if ( view == 'd-view' )
+		  togglePagesView();
+		fl('escape');
+  }
+
+});
+
+document.addEventListener('keyup', (event) => {
+ if( event.key == 'Escape' ) 
+  {
+	  
+	  if ( view == 'pages-view' )
+		  toggleDview();
+		  
+  }
+
+
+});
+
+
+var printSVG = function()
     {
         var popUpAndPrint = function()
         {
