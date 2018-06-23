@@ -1,4 +1,3 @@
-![banner](https://github.com/s1pierro/Papier/blob/master/img/papier-banner.svg "Papier banner")
 
 ### A webapp to perform 3d print from desktop printer.
 _This project is a (js) rewritting of my old [eMesh](https://www.youtube.com/watch?v=Rcpjqd3NSTE "eMesh") desktop application (SDL, openGL2, C++)_
