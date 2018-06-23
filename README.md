@@ -109,7 +109,6 @@ When two joined triangles are struck successively, the edge they share is called
 ## License
 Code is licenced under the termes of the <a href="LICENSE.md">GNU GPL v3</a>
 
-Graphic contents are licenced under the termes of <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
  
 If you got interset in such kind of app and want more or if you want to contribute, feel free to contact me : s1pierro@protonmail.com
 
