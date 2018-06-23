@@ -103,7 +103,7 @@ When two joined triangles are struck successively, the edge they share is called
 ## Authors
 
 * **Thomas Saint Pierre** - *Initial work | code engineering* [s1pierro](https://github.com/s1pierro "s1pierro")
-* **Gabriel Garcia** - *Graphic Design | Brand identity* [ggabogarcia](https://github.com/ggabogarcia "ggabogarcia")
+
 
 
 ## License
