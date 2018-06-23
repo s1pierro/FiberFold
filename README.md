@@ -4,8 +4,8 @@ _This project is a (js) rewritting of my old [eMesh](https://www.youtube.com/wat
 
  It aim to provide an enought advanced paper-crafting tool to be used as an alternative prototyping tool ( as [paperAce](https://github.com/s1pierro/paperAce "paperAce") does ). Beside being as simple as possible to use.
 
-![screen](https://github.com/s1pierro/Papier/blob/master/img/screen-00.png "FiberFold screenshot")
-![screen](https://github.com/s1pierro/Papier/blob/master/img/screen-01.png "FiberFold screenshot")
+![screen](https://github.com/s1pierro/FiberFold/blob/master/img/screen-00.png "FiberFold screenshot")
+![screen](https://github.com/s1pierro/FiberFold/blob/master/img/screen-01.png "FiberFold screenshot")
 
 
 #### Here is the begining of something functional. [try it !](https://s1pierro.github.io/FiberFold/)
