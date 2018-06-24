@@ -91,7 +91,7 @@ function application ()
 }
 function init() {
 	
-	$('.tlt').textillate({
+	$('.tlt').append('Unfold yur mind').textillate({
   // the default selector to use when detecting multiple texts to animate
   selector: '.texts',
 
