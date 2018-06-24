@@ -29,29 +29,8 @@ function Page (pattern)
 	this.height = pattern.papersizereq.h;
 	this.width = pattern.papersizereq.w;
 }
-/** @constructor */
-
-function Frontiersegment ()
-{
-	this.vidx = [];
-	this.eidx = [];
-	this.ownerguid = '';
-	this.targetguid = '';
-	this.type = '';
-}
-/** @description
 
 
- */
-Frontiersegment.prototype.set = function ( ownerguid, targetguid )
-{
-	this.vidx = [];
-	this.eidx = [];
-	this.ownerguid = ownerguid;
-	this.targetguid = targetguid;
-	this.type = '';		//	open/close
-	return true;
-}
 /** @description print page to dest_container;
 	@param {Object} dest_container
 	@param {string} pguid the guid of the pattern to highlight
@@ -871,10 +850,7 @@ Pattern.prototype.genNodes = function ()
 			else
 			{
 				if (tmp[0].sid == tmp2[k] && tmp[1].sid == tmp2[0])	sameorder = true;	
-			}
-			fl(sameorder);
-	fl(tmp2.length);
-	
+			}	
 	if ( !sameorder ) tmp.reverse();
 	
 	this.nodes = tmp;
@@ -1414,11 +1390,8 @@ Pattern.prototype.getTrianglesOwners = function (sid1, sid2)
 		}
 		if ( mtc > 1 ) tmp.push(this.triangles[i]);//this.targetMesh.triangles[i]);
 		
-		fl('mtc '+mtc+' : id '+this.triangles[i]);
 		
 	}
-	fl('tmp:');
-	fl(tmp);
 	for ( var i = 0 ; i < tmp.length ; i++ )
 	{
 		if ( this.owntriangle(tmp[i]) > -1 )
