@@ -430,6 +430,7 @@ function Node (sid, tid, coordinate )
 	this.c = coordinate;
 	this.guid = uuidv4();
 }
+
 Node.prototype.set = function (sid, tid, coordinate )
 {
 	this.sid = sid;
@@ -439,6 +440,12 @@ Node.prototype.set = function (sid, tid, coordinate )
 	this.guid = uuidv4();
 }
 
+function Link (tguid, eid, vector )
+{
+	this.targetguid = tguid;
+	this.vector = vector;
+	this.edgeid = eid;
+}
 /** @description
 	Indicates if the node and the one passed in parameter are located on the same
 	flat triangle.
@@ -461,6 +468,7 @@ function Pattern (targetmesh)
 {
 	this.triangles = [];
 	this.trianglesflatcoord = [];
+	this.links = [];
 	this.edges = [];
 	this.nodes = [];
 	this.tabnodes = [];
@@ -885,12 +893,12 @@ Pattern.prototype.genTabNodes = function ()
 			this.tabnodes.push(c9);		
 
 			
-			var v1 = [ c9[0]+(tongueheight*v.s[0]) , c9[1]+(tongueheight*v.s[1])  , 0  ];
-			var v11 = [ c9[0]+(tongueheight/3*v.s[0]) , c9[1]+(tongueheight/3*v.s[1])  , 0  ];
+			var v1 = [ c9[0]+(tongueHeight*v.s[0]) , c9[1]+(tongueHeight*v.s[1])  , 0  ];
+			var v11 = [ c9[0]+(tongueHeight/3*v.s[0]) , c9[1]+(tongueHeight/3*v.s[1])  , 0  ];
 			
 			var cnt = gentmat ( -c9[0], -c9[1], 0 );
 			var rz = genrmat ( 0.0, 0.0, 90.0 );
-			var rz11 = genrmat ( 0.0, 0.0, clip+90.0 );
+			var rz11 = genrmat ( 0.0, 0.0, tongueClip+90.0 );
 			var ucnt = gentmat ( c9[0], c9[1], 0 );
 
 			
@@ -912,11 +920,11 @@ Pattern.prototype.genTabNodes = function ()
 			this.tabnodes.push(v3);
 			
 			var c7 = [v.o[0]+v.s[0]*pas*(k+1), v.o[1]+v.s[1]*pas*(k+1), 0];
-			var v33 = [ c7[0]+(tongueheight/3*v.s[0]) , c7[1]+(tongueheight/3*v.s[1])  , 0  ];
+			var v33 = [ c7[0]+(tongueHeight/3*v.s[0]) , c7[1]+(tongueHeight/3*v.s[1])  , 0  ];
 			
 			cnt = gentmat ( -c7[0], -c7[1], 0 );
 			ucnt = gentmat ( c7[0], c7[1], 0 );
-			var rz33 = genrmat ( 0.0, 0.0, clip );
+			var rz33 = genrmat ( 0.0, 0.0, tongueClip );
 			m = multiplymatrix ( cnt, genimat() );
 			m2 = multiplymatrix ( rz33, m );
 			m3 = multiplymatrix ( ucnt, m2 );		

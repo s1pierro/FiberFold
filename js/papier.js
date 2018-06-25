@@ -133,7 +133,7 @@ function init() {
 
     // randomize the character sequence
     // (note that shuffle doesn't make sense with sync = true)
-    shuffle: false,
+    shuffle: true,
 
     // reverse the character sequence
     // (note that reverse doesn't make sense with sync = true)
