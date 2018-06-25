@@ -41,8 +41,9 @@ var activeshape1 = -1;
 var activeshape1shadoweddstate;
 var tolerance = 0.0001;
 var hlpattern = -1;
-var tongueheight = 9.5; // mm
-var clip = 40;
+var tongueHeight = 9.5; // mm
+var tongueClip = 40; // % of height
+var desiredTongueWidth = 20; // mm
 var verbose = false;
 var BUILDmode = "fast";
 var scaleconst = 1;
@@ -132,7 +133,7 @@ function init() {
 
     // randomize the character sequence
     // (note that shuffle doesn't make sense with sync = true)
-    shuffle: true,
+    shuffle: false,
 
     // reverse the character sequence
     // (note that reverse doesn't make sense with sync = true)
@@ -169,8 +170,8 @@ function init() {
 	$('#processing-indicator').fadeOut(200);
 	
 	var g = '';
-	g +='\nPapier 0.4.3', 'xl';
-	g +='\n Copyright (C) 2018  Saint Pierre Thomas ( s1pierro@protonmail.fr )\n\n';
+	g +='\nPapier 0.6.0', 'xl';
+	g +='\n Copyright (C) 2018  Saint Pierre Thomas ( s1pierro@protonmail.com )\n\n';
 	g +='feel free to contact me at s1pierro@protonmail.com to contribute, in any way';
 	fl(g);
 
