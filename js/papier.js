@@ -31,9 +31,9 @@ var pobj = {};
 var patterns = {};
 var dispatcher = {};
 var camarm = [0, 0, 9999];//pobj.height*2 /2/ Math.tan(Math.PI * 50 / 360)];
-var mouse = new THREE.Vector2(), mouserayid;
+var mouse = new THREE.Vector2(-1, -1), mouserayid;
 var container;
-var camera, controls, scene, raycaster, renderer;
+var camera, controls, scene, raycaster, renderer, light;
 var objects = [];
 var focus;
 var materialVisible, material1, materialSoftEdge, materialHighlighted, materialSoftlighted, materialSolid, materialFrontier;
@@ -57,7 +57,7 @@ var rendererSize = { w: 0, h : 0 };
 var view = 'd-view';
 var noError = true;
 var mnu;
-$(window).on("load",  init());
+
 /** constructor */
 function Menu ()
 {
@@ -261,7 +261,7 @@ function init() {
 	try
 	{
 		scene.add( new THREE.AmbientLight( 0xffffff ) );
-		var light = new THREE.SpotLight( 0xffffff, 0.9 );
+		light = new THREE.SpotLight( 0xffffff, 0.9 );
 		light.position.copy( camera.position );
 		light.angle = Math.PI / 3;
 		light.castShadow = false;
@@ -321,21 +321,21 @@ function init() {
 		renderer.setClearColor( 0x000000, 0 ); // the default
 		renderer.shadowMap.enabled = false;
 		renderer.shadowMap.type = THREE.PCFShadowMap;
+		dl(' * create renderer OK');
 	}
 	catch (err)
 	{
-	noError = false;
+		noError = false;
 		dl(' * create renderer ERROR'+err)
 		$('#startapp').replaceWith( "<h3 id=\"cantstart\">Oups, something went wrong with three.js, WebGL does not seem to be supported on this browser</h3>" );
 		fl(err);
 		
 	}
-	dl(' * create renderer OK');
-	if (noError)	$('#logput').fadeOut();
-	$('#startapp').addClass("startable");
-
-
-
+	if (noError)
+	{
+		$('#logput').fadeOut();
+		$('#startlogo').after('<button class="btn btn-outline-light btn-lg startable" id="startapp" type="button">Start</button>');
+	}
 	// shut firefox up !
 	var ctx = renderer.context;
 	ctx.getShaderInfoLog = function () { return '' };
@@ -347,25 +347,17 @@ function init() {
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'wheel', onDocumentMouseMove, false );
 	controls.addEventListener( 'change', light_update );
+	document.addEventListener( 'mouseup', mouseup, false );
+	document.addEventListener( 'mousedown', mousedown, false );
+	
 	controls.update();
-	
 
-	function light_update()
-	{
-		 light.position.copy( camera.position );
-	}
-	light.position.copy( camera.position );
-	
-	
-	renderer.render( scene, camera );
-	
 	toggleDview ();
-	rendererOffset.x = $('#renderbox').position().left;
-	rendererOffset.y = $('#renderbox').position().top;
-	rendererSize.w = $('#renderbox').width();
-	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
-	mouse.x = -1;//  ( ( event.clientX - rendererOffset.x ) / ( rendererSize.w  ) ) * 2 - 1;	
-	mouse.y = -1;// ( ( event.clientY - rendererOffset.y ) / ( rendererSize.h ) ) * 2 + 1;
+}
+
+function light_update()
+{
+	 light.position.copy( camera.position );
 }
 
 function blankscene ()
@@ -390,9 +382,8 @@ function feedscene ()
 
 	for ( var i = 0; i < pobj.edges.length ; i ++ )
 	{
-		var geometry2 = new THREE.Geometry();
-		geometry2.vertices
-		.push(
+		var geometry = new THREE.Geometry();
+		geometry.vertices.push(
 			new THREE.Vector3( pobj.vertices[pobj.edges[i].som[0]][0],
 									 pobj.vertices[pobj.edges[i].som[0]][1],
 									 pobj.vertices[pobj.edges[i].som[0]][2] ),
@@ -400,7 +391,7 @@ function feedscene ()
 									 pobj.vertices[pobj.edges[i].som[1]][1],
 									 pobj.vertices[pobj.edges[i].som[1]][2] )
 		);
-		var line = new THREE.Line( geometry2, materialSoftEdge );
+		var line = new THREE.Line( geometry, materialSoftEdge );
 		scene.add( line );
 	}
 	for ( var i = 0; i < pobj.triangles.length ; i ++ )
@@ -432,19 +423,10 @@ function feedscene ()
 }
 function onWindowResize() {
 
-	rendererOffset.x = $('#renderbox').position().left;
-	rendererOffset.y = $('#renderbox').position().top;
-	rendererSize.w = $('#renderbox').width();
-	rendererSize.h = $('#renderbox').height();//$(window).height() - $(window).height() * ( rendererOffset.y / $(window).height());
-
-	camera.aspect =  $('#renderbox').width() / $('#renderbox').height();
-	camera.updateProjectionMatrix();
-	renderer.setSize( $('#renderbox').width(), $('#renderbox').height() );
+	updateRendererOffset ();
 	render();
 }
 
-document.addEventListener( 'mouseup', mouseup, false );
-document.addEventListener( 'mousedown', mousedown, false );
 function mousedown ( event ) { mouserayid = mouse.x*mouse.y; }
 function mouseup ( event )
 {
@@ -456,7 +438,6 @@ function mouseup ( event )
 	if ( intersects.length > 0 )
 		focus = $.extend(true, {}, intersects[ 0 ].object );
 	else if ( focus != undefined ) focus = undefined;
-
 	
 	if (mouse.x*mouse.y == mouserayid && focus != undefined )
 	{
@@ -567,10 +548,7 @@ function render() {
 		if ( total > 0 )
 			$('#print-total').text(total);	
 		
-			infos = '<p>'+infos+'</p>';
-
-
-
+		infos = '<p>'+infos+'</p>';
 		//$('#scratch-mess').fadeOut();
 	}	
 	
@@ -724,9 +702,7 @@ function togglePagesView ()
 		.removeClass("print-view pages-view settings-view d-view")
 			.addClass(view);
 	updateRendererOffset ();
-	//lpage = dispatcher.getPageIdxPatternIdx (lpattern);
 	render();
-
 }
 
 $('body').on('click', '#svg7', function()
@@ -744,11 +720,7 @@ $('body').on('click', '#toggle-d-view', function()
 	toggleDview ();
 
 });
-$('body').on('click', '#renderbox', function()
-{
-//	toggleDview ();
 
-});
 $('body').on('click', '#close-settings', function()
 {
 	toggleDview ();
@@ -761,14 +733,6 @@ $('body').on('click', '#toggle-settings', function()
 
 		toggleSettingsView ();
 		controls.enabled = false;
-});
-$('body').on('click', '#patterns-safe-edit-mode', function()
-{
-		BUILDmode = "safe";
-});
-$('body').on('click', '#patterns-fast-edit-mode', function()
-{
-	BUILDmode = "fast";
 });
 $('body').on('click', '#apply-scale', function()
 {	
@@ -837,6 +801,9 @@ var printSVG = function()
         }
         setTimeout(popUpAndPrint, 500);
     }
+    
+    
+    $(window).on("load",  init());
 /*	$('body').on('click', '#', function() {
 
 	});
