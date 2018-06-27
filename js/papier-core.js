@@ -440,11 +440,13 @@ Node.prototype.set = function (sid, tid, coordinate )
 	this.guid = uuidv4();
 }
 
-function Link (tguid, eid, vector )
+function Link ( tgtguid, eid, vector )
 {
-	this.targetguid = tguid;
+	this.targetguid = tgtguid;
 	this.vector = vector;
 	this.edgeid = eid;
+	this.subdiv = 2; // integer, from 1 to infinite
+	this.sign = 1;
 }
 /** @description
 	Indicates if the node and the one passed in parameter are located on the same
@@ -793,6 +795,40 @@ Pattern.prototype.unHighlight = function ()
 	compute the frontier's nodes of the pattern, using the pattern's flattened triangles summits
 	And order them to corectly define a shape frontier
  */
+Pattern.prototype.genLinks = function ()
+{
+	for (var i = 0 ; i < this.nodes.length ; i++ )
+	{
+		
+
+		var tmp;
+		if (i == this.nodes.length-1 )
+		{
+		
+			var eid = getEdgeId ( pobj, this.nodes[i].sid, this.nodes[0].sid );
+			var tgts = patterns.getFrontierOwnerChildren (eid);
+			var tgt = 'none';
+			if ( tgts.length > 1 )
+				for (var j = 0 ; j < tgts.length ; j++ )					
+					if (tgts[j].guid != this.guid ) tgt = tgts[j].guid;
+			tmp = new Link ( tgt, eid, vectfromvertices(this.nodes[i].c, this.nodes[0].c) );	
+		}
+		else
+		{
+			var eid = getEdgeId ( pobj, this.nodes[i].sid, this.nodes[i+1].sid );
+			var tgts =  patterns.getFrontierOwnerChildren (eid);
+			var tgt = 'none';
+			if ( tgts.length > 1 )
+				for (var j = 0 ; j < tgts.length ; j++ )					
+					if (tgts[j].guid != this.guid ) tgt = tgts[j].guid;
+			tmp = new Link ( tgt, eid, vectfromvertices(this.nodes[i].c, this.nodes[i+1].c) );				
+		}
+		this.links.push(tmp);
+	
+	
+	}
+	fl (this.links);
+}
 Pattern.prototype.genNodes = function ()
 {	//console.clear();
 	var tmp = [];
@@ -873,8 +909,10 @@ Pattern.prototype.genTabNodes = function ()
 {		
 	for( var i = 0 ; i < this.nodes.length ; i++ )
 	{
-		var nl = 2;
-		var swtc = 1;
+		
+		var nl = this.links[i].subdiv;
+
+		var swtc = this.links[i].sign;
 	
 		var j = 0;
 		if ( i == (this.nodes.length - 1) ) j = 0;
@@ -886,62 +924,72 @@ Pattern.prototype.genTabNodes = function ()
 		
 		var pas = v.n/nl; //TODO
 		
-		for ( var k = 0 ; k < nl ; k++ )
-		if ( swtc == 1 )
-		{
-			var c9 = [v.o[0]+v.s[0]*pas*k, v.o[1]+v.s[1]*pas*k, 0];
-			this.tabnodes.push(c9);		
-
-			
-			var v1 = [ c9[0]+(tongueHeight*v.s[0]) , c9[1]+(tongueHeight*v.s[1])  , 0  ];
-			var v11 = [ c9[0]+(tongueHeight/3*v.s[0]) , c9[1]+(tongueHeight/3*v.s[1])  , 0  ];
-			
-			var cnt = gentmat ( -c9[0], -c9[1], 0 );
-			var rz = genrmat ( 0.0, 0.0, 90.0 );
-			var rz11 = genrmat ( 0.0, 0.0, tongueClip+90.0 );
-			var ucnt = gentmat ( c9[0], c9[1], 0 );
-
-			
-			var m = multiplymatrix ( cnt, genimat() );
-			var m2 = multiplymatrix ( rz, m );
-			var m3 = multiplymatrix ( ucnt, m2 );		
-			var v2 = applymat(m3, v1);
-			
-			m = multiplymatrix ( cnt, genimat() );
-			m2 = multiplymatrix ( rz11, m );
-			m3 = multiplymatrix ( ucnt, m2 );		
-			var v22 = applymat(m3, v11);
-			
-			
-			this.tabnodes.push(v22);
-			this.tabnodes.push(v2);
-					
-			var v3 = [ v2[0]+(pas*v.s[0]) , v2[1]+(pas*v.s[1])  , 0  ];
-			this.tabnodes.push(v3);
-			
-			var c7 = [v.o[0]+v.s[0]*pas*(k+1), v.o[1]+v.s[1]*pas*(k+1), 0];
-			var v33 = [ c7[0]+(tongueHeight/3*v.s[0]) , c7[1]+(tongueHeight/3*v.s[1])  , 0  ];
-			
-			cnt = gentmat ( -c7[0], -c7[1], 0 );
-			ucnt = gentmat ( c7[0], c7[1], 0 );
-			var rz33 = genrmat ( 0.0, 0.0, tongueClip );
-			m = multiplymatrix ( cnt, genimat() );
-			m2 = multiplymatrix ( rz33, m );
-			m3 = multiplymatrix ( ucnt, m2 );		
-			var v44 = applymat(m3, v33);
-			this.tabnodes.push(v44);		
-			
-			
-			swtc = swtc * -1;
 		
+		if (this.links[i].targetguid == 'none')
+		{
+				this.tabnodes.push(c0);					
 		}
+			
 		else
 		{
-			var c9 = [v.o[0]+v.s[0]*pas*k, v.o[1]+v.s[1]*pas*k, 0];
-			this.tabnodes.push(c9);		
 			
-			swtc = swtc * -1;
+			for ( var k = 0 ; k < nl ; k++ )
+			if ( swtc == 1 )
+			{
+				var c9 = [v.o[0]+v.s[0]*pas*k, v.o[1]+v.s[1]*pas*k, 0];
+				this.tabnodes.push(c9);		
 
+				
+				var v1 = [ c9[0]+(tongueHeight*v.s[0]) , c9[1]+(tongueHeight*v.s[1])  , 0  ];
+				var v11 = [ c9[0]+(tongueHeight/3*v.s[0]) , c9[1]+(tongueHeight/3*v.s[1])  , 0  ];
+				
+				var cnt = gentmat ( -c9[0], -c9[1], 0 );
+				var rz = genrmat ( 0.0, 0.0, 90.0 );
+				var rz11 = genrmat ( 0.0, 0.0, tongueClip+90.0 );
+				var ucnt = gentmat ( c9[0], c9[1], 0 );
+
+				
+				var m = multiplymatrix ( cnt, genimat() );
+				var m2 = multiplymatrix ( rz, m );
+				var m3 = multiplymatrix ( ucnt, m2 );		
+				var v2 = applymat(m3, v1);
+				
+				m = multiplymatrix ( cnt, genimat() );
+				m2 = multiplymatrix ( rz11, m );
+				m3 = multiplymatrix ( ucnt, m2 );		
+				var v22 = applymat(m3, v11);
+				
+				
+				this.tabnodes.push(v22);
+				this.tabnodes.push(v2);
+						
+				var v3 = [ v2[0]+(pas*v.s[0]) , v2[1]+(pas*v.s[1])  , 0  ];
+				this.tabnodes.push(v3);
+				
+				var c7 = [v.o[0]+v.s[0]*pas*(k+1), v.o[1]+v.s[1]*pas*(k+1), 0];
+				var v33 = [ c7[0]+(tongueHeight/3*v.s[0]) , c7[1]+(tongueHeight/3*v.s[1])  , 0  ];
+				
+				cnt = gentmat ( -c7[0], -c7[1], 0 );
+				ucnt = gentmat ( c7[0], c7[1], 0 );
+				var rz33 = genrmat ( 0.0, 0.0, tongueClip );
+				m = multiplymatrix ( cnt, genimat() );
+				m2 = multiplymatrix ( rz33, m );
+				m3 = multiplymatrix ( ucnt, m2 );		
+				var v44 = applymat(m3, v33);
+				this.tabnodes.push(v44);		
+				
+				
+				swtc = swtc * -1;
+			
+			}
+			else
+			{
+				var c9 = [v.o[0]+v.s[0]*pas*k, v.o[1]+v.s[1]*pas*k, 0];
+				this.tabnodes.push(c9);		
+				
+				swtc = swtc * -1;
+
+			}
 		}
 	}
 
@@ -1261,6 +1309,7 @@ Pattern.prototype.flatten = function ()
 	var t4 = new Date();
 	fl(' * gen nodes '+(t4.getTime() - t3.getTime())+' ms');
 	
+	this.genLinks ();
 	this.genTabNodes ();
 
 	this.smartPositioning();
