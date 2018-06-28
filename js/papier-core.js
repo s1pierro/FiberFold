@@ -652,7 +652,7 @@ Patterns.prototype.rebuild = function (feid)
 	var ref = frozenlist.length;
 	while ( frozenlist.length > 0 )
 	{
-		fl('dispatch frozen edges '+(ref + 1 - frozenlist.length)+' / '+ref)
+		//fl('dispatch frozen edges '+(ref + 1 - frozenlist.length)+' / '+ref)
 		var add = -1;
 		var i = 0 ;
 		while ( add == -1 && i < frozenlist.length )
@@ -660,7 +660,7 @@ Patterns.prototype.rebuild = function (feid)
 			var j = 0;
 			while ( add == -1 && j < this.children.length )
 			{
-				add = this.children[j].addEdge (frozenlist[i] );
+				add = this.children[j].addEdge ( frozenlist[i] );
 				if ( add != -1 )
 					frozenlist.splice(i, 1);
 				j++;
@@ -698,7 +698,6 @@ Patterns.prototype.rebuild = function (feid)
    {
 
 		fl('processing '+(1+i)+' / '+ref)
-	   //fl( newpatterns[i].guid+'|'+this.children[i].guid )
 	   if (!newpatterns[i].flatten())
 	   {  
 		   this.children = $.extend(true, [], pbu);  
@@ -708,6 +707,7 @@ Patterns.prototype.rebuild = function (feid)
 		   return false;
 	   }
    }
+   
 	// Let's finally blank and refill the final document with our new computed
 	// patterns
 	
@@ -754,14 +754,7 @@ Patterns.prototype.unHighlight = function ()
 	for( var i = 0 ; i < this.children.length ; i++ )
 		this.children[i].unHighlight ();
 }
-Pattern.prototype.tryToReachRatio = function ( r )
-{
-	var tmp = this;
-	var diff = 1000;
-	var trystep =$.extend(true, {}, tmp);
-	
-	
-}
+
 /** @description
   Search for a triangle by it's id into pattern
   @param {number} t - The id of the triangle to look for
@@ -791,43 +784,42 @@ Pattern.prototype.unHighlight = function ()
 	for( var i = 0 ; i < this.triangles.length ; i++ )
 		setshapestate (pobj, this.triangles[i], "solid" );
 }
-/** @description
-	compute the frontier's nodes of the pattern, using the pattern's flattened triangles summits
-	And order them to corectly define a shape frontier
- */
+
 Pattern.prototype.genLinks = function ()
 {
 	for (var i = 0 ; i < this.nodes.length ; i++ )
 	{
+		var tmp, eid;
 		
-
-		var tmp;
 		if (i == this.nodes.length-1 )
-		{
-		
-			var eid = getEdgeId ( pobj, this.nodes[i].sid, this.nodes[0].sid );
-			var tgts = patterns.getFrontierOwnerChildren (eid);
-			var tgt = 'none';
-			if ( tgts.length > 1 )
-				for (var j = 0 ; j < tgts.length ; j++ )					
-					if (tgts[j].guid != this.guid ) tgt = tgts[j].guid;
-			tmp = new Link ( tgt, eid, vectfromvertices(this.nodes[i].c, this.nodes[0].c) );	
-		}
+			eid = getEdgeId ( pobj, this.nodes[i].sid, this.nodes[0].sid );
 		else
-		{
-			var eid = getEdgeId ( pobj, this.nodes[i].sid, this.nodes[i+1].sid );
-			var tgts =  patterns.getFrontierOwnerChildren (eid);
-			var tgt = 'none';
-			if ( tgts.length > 1 )
-				for (var j = 0 ; j < tgts.length ; j++ )					
-					if (tgts[j].guid != this.guid ) tgt = tgts[j].guid;
-			tmp = new Link ( tgt, eid, vectfromvertices(this.nodes[i].c, this.nodes[i+1].c) );				
-		}
+			eid = getEdgeId ( pobj, this.nodes[i].sid, this.nodes[i+1].sid );
+
+		var targets =  patterns.getFrontierOwnerChildren (eid);
+		var target = 'none';
+		
+		var owntri = 0;
+		var linkedtri = patterns.targetMesh.edges[eid].tri;
+		
+		for (var j = 0 ; j < linkedtri.length ; j++ )
+			if ( this.owntriangle(linkedtri[j]) > -1 )
+				owntri ++;
+
+		if ( linkedtri.length > 1 && owntri > 1 )
+			var target = 'self';
+			
+		if ( targets.length > 1 )
+			for (var j = 0 ; j < targets.length ; j++ )					
+				if (targets[j].guid != this.guid ) target = targets[j].guid;
+		
+		if (i == this.nodes.length-1 )
+			tmp = new Link ( target, eid, vectfromvertices(this.nodes[i].c, this.nodes[0].c) );							
+		else
+			tmp = new Link ( target, eid, vectfromvertices(this.nodes[i].c, this.nodes[i+1].c) );					
+		
 		this.links.push(tmp);
-	
-	
 	}
-	fl (this.links);
 }
 Pattern.prototype.genNodes = function ()
 {	//console.clear();
@@ -1096,12 +1088,72 @@ Pattern.prototype.updateSizeInfo = function ()
 	this.height = h;
 	this.width = w;
 }
+
+Pattern.prototype.tryToReachRatio = function ( r )
+{
+	var tmp = this;
+	var diff = 100000;
+		var n = this.tabnodes;
+	var w, h=1;
+	var r = w/h;
+	var scrs = [];
+	var score = r;
+	var inc = 1;
+	var range = 180;
+	for ( var a = 0 ; a < range ; a++ )
+	{
+		this.rotate (inc);
+		
+		var maxX = -1000000;
+		var minX = 1000000;
+		var maxY = -1000000;
+		var minY = 1000000;
+		
+		for ( var i = 0 ; i < n.length ; i++ )
+		{
+			if ( maxX < n[i][0] ) maxX = n[i][0];
+			if ( minX > n[i][0] ) minX = n[i][0];
+			if ( maxY < n[i][1] ) maxY = n[i][1];
+			if ( minY > n[i][1] ) minY = n[i][1];
+		}
+		h = maxY - minY;
+		w = maxX - minX;
+		
+		r = w/h;
+		scrs.push(r);
+	}
+	var sc = 10000;
+	var iscr = -1;
+	for (var i = 0 ; i < scrs.length ; i++ )
+	{
+		if ( scrs[i] < sc )
+		{
+			iscr = i;
+			sc =scrs[i];
+		} 
+		
+	}
+
+	var srot = (iscr+1) * inc;
+	this.rotate (srot);	
+
+
+	
+	
+}
 /** @description
 	set pattern position on page
  */
 Pattern.prototype.smartPositioning = function ()
 {
-	//TODO
+	
+	//TODO	
+	var a4 = 'A4';
+	var a3 = 'A3';
+	var a2 = 'A2';
+	var a1 = 'A1';
+	var a0 = 'A0';
+
 	var nNod, nTri, nEdg, nFro, maxX, minX, maxY, minY, w, h;
 	var n = this.tabnodes;
 //	fl(n);
@@ -1138,59 +1190,55 @@ Pattern.prototype.smartPositioning = function ()
 	this.height = h;
 	this.width = w;
 //	fl('rr: '+rr);
-	var a4 = 'A4';
-	var a3 = 'A3';
-	var a2 = 'A2';
-	var a1 = 'A1';
-	var a0 = 'A0';
+
 	
 	//fl('\n # requierements : '+this.papersizereq.s+' '+this.papersizereq.w+' x '+this.papersizereq.h);
 	//this.rotate(11);
 	//TODO smart rotate
 	
-	var _this = $.extend( true, {}, this);
+
 	var r = w/h;
 	var scrs = [];
 	var score = r;
 	
-	var inc = 1;
-	var range = 360;
-	for ( var a = 0 ; a < range ; a++ )
-	{
-		this.rotate (inc);
-		
-	maxX = -1000;
-	minX = 1000;
-	maxY = -1000;
-	minY = 1000;
-		for ( var i = 0 ; i < n.length ; i++ )
-		{
-			if ( maxX < n[i][0] ) maxX = n[i][0];
-			if ( minX > n[i][0] ) minX = n[i][0];
-			if ( maxY < n[i][1] ) maxY = n[i][1];
-			if ( minY > n[i][1] ) minY = n[i][1];
-		}
-		h = maxY - minY;
-		w = maxX - minX;
-		
-		r = w/h;
-		scrs.push(r);
-	}
-	var sc = 10000;
-	var iscr = -1;
-	for (var i = 0 ; i < scrs.length ; i++ )
-	{
-		if ( scrs[i] < sc )
-		{
-			iscr = i;
-			sc =scrs[i];
-		} 
-		
-	}
+//	var inc = 2;
+//	var range = 180;
+//	for ( var a = 0 ; a < range ; a++ )
+//	{
+//		this.rotate (inc);
+//		
+//	maxX = -1000;
+//	minX = 1000;
+//	maxY = -1000;
+//	minY = 1000;
+//		for ( var i = 0 ; i < n.length ; i++ )
+//		{
+//			if ( maxX < n[i][0] ) maxX = n[i][0];
+//			if ( minX > n[i][0] ) minX = n[i][0];
+//			if ( maxY < n[i][1] ) maxY = n[i][1];
+//			if ( minY > n[i][1] ) minY = n[i][1];
+//		}
+//		h = maxY - minY;
+//		w = maxX - minX;
+//		
+//		r = w/h;
+//		scrs.push(r);
+//	}
+//	var sc = 10000;
+//	var iscr = -1;
+//	for (var i = 0 ; i < scrs.length ; i++ )
+//	{
+//		if ( scrs[i] < sc )
+//		{
+//			iscr = i;
+//			sc =scrs[i];
+//		} 
+//		
+//	}
 
-	var srot = (iscr+1) * inc;
-	this.rotate (srot);	
-
+//	var srot = (iscr+1) * inc;
+//	this.rotate (srot);	
+this.tryToReachRatio(100);
 	maxX = -1000;
 	minX = 1000;
 	maxY = -1000;

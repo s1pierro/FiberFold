@@ -463,7 +463,8 @@ function mouseup ( event )
 						setedgestate (pobj, e, "hide");
 					ledge = e;
 					
-					var test = patterns.rebuild(e);
+					//var test = patterns.rebuild(e);
+					var test = patterns.rebuild();
 					if (!test)
 						setedgestate (pobj, e, "visible");
 
