@@ -929,7 +929,6 @@ Pattern.prototype.genTabNodes = function ()
 		{
 				this.tabnodes.push(c0);					
 		}
-			
 		else
 		{
 			
